@@ -23,6 +23,7 @@
 * **Hero Section & Buscador de Vidrio:** Barra de filtrado rápido por zona VIP, tipología y rango de inversión ($25M a $90M+ MXN), con badge dinámico de ticket promedio curado ($54.2M MXN).
 * **The Private Collection (Catálogo Interactivo):** Grid de propiedades con filtros instantáneos por micro-mercados (*El Campanario, San Miguel de Allende, Juriquilla, El Molino León*), badges de exclusividad y modal detallado de ficha técnica con enlace directo a WhatsApp Concierge VIP.
 * **Showroom de Preventas 3D (The Alabaster Sanctuary):** Scrollytelling con conmutador por niveles (*Nivel Sky, Nivel Signature, Nivel Garden*), desglose de amenidades, barra de absorción de ventas (65%) y cálculo de ROI en tiempo real (26.8% en Fase 1).
+  > **⚠️ NOTA DE COORDINACIÓN DE EQUIPO:** Este módulo del *Showroom de Preventas de Muestra* está siendo desarrollado/evolucionado por el **colaborador**. Mantener modularidad y sincronizar vía `git pull` antes de realizar modificaciones en esta sección para evitar conflictos.
 * **Módulo B2B Desarrolladores ("Lleva tus Preventas con Nosotros"):** Propuesta de valor de showroom digital y canal directo con *Family Offices* e inversionistas patrimoniales.
 * **Wizard de Captación VIP (Consignación de Autor):** Flujo de 4 pasos para registro de propiedades con **Calculador de Valuación Express** algorítmica ($/m² según zona).
 * **AI Private Concierge & Wealth Advisor:** Chatbot conversacional flotante con inteligencia inmobiliaria para responder consultas de plusvalía, zonas y blindaje patrimonial.
