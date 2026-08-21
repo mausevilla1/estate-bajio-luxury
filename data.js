@@ -1,4 +1,7 @@
-// Luxury Real Estate Bajío - High-Ticket Dataset
+// ==========================================================================
+// ESTATE BAJÍO - High-Ticket Real Estate Dataset
+// ==========================================================================
+
 const LUXURY_PROPERTIES = [
   {
     id: "prop-1",
@@ -23,6 +26,7 @@ const LUXURY_PROPERTIES = [
     ],
     floorplan: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=85",
     architect: "Legorreta + Taller de Autor",
+    amenities: ["cava", "pool", "garden", "spa"],
     features: [
       "Muros en travertino romano y cantera artesanal",
       "Cava subterránea climatizada para 850 botellas",
@@ -57,6 +61,7 @@ const LUXURY_PROPERTIES = [
     ],
     floorplan: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=85",
     architect: "Studio Sordo Madaleno Inspired",
+    amenities: ["golf", "spa", "cava", "pool"],
     features: [
       "Frente directo al green del hoyo 14",
       "Mármol Fior di Bosco y duela de nogal europeo",
@@ -75,7 +80,7 @@ const LUXURY_PROPERTIES = [
     subzone: "Juriquilla Santa Fe",
     priceMXN: 34500000,
     priceUSD: 1920000,
-    type: "Penthouse Sky",
+    type: "Sky Penthouse",
     status: "Preventa Fase 1",
     isExclusive: true,
     m2Construccion: 680,
@@ -90,6 +95,7 @@ const LUXURY_PROPERTIES = [
     ],
     floorplan: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=85",
     architect: "Aesthetic Habitat QRO",
+    amenities: ["helipad", "pool", "spa"],
     features: [
       "Rooftop privado de 220 m² con fogatero y plunge pool",
       "Elevador privado directo al departamento con control biométrico",
@@ -107,7 +113,7 @@ const LUXURY_PROPERTIES = [
     subzone: "Balvanera / Corregidora",
     priceMXN: 89000000,
     priceUSD: 4950000,
-    type: "Hípica & Rancho de Lujo",
+    type: "Finca Ecuestre",
     status: "Private Vault",
     isExclusive: true,
     m2Construccion: 1650,
@@ -122,6 +128,7 @@ const LUXURY_PROPERTIES = [
     ],
     floorplan: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=85",
     architect: "Guanajuato Heritage & Modern Living",
+    amenities: ["helipad", "golf", "cava", "pool", "garden"],
     features: [
       "Caballerizas de lujo con 8 boxes y picadero profesional",
       "Acceso directo al campo de golf y club ecuestre Balvanera",
@@ -153,6 +160,7 @@ const LUXURY_PROPERTIES = [
     ],
     floorplan: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=85",
     architect: "Vargas Arquitectos",
+    amenities: ["golf", "pool", "spa", "garden"],
     features: [
       "Diseño en cantil con vista panorámica a la presa de El Palote",
       "Estructura en concreto aparente, acero y madera de teca",
@@ -161,6 +169,68 @@ const LUXURY_PROPERTIES = [
     ],
     projectedYield: "12.5% Plusvalía Anual",
     description: "La cumbre del diseño arquitectónico en la zona más prestigiosa de León, Guanajuato. Armonía entre ingeniería audaz y lujo sereno."
+  },
+  {
+    id: "prop-6",
+    title: "Hacienda San Jerónimo & Viñedos",
+    zone: "San Miguel de Allende",
+    subzone: "Valle de los Senderos",
+    priceMXN: 64000000,
+    priceUSD: 3550000,
+    type: "Hacienda Contemporánea",
+    status: "Private Vault",
+    isExclusive: true,
+    m2Construccion: 1280,
+    m2Terreno: 5200,
+    bedrooms: 5,
+    bathrooms: 7,
+    garage: 8,
+    heroImage: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1600&q=85",
+    gallery: [
+      "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1600&q=85"
+    ],
+    floorplan: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=85",
+    architect: "Taller Arquitectura Virreinal",
+    amenities: ["cava", "pool", "garden", "spa"],
+    features: [
+      "Producción vinícola propia con 1,200 botellas anuales",
+      "Patios interiores con fuentes de cantera y arcos coloniales",
+      "Pabellón de meditación y temazcal contemporáneo",
+      "Acabados en piedra caliza, madera de mezquite y herrería forjada a mano"
+    ],
+    projectedYield: "13.4% Plusvalía Anual",
+    description: "Santuario de paz y elegancia colonial refinada a 12 minutos de la Parroquia de San Miguel Arcángel."
+  },
+  {
+    id: "prop-7",
+    title: "Casa Cantil Juriquilla Reserve",
+    zone: "Querétaro",
+    subzone: "Juriquilla Reserve",
+    priceMXN: 39800000,
+    priceUSD: 2210000,
+    type: "Mansión de Autor",
+    status: "Entrega Inmediata",
+    isExclusive: false,
+    m2Construccion: 850,
+    m2Terreno: 1250,
+    bedrooms: 4,
+    bathrooms: 5.5,
+    garage: 5,
+    heroImage: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1600&q=85",
+    gallery: [
+      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1600&q=85"
+    ],
+    floorplan: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=85",
+    architect: "Studio QRO Minimal",
+    amenities: ["pool", "spa", "garden"],
+    features: [
+      "Volumetría flotante sobre cañada natural protegida",
+      "Paneles solares con batería Tesla Powerwall",
+      "Espejo de agua perimetral y terraza de travertino",
+      "Master suite con baño spa exterior y ducha de cielo abierto"
+    ],
+    projectedYield: "15.0% Plusvalía Estimada",
+    description: "Vanguardia arquitectónica integrada con el paisaje semidesértico y cactáceas endémicas de Juriquilla."
   }
 ];
 
