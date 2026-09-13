@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* --------------------------------------------------------------------------
-   1. Dynamic Ambient Canvas (Subtle Champagne Glow)
+   1. Canvas ambiental (DESACTIVADO — el halo dorado salió del sistema)
    -------------------------------------------------------------------------- */
 function initAmbientCanvas() {
   const canvas = document.getElementById('ambient-canvas');
@@ -52,12 +52,12 @@ function initAmbientCanvas() {
 
     ctx.clearRect(0, 0, width, height);
 
-    // Warm champagne radial glow
+    // Halo desactivado: el sistema es acromático
     const gradient = ctx.createRadialGradient(
       currentX, currentY, 10,
       currentX, currentY, 650
     );
-    gradient.addColorStop(0, 'rgba(216, 189, 128, 0.14)');
+    gradient.addColorStop(0, 'rgba(0, 0, 0, 0)'); // halo dorado eliminado — sistema acromático
     gradient.addColorStop(0.5, 'rgba(247, 245, 240, 0.05)');
     gradient.addColorStop(1, 'rgba(247, 245, 240, 0)');
 
