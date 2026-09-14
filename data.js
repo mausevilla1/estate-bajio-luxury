@@ -1,5 +1,5 @@
 // ==========================================================================
-// ESTATE BAJÍO - High-Ticket Real Estate Dataset
+// PRAETORA - High-Ticket Real Estate Dataset
 // ==========================================================================
 
 const LUXURY_PROPERTIES = [

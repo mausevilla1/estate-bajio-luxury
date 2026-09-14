@@ -47,6 +47,25 @@
   --font-sans: 'Inter', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
   --font-mono: 'Inter', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
 
+  /* Ritmo: margen lateral fijo de 24px en todos los anchos, como la referencia. */
+  --gutter: 24px;
+  --space-close: 12px;
+  --space-block: 64px;
+  --space-section: 128px;
+  --space-footer: 192px;
+
+  /* Escala tipográfica. 32 es el tope de la referencia; 48 es la extensión
+     para el hero de portada, que ellos no tienen porque son estudio, no marca. */
+  --t-hero: 48px;
+  --t-1: 32px;
+  --t-2: 28px;
+  --t-3: 24px;
+  --t-4: 20px;
+  --t-5: 18px;
+  --t-body: 16px;
+  --t-small: 14px;
+  --t-label: 12px;
+
   --transition-smooth: all 0.25s ease;
   --transition-spring: all 0.25s ease;
 }
@@ -81,15 +100,15 @@ body {
 
 /* Layout Utilities */
 .container {
-  max-width: 1380px;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--gutter);
   position: relative;
   z-index: 1;
 }
 
 .section-padding {
-  padding: 7rem 0;
+  padding: var(--space-section) 0;
 }
 
 /* Header & Navigation */
@@ -132,9 +151,9 @@ body {
 }
 
 .brand-logo .logo-subtitle {
-  font-size: 0.65rem;
-  letter-spacing: 0.35em;
-  color: var(--gold-primary);
+  font-size: var(--t-label);
+  letter-spacing: 0.2em;
+  color: var(--text-light);
   text-transform: uppercase;
   font-weight: 500;
 }
@@ -184,7 +203,7 @@ body {
   color: #FFFFFF;
   border: none;
   padding: 0.85rem 1.8rem;
-  border-radius: 40px;
+  border-radius: 0;
   font-family: var(--font-sans);
   font-size: 0.85rem;
   font-weight: 600;
@@ -226,7 +245,7 @@ body {
   color: var(--text-main);
   border: 1px solid var(--gold-primary);
   padding: 0.8rem 1.8rem;
-  border-radius: 40px;
+  border-radius: 0;
   font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 0.1em;
@@ -269,7 +288,7 @@ body {
   padding: 0.45rem 1.1rem;
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid var(--border-subtle);
-  border-radius: 30px;
+  border-radius: 0;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.18em;
@@ -280,18 +299,21 @@ body {
 }
 
 .hero-title {
-  font-family: var(--font-serif);
-  font-size: 4.2rem;
-  font-weight: 400;
-  line-height: 1.08;
+  font-family: var(--font-sans);
+  font-size: clamp(34px, 4.4vw, var(--t-hero));
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  text-wrap: balance;
   letter-spacing: -0.01em;
   color: var(--text-main);
   margin-bottom: 1.8rem;
 }
 
 .hero-title span.highlight {
-  font-style: italic;
-  color: var(--gold-primary);
+  /* Sin cursivas: la referencia no usa ninguna. La jerarquía la hace el gris. */
+  font-style: normal;
+  color: var(--text-light);
   display: block;
 }
 
@@ -309,7 +331,7 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border-glass);
   box-shadow: var(--shadow-glass);
-  border-radius: 20px;
+  border-radius: 0;
   padding: 1.4rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr auto;
@@ -356,11 +378,11 @@ body {
 
 .hero-main-card {
   position: relative;
-  border-radius: 24px;
+  border-radius: 0;
   overflow: hidden;
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--border-glass);
-  aspect-ratio: 4 / 4.8;
+  aspect-ratio: 3 / 4; /* retrato del sistema */
 }
 
 .hero-main-card img {
@@ -380,7 +402,7 @@ body {
   left: -2rem;
   background: rgba(255, 255, 255, 0.92);
   border: 1px solid var(--border-subtle);
-  border-radius: 18px;
+  border-radius: 0;
   padding: 1.2rem 1.6rem;
   box-shadow: var(--shadow-md);
   display: flex;
@@ -392,7 +414,7 @@ body {
 .floating-stat-icon {
   width: 46px;
   height: 46px;
-  border-radius: 12px;
+  border-radius: 0;
   background: var(--gold-subtle);
   display: flex;
   align-items: center;
@@ -422,8 +444,8 @@ body {
 }
 
 .section-tag {
-  font-size: 0.75rem;
-  letter-spacing: 0.25em;
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--gold-primary);
   font-weight: 600;
@@ -432,18 +454,23 @@ body {
 }
 
 .section-title {
-  font-family: var(--font-serif);
-  font-size: 3rem;
-  font-weight: 400;
+  font-family: var(--font-sans);
+  font-size: var(--t-1);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  text-wrap: balance;
   color: var(--text-main);
   line-height: 1.15;
   margin-bottom: 1rem;
 }
 
 .section-desc {
-  font-size: 1.05rem;
+  font-size: var(--t-5);
+  line-height: 1.5;
   color: var(--text-muted);
-  font-weight: 300;
+  font-weight: 400;
+  max-width: 65ch;
 }
 
 /* Catalog Filter System */
@@ -459,7 +486,7 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   padding: 0.6rem 1.4rem;
-  border-radius: 30px;
+  border-radius: 0;
   font-size: 0.82rem;
   font-weight: 500;
   letter-spacing: 0.06em;
@@ -486,7 +513,7 @@ body {
 .property-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
-  border-radius: 20px;
+  border-radius: 0;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
@@ -503,7 +530,7 @@ body {
 
 .property-thumb-wrap {
   position: relative;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9; /* formato de trabajo */
   overflow: hidden;
 }
 
@@ -529,7 +556,7 @@ body {
 .badge-tag {
   background: rgba(255, 255, 255, 0.9);
   padding: 0.3rem 0.8rem;
-  border-radius: 20px;
+  border-radius: 0;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -636,7 +663,7 @@ body {
 .presale-render-showcase {
   position: relative;
   background: #FFFFFF;
-  border-radius: 24px;
+  border-radius: 0;
   padding: 1.2rem;
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--border-glass);
@@ -644,9 +671,9 @@ body {
 
 .presale-canvas-view {
   position: relative;
-  border-radius: 18px;
+  border-radius: 0;
   overflow: hidden;
-  aspect-ratio: 16 / 11;
+  aspect-ratio: 16 / 9; /* formato de trabajo */
 }
 
 .presale-canvas-view img {
@@ -676,7 +703,7 @@ body {
   background: var(--bg-primary);
   border: 1px solid var(--border-subtle);
   padding: 0.8rem 0.6rem;
-  border-radius: 14px;
+  border-radius: 0;
   cursor: pointer;
   text-align: center;
   transition: var(--transition-smooth);
@@ -711,7 +738,7 @@ body {
   justify-content: space-between;
   background: rgba(255, 255, 255, 0.8);
   padding: 0.8rem 1.4rem;
-  border-radius: 14px;
+  border-radius: 0;
   border: 1px solid var(--border-subtle);
   margin-bottom: 1.5rem;
 }
@@ -720,7 +747,7 @@ body {
   width: 140px;
   height: 6px;
   background: #E6E6E6;
-  border-radius: 10px;
+  border-radius: 0;
   overflow: hidden;
 }
 
@@ -740,7 +767,7 @@ body {
 .roi-card {
   background: #FFFFFF;
   padding: 1.2rem;
-  border-radius: 16px;
+  border-radius: 0;
   border: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-sm);
 }
@@ -799,7 +826,7 @@ body {
 .b2b-feature-icon {
   width: 38px;
   height: 38px;
-  border-radius: 10px;
+  border-radius: 0;
   background: rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
@@ -822,7 +849,7 @@ body {
 .b2b-cta-box {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 24px;
+  border-radius: 0;
   padding: 2.5rem;
   text-align: center;
 }
@@ -837,7 +864,7 @@ body {
 .wizard-card {
   background: var(--bg-card);
   border: 1px solid var(--border-glass);
-  border-radius: 28px;
+  border-radius: 0;
   padding: 3rem;
   box-shadow: var(--shadow-lg);
   max-width: 900px;
@@ -933,7 +960,7 @@ body {
 .form-group textarea {
   background: #FFFFFF;
   border: 1px solid var(--border-subtle);
-  border-radius: 12px;
+  border-radius: 0;
   padding: 0.85rem 1.2rem;
   font-family: var(--font-sans);
   font-size: 0.95rem;
@@ -972,7 +999,7 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border-glass);
   box-shadow: var(--shadow-lg);
-  border-radius: 40px;
+  border-radius: 0;
   padding: 0.8rem 1.6rem;
   display: flex;
   align-items: center;
@@ -1007,7 +1034,7 @@ body {
   height: 580px;
   background: #FFFFFF;
   border: 1px solid var(--border-subtle);
-  border-radius: 24px;
+  border-radius: 0;
   box-shadow: none;
   z-index: 950;
   display: none;
@@ -1041,7 +1068,7 @@ body {
 .chat-bubble {
   max-width: 82%;
   padding: 0.9rem 1.2rem;
-  border-radius: 18px;
+  border-radius: 0;
   font-size: 0.88rem;
   line-height: 1.5;
 }
@@ -1071,7 +1098,7 @@ body {
 .ai-chat-input-wrap input {
   flex-grow: 1;
   border: 1px solid var(--border-subtle);
-  border-radius: 30px;
+  border-radius: 0;
   padding: 0.6rem 1.2rem;
   font-family: var(--font-sans);
   font-size: 0.88rem;
@@ -1099,7 +1126,7 @@ body {
 
 .property-modal-content {
   background: #FFFFFF;
-  border-radius: 24px;
+  border-radius: 0;
   max-width: 1000px;
   width: 100%;
   max-height: 90vh;
@@ -1222,7 +1249,7 @@ body {
 .catalog-main-search input {
   width: 100%;
   padding: 1.1rem 1.6rem 1.1rem 3.4rem;
-  border-radius: 40px;
+  border-radius: 0;
   border: 1px solid var(--border-subtle);
   background: var(--bg-card);
   font-family: var(--font-sans);
@@ -1251,7 +1278,7 @@ body {
 .filter-master-bar {
   background: var(--bg-card);
   border: 1px solid var(--border-glass);
-  border-radius: 24px;
+  border-radius: 0;
   padding: 1.6rem 2rem;
   box-shadow: var(--shadow-glass);
   margin-bottom: 3rem;
@@ -1280,7 +1307,7 @@ body {
   background: var(--bg-primary);
   border: 1px solid var(--border-subtle);
   padding: 0.5rem 1.2rem;
-  border-radius: 25px;
+  border-radius: 0;
   font-size: 0.8rem;
   font-weight: 500;
   color: var(--text-muted);
@@ -1307,7 +1334,7 @@ body {
   display: flex;
   background: var(--bg-primary);
   border: 1px solid var(--border-subtle);
-  border-radius: 30px;
+  border-radius: 0;
   padding: 0.25rem;
 }
 
@@ -1315,7 +1342,7 @@ body {
   border: none;
   background: transparent;
   padding: 0.4rem 0.9rem;
-  border-radius: 20px;
+  border-radius: 0;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 600;
@@ -1334,7 +1361,7 @@ body {
   display: flex;
   background: var(--bg-primary);
   border: 1px solid var(--border-subtle);
-  border-radius: 30px;
+  border-radius: 0;
   padding: 0.25rem;
 }
 
@@ -1342,7 +1369,7 @@ body {
   border: none;
   background: transparent;
   padding: 0.4rem 0.8rem;
-  border-radius: 20px;
+  border-radius: 0;
   font-size: 0.85rem;
   color: var(--text-muted);
   cursor: pointer;
@@ -1377,7 +1404,7 @@ body {
   background: transparent;
   border: 1px dashed var(--border-subtle);
   padding: 0.4rem 0.9rem;
-  border-radius: 20px;
+  border-radius: 0;
   font-size: 0.75rem;
   color: var(--text-muted);
   cursor: pointer;
@@ -1408,7 +1435,7 @@ body {
 .sort-select-wrap select {
   background: var(--bg-primary);
   border: 1px solid var(--border-subtle);
-  border-radius: 12px;
+  border-radius: 0;
   padding: 0.5rem 1rem;
   font-family: var(--font-sans);
   font-size: 0.82rem;
@@ -1447,7 +1474,7 @@ body {
 .lookbook-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
-  border-radius: 24px;
+  border-radius: 0;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   display: grid;
@@ -1551,7 +1578,7 @@ body {
   background: transparent;
   border: 1px solid var(--border-subtle);
   padding: 0.5rem 0.9rem;
-  border-radius: 20px;
+  border-radius: 0;
   font-size: 0.75rem;
   color: var(--text-muted);
   cursor: pointer;
@@ -1575,7 +1602,7 @@ body {
   transform: translateX(-50%) translateY(120px);
   background: rgba(32, 29, 25, 0.95);
   border: 1px solid var(--gold-primary);
-  border-radius: 50px;
+  border-radius: 0;
   padding: 0.8rem 2rem;
   box-shadow: var(--shadow-modal);
   z-index: 850;
@@ -1621,7 +1648,7 @@ body {
 .comp-col {
   background: var(--bg-primary);
   border: 1px solid var(--border-subtle);
-  border-radius: 16px;
+  border-radius: 0;
   padding: 1.4rem;
   display: flex;
   flex-direction: column;
@@ -1641,7 +1668,7 @@ body {
 .chat-property-snippet {
   background: #FFFFFF;
   border: 1px solid var(--border-subtle);
-  border-radius: 14px;
+  border-radius: 0;
   overflow: hidden;
   margin-top: 0.8rem;
   box-shadow: var(--shadow-sm);
@@ -1684,7 +1711,7 @@ body {
   background: #F2F2F2;
   border: 1px solid var(--border-subtle);
   padding: 0.35rem 0.8rem;
-  border-radius: 15px;
+  border-radius: 0;
   font-size: 0.72rem;
   color: var(--text-main);
   cursor: pointer;
@@ -1799,4 +1826,99 @@ body {
 .hero-search-glass .btn-gold {
   white-space: nowrap;
   flex-shrink: 0;
+}
+
+
+/* ==========================================================================
+   MOVIMIENTO
+   El atributo data-anim lo pone el JS. Si el JS no corre o el navegador no
+   soporta IntersectionObserver, nada se oculta y la página se lee completa.
+   ========================================================================== */
+
+[data-anim="on"] .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+[data-anim="on"] .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Las fotos entran con un acercamiento mínimo, no con desplazamiento. */
+[data-anim="on"] .reveal-media {
+  opacity: 0;
+  transform: scale(1.03);
+  transition: opacity 0.9s ease, transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-anim="on"] .reveal-media.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Las fotos del sistema: a sangre, sin esquina, sin sombra. */
+.hero-main-card,
+.property-thumb-wrap,
+.presale-canvas-view,
+.lookbook-media-wrap {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.hero-main-card img,
+.property-thumb-wrap img,
+.presale-canvas-view img,
+.lookbook-media-wrap img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hueco de foto pendiente: se ve como hueco, no como error. */
+.media-slot {
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-light);
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-anim="on"] .reveal,
+  [data-anim="on"] .reveal-media {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ==========================================================================
+   ALINEACIÓN DE LA CUADRÍCULA DE PROPIEDADES
+   Los títulos ocupan una o dos líneas según el nombre, lo que descuadraba
+   las métricas y el precio entre tarjetas vecinas. Con el detalle en columna
+   y el pie empujado al fondo, las tarjetas de una misma fila alinean su
+   precio y su botón a la misma altura, sin importar el largo del título.
+   ========================================================================== */
+.property-details {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.property-metrics {
+  margin-top: auto;
+}
+
+.property-footer {
+  margin-top: auto;
 }

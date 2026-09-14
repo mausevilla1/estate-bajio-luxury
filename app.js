@@ -1,5 +1,5 @@
 // ==========================================================================
-// ESTATE BAJÍO - Application Engine & Interactive Physics
+// PRAETORA - Application Engine & Interactive Physics
 // ==========================================================================
 
 let currentCurrency = 'MXN';
@@ -795,4 +795,92 @@ function generateAdvancedAIResponse(query) {
       <button class="quick-action-pill" onclick="askAI('Fideicomisos y Blindaje')">Asesoría Legal Extranjeros</button>
     </div>
   `;
+}
+
+
+
+/* ==========================================================================
+   APARICIÓN AL HACER SCROLL
+   Marca los bloques y los va revelando conforme entran a pantalla.
+   Se activa solo si el navegador soporta IntersectionObserver: si no, el
+   atributo data-anim nunca se pone y el CSS deja todo visible.
+   ========================================================================== */
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+
+  var SELECTORES_BLOQUE = [
+    '.section-header', '.section-tag', '.section-title', '.section-desc',
+    '.property-card', '.b2b-feature-item', '.b2b-cta-box',
+    '.hero-badge', '.hero-title', '.hero-desc', '.hero-search-glass',
+    '.wizard-card', '.presale-level-switcher', '.footer-col'
+  ];
+  var SELECTORES_FOTO = [
+    '.hero-main-card', '.property-thumb-wrap', '.presale-canvas-view',
+    '.lookbook-media-wrap'
+  ];
+
+  function marcar(selectores, clase) {
+    selectores.forEach(function (sel) {
+      var nodos = document.querySelectorAll(sel);
+      Array.prototype.forEach.call(nodos, function (el, i) {
+        if (el.classList.contains('reveal') || el.classList.contains('reveal-media')) return;
+        el.classList.add(clase);
+        // Escalonado suave entre hermanos: 60ms, con tope de 240ms para que
+        // una cuadrícula larga no tarde una eternidad en aparecer completa.
+        var retraso = Math.min(i, 4) * 60;
+        if (retraso) el.style.setProperty('--reveal-delay', retraso + 'ms');
+      });
+    });
+  }
+
+  function iniciar() {
+    marcar(SELECTORES_BLOQUE, 'reveal');
+    marcar(SELECTORES_FOTO, 'reveal-media');
+    document.documentElement.setAttribute('data-anim', 'on');
+
+    var observador = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('is-visible');
+        observador.unobserve(e.target);   // una sola vez: no reaparece al subir
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    document.querySelectorAll('.reveal, .reveal-media').forEach(function (el) {
+      observador.observe(el);
+    });
+
+    // Red de seguridad: lo que ya está en pantalla al cargar se muestra de
+    // inmediato, y si algo quedara sin observar, a los 3 s se revela solo.
+    setTimeout(function () {
+      document.querySelectorAll('.reveal, .reveal-media').forEach(function (el) {
+        if (el.getBoundingClientRect().top < window.innerHeight) {
+          el.classList.add('is-visible');
+        }
+      });
+    }, 50);
+
+    setTimeout(function () {
+      document.querySelectorAll('.reveal, .reveal-media').forEach(function (el) {
+        el.classList.add('is-visible');
+      });
+    }, 3000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', iniciar);
+  } else {
+    iniciar();
+  }
+})();
+
+
+/* Las tarjetas que el JS dibuja después (catálogo filtrado, comparador) no
+   existen cuando corre lo de arriba. Esta función las engancha a mano; se
+   llama desde donde se rendericen. */
+function praetoraRevelarNuevos(contenedor) {
+  var raiz = contenedor || document;
+  raiz.querySelectorAll('.property-thumb-wrap').forEach(function (el) {
+    el.classList.add('reveal-media', 'is-visible');
+  });
 }
