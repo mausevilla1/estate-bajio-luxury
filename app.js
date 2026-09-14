@@ -165,10 +165,6 @@ function renderMasterCatalog() {
           <article class="property-card" data-id="${prop.id}">
             <div class="property-thumb-wrap">
               <img src="${prop.heroImage}" alt="${prop.title} - Residencia de Lujo en ${prop.zone}" loading="lazy">
-              <div class="property-badges">
-                ${prop.isExclusive ? '<span class="badge-tag exclusive">PRIVATE VAULT</span>' : ''}
-                <span class="badge-tag">${prop.status}</span>
-              </div>
             </div>
             <div class="property-details">
               <span class="property-location">${prop.zone} • ${prop.subzone}</span>
@@ -199,7 +195,7 @@ function renderMasterCatalog() {
                     ${isCompared ? '✓ Comparando' : '＋ Comparar'}
                   </button>
                   <button class="btn-outline-gold" onclick="openPropertyModal('${prop.id}')">
-                    Explorar
+                    Ver →
                   </button>
                 </div>
               </div>
@@ -884,3 +880,225 @@ function praetoraRevelarNuevos(contenedor) {
     el.classList.add('reveal-media', 'is-visible');
   });
 }
+
+/* ==========================================================================
+   5. ACORDEÓN DE FILTROS COLAPSABLE (spacelab.co.uk editorial layout)
+   ========================================================================== */
+(function() {
+  function initCatalogFilterAccordion() {
+    const accordionGroups = document.querySelectorAll('.filter-accordion-group');
+    if (!accordionGroups.length) return;
+
+    function closeAllGroups() {
+      accordionGroups.forEach(group => {
+        group.classList.remove('is-open');
+        const btn = group.querySelector('.filter-accordion-btn');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    function toggleGroup(group) {
+      const isOpen = group.classList.contains('is-open');
+      closeAllGroups();
+      if (!isOpen) {
+        group.classList.add('is-open');
+        const btn = group.querySelector('.filter-accordion-btn');
+        if (btn) btn.setAttribute('aria-expanded', 'true');
+      }
+    }
+
+    function updateAccordionValues() {
+      // 1. Zona
+      const activeZoneBtn = document.querySelector('.filter-pills-group .filter-pill.active');
+      const valZona = document.getElementById('filter-val-zona');
+      if (valZona && activeZoneBtn) {
+        const filter = activeZoneBtn.dataset.filter;
+        valZona.textContent = (filter === 'all' || !filter) ? 'Todas' : activeZoneBtn.textContent.trim().replace('QRO', '').replace('Reserve', '').replace('Polo', '').replace('León', '').trim();
+      }
+
+      // 2. Moneda
+      const activeCurrencyBtn = document.querySelector('.currency-toggle-group .currency-btn.active');
+      const valMoneda = document.getElementById('filter-val-moneda');
+      if (valMoneda && activeCurrencyBtn) {
+        valMoneda.textContent = activeCurrencyBtn.dataset.currency || 'MXN';
+      }
+
+      // 3. Amenidades
+      const activeAmenities = document.querySelectorAll('.amenity-filters-wrap .amenity-tag.active');
+      const valAmenidades = document.getElementById('filter-val-amenidades');
+      if (valAmenidades) {
+        if (activeAmenities.length === 0) {
+          valAmenidades.textContent = 'Todas';
+        } else if (activeAmenities.length === 1) {
+          const raw = activeAmenities[0].textContent.trim();
+          valAmenidades.textContent = raw.split(' ').slice(1).join(' ') || raw;
+        } else {
+          valAmenidades.textContent = `${activeAmenities.length} seleccionadas`;
+        }
+      }
+
+      // 4. Orden
+      const sortSelect = document.getElementById('catalog-sort-select');
+      const valOrden = document.getElementById('filter-val-orden');
+      if (valOrden && sortSelect) {
+        const optText = sortSelect.options[sortSelect.selectedIndex]?.text || 'Curada';
+        valOrden.textContent = optText.includes('Curada') ? 'Curada' : (optText.includes('Mayor Valor') ? 'Mayor $' : (optText.includes('Menor Valor') ? 'Menor $' : 'Superficie'));
+      }
+    }
+
+    accordionGroups.forEach(group => {
+      const btn = group.querySelector('.filter-accordion-btn');
+      if (!btn) return;
+
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleGroup(group);
+      });
+
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleGroup(group);
+        } else if (e.key === 'Escape') {
+          e.preventDefault();
+          closeAllGroups();
+        }
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeAllGroups();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.filter-pill') || e.target.closest('.currency-btn') || e.target.closest('.amenity-tag')) {
+        setTimeout(updateAccordionValues, 30);
+      }
+    });
+
+    const sortSelect = document.getElementById('catalog-sort-select');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', updateAccordionValues);
+    }
+
+    updateAccordionValues();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCatalogFilterAccordion);
+  } else {
+    initCatalogFilterAccordion();
+  }
+})();
+
+/* ==========================================================================
+   INTERACTIVIDAD EDITORIAL SPACELAB: CURSOR DISCRETO Y MARCADORES "+" SCROLL
+   ========================================================================== */
+(function() {
+  // 1. CURSOR DE FLECHA CON ARO (SPACELAB)
+  function initDiscreteCursor() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches) return;
+
+    const cursorEl = document.createElement('div');
+    cursorEl.className = 'custom-cursor';
+    cursorEl.setAttribute('aria-hidden', 'true');
+
+    const arrowImg = document.createElement('img');
+    arrowImg.src = 'cursor.svg';
+    arrowImg.className = 'cursor-arrow';
+    arrowImg.alt = '';
+
+    const ring = document.createElement('div');
+    ring.className = 'cursor-ring';
+
+    cursorEl.appendChild(arrowImg);
+    cursorEl.appendChild(ring);
+    document.body.appendChild(cursorEl);
+
+    let mouseX = -100;
+    let mouseY = -100;
+    let prevMouseX = -100;
+    let prevMouseY = -100;
+    let targetAngle = 0;
+    let renderAngle = 0;
+    let isNativeActive = false;
+    let hasMoved = false;
+
+    document.documentElement.classList.add('cursor-custom');
+
+    function onMouseMove(e) {
+      const clientX = e.clientX;
+      const clientY = e.clientY;
+
+      if (!hasMoved) {
+        hasMoved = true;
+        cursorEl.style.display = 'block';
+        prevMouseX = clientX;
+        prevMouseY = clientY;
+      } else {
+        const dx = clientX - prevMouseX;
+        const dy = clientY - prevMouseY;
+        const dist = Math.hypot(dx, dy);
+
+        if (dist >= 2) {
+          targetAngle = Math.atan2(dy, dx) * 180 / Math.PI;
+          prevMouseX = clientX;
+          prevMouseY = clientY;
+        }
+      }
+
+      mouseX = clientX;
+      mouseY = clientY;
+
+      if (isNativeActive) {
+        isNativeActive = false;
+        document.documentElement.classList.add('cursor-custom');
+        cursorEl.style.display = 'block';
+      }
+
+      const target = e.target;
+      if (target && target.closest && target.closest('a, button, input, select, textarea, .property-card, .filter-accordion-btn, .view-btn, .filter-pill, .currency-btn, .amenity-tag')) {
+        cursorEl.classList.add('is-hovering');
+      } else {
+        cursorEl.classList.remove('is-hovering');
+      }
+    }
+
+    function renderCursor() {
+      if (!isNativeActive && hasMoved) {
+        let diff = targetAngle - renderAngle;
+        while (diff > 180) diff -= 360;
+        while (diff < -180) diff += 360;
+        renderAngle += diff * 0.15;
+
+        cursorEl.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+        arrowImg.style.transform = `translate(-50%, -50%) rotate(${renderAngle}deg)`;
+      }
+      requestAnimationFrame(renderCursor);
+    }
+
+    // Salida de emergencia: Tecla Tab devuelve el cursor nativo y oculta el cursor personalizado
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') {
+        isNativeActive = true;
+        document.documentElement.classList.remove('cursor-custom');
+        cursorEl.style.display = 'none';
+      }
+    });
+
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    requestAnimationFrame(renderCursor);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initDiscreteCursor();
+    });
+  } else {
+    initDiscreteCursor();
+  }
+})();
+
