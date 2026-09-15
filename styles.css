@@ -3028,62 +3028,6 @@ body.ficha-page {
 }
 
 
-/* ==========================================================================
-   PORTADA — HERO A SANGRE  (referencia: casa-home)
-   --------------------------------------------------------------------------
-   La foto ocupa la pantalla completa y el wordmark PRAETORA viene quemado
-   dentro de la imagen. Consecuencia que hay que respetar: el recorte no
-   puede comerse el letrero.
-     · Escritorio: object-fit cover anclado a "left bottom" — la P y la
-       línea de base del letrero siempre sobreviven.
-     · Celular: NO se recorta. La foto se ve completa en 16:9 y el hero deja
-       de ser de altura completa. Si se recortara, la palabra se partiría.
-   ========================================================================== */
-
-.hero-portada {
-  position: relative;
-  height: 100svh;
-  min-height: 420px;
-  overflow: hidden;
-  background: var(--text-main);
-}
-
-.hero-foto {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: left bottom;
-  display: block;
-}
-
-.hero-cta {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  padding: 14px 40px;
-  border: 1px solid var(--text-inverse);
-  color: var(--text-inverse);
-  background: transparent;
-  font-size: var(--t-label);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background 0.25s ease, color 0.25s ease;
-}
-
-.hero-cta:hover,
-.hero-cta:focus-visible {
-  background: var(--text-inverse);
-  color: var(--text-main);
-}
-
-/* Estaba en travertino (#F8F6F1), sobrante de antes de la pasada acromática. */
-.site-header.scrolled {
-  background: rgba(255, 255, 255, 0.96);
-}
-
 /* --- La navegación va DEBAJO del hero ------------------------------------
    El <header> se movió en el HTML: ya no flota sobre la foto. Deja de ser
    columna fija de 220px y pasa a ser una barra normal bajo la imagen.
@@ -3095,7 +3039,8 @@ body.home .site-header {
   width: 100%;
   height: auto;
   border-right: none;
-  border-bottom: 1px solid var(--border-subtle);
+  /* Sin línea divisoria: el aire separa el encabezado de lo que sigue. */
+  border-bottom: none;
   padding: var(--space-close) 0;
   background: var(--bg-primary);
 }
@@ -3188,4 +3133,268 @@ body.home .site-header.scrolled { box-shadow: none; }
   max-width: 100%;
   min-width: 0;
   box-sizing: border-box;
+}
+
+
+/* ==========================================================================
+   PORTADA
+   --------------------------------------------------------------------------
+   Referencia: squarespace.com (Refero). Se adopta su ESTRUCTURA — medio a
+   sangre arriba, tira de tarjetas encima, carrusel contenido abajo — pero NO
+   su tipografía ni su fondo:
+     · Ellos: 64–72px con tracking negativo, hero negro alternando con blanco.
+     · Nosotros: tope de 32px sin tracking, todo blanco. Decisión de YOPE.
+   El sitio queda con una sola voz tipográfica: la misma del catálogo y la ficha.
+   ========================================================================== */
+
+/* --- Hero ---------------------------------------------------------------- */
+.portada-hero {
+  position: relative;
+  height: 100svh;
+  min-height: 420px;
+  overflow: hidden;
+  background: var(--text-main);
+}
+
+/* El medio es intercambiable: img hoy, video después. Mismas reglas para los dos. */
+.portada-hero-medio,
+.portada-hero video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* --- Marquesina del carrusel de casas -------------------------------------
+   Avanza sola hacia la derecha. Se duplica el contenido y la pista corre un
+   -50%: al terminar, la segunda copia queda donde arrancó la primera y el
+   ciclo no se nota. Se detiene con el mouse encima — sin eso, la casa que
+   interesa se va antes de poder alcanzarla.
+   -------------------------------------------------------------------------- */
+@keyframes portada-correr {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.portada-casas-pista {
+  display: flex;
+  width: max-content;
+  gap: var(--space-close);
+  animation: portada-correr 150s linear infinite;
+  will-change: transform;
+}
+
+.portada-casas-marco:hover .portada-casas-pista,
+.portada-casas-marco:focus-within .portada-casas-pista {
+  animation-play-state: paused;
+}
+
+/* --- Baraja de detalles del hero ------------------------------------------
+   Medido en squarespace.com a 1440x900 (su `angled-carousel`):
+     · Tarjeta base 660 x 412 px, overflow hidden, origen en su centro.
+     · Cinco posiciones, cada una con su escala, giro y desplazamiento:
+         -2  escala 0.80  giro -4°  x -1320  y 41.23
+         -1  escala 0.88  giro -2°  x  -680  y 20.62
+          0  escala 1.00  giro  0°  x     0  y 25
+         +1  escala 0.88  giro +2°  x   680  y 20.62
+         +2  escala 0.80  giro +4°  x  1320  y 41.23
+     · Las de los lados van veladas; sólo la del centro va limpia.
+     · Curva cubic-bezier(0.23, 1, 0.32, 1) — la misma que usan ellos.
+   Se mueve como una baraja: distinto del carrusel de abajo, a propósito.
+   -------------------------------------------------------------------------- */
+.portada-baraja {
+  /* --- El único número que hay que mover ---------------------------------
+     La geometría es la de Squarespace, medida al pie de la letra. `--k` la
+     encoge entera sin deformarla: a 1 queda igual que la de ellos (660x412),
+     a 0.62 queda en 409x255 y deja respirar el video de atrás.
+     Ellos se pueden permitir tarjetas enormes porque su hero mide 1375px;
+     el nuestro mide una pantalla y las tapaba casi completo.
+     --------------------------------------------------------------------- */
+  --k: 0.62;
+
+  position: absolute;
+  left: 50%;
+  /* Sube lo necesario para caber entera: (412 de tarjeta + 41 del
+     desplazamiento de las laterales) x k, más 64 de aire. */
+  top: calc(100% - (453px * var(--k)) - 64px);
+  width: calc(660px * var(--k));
+  height: calc(412px * var(--k));
+  margin-left: calc(-330px * var(--k));
+  pointer-events: none;
+}
+
+.portada-carta {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--text-main);
+  transition: transform 0.9s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform;
+}
+
+/* Al dar la vuelta, la tarjeta salta del extremo izquierdo al derecho: ese
+   salto no se anima, si no se vería cruzar la pantalla. */
+.portada-carta.saltando { transition: none; }
+
+.portada-carta img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* El velo apaga las tarjetas que no están al centro. */
+.portada-carta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  opacity: 1;
+  transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.portada-carta[data-plaza="0"]::after { opacity: 0; }
+
+/* Los desplazamientos también van por `--k`; los giros y las escalas no,
+   porque son proporciones y no cambian al encoger el conjunto. */
+.portada-carta[data-plaza="-2"] { transform: translate(calc(-1320px * var(--k)), calc(41.23px * var(--k))) rotate(-4deg) scale(0.80); }
+.portada-carta[data-plaza="-1"] { transform: translate(calc(-680px * var(--k)),  calc(20.62px * var(--k))) rotate(-2deg) scale(0.88); }
+.portada-carta[data-plaza="0"]  { transform: translate(0, calc(25px * var(--k)))                            rotate(0deg)  scale(1); }
+.portada-carta[data-plaza="1"]  { transform: translate(calc(680px * var(--k)),   calc(20.62px * var(--k))) rotate(2deg)  scale(0.88); }
+.portada-carta[data-plaza="2"]  { transform: translate(calc(1320px * var(--k)),  calc(41.23px * var(--k))) rotate(4deg)  scale(0.80); }
+
+/* --- Carrusel de casas --------------------------------------------------- */
+.portada-casas {
+  /* Arriba 64px en vez de 128: al quitar la línea del encabezado, los 128
+     dejaban un hueco muerto entre la barra y "La colección". Abajo se
+     conserva el ritmo de sección completo. */
+  padding: var(--space-block) 0 var(--space-section);
+  background: var(--bg-primary);
+}
+
+.portada-casas-cabeza {
+  padding: 0 var(--gutter);
+  margin-bottom: var(--space-block);
+}
+
+.portada-titulo {
+  font-size: var(--t-1);
+  line-height: 1.2;
+  font-weight: 500;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.portada-casas-marco {
+  overflow: hidden;
+  padding-left: var(--gutter);
+}
+
+.portada-casa {
+  flex: 0 0 auto;
+  width: clamp(260px, 26vw, 380px);
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.portada-casa-foto {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--gold-subtle);
+  margin-bottom: var(--space-close);
+}
+
+.portada-casa-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.portada-casa:hover .portada-casa-foto img,
+.portada-casa:focus-visible .portada-casa-foto img { transform: scale(1.03); }
+
+.portada-casa-zona {
+  display: block;
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 4px;
+}
+
+.portada-casa-nombre {
+  font-size: var(--t-5);
+  line-height: 1.4;
+  font-weight: 500;
+  color: var(--text-main);
+  margin: 0 0 4px 0;
+}
+
+.portada-casa-precio {
+  font-size: var(--t-small);
+  color: var(--text-light);
+}
+
+/* --- CTA: sin caja ------------------------------------------------------- */
+/* Antes era un rectángulo con borde de 1px. Ahora es texto con una línea
+   debajo, que es lo único que queda cuando se le quita todo lo prescindible. */
+.portada-casas-pie {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-block) var(--gutter) 0;
+}
+
+.portada-enlace {
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-main);
+  text-decoration: none;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--text-main);
+  transition: opacity 0.2s ease;
+}
+
+.portada-enlace:hover,
+.portada-enlace:focus-visible { opacity: 0.45; }
+
+@media (max-width: 1023px) {
+  .portada-hero { height: 70svh; min-height: 320px; }
+
+  /* Una baraja de 660px no cabe en un teléfono: fuera. */
+  .portada-baraja { display: none; }
+
+  .portada-casas { padding: var(--space-block) 0; }
+  .portada-titulo { font-size: var(--t-2); }
+
+  /* En un teléfono no hay mouse que detenga la marquesina: una tira de
+     enlaces corriendo sola es imposible de tocar. Aquí se desplaza a dedo. */
+  .portada-casas-marco {
+    overflow-x: auto;
+    padding-left: 0;
+    scroll-snap-type: x proximity;
+    scroll-padding-left: var(--gutter);
+    overscroll-behavior-x: contain;
+  }
+
+  .portada-casas-pista {
+    animation: none;
+    width: auto;
+    padding: 0 var(--gutter);
+  }
+
+  .portada-casa { width: 74vw; scroll-snap-align: start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portada-casas-pista { animation: none; }
+  .portada-carta { transition: none; }
+  .portada-carta::after { transition: none; }
+  .portada-casa-foto img { transition: none; }
+  .portada-casa:hover .portada-casa-foto img { transform: none; }
 }

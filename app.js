@@ -1329,3 +1329,145 @@ function praetoraRevelarNuevos(contenedor) {
     iniciar();
   }
 })();
+
+
+/* ==========================================================================
+   PORTADA — las dos marquesinas (index.html)
+   --------------------------------------------------------------------------
+   Todo sale de LUXURY_PROPERTIES: no hay contenido escrito a mano. El día que
+   cambie una casa en data.js, la portada se actualiza sola.
+
+   Las dos tiras corren solas por CSS (animación sobre la pista duplicada).
+   Aquí va lo que el CSS no puede: dibujar el contenido, duplicarlo para que
+   el ciclo no se note, y cambiar las fotos de la tira de detalles.
+   ========================================================================== */
+(function () {
+  var reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function esc(t) {
+    return String(t == null ? '' : t)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function millones(n) {
+    return '$' + (n / 1000000).toFixed(1).replace('.0', '') + ' M MXN';
+  }
+
+  var INTERIOR = /(sala|cocina|recámara|recamara|baño|bano|comedor|estancia|vestidor|patio|zagu[áa]n|arcada)/i;
+
+  /* Todas las fotos de interior del sitio, de todas las casas. De aquí come
+     la tira del hero, tanto para dibujarse como para irse cambiando. */
+  function bolsaDeInteriores() {
+    var bolsa = [];
+    (LUXURY_PROPERTIES || []).forEach(function (p) {
+      (p.flujo || []).forEach(function (f) {
+        if (INTERIOR.test(f.pie || '')) bolsa.push(f.src);
+      });
+    });
+    return bolsa;
+  }
+
+  /* Duplicar el contenido es lo que hace que la marquesina no dé el salto:
+     al correr -50% la segunda copia cae justo donde arrancó la primera. */
+  function duplicar(pista) {
+    pista.innerHTML += pista.innerHTML;
+  }
+
+  /* La tarjeta es 660x412 — horizontal. Dos tercios de las fotos de interior
+     son verticales (3:4 y 2:3) y dentro de la tarjeta perdían más de la mitad
+     del alto. En vez de recortarlas con object-fit, se le pide a Unsplash el
+     recorte ya hecho a la proporción de la tarjeta: así la foto llega entera
+     en la forma correcta y nada se corta en el navegador. */
+  function aLaMedidaDeLaCarta(src) {
+    // Proporción de la tarjeta (660:412 = 1.602). Se pide al doble del tamaño
+    // que se muestra, para que se vea nítida en pantallas de alta densidad.
+    return String(src).split('?')[0] + '?auto=format&fit=crop&w=880&h=550&q=85';
+  }
+
+  /* Baraja del hero. Cinco tarjetas en cinco plazas fijas; cada tanto todas
+     recorren una plaza. La que sale por la izquierda reaparece por la derecha
+     con otra foto — ese salto no se anima. Movimiento de cartas, distinto a
+     propósito del carrusel de casas, que corre en línea. */
+  function montarBaraja() {
+    var caja = document.getElementById('portada-baraja');
+    if (!caja || typeof LUXURY_PROPERTIES === 'undefined') return;
+
+    var bolsa = bolsaDeInteriores().map(aLaMedidaDeLaCarta);
+    if (bolsa.length < 5) return;
+
+    var PLAZAS = [-2, -1, 0, 1, 2];
+    var cartas = PLAZAS.map(function (plaza, i) {
+      var el = document.createElement('div');
+      el.className = 'portada-carta';
+      el.dataset.plaza = String(plaza);
+      el.innerHTML = '<img src="' + esc(bolsa[i % bolsa.length]) + '" alt="" loading="lazy">';
+      caja.appendChild(el);
+      return { el: el, plaza: plaza };
+    });
+
+    if (reducido) return;            // sin movimiento: se queda la primera mano
+
+    var siguiente = PLAZAS.length % bolsa.length;
+
+    setInterval(function () {
+      if (document.hidden) return;   // pestaña oculta: no gastar
+      cartas.forEach(function (c) {
+        c.plaza--;
+        if (c.plaza < -2) {
+          // Da la vuelta: salta al otro extremo sin animar y con foto nueva.
+          c.plaza = 2;
+          c.el.classList.add('saltando');
+          c.el.querySelector('img').src = bolsa[siguiente];
+          siguiente = (siguiente + 1) % bolsa.length;
+          c.el.dataset.plaza = '2';
+          // Se devuelve la transición en el siguiente cuadro, ya colocada.
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () { c.el.classList.remove('saltando'); });
+          });
+        } else {
+          c.el.dataset.plaza = String(c.plaza);
+        }
+      });
+    }, 3400);
+  }
+
+  function pintarCasas() {
+    var pista = document.getElementById('portada-casas-pista');
+    if (!pista || typeof LUXURY_PROPERTIES === 'undefined') return;
+
+    pista.innerHTML = LUXURY_PROPERTIES.map(function (p) {
+      return '<a class="portada-casa" href="propiedad.html?id=' + esc(p.id) + '">' +
+        '<div class="portada-casa-foto">' +
+          '<img src="' + esc(p.heroImage) + '" alt="' + esc(p.title) + '" loading="lazy">' +
+        '</div>' +
+        '<span class="portada-casa-zona">' + esc(p.zone) + ' · ' + esc(p.subzone) + '</span>' +
+        '<h3 class="portada-casa-nombre">' + esc(p.title) + '</h3>' +
+        '<div class="portada-casa-precio">' + millones(p.priceMXN) + '</div>' +
+      '</a>';
+    }).join('');
+
+    // La copia sólo sirve para que el ciclo no se note. Para un lector de
+    // pantalla son diez casas repetidas, así que la segunda mitad se oculta.
+    if (!reducido && window.matchMedia('(min-width: 1024px)').matches) {
+      var antes = pista.children.length;
+      duplicar(pista);
+      for (var i = antes; i < pista.children.length; i++) {
+        pista.children[i].setAttribute('aria-hidden', 'true');
+        pista.children[i].setAttribute('tabindex', '-1');
+      }
+    }
+  }
+
+  function iniciar() {
+    if (!document.querySelector('.portada-hero')) return;   // no es index.html
+    montarBaraja();
+    pintarCasas();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', iniciar);
+  } else {
+    iniciar();
+  }
+})();

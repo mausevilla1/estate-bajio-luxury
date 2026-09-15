@@ -62,19 +62,25 @@
   <canvas id="ambient-canvas"></canvas>
 
 
-  <!-- HERO — foto a sangre. El wordmark PRAETORA viene dentro de la imagen.
-       object-position: left bottom para que el recorte nunca se coma la P ni
-       la línea del letrero. En celular la foto NO se recorta: se ve completa
-       en 16:9, si no la palabra se parte. -->
-  <section class="hero-portada">
-    <img class="hero-foto"
+  <!-- ==========================================================================
+       HERO — medio a sangre + tira de detalles de interior
+       El medio es intercambiable: hoy <img>, mañana <video> en el mismo hueco.
+       El letrero PRAETORA salió de la imagen (se recortó la banda que lo traía).
+       ========================================================================== -->
+  <section class="portada-hero">
+    <img class="portada-hero-medio"
          src="hero-1600.webp"
          srcset="hero-1024.webp 1024w, hero-1600.webp 1600w, hero-2560.webp 2560w"
          sizes="100vw"
-         width="2560" height="1439"
-         alt="PRAETORA — residencia de autor en el Bajío"
+         width="2560" height="1164"
+         alt="Residencia de autor en el Bajío"
          fetchpriority="high">
-    <a href="catalogo.html" class="hero-cta">Propiedades</a>
+
+    <!-- Baraja de detalles de interior. Copia medida del angled-carousel de
+         squarespace.com: 5 tarjetas de 660x412 en cinco posiciones fijas, que
+         se recorren una plaza cada tanto. Atmósfera, no navegación.
+         Las dibuja app.js. -->
+    <div class="portada-baraja" id="portada-baraja" aria-hidden="true"></div>
   </section>
 
   <!-- Header Navigation -->
@@ -99,6 +105,29 @@
       </a>
     </div>
   </header>
+
+  <!-- ==========================================================================
+       CARRUSEL DE CASAS — las 10 del catálogo, avance a mano.
+       Sale entero de data.js: no hay contenido escrito a mano aquí.
+       Cada casa lleva a su propiedad.html?id=…
+       ========================================================================== -->
+  <section class="portada-casas">
+    <div class="portada-casas-cabeza">
+      <h2 class="portada-titulo">La colección</h2>
+    </div>
+
+    <!-- Avanza sola hacia la derecha. Se detiene al pasar el mouse, para que
+         una casa que interesa se pueda alcanzar y no se vaya sola. -->
+    <div class="portada-casas-marco">
+      <div class="portada-casas-pista" id="portada-casas-pista">
+        <!-- lo dibuja app.js -->
+      </div>
+    </div>
+
+    <div class="portada-casas-pie">
+      <a href="catalogo.html" class="portada-enlace">Catálogo completo</a>
+    </div>
+  </section>
 
   <!-- The Private Collection: Interactive Catalog Preview -->
   <section id="coleccion" class="section-padding">
