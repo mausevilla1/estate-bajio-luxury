@@ -3478,6 +3478,12 @@ body.home .site-header.scrolled { box-shadow: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .portada-hero video { display: none; }
+  .portada-hero-marco {
+    background-image: url('hero-poster.webp');
+    background-size: cover;
+    background-position: center;
+  }
   .portada-casas-pista { animation: none; }
   .portada-carta { transition: none; }
   .portada-carta::after { transition: none; }
