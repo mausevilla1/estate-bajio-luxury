@@ -10,6 +10,12 @@ let searchQuery = '';
 let currentSort = 'default';
 let comparedProperties = [];
 
+/* Dato no publicado por el anuncio (m2Terreno viene null en 7 de 10 casas).
+   Se muestra la raya, nunca "null" ni un cero inventado. */
+function m2(v) {
+  return (v === null || v === undefined || v === '') ? '—' : v + ' m²';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initAmbientCanvas();
   initHeaderScroll();
@@ -194,9 +200,9 @@ function renderMasterCatalog() {
                   <button class="btn-compare-card ${isCompared ? 'active' : ''}" onclick="toggleCompare('${prop.id}')" title="Comparar Obra">
                     ${isCompared ? '✓ Comparando' : '＋ Comparar'}
                   </button>
-                  <button class="btn-outline-gold" onclick="openPropertyModal('${prop.id}')">
+                  <a class="btn-outline-gold" href="propiedad.html?id=${prop.id}">
                     Ver →
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -234,11 +240,11 @@ function renderMasterCatalog() {
               <div>
                 <div class="lookbook-specs-row">
                   <div class="lookbook-spec-item">
-                    <div class="val">${prop.m2Construccion} m²</div>
+                    <div class="val">${m2(prop.m2Construccion)}</div>
                     <div class="lbl">Construcción</div>
                   </div>
                   <div class="lookbook-spec-item">
-                    <div class="val">${prop.m2Terreno} m²</div>
+                    <div class="val">${m2(prop.m2Terreno)}</div>
                     <div class="lbl">Terreno</div>
                   </div>
                   <div class="lookbook-spec-item">
@@ -246,7 +252,7 @@ function renderMasterCatalog() {
                     <div class="lbl">Espacios</div>
                   </div>
                   <div class="lookbook-spec-item">
-                    <div class="val" style="color: var(--gold-primary);">${prop.projectedYield.split(' ')[0]}</div>
+                    <div class="val" style="color: var(--gold-primary);">${prop.projectedYield}</div>
                     <div class="lbl">Plusvalía</div>
                   </div>
                 </div>
@@ -260,9 +266,9 @@ function renderMasterCatalog() {
                     <button class="btn-compare-card ${isCompared ? 'active' : ''}" onclick="toggleCompare('${prop.id}')">
                       ${isCompared ? '✓ Comparando' : '＋ Comparar'}
                     </button>
-                    <button class="btn-gold" onclick="openPropertyModal('${prop.id}')">
+                    <a class="btn-gold" href="propiedad.html?id=${prop.id}">
                       Ver Ficha Completa
-                    </button>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -445,13 +451,13 @@ window.openComparisonModal = function() {
           <div>${p.zone}</div>
           <div style="font-family: var(--font-mono); font-weight: 700; color: var(--gold-primary);">$${(p.priceMXN / 1000000).toFixed(1)}M MXN</div>
           <div style="font-family: var(--font-mono);">$${(p.priceUSD / 1000000).toFixed(2)}M USD</div>
-          <div>${p.m2Construccion} m²</div>
-          <div>${p.m2Terreno} m²</div>
+          <div>${m2(p.m2Construccion)}</div>
+          <div>${m2(p.m2Terreno)}</div>
           <div>${p.bedrooms} Recs / ${p.bathrooms} Baños</div>
           <div style="color: #2E7D32; font-weight: 600;">${p.projectedYield}</div>
           <div style="font-size: 0.85rem;">${p.architect}</div>
           <div>
-            <button class="btn-gold" style="padding: 0.5rem 1rem; font-size: 0.75rem; width: 100%; justify-content: center;" onclick="closeComparisonModal(); openPropertyModal('${p.id}')">
+            <button class="btn-gold" style="padding: 0.5rem 1rem; font-size: 0.75rem; width: 100%; justify-content: center;" onclick="window.location.href='propiedad.html?id=${p.id}'">
               Ver Detalle
             </button>
           </div>
@@ -725,8 +731,8 @@ function generateAdvancedAIResponse(query) {
         <div class="snippet-info">
           <div class="snippet-title">${prop.title}</div>
           <div class="snippet-price">$72.0M MXN • Frente al Green Hoyo 14</div>
-          <button class="btn-gold" style="margin-top: 0.6rem; font-size: 0.72rem; padding: 0.4rem 0.8rem; width: 100%; justify-content: center;" onclick="openPropertyModal('prop-2')">
-            Explorar Ficha 8K
+          <button class="btn-gold" style="margin-top: 0.6rem; font-size: 0.72rem; padding: 0.4rem 0.8rem; width: 100%; justify-content: center;" onclick="window.location.href='propiedad.html?id=prop-2'">
+            Ver la ficha
           </button>
         </div>
       </div>
@@ -747,8 +753,8 @@ function generateAdvancedAIResponse(query) {
         <div class="snippet-info">
           <div class="snippet-title">${prop.title}</div>
           <div class="snippet-price">$58.5M MXN • Cava Climatizada & Olivos</div>
-          <button class="btn-gold" style="margin-top: 0.6rem; font-size: 0.72rem; padding: 0.4rem 0.8rem; width: 100%; justify-content: center;" onclick="openPropertyModal('prop-1')">
-            Ver Detalles y Cava
+          <button class="btn-gold" style="margin-top: 0.6rem; font-size: 0.72rem; padding: 0.4rem 0.8rem; width: 100%; justify-content: center;" onclick="window.location.href='propiedad.html?id=prop-1'">
+            Ver la ficha
           </button>
         </div>
       </div>
@@ -1102,3 +1108,224 @@ function praetoraRevelarNuevos(contenedor) {
   }
 })();
 
+
+
+/* ==========================================================================
+   FICHA INDIVIDUAL — MOTOR DEL FLUJO (propiedad.html)
+   --------------------------------------------------------------------------
+   Escritorio: se lee en horizontal. Celular: en vertical. El DOM es el mismo;
+   el cambio lo hace el CSS. Aquí sólo va lo que el CSS no puede: traducir la
+   rueda del mouse, el progreso, el teclado y el deep link.
+   ========================================================================== */
+(function () {
+  var cont, paneles;
+
+  function esVertical() {
+    return !window.matchMedia('(min-width: 1024px)').matches;
+  }
+
+  function esc(t) {
+    return String(t == null ? '' : t)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function millones(n) {
+    return '$' + (n / 1000000).toFixed(1).replace('.0', '') + ' M';
+  }
+
+  /* Si la casa no trae `flujo`, se arma solo con lo que haya. Así una
+     propiedad nueva nunca deja la ficha en blanco. */
+  function construirFlujo(p) {
+    if (p.flujo && p.flujo.length) return p.flujo;
+    var fotos = [];
+    if (p.heroImage) fotos.push({ src: p.heroImage, prop: '16:9', pie: '' });
+    (p.gallery || []).forEach(function (g) {
+      if (g !== p.heroImage) fotos.push({ src: g, prop: '16:9', pie: '' });
+    });
+    return fotos;
+  }
+
+  /* Fila de dato: si el anuncio no lo publica, la fila NO se dibuja.
+     No se rellena con cero ni con raya. */
+  function fila(etiqueta, valor) {
+    if (valor === null || valor === undefined || valor === '') return '';
+    return '<div class="ficha-dato">' +
+      '<span class="ficha-dato-etiqueta">' + esc(etiqueta) + '</span>' +
+      '<span class="ficha-dato-valor">' + esc(valor) + '</span>' +
+      '</div>';
+  }
+
+  function panelDatos(p) {
+    return '<section class="ficha-panel ficha-panel-texto" id="ficha-info">' +
+      '<span class="ficha-etiqueta">' + esc(p.zone) + ' · ' + esc(p.subzone) + '</span>' +
+      '<h1 class="ficha-titulo">' + esc(p.title) + '</h1>' +
+      '<div class="ficha-precio">' + millones(p.priceMXN) + ' MXN</div>' +
+      (p.priceUSD ? '<div class="ficha-precio-alt">' + millones(p.priceUSD) + ' USD</div>' : '') +
+      '<div class="ficha-datos ficha-datos-sep">' +
+        fila('Ubicación', p.subzone) +
+        fila('Tipología', p.type) +
+        fila('Construcción', p.m2Construccion ? p.m2Construccion.toLocaleString('es-MX') + ' m²' : null) +
+        fila('Terreno', p.m2Terreno ? p.m2Terreno.toLocaleString('es-MX') + ' m²' : null) +
+        fila('Recámaras', p.bedrooms) +
+        fila('Baños', p.bathrooms) +
+        fila('Estacionamiento', p.garage ? p.garage + ' autos' : null) +
+        fila('Inversión', '$' + Number(p.priceMXN).toLocaleString('es-MX') + ' MXN') +
+        fila('Estatus', p.status) +
+      '</div>' +
+      '</section>';
+  }
+
+  var PROPS = ['2:3', '3:4', '4:3', '3:2', '16:9'];
+  var ALTOS = ['a', 'b', 'c'];
+
+  function panelFoto(f, i) {
+    // Tres alturas y cinco proporciones, como la referencia. Si el dato no
+    // trae forma, se le asigna una rotada para que no salgan todas iguales.
+    var prop = PROPS.indexOf(f.prop) >= 0 ? f.prop : PROPS[i % PROPS.length];
+    var alto = ALTOS.indexOf(f.alto) >= 0 ? f.alto : ALTOS[i % ALTOS.length];
+    return '<figure class="ficha-panel" data-prop="' + prop + '" data-alto="' + alto + '">' +
+      '<div class="ficha-marco"><img src="' + esc(f.src) + '" alt="" loading="lazy"></div>' +
+      '<figcaption class="ficha-pie">' + esc(f.pie || '') + '</figcaption>' +
+      '</figure>';
+  }
+
+  function panelCierre(p) {
+    var msg = encodeURIComponent('Me interesa ' + p.title + ' (' + p.subzone + ').');
+    return '<section class="ficha-panel ficha-panel-texto">' +
+      '<p class="ficha-parrafo ficha-parrafo-alto">' + esc(p.description) + '</p>' +
+      '<div class="ficha-acciones">' +
+        '<a class="btn-gold" href="https://wa.me/524420000000?text=' + msg + '" target="_blank" rel="noopener">Consultar esta casa</a>' +
+        '<a class="ficha-volver" href="catalogo.html">Volver al catálogo</a>' +
+      '</div>' +
+      '</section>';
+  }
+
+  function noEncontrada() {
+    return '<section class="ficha-panel ficha-panel-texto">' +
+      '<h1 class="ficha-titulo">No encontramos esa propiedad</h1>' +
+      '<p class="ficha-parrafo">Puede que ya no esté disponible.</p>' +
+      '<div class="ficha-acciones"><a class="btn-gold" href="catalogo.html">Ver el catálogo</a></div>' +
+      '</section>';
+  }
+
+  /* Una URL rota cae al hueco a propósito, nunca al ícono de imagen rota. */
+  function blindarFotos() {
+    Array.prototype.forEach.call(cont.querySelectorAll('.ficha-marco img'), function (img) {
+      img.addEventListener('error', function () {
+        var marco = img.parentNode;
+        if (marco) marco.classList.add('media-slot');
+        img.remove();
+      });
+    });
+  }
+
+  /* Rueda vertical -> desplazamiento horizontal.
+     COMPROBADO: Chrome NO hace esta traducción solo en un contenedor
+     overflow-x. Sin este puente, con mouse de rueda el flujo no avanza.
+     Se suelta en los bordes a propósito: un listener de rueda que nunca
+     devuelve el control es lo que traba una página (lección de MaxiPanel). */
+  function onRueda(e) {
+    if (esVertical()) return;
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;   // trackpad: ya es nativo
+    var paso = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+    var max = cont.scrollWidth - cont.clientWidth;
+    var enBorde = (paso < 0 && cont.scrollLeft <= 0) ||
+                  (paso > 0 && cont.scrollLeft >= max - 1);
+    if (enBorde) return;
+    e.preventDefault();
+    cont.scrollLeft += paso;
+  }
+
+  function onTecla(e) {
+    if (e.key === 'Escape') { window.location.href = 'catalogo.html'; return; }
+    if (esVertical()) return;
+    if (e.key === 'Home') { e.preventDefault(); cont.scrollLeft = 0; }
+    if (e.key === 'End')  { e.preventDefault(); cont.scrollLeft = cont.scrollWidth; }
+  }
+
+  function observarPaneles() {
+    if (!('IntersectionObserver' in window)) return;   // sin soporte: todo visible
+    document.documentElement.setAttribute('data-anim-ficha', 'on');
+    var obs = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        en.target.classList.add('is-visible');
+        obs.unobserve(en.target);
+      });
+    }, { root: esVertical() ? null : cont, threshold: 0.15 });
+
+    Array.prototype.forEach.call(paneles, function (el) { obs.observe(el); });
+
+    // Dos redes: lo que ya está en pantalla se revela de inmediato, y a los
+    // 3 s se revela todo pase lo que pase.
+    setTimeout(function () {
+      Array.prototype.forEach.call(paneles, function (el) {
+        var r = el.getBoundingClientRect();
+        var enPantalla = esVertical()
+          ? r.top < window.innerHeight
+          : r.left < window.innerWidth;
+        if (enPantalla) el.classList.add('is-visible');
+      });
+    }, 50);
+    setTimeout(function () {
+      Array.prototype.forEach.call(paneles, function (el) { el.classList.add('is-visible'); });
+    }, 3000);
+  }
+
+  function iniciar() {
+    cont = document.getElementById('ficha-flujo');
+    if (!cont) return;                       // no es propiedad.html
+
+    var clave = new URLSearchParams(window.location.search).get('id');
+    var p = (typeof LUXURY_PROPERTIES !== 'undefined')
+      ? LUXURY_PROPERTIES.find(function (x) { return x.id === clave || x.slug === clave; })
+      : null;
+
+    // Sin `?id=` se muestra la primera casa, para que abrir propiedad.html
+    // con doble clic sirva para revisar la ficha. Con `?id=` equivocado sí
+    // se avisa: ahí hay un error de verdad.
+    // (Provisional: cuando exista build.js cada casa tendrá su propia URL.)
+    if (!clave && typeof LUXURY_PROPERTIES !== 'undefined') p = LUXURY_PROPERTIES[0];
+    if (!p) { cont.innerHTML = noEncontrada(); return; }
+
+    document.title = p.title + ' — ' + p.subzone + ' | PRAETORA';
+    var meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute('content', p.description);
+
+    var html = '';
+    construirFlujo(p).forEach(function (f, i) { html += panelFoto(f, i); });
+    html += panelDatos(p);
+    html += panelCierre(p);
+    cont.innerHTML = html;
+
+    paneles = cont.querySelectorAll('.ficha-panel');
+    blindarFotos();
+    observarPaneles();
+
+    cont.addEventListener('wheel', onRueda, { passive: false });
+    var aInfo = document.querySelector('.ficha-barra-info');
+    if (aInfo) {
+      aInfo.addEventListener('click', function (e) {
+        var destino = document.getElementById('ficha-info');
+        if (!destino) return;                       // sin destino, que siga el enlace
+        e.preventDefault();
+        var suave = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? 'auto' : 'smooth';
+        if (esVertical()) {
+          destino.scrollIntoView({ behavior: suave, block: 'start' });
+        } else {
+          cont.scrollTo({ left: cont.scrollWidth, behavior: suave });
+        }
+      });
+    }
+
+    document.addEventListener('keydown', onTecla);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', iniciar);
+  } else {
+    iniciar();
+  }
+})();

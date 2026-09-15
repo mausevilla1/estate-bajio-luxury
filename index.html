@@ -55,11 +55,27 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="home">
 
 
   <!-- Dynamic Ambient Lighting Canvas -->
   <canvas id="ambient-canvas"></canvas>
+
+
+  <!-- HERO — foto a sangre. El wordmark PRAETORA viene dentro de la imagen.
+       object-position: left bottom para que el recorte nunca se coma la P ni
+       la línea del letrero. En celular la foto NO se recorta: se ve completa
+       en 16:9, si no la palabra se parte. -->
+  <section class="hero-portada">
+    <img class="hero-foto"
+         src="hero-1600.webp"
+         srcset="hero-1024.webp 1024w, hero-1600.webp 1600w, hero-2560.webp 2560w"
+         sizes="100vw"
+         width="2560" height="1439"
+         alt="PRAETORA — residencia de autor en el Bajío"
+         fetchpriority="high">
+    <a href="catalogo.html" class="hero-cta">Propiedades</a>
+  </section>
 
   <!-- Header Navigation -->
   <header class="site-header">
@@ -84,71 +100,6 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero-section">
-    <div class="container hero-grid">
-      <div class="hero-content">
-        <div class="hero-badge">
-          <span>✦</span> Arquitectura de Autor & Alto Patrimonio
-        </div>
-        <h1 class="hero-title">
-          Santuarios de Autor.
-          <span class="highlight">Legado en El Bajío.</span>
-        </h1>
-        <p class="hero-subtitle">
-          Curaduría exclusiva de residencias irrepetibles y preventas arquitectónicas en los enclaves más codiciados de Querétaro, San Miguel de Allende y León.
-        </p>
-
-        <!-- Floating Glass Quick Search -->
-        <div class="hero-search-glass">
-          <div class="search-field">
-            <label>Destino VIP</label>
-            <select id="hero-zone-select">
-              <option value="all">Todas las Regiones</option>
-              <option value="Querétaro">El Campanario / Juriquilla</option>
-              <option value="San Miguel">San Miguel de Allende</option>
-              <option value="León">El Molino / Campestre</option>
-            </select>
-          </div>
-          <div class="search-field">
-            <label>Tipología</label>
-            <select id="hero-type-select">
-              <option value="all">Cualquier Tipología</option>
-              <option value="mansion">Mansión de Autor</option>
-              <option value="hacienda">Hacienda Contemporánea</option>
-              <option value="penthouse">Sky Penthouse</option>
-            </select>
-          </div>
-          <div class="search-field">
-            <label>Rango de Inversión</label>
-            <select>
-              <option>$25M - $50M MXN</option>
-              <option>$50M - $90M MXN</option>
-              <option>$90M+ MXN / USD</option>
-            </select>
-          </div>
-          <a href="catalogo.html" class="btn-gold" style="text-decoration: none;">
-            Explorar
-          </a>
-        </div>
-      </div>
-
-      <!-- Hero Visual 3D Showcase -->
-      <div class="hero-visual-wrapper">
-        <div class="hero-main-card">
-          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85" alt="Villa de Lujo Travertino en el Bajío">
-        </div>
-        <div class="hero-floating-stat">
-          <div class="floating-stat-icon">🏛️</div>
-          <div class="floating-stat-info">
-            <div class="stat-num">$54.2M MXN</div>
-            <div class="stat-lbl">Ticket Promedio Curado</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- The Private Collection: Interactive Catalog Preview -->
   <section id="coleccion" class="section-padding">
     <div class="container">
@@ -162,11 +113,12 @@
 
       <!-- Filters -->
       <div class="catalog-filters">
-        <button class="filter-btn active" data-filter="all">Todas las Obras</button>
-        <button class="filter-btn" data-filter="Campanario">El Campanario QRO</button>
+        <button class="filter-btn active" data-filter="all">Todas las obras</button>
+        <button class="filter-btn" data-filter="León">León</button>
+        <button class="filter-btn" data-filter="Molino">El Molino</button>
+        <button class="filter-btn" data-filter="Bosque">El Bosque</button>
         <button class="filter-btn" data-filter="San Miguel">San Miguel de Allende</button>
-        <button class="filter-btn" data-filter="Juriquilla">Juriquilla Reserve</button>
-        <button class="filter-btn" data-filter="León">El Molino León</button>
+        <button class="filter-btn" data-filter="Guanajuato">Guanajuato capital</button>
       </div>
 
       <!-- 3D Tilt Cards Grid -->
@@ -481,11 +433,11 @@
         <div class="footer-col">
           <h5>Enclaves Exclusivos</h5>
           <ul>
-            <li><a href="#coleccion">El Campanario Querétaro</a></li>
-            <li><a href="#coleccion">San Miguel de Allende</a></li>
-            <li><a href="#coleccion">Juriquilla Santa Fe</a></li>
-            <li><a href="#coleccion">Balvanera Polo & Golf</a></li>
             <li><a href="#coleccion">El Molino León</a></li>
+            <li><a href="#coleccion">El Bosque Country Club</a></li>
+            <li><a href="#coleccion">San Miguel de Allende</a></li>
+            <li><a href="#coleccion">Guanajuato capital</a></li>
+            <li><a href="#coleccion">Rancho Los Labradores</a></li>
           </ul>
         </div>
 
@@ -502,9 +454,9 @@
         <div class="footer-col">
           <h5>Sedes & Concierge</h5>
           <ul>
-            <li><a href="#">Juriquilla Towers, Querétaro</a></li>
-            <li><a href="#">Centro Histórico, San Miguel</a></li>
-            <li><a href="#">Puerta Bajío, León</a></li>
+            <li><a href="#">León, Guanajuato</a></li>
+            <li><a href="#">Centro Histórico, San Miguel de Allende</a></li>
+            <li><a href="#">Guanajuato capital</a></li>
             <li><a href="tel:+524420000000">+52 442 000 0000</a></li>
           </ul>
         </div>

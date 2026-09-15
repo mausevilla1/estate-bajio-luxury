@@ -2796,3 +2796,396 @@ html.cursor-custom .custom-cursor {
 }
 
 
+
+
+/* ==========================================================================
+   FICHA INDIVIDUAL — FLUJO DE ILUSTRACIÓN
+   --------------------------------------------------------------------------
+   Sistema copiado de mannaarchitects.com, medido a 1440x900:
+
+     · TRES alturas, no una.  size_a 675px (75vh) · size_b 540px (60vh)
+       · size_c 450px (50vh). Las fotos NO son todas del mismo tamaño.
+     · Alineadas ARRIBA, nunca centradas. El borde superior es común y el
+       inferior queda disparejo: eso es lo que produce el ritmo.
+     · El ancho sale del alto por la proporción de la foto. Proporciones
+       reales que usan: 0.67, 0.75, 1.33, 1.54, 1.78.
+     · El pie va pegado bajo la imagen, 14/18px, y se sale de la caja. Por eso
+       los pies quedan a distintas alturas.
+     · Separación entre fotos: 20px.
+     · La rueda del mouse NO se intercepta. Un contenedor que sólo puede
+       desplazarse en horizontal ya recibe la rueda vertical del navegador.
+
+   Escritorio horizontal, celular vertical, un solo DOM.
+   A PRUEBA DE FALLOS: los paneles sólo se ocultan bajo
+   [data-anim-ficha="on"], y ese atributo lo pone el JS.
+   ========================================================================== */
+
+body.ficha-page {
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+.ficha-barra {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 12px var(--gutter);
+  background: var(--bg-primary);
+  z-index: 20;
+}
+
+.ficha-barra-enlace {
+  font-size: 25px;
+  line-height: 1;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--text-main);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+.ficha-barra-enlace:hover,
+.ficha-barra-enlace:focus-visible { opacity: 0.5; }
+
+/* La marca conserva su tracking; el resto del sistema va sin tracking. */
+.ficha-barra-marca { letter-spacing: 0.14em; }
+
+/* --- El contenedor -------------------------------------------------------
+   overflow en los dos ejes como la referencia: el contenido nunca es más
+   alto que la caja, así que sólo hay desplazamiento horizontal — y el
+   navegador manda ahí la rueda vertical sin que nadie intercepte nada. */
+.ficha-flujo {
+  position: fixed;
+  top: 0; bottom: 49px; left: 0; right: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;           /* alto definido: lo necesitan los % de abajo */
+  gap: 20px;
+  padding: 20px var(--gutter) 0;
+  overflow: auto;
+  overscroll-behavior-x: contain;
+  outline: none;
+}
+
+.ficha-flujo::-webkit-scrollbar { height: 1px; }
+.ficha-flujo::-webkit-scrollbar-track { background: transparent; }
+.ficha-flujo::-webkit-scrollbar-thumb { background: var(--border-subtle); }
+
+/* --- Paneles de foto ----------------------------------------------------- */
+.ficha-panel {
+  flex: 0 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;   /* ALINEADAS ARRIBA — la clave del ritmo */
+  align-items: flex-start;
+}
+
+/* Las tres alturas. Porcentaje del contenedor, no del viewport, para que el
+   pie siempre quepa debajo sin sacar barra vertical. */
+.ficha-panel[data-alto="a"] .ficha-marco { height: 78%; }
+.ficha-panel[data-alto="b"] .ficha-marco { height: 62%; }
+.ficha-panel[data-alto="c"] .ficha-marco { height: 52%; }
+
+/* El ancho lo da la proporción. El archivo ya llega recortado a esa forma
+   desde Unsplash, así que object-fit no recorta nada: sólo evita el salto
+   de maquetación mientras carga. */
+.ficha-marco {
+  width: auto;
+  background: var(--gold-subtle);
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+.ficha-panel[data-prop="2:3"]  .ficha-marco { aspect-ratio: 2 / 3; }
+.ficha-panel[data-prop="3:4"]  .ficha-marco { aspect-ratio: 3 / 4; }
+.ficha-panel[data-prop="4:3"]  .ficha-marco { aspect-ratio: 4 / 3; }
+.ficha-panel[data-prop="3:2"]  .ficha-marco { aspect-ratio: 3 / 2; }
+.ficha-panel[data-prop="16:9"] .ficha-marco { aspect-ratio: 16 / 9; }
+
+.ficha-marco img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Hueco a propósito: lo que se ve si la foto no carga. Nunca el ícono roto. */
+.ficha-marco.media-slot {
+  background: var(--gold-subtle);
+  border: 1px solid var(--border-subtle);
+}
+
+/* El pie va pegado bajo la imagen y se sale de la caja, como en la
+   referencia. Sin banda reservada: si no hay pie, no hay hueco. */
+.ficha-pie {
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--text-light);
+  margin-top: 10px;
+  max-width: 100%;
+}
+.ficha-pie:empty { display: none; }
+
+/* --- Paneles de texto ---------------------------------------------------- */
+.ficha-panel-texto {
+  width: min(460px, 78vw);
+  align-self: flex-start;
+  padding-top: 4vh;
+}
+
+.ficha-etiqueta {
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: var(--space-close);
+}
+.ficha-titulo {
+  font-size: var(--t-1);
+  line-height: 1.2;
+  font-weight: 500;
+  color: var(--text-main);
+  margin: 0 0 var(--space-close) 0;
+}
+.ficha-precio {
+  font-size: var(--t-4);
+  line-height: 1.3;
+  font-weight: 500;
+  color: var(--text-main);
+}
+.ficha-precio-alt { font-size: var(--t-small); color: var(--text-light); margin-top: 4px; }
+.ficha-parrafo {
+  font-size: var(--t-5);
+  line-height: 1.4;
+  color: var(--text-muted);
+  max-width: 65ch;
+  margin: var(--space-close) 0 0 0;
+}
+
+/* Ficha de datos: etiqueta #222, valor #AAA, línea de 1px */
+.ficha-datos { width: 100%; }
+.ficha-datos-sep { margin-top: var(--space-block); }
+.ficha-parrafo-alto { margin-top: 0; }
+.ficha-dato {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: var(--space-close) 0;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: var(--t-body);
+  line-height: 1.5;
+}
+.ficha-dato-etiqueta { color: var(--text-muted); }
+.ficha-dato-valor { color: var(--text-light); text-align: right; }
+
+.ficha-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-close);
+  margin-top: var(--space-block);
+}
+.ficha-acciones a { align-self: flex-start; }
+
+.ficha-volver {
+  font-size: var(--t-small);
+  color: var(--text-light);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.ficha-volver:hover,
+.ficha-volver:focus-visible { color: var(--text-main); }
+
+/* --- Aparición: observador propio con root en el contenedor -------------- */
+[data-anim-ficha="on"] .ficha-panel {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+[data-anim-ficha="on"] .ficha-panel.is-visible { opacity: 1; transform: none; }
+
+/* --- Celular: el mismo DOM, leído de arriba abajo ----------------------- */
+@media (max-width: 1023px) {
+  body.ficha-page { overflow: auto; }
+
+  .ficha-flujo {
+    position: static;
+    display: block;
+    height: auto;
+    overflow: visible;
+    padding: var(--space-block) var(--gutter) calc(var(--space-footer) + 49px);
+  }
+
+  .ficha-panel { width: 100%; height: auto; margin-bottom: var(--space-block); }
+  .ficha-panel-texto { width: 100%; padding-top: 0; }
+
+  /* En vertical el alto lo manda el ancho de la pantalla: la proporción de
+     cada foto se conserva y las alturas siguen siendo distintas entre sí. */
+  .ficha-panel[data-alto="a"] .ficha-marco,
+  .ficha-panel[data-alto="b"] .ficha-marco,
+  .ficha-panel[data-alto="c"] .ficha-marco { height: auto; width: 100%; }
+
+  .ficha-titulo { font-size: var(--t-2); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-anim-ficha="on"] .ficha-panel { opacity: 1; transform: none; transition: none; }
+}
+
+
+/* ==========================================================================
+   PORTADA — HERO A SANGRE  (referencia: casa-home)
+   --------------------------------------------------------------------------
+   La foto ocupa la pantalla completa y el wordmark PRAETORA viene quemado
+   dentro de la imagen. Consecuencia que hay que respetar: el recorte no
+   puede comerse el letrero.
+     · Escritorio: object-fit cover anclado a "left bottom" — la P y la
+       línea de base del letrero siempre sobreviven.
+     · Celular: NO se recorta. La foto se ve completa en 16:9 y el hero deja
+       de ser de altura completa. Si se recortara, la palabra se partiría.
+   ========================================================================== */
+
+.hero-portada {
+  position: relative;
+  height: 100svh;
+  min-height: 420px;
+  overflow: hidden;
+  background: var(--text-main);
+}
+
+.hero-foto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left bottom;
+  display: block;
+}
+
+.hero-cta {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 14px 40px;
+  border: 1px solid var(--text-inverse);
+  color: var(--text-inverse);
+  background: transparent;
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.hero-cta:hover,
+.hero-cta:focus-visible {
+  background: var(--text-inverse);
+  color: var(--text-main);
+}
+
+/* Estaba en travertino (#F8F6F1), sobrante de antes de la pasada acromática. */
+.site-header.scrolled {
+  background: rgba(255, 255, 255, 0.96);
+}
+
+/* --- La navegación va DEBAJO del hero ------------------------------------
+   El <header> se movió en el HTML: ya no flota sobre la foto. Deja de ser
+   columna fija de 220px y pasa a ser una barra normal bajo la imagen.
+   La columna vertical sigue viva en las demás páginas. */
+body.home { margin-left: 0; }
+
+body.home .site-header {
+  position: static;
+  width: 100%;
+  height: auto;
+  border-right: none;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: var(--space-close) 0;
+  background: var(--bg-primary);
+}
+
+body.home .site-header .nav-container {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-block);
+  padding: 0 var(--gutter);
+}
+
+body.home .site-header nav { width: auto; margin-bottom: 0; }
+
+body.home .site-header .nav-links {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-block);
+  margin: 0;
+  padding: 0;
+}
+
+/* En barra horizontal los enlaces se partían en dos renglones
+   ("CATÁLOGO / COMPLETO"). Cada uno va en una sola línea. */
+body.home .site-header .nav-link { white-space: nowrap; }
+
+body.home .site-header .btn-gold { margin-top: 0; width: auto; }
+
+/* Con el encabezado fuera del flujo fijo, .scrolled ya no aplica en la portada. */
+body.home .site-header.scrolled { box-shadow: none; }
+
+@media (max-width: 1023px) {
+  /* La foto completa, sin recorte: el letrero quemado no se puede partir. */
+  .hero-portada {
+    height: auto;
+    min-height: 0;
+    background: var(--bg-primary);
+  }
+
+  .hero-foto { height: auto; aspect-ratio: 16 / 9; }
+
+  .hero-cta {
+    position: static;
+    transform: none;
+    display: block;
+    margin: var(--space-block) var(--gutter);
+    text-align: center;
+    border-color: var(--text-main);
+    color: var(--text-main);
+  }
+  .hero-cta:hover,
+  .hero-cta:focus-visible { background: var(--text-main); color: var(--text-inverse); }
+
+  body.home .site-header .nav-container { flex-wrap: wrap; gap: var(--space-close); }
+  body.home .site-header .nav-links { flex-wrap: wrap; gap: var(--space-close) 24px; }
+}
+
+/* --- Concierge IA: sólo el círculo ---------------------------------------
+   El botón traía el círculo más dos renglones de texto y ocupaba media
+   esquina. Se queda el círculo negro con el símbolo; el texto sale.
+   Se hace por CSS para no tocar el markup, que también usa catalogo.html. */
+.ai-concierge-btn {
+  padding: 0;
+  border: none;
+  background: transparent;
+  gap: 0;
+}
+
+.ai-concierge-btn > div:not(.ai-avatar-ring) { display: none; }
+
+.ai-avatar-ring {
+  width: 52px;
+  height: 52px;
+  font-size: 1.15rem;
+  background: var(--text-main);
+  color: var(--text-inverse);
+}
+
+.ai-concierge-trigger { bottom: var(--gutter); right: var(--gutter); }
+
+
+/* Defecto previo, no del hero: los campos del wizard de consignación se
+   desbordan 35px a 390px de ancho y hacen que la página se deslice de lado en
+   el celular. Los `select` traen un ancho intrínseco que el grid no comprime.
+   Guarda mínima; no cambia nada del comportamiento. */
+.wizard-section .form-group,
+.wizard-section .form-group select,
+.wizard-section .form-group input,
+.wizard-section .form-group textarea {
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
