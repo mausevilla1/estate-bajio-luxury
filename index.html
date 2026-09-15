@@ -63,18 +63,28 @@
 
 
   <!-- ==========================================================================
-       HERO — medio a sangre + tira de detalles de interior
+       HERO — medio a sangre con degradado a negro + baraja de interiores
        El medio es intercambiable: hoy <img>, mañana <video> en el mismo hueco.
-       El letrero PRAETORA salió de la imagen (se recortó la banda que lo traía).
+       Degradado 0%->70% transparente a --ink en 100%. Título y CTA en claro.
        ========================================================================== -->
   <section class="portada-hero">
-    <img class="portada-hero-medio"
-         src="hero-1600.webp"
-         srcset="hero-1024.webp 1024w, hero-1600.webp 1600w, hero-2560.webp 2560w"
-         sizes="100vw"
-         width="2560" height="1164"
-         alt="Residencia de autor en el Bajío"
-         fetchpriority="high">
+    <div class="portada-hero-marco">
+      <img class="portada-hero-medio"
+           src="hero-1600.webp"
+           srcset="hero-1024.webp 1024w, hero-1600.webp 1600w, hero-2560.webp 2560w"
+           sizes="100vw"
+           width="2560" height="1164"
+           alt="Residencia de autor en el Bajío"
+           fetchpriority="high">
+      <div class="portada-hero-degradado" aria-hidden="true"></div>
+    </div>
+
+    <div class="portada-hero-cuerpo">
+      <h1 class="portada-hero-titulo">Santuarios de autor en el Bajío</h1>
+      <div class="portada-hero-accion">
+        <a href="catalogo.html" class="portada-hero-cta">Explorar propiedades</a>
+      </div>
+    </div>
 
     <!-- Baraja de detalles de interior. Copia medida del angled-carousel de
          squarespace.com: 5 tarjetas de 660x412 en cinco posiciones fijas, que

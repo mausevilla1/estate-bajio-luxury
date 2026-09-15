@@ -14,6 +14,7 @@
   --bg-card-hover: #FFFFFF;
   --bg-glass: #FFFFFF;
   --bg-dark-accent: #111111;
+  --ink: #111111;
 
   --text-main: #111111;
   --text-muted: #222222;
@@ -3147,13 +3148,29 @@ body.home .site-header.scrolled { box-shadow: none; }
    El sitio queda con una sola voz tipográfica: la misma del catálogo y la ficha.
    ========================================================================== */
 
-/* --- Hero ---------------------------------------------------------------- */
+/* --- Hero ----------------------------------------------------------------
+   Mecanismo de squarespace.com (1440x900) acromático en --ink (#111111):
+   - Media (video/img) mide 852px de alto (o 94.67svh proporcional).
+   - Degradado 0%->70% transparente, fundiendo al 100% en --ink (sin costura).
+   - Baraja arranca en el 70% de la media (donde arranca el fade).
+   - Negro de la sección termina ~64px (--space-block) bajo la tarjeta más baja.
+   - Título en blanco y CTA sin caja en claro en el 70% superior limpio.
+   -------------------------------------------------------------------------- */
 .portada-hero {
+  --hero-media-h: min(852px, 94.67svh);
+  --k: 0.62;
   position: relative;
-  height: 100svh;
-  min-height: 420px;
+  /* Altura total: baraja en el 70% de la media, baja (412px * k) hasta
+     el borde inferior de la tarjeta más baja, y 64px (--space-block) de aire. */
+  height: calc((var(--hero-media-h) * 0.70) + (412px * var(--k)) + var(--space-block));
   overflow: hidden;
-  background: var(--text-main);
+  background: var(--ink);
+}
+
+.portada-hero-marco {
+  position: relative;
+  width: 100%;
+  height: var(--hero-media-h);
 }
 
 /* El medio es intercambiable: img hoy, video después. Mismas reglas para los dos. */
@@ -3164,6 +3181,68 @@ body.home .site-header.scrolled { box-shadow: none; }
   object-fit: cover;
   object-position: center;
   display: block;
+}
+
+/* Degradado encima de la media: transparente 0%->70%, funde a --ink en 100%. */
+.portada-hero-degradado {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(17, 17, 17, 0) 0%,
+    rgba(17, 17, 17, 0) 70%,
+    var(--ink) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* --- Texto y CTA del Hero -----------------------------------------------
+   En claro sobre el negro: título en blanco, CTA sin caja con línea de 1px.
+   Ubicados en el tercio superior donde la media está limpia (0% fade).
+   ------------------------------------------------------------------------ */
+.portada-hero-cuerpo {
+  position: absolute;
+  top: var(--space-block);
+  left: 0;
+  width: 100%;
+  padding: 0 var(--gutter);
+  text-align: center;
+  z-index: 3;
+  pointer-events: auto;
+}
+
+.portada-hero-titulo {
+  font-size: var(--t-1);
+  line-height: 1.2;
+  font-weight: 500;
+  color: var(--text-inverse);
+  margin: 0 0 var(--space-close) 0;
+  letter-spacing: normal;
+}
+
+.portada-hero-accion {
+  display: flex;
+  justify-content: center;
+}
+
+.portada-hero-cta {
+  display: inline-block;
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-inverse);
+  text-decoration: none;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--text-inverse);
+  transition: opacity 0.2s ease;
+}
+
+.portada-hero-cta:hover,
+.portada-hero-cta:focus-visible {
+  opacity: 0.45;
 }
 
 /* --- Marquesina del carrusel de casas -------------------------------------
@@ -3204,24 +3283,18 @@ body.home .site-header.scrolled { box-shadow: none; }
    Se mueve como una baraja: distinto del carrusel de abajo, a propósito.
    -------------------------------------------------------------------------- */
 .portada-baraja {
-  /* --- El único número que hay que mover ---------------------------------
-     La geometría es la de Squarespace, medida al pie de la letra. `--k` la
-     encoge entera sin deformarla: a 1 queda igual que la de ellos (660x412),
-     a 0.62 queda en 409x255 y deja respirar el video de atrás.
-     Ellos se pueden permitir tarjetas enormes porque su hero mide 1375px;
-     el nuestro mide una pantalla y las tapaba casi completo.
-     --------------------------------------------------------------------- */
-  --k: 0.62;
-
   position: absolute;
   left: 50%;
-  /* Sube lo necesario para caber entera: (412 de tarjeta + 41 del
-     desplazamiento de las laterales) x k, más 64 de aire. */
-  top: calc(100% - (453px * var(--k)) - 64px);
+  /* La baraja traslapa la media y su borde superior arranca en la línea del 70%.
+     La tarjeta central (data-plaza="0") tiene desplazamiento de (25px * k),
+     por lo que al restar ese desplazamiento en el top del marco de la baraja,
+     el borde superior de la tarjeta central cae exactamente en el 70% de la media. */
+  top: calc((var(--hero-media-h) * 0.70) - (25px * var(--k)));
   width: calc(660px * var(--k));
   height: calc(412px * var(--k));
   margin-left: calc(-330px * var(--k));
   pointer-events: none;
+  z-index: 2;
 }
 
 .portada-carta {
@@ -3244,12 +3317,12 @@ body.home .site-header.scrolled { box-shadow: none; }
   display: block;
 }
 
-/* El velo apaga las tarjetas que no están al centro. */
+/* El velo apaga las tarjetas que no están al centro (40% de negro). */
 .portada-carta::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.40);
   opacity: 1;
   transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -3364,7 +3437,20 @@ body.home .site-header.scrolled { box-shadow: none; }
 .portada-enlace:focus-visible { opacity: 0.45; }
 
 @media (max-width: 1023px) {
-  .portada-hero { height: 70svh; min-height: 320px; }
+  .portada-hero {
+    --hero-media-h: 70svh;
+    height: auto;
+    min-height: 320px;
+    padding-bottom: var(--space-block);
+  }
+
+  .portada-hero-cuerpo {
+    top: var(--space-block);
+  }
+
+  .portada-hero-titulo {
+    font-size: var(--t-2);
+  }
 
   /* Una baraja de 660px no cabe en un teléfono: fuera. */
   .portada-baraja { display: none; }
