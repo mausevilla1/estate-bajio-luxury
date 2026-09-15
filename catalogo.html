@@ -7,15 +7,15 @@
   <!-- SEO Primary Meta Tags -->
   <title>The Private Collection | Catálogo Maestro de Residencias High-Ticket en El Bajío</title>
   <meta name="title" content="The Private Collection | Catálogo Maestro de Residencias High-Ticket en El Bajío">
-  <meta name="description" content="Explore el catálogo completo de mansiones de autor, haciendas coloniales contemporáneas y sky penthouses en El Campanario, San Miguel de Allende, Juriquilla y León. Fichas técnicas en 8K y comparador side-by-side.">
-  <meta name="keywords" content="catalogo inmobiliario lujo bajio, mansiones en venta queretaro, casas exclusivas san miguel allende, residencias de autor el campanario, penthouses juriquilla, fincas campestres guanajuato">
+  <meta name="description" content="Catálogo de residencias en León, Guanajuato capital y San Miguel de Allende: El Molino, El Bosque Country Club, Centro Histórico y Rancho Los Labradores.">
+  <meta name="keywords" content="casas en venta leon guanajuato, casas el molino leon, casas el bosque country club, casas san miguel de allende, casas guanajuato capital, residencias de autor bajio">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://luxuryestatebajio.com/catalogo.html">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://luxuryestatebajio.com/catalogo.html">
-  <meta property="og:title" content="The Private Collection | Estate Bajío">
+  <meta property="og:title" content="The Private Collection | PRAETORA">
   <meta property="og:description" content="Colección curada de residencias de ultra-lujo en el Bajío mexicano.">
   <meta property="og:image" content="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1600&q=85">
 
@@ -24,12 +24,12 @@
   {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "name": "The Private Collection - Estate Bajío",
+    "name": "The Private Collection - PRAETORA",
     "description": "Catálogo curado de inmuebles residenciales de alta gama y preventas en el Bajío mexicano.",
     "url": "https://luxuryestatebajio.com/catalogo.html",
     "provider": {
       "@type": "RealEstateAgent",
-      "name": "ESTATE BAJÍO",
+      "name": "PRAETORA",
       "priceRange": "$$$$$",
       "telephone": "+524420000000"
     }
@@ -37,118 +37,150 @@
   </script>
 
   <!-- Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="catalog-page">
 
   <!-- Dynamic Ambient Lighting Canvas -->
   <canvas id="ambient-canvas"></canvas>
 
-  <!-- Header Navigation -->
-  <header class="site-header">
-    <div class="container nav-container">
+  <!-- Main 2-Column Catalog Layout (spacelab.co.uk inspired) -->
+  <main class="catalog-layout container">
+
+
+    <!-- Left Sticky Column (Text over white, no rail, no border, no background) -->
+    <aside class="catalog-left-col">
+      <!-- a) Logo PRAETORA / Grupo Inmobiliario -->
       <a href="index.html" class="brand-logo">
-        <span class="logo-title">Estate Bajío</span>
-        <span class="logo-subtitle">Private Collection</span>
+        <span class="logo-title">PRAETORA</span>
+        <span class="logo-subtitle">Grupo Inmobiliario</span>
       </a>
 
-      <nav>
+      <!-- b) Espacio grande: 96px -->
+      <div class="col-spacer-96"></div>
+
+      <!-- c) Navegación del sitio, en lista vertical, una por renglón. 16px -->
+      <nav class="catalog-nav">
         <ul class="nav-links">
           <li><a href="index.html" class="nav-link">Inicio</a></li>
-          <li><a href="catalogo.html" class="nav-link" style="color: var(--text-main); font-weight: 700;">Catálogo Completo</a></li>
+          <li><a href="catalogo.html" class="nav-link active">Catálogo Completo</a></li>
           <li><a href="index.html#preventas" class="nav-link">Preventas 3D</a></li>
           <li><a href="index.html#desarrolladores" class="nav-link">Desarrolladores</a></li>
           <li><a href="index.html#consignacion" class="nav-link">Consignación VIP</a></li>
         </ul>
       </nav>
 
-      <a href="index.html#consignacion" class="btn-gold">
-        Acceso Private Vault
-      </a>
-    </div>
-  </header>
+      <!-- d) Una línea: border-top 1px solid var(--border-subtle), 32px margen arriba y abajo -->
+      <div class="col-divider-32"></div>
 
-  <!-- Dedicated Catalog Header & Live Search -->
-  <section class="catalog-header-section">
-    <div class="container">
-      <div class="catalog-hero-box">
-        <span class="section-tag">Colección Exclusiva de Autor</span>
-        <h1 class="section-title" style="font-size: 3.5rem;">The Private Collection</h1>
-        <p class="section-desc">
-          Residencias arquitectónicas, haciendas y penthouses verificados con expediente notarial íntegro y máxima discreción patrimonial.
-        </p>
-      </div>
 
-      <!-- Live Search Bar -->
-      <div class="catalog-main-search">
-        <span class="catalog-search-icon">🔍</span>
-        <input type="text" id="catalog-search-input" placeholder="Buscar por zona, arquitecto, estilo o amenidad (ej. 'Campanario', 'Legorreta', 'Cava')...">
-      </div>
-    </div>
-  </section>
-
-  <!-- Multi-Dimensional Filter Bar & Master Catalog -->
-  <section class="section-padding" style="padding-top: 0;">
-    <div class="container">
-      
-      <div class="filter-master-bar">
-        <!-- Top Row: Zone Filter Pills, Currency Switcher & View Mode Toggle -->
-        <div class="filter-row-top">
-          <div class="filter-pills-group">
-            <button class="filter-pill active" data-filter="all">Todas las Obras</button>
-            <button class="filter-pill" data-filter="Campanario">El Campanario QRO</button>
-            <button class="filter-pill" data-filter="San Miguel">San Miguel de Allende</button>
-            <button class="filter-pill" data-filter="Juriquilla">Juriquilla Reserve</button>
-            <button class="filter-pill" data-filter="Balvanera">Balvanera Polo</button>
-            <button class="filter-pill" data-filter="León">El Molino León</button>
+      <!-- e) Los CUATRO filtros en acordeón colapsable -->
+      <div class="catalog-filters-accordion">
+        <!-- 1. Zona -->
+        <div class="filter-accordion-group" data-filter-group="zona">
+          <button type="button" class="filter-accordion-btn" aria-expanded="false" aria-controls="filter-panel-zona">
+            <span class="filter-acc-label">Zona</span>
+            <span class="filter-acc-val" id="filter-val-zona">Todas</span>
+          </button>
+          <div class="filter-accordion-panel" id="filter-panel-zona">
+            <div class="filter-pills-group">
+              <button class="filter-pill active" data-filter="all">Todas las obras</button>
+              <button class="filter-pill" data-filter="León">León</button>
+              <button class="filter-pill" data-filter="Molino">El Molino</button>
+              <button class="filter-pill" data-filter="Bosque">El Bosque</button>
+              <button class="filter-pill" data-filter="San Miguel">San Miguel de Allende</button>
+              <button class="filter-pill" data-filter="Guanajuato">Guanajuato capital</button>
+            </div>
           </div>
+        </div>
 
-          <div class="filter-controls-right">
-            <!-- Currency Switcher -->
+        <!-- 2. Moneda -->
+        <div class="filter-accordion-group" data-filter-group="moneda">
+          <button type="button" class="filter-accordion-btn" aria-expanded="false" aria-controls="filter-panel-moneda">
+            <span class="filter-acc-label">Moneda</span>
+            <span class="filter-acc-val" id="filter-val-moneda">MXN</span>
+          </button>
+          <div class="filter-accordion-panel" id="filter-panel-moneda">
             <div class="currency-toggle-group">
               <button class="currency-btn active" data-currency="MXN">MXN ($)</button>
               <button class="currency-btn" data-currency="USD">USD ($)</button>
             </div>
+          </div>
+        </div>
 
-            <!-- View Mode Switcher -->
-            <div class="view-mode-group">
-              <button class="view-btn active" data-view="grid" title="Vista Cuadrícula 3D">
-                <span>▦</span> Grid 3D
-              </button>
-              <button class="view-btn" data-view="lookbook" title="Vista Lookbook Editorial">
-                <span>☰</span> Lookbook
-              </button>
+        <!-- 3. Amenidades -->
+        <div class="filter-accordion-group" data-filter-group="amenidades">
+          <button type="button" class="filter-accordion-btn" aria-expanded="false" aria-controls="filter-panel-amenidades">
+            <span class="filter-acc-label">Amenidades</span>
+            <span class="filter-acc-val" id="filter-val-amenidades">Todas</span>
+          </button>
+          <div class="filter-accordion-panel" id="filter-panel-amenidades">
+            <div class="amenity-filters-wrap">
+              <button class="amenity-tag" data-amenity="garden">Jardín</button>
+              <button class="amenity-tag" data-amenity="pool">Alberca</button>
+              <button class="amenity-tag" data-amenity="golf">Campo de golf</button>
+              <button class="amenity-tag" data-amenity="spa">Spa</button>
             </div>
           </div>
         </div>
 
-        <!-- Bottom Row: Amenity Multi-Filters & Sort Selector -->
-        <div class="filter-row-bottom">
-          <div class="amenity-filters-wrap">
-            <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-right: 0.4rem;">Amenidades VIP:</span>
-            <button class="amenity-tag" data-amenity="cava">🍷 Cava Subterránea</button>
-            <button class="amenity-tag" data-amenity="pool">🏊 Alberca / Plunge</button>
-            <button class="amenity-tag" data-amenity="golf">⛳ Campo de Golf</button>
-            <button class="amenity-tag" data-amenity="helipad">🚁 Helipuerto</button>
-            <button class="amenity-tag" data-amenity="spa">💆 Spa & Wellness</button>
-          </div>
-
-          <div class="sort-select-wrap">
-            <label for="catalog-sort-select">Ordenar por:</label>
-            <select id="catalog-sort-select">
-              <option value="default">Selección Curada</option>
-              <option value="price-desc">Mayor Valor de Inversión</option>
-              <option value="price-asc">Menor Valor de Inversión</option>
-              <option value="m2-desc">Mayor Superficie Construida (m²)</option>
-            </select>
+        <!-- 4. Orden -->
+        <div class="filter-accordion-group" data-filter-group="orden">
+          <button type="button" class="filter-accordion-btn" aria-expanded="false" aria-controls="filter-panel-orden">
+            <span class="filter-acc-label">Orden</span>
+            <span class="filter-acc-val" id="filter-val-orden">Curada</span>
+          </button>
+          <div class="filter-accordion-panel" id="filter-panel-orden">
+            <div class="sort-select-wrap">
+              <select id="catalog-sort-select">
+                <option value="default">Selección Curada</option>
+                <option value="price-desc">Mayor Valor de Inversión</option>
+                <option value="price-asc">Menor Valor de Inversión</option>
+                <option value="m2-desc">Mayor Superficie Construida (m²)</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Results Stats Bar -->
+      <!-- f) El comparador: al fondo, discreto, reutiliza #comparison-dock -->
+      <div id="comparison-dock" class="comparison-floating-dock">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div id="dock-bubbles" class="dock-item-bubbles"></div>
+          <span id="dock-count" style="font-size: 0.85rem; font-family: var(--font-mono); font-weight: 600;">0 obras seleccionadas</span>
+        </div>
+        <div style="display: flex; gap: 0.6rem; align-items: center;">
+          <button class="btn-gold" style="padding: 0.5rem 1.2rem; font-size: 0.75rem;" onclick="openComparisonModal()">
+            Ver Tabla Comparativa
+          </button>
+          <button onclick="clearComparison()" style="background: none; border: none; color: var(--text-light); font-size: 0.75rem; cursor: pointer; text-decoration: underline;">
+            Limpiar
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Right Column (Hero desc left-aligned, live search, 2-column grid) -->
+    <section class="catalog-right-col">
+      <!-- Dedicated Catalog Header: Hero de una sola frase -->
+      <div class="catalog-hero-box">
+        <h1 class="catalog-hero-statement">Hogares de autor para quienes entienden que dónde vives define cómo vives.</h1>
+      </div>
+
+      <!-- Results Stats Bar & View Switcher -->
       <div class="catalog-stats-bar">
-        <div class="results-count">Mostrando <span id="catalog-count">7</span> obras de autor disponibles</div>
-        <div style="font-size: 0.8rem; color: var(--gold-primary); font-weight: 600;">✦ Título de Propiedad y Certificación Notarial 100%</div>
+        <div class="results-count">Mostrando <span id="catalog-count">10</span> obras disponibles</div>
+        <div class="view-mode-group">
+          <button class="view-btn active" data-view="grid" title="Vista Cuadrícula 3D">
+            <span>▦</span> Grid 3D
+          </button>
+          <button class="view-btn" data-view="lookbook" title="Vista Lookbook Editorial">
+            <span>☰</span> Lookbook
+          </button>
+        </div>
       </div>
 
       <!-- 3D Grid View Container -->
@@ -160,25 +192,9 @@
       <div id="lookbook-container" class="lookbook-container" style="display: none;">
         <!-- Injected dynamically via app.js -->
       </div>
+    </section>
 
-    </div>
-  </section>
-
-  <!-- Floating Comparison Dock -->
-  <div id="comparison-dock" class="comparison-floating-dock">
-    <div style="display: flex; align-items: center; gap: 1rem;">
-      <div id="dock-bubbles" class="dock-item-bubbles"></div>
-      <span id="dock-count" style="font-size: 0.85rem; font-family: var(--font-mono); font-weight: 600;">0 obras seleccionadas</span>
-    </div>
-    <div style="display: flex; gap: 0.6rem; align-items: center;">
-      <button class="btn-gold" style="padding: 0.5rem 1.2rem; font-size: 0.75rem;" onclick="openComparisonModal()">
-        Ver Tabla Comparativa
-      </button>
-      <button onclick="clearComparison()" style="background: none; border: none; color: rgba(255,255,255,0.6); font-size: 0.75rem; cursor: pointer; text-decoration: underline;">
-        Limpiar
-      </button>
-    </div>
-  </div>
+  </main>
 
   <!-- Comparison Modal (Side-by-Side Table) -->
   <div id="comparison-modal" class="modal-overlay">
@@ -221,7 +237,7 @@
       <div style="display: flex; align-items: center; gap: 0.8rem;">
         <div class="ai-avatar-ring" style="width: 30px; height: 30px; font-size: 0.8rem;">✦</div>
         <div>
-          <h4 style="font-size: 0.9rem; color: var(--text-main);">Estate Bajío Advisor IA</h4>
+          <h4 style="font-size: 0.9rem; color: var(--text-main);">PRAETORA Advisor IA</h4>
           <span style="font-size: 0.7rem; color: #2E7D32;">● Inteligencia Patrimonial Activa</span>
         </div>
       </div>
@@ -248,8 +264,8 @@
       <div class="footer-grid">
         <div class="footer-col">
           <a href="index.html" class="brand-logo" style="margin-bottom: 1.2rem;">
-            <span class="logo-title">Estate Bajío</span>
-            <span class="logo-subtitle">Private Collection</span>
+            <span class="logo-title">PRAETORA</span>
+            <span class="logo-subtitle">Grupo Inmobiliario</span>
           </a>
           <p style="font-size: 0.9rem; color: var(--text-muted); max-width: 320px; line-height: 1.7;">
             La plataforma líder en comercialización de inmuebles de autor, residencias de alta gama y aceleración de preventas arquitectónicas en el Bajío mexicano.
@@ -259,11 +275,11 @@
         <div class="footer-col">
           <h5>Enclaves Exclusivos</h5>
           <ul>
-            <li><a href="catalogo.html?filter=Campanario">El Campanario Querétaro</a></li>
+            <li><a href="catalogo.html?filter=Molino">El Molino León</a></li>
+            <li><a href="catalogo.html?filter=Bosque">El Bosque Country Club</a></li>
             <li><a href="catalogo.html?filter=San+Miguel">San Miguel de Allende</a></li>
-            <li><a href="catalogo.html?filter=Juriquilla">Juriquilla Santa Fe</a></li>
-            <li><a href="catalogo.html?filter=Balvanera">Balvanera Polo & Golf</a></li>
-            <li><a href="catalogo.html?filter=Leon">El Molino León</a></li>
+            <li><a href="catalogo.html?filter=Guanajuato">Guanajuato capital</a></li>
+            <li><a href="catalogo.html?filter=Leon">Todo León</a></li>
           </ul>
         </div>
 
@@ -280,16 +296,16 @@
         <div class="footer-col">
           <h5>Sedes & Concierge</h5>
           <ul>
-            <li><a href="#">Juriquilla Towers, Querétaro</a></li>
-            <li><a href="#">Centro Histórico, San Miguel</a></li>
-            <li><a href="#">Puerta Bajío, León</a></li>
+            <li><a href="#">León, Guanajuato</a></li>
+            <li><a href="#">Centro Histórico, San Miguel de Allende</a></li>
+            <li><a href="#">Guanajuato capital</a></li>
             <li><a href="tel:+524420000000">+52 442 000 0000</a></li>
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <div>© 2026 Estate Bajío. Todos los derechos reservados. Confidencialidad y Blindaje Legal Garantizados.</div>
+        <div>© 2026 PRAETORA. Todos los derechos reservados. Confidencialidad y Blindaje Legal Garantizados.</div>
         <div>Aviso de Privacidad • Términos Patrimoniales</div>
       </div>
     </div>
