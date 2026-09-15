@@ -3157,7 +3157,7 @@ body.home .site-header.scrolled { box-shadow: none; }
    - Título en blanco y CTA sin caja en claro en el 70% superior limpio.
    -------------------------------------------------------------------------- */
 .portada-hero {
-  --hero-media-h: min(852px, 94.67svh);
+  --hero-media-h: clamp(600px, 94.67svh, 1200px);
   --k: 0.62;
   position: relative;
   /* Altura total: baraja en el 70% de la media, baja (412px * k) hasta
