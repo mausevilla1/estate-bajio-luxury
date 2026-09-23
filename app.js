@@ -1441,9 +1441,10 @@ function praetoraRevelarNuevos(contenedor) {
         '<div class="portada-casa-foto">' +
           '<img src="' + esc(p.heroImage) + '" alt="' + esc(p.title) + '" loading="lazy">' +
         '</div>' +
-        '<span class="portada-casa-zona">' + esc(p.zone) + ' · ' + esc(p.subzone) + '</span>' +
-        '<h3 class="portada-casa-nombre">' + esc(p.title) + '</h3>' +
-        '<div class="portada-casa-precio">' + millones(p.priceMXN) + '</div>' +
+        '<div class="portada-casa-linea">' +
+          '<span class="portada-casa-zona">' + esc(p.zone) + ' · ' + esc(p.subzone) + '</span>' +
+          '<h3 class="portada-casa-nombre">' + esc(p.title) + '</h3>' +
+        '</div>' +
       '</a>';
     }).join('');
 

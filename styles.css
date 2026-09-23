@@ -3391,13 +3391,18 @@ body.home .site-header.scrolled { box-shadow: none; }
 .portada-casa:hover .portada-casa-foto img,
 .portada-casa:focus-visible .portada-casa-foto img { transform: scale(1.03); }
 
+.portada-casa-linea {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
 .portada-casa-zona {
   display: block;
   font-size: var(--t-label);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-light);
-  margin-bottom: 4px;
 }
 
 .portada-casa-nombre {
@@ -3406,11 +3411,6 @@ body.home .site-header.scrolled { box-shadow: none; }
   font-weight: 500;
   color: var(--text-main);
   margin: 0 0 4px 0;
-}
-
-.portada-casa-precio {
-  font-size: var(--t-small);
-  color: var(--text-light);
 }
 
 /* --- CTA: sin caja ------------------------------------------------------- */
