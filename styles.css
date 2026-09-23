@@ -3161,8 +3161,8 @@ body.home .site-header.scrolled { box-shadow: none; }
   --k: 0.62;
   position: relative;
   /* Altura total: baraja en el 70% de la media, baja (412px * k) hasta
-     el borde inferior de la tarjeta más baja, y 128px (--space-section) de aire. */
-  height: calc((var(--hero-media-h) * 0.70) + (412px * var(--k)) + var(--space-section));
+     el borde inferior de la tarjeta más baja, y 192px (--space-footer) de aire. */
+  height: calc((var(--hero-media-h) * 0.70) + (412px * var(--k)) + var(--space-footer));
   overflow: hidden;
   background: var(--ink);
 }
@@ -3453,7 +3453,7 @@ body.home .site-header.scrolled { box-shadow: none; }
     --hero-media-h: 70svh;
     height: auto;
     min-height: 320px;
-    padding-bottom: var(--space-section);
+    padding-bottom: var(--space-footer);
   }
 
   .portada-hero-cuerpo {
