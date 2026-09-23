@@ -3161,22 +3161,10 @@ body.home .site-header.scrolled { box-shadow: none; }
   --k: 0.62;
   position: relative;
   /* Altura total: baraja en el 70% de la media, baja (412px * k) hasta
-     el borde inferior de la tarjeta más baja, y 384px (space-footer * 2) de aire. */
-  height: calc((var(--hero-media-h) * 0.70) + (412px * var(--k)) + calc(var(--space-footer) * 2));
+     el borde inferior de la tarjeta más baja, y 448px (space-footer * 2 + space-block) de aire. */
+  height: calc((var(--hero-media-h) * 0.70) + (412px * var(--k)) + calc(var(--space-footer) * 2 + var(--space-block)));
   overflow: hidden;
   background: var(--ink);
-}
-
-.portada-hero::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: var(--space-section);
-  background: linear-gradient(to bottom, transparent 0%, var(--bg-primary) 100%);
-  pointer-events: none;
-  z-index: 3;
 }
 
 .portada-hero-marco {
@@ -3453,7 +3441,7 @@ body.home .site-header.scrolled { box-shadow: none; }
     --hero-media-h: 70svh;
     height: auto;
     min-height: 320px;
-    padding-bottom: calc(var(--space-footer) * 2);
+    padding-bottom: calc(var(--space-footer) * 2 + var(--space-block));
   }
 
   .portada-hero-cuerpo {
