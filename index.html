@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- SEO Primary Meta Tags -->
-  <title>ESTATE BAJÍO | Residencias de Autor & Preventas High-Ticket en Querétaro y San Miguel</title>
-  <meta name="title" content="ESTATE BAJÍO | Residencias de Autor & Preventas High-Ticket en Querétaro y San Miguel">
+  <title>PRAETORA | Residencias de Autor & Preventas High-Ticket en Querétaro y San Miguel</title>
+  <meta name="title" content="PRAETORA | Residencias de Autor & Preventas High-Ticket en Querétaro y San Miguel">
   <meta name="description" content="Colección privada de residencias de ultra-lujo, mansiones de autor y preventas exclusivas en El Campanario, San Miguel de Allende, Juriquilla y El Molino León. Preservación patrimonial y altos rendimientos de plusvalía.">
   <meta name="keywords" content="inmobiliaria de lujo queretaro, casas en venta el campanario queretaro, mansiones san miguel de allende, preventas de lujo juriquilla, bienes raices high ticket bajio, haciendas en venta guanajuato, penthouses de lujo leon el molino">
   <meta name="robots" content="index, follow">
@@ -15,7 +15,7 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://luxuryestatebajio.com/">
-  <meta property="og:title" content="ESTATE BAJÍO | Residencias de Autor & Preventas High-Ticket">
+  <meta property="og:title" content="PRAETORA | Residencias de Autor & Preventas High-Ticket">
   <meta property="og:description" content="Inversión patrimonial en las residencias más exclusivas del Bajío mexicano. Mansiones, penthouses y preventas de autor.">
   <meta property="og:image" content="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85">
 
@@ -27,7 +27,7 @@
       {
         "@type": "RealEstateAgent",
         "@id": "https://luxuryestatebajio.com/#agency",
-        "name": "ESTATE BAJÍO - Private Vault",
+        "name": "PRAETORA - Private Vault",
         "url": "https://luxuryestatebajio.com",
         "description": "Firma boutique especializada en comercialización de inmuebles High-Ticket y aceleración de preventas arquitectónicas en el Bajío.",
         "priceRange": "$$$$$",
@@ -50,20 +50,77 @@
   </script>
 
   <!-- Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="home">
 
 
   <!-- Dynamic Ambient Lighting Canvas -->
   <canvas id="ambient-canvas"></canvas>
 
+
+  <!-- ==========================================================================
+       HERO — medio a sangre con degradado a negro + baraja de interiores
+       El medio es intercambiable: hoy <img>, mañana <video> en el mismo hueco.
+       Degradado 0%->70% transparente a --ink en 100%. Título y CTA en claro.
+       ========================================================================== -->
+  <section class="portada-hero">
+    <div class="portada-hero-marco">
+      <video class="portada-hero-medio"
+             autoplay
+             muted
+             loop
+             playsinline
+             preload="metadata"
+             poster="hero-poster.webp"
+             aria-hidden="true">
+        <source src="hero.mp4" type="video/mp4">
+      </video>
+      <div class="portada-hero-degradado" aria-hidden="true"></div>
+    </div>
+
+    <div class="portada-hero-cuerpo">
+      <h1 class="portada-hero-titulo">Santuarios de autor en el Bajío</h1>
+      <div class="portada-hero-accion">
+        <a href="catalogo.html" class="portada-hero-cta">Explorar propiedades</a>
+      </div>
+    </div>
+
+    <!-- Baraja de detalles de interior. Copia medida del angled-carousel de
+         squarespace.com: 5 tarjetas de 660x412 en cinco posiciones fijas, que
+         se recorren una plaza cada tanto. Atmósfera, no navegación.
+         Las dibuja app.js. -->
+    <div class="portada-baraja" id="portada-baraja" aria-hidden="true"></div>
+  </section>
+
+  <!-- ==========================================================================
+       CARRUSEL DE CASAS — las 10 del catálogo, avance a mano.
+       Sale entero de data.js: no hay contenido escrito a mano aquí.
+       Cada casa lleva a su propiedad.html?id=…
+       ========================================================================== -->
+  <section class="portada-casas">
+    <!-- Avanza sola hacia la derecha. Se detiene al pasar el mouse, para que
+         una casa que interesa se pueda alcanzar y no se vaya sola. -->
+    <div class="portada-casas-marco">
+      <div class="portada-casas-pista" id="portada-casas-pista">
+        <!-- lo dibuja app.js -->
+      </div>
+    </div>
+
+    <div class="portada-casas-pie">
+      <a href="catalogo.html" class="portada-enlace">Catálogo completo</a>
+    </div>
+  </section>
+
   <!-- Header Navigation -->
   <header class="site-header">
     <div class="container nav-container">
       <a href="#" class="brand-logo">
-        <span class="logo-title">Estate Bajío</span>
-        <span class="logo-subtitle">Private Collection</span>
+        <span class="logo-title">PRAETORA</span>
+        <span class="logo-subtitle">Grupo Inmobiliario</span>
       </a>
 
       <nav>
@@ -81,71 +138,6 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero-section">
-    <div class="container hero-grid">
-      <div class="hero-content">
-        <div class="hero-badge">
-          <span>✦</span> Arquitectura de Autor & Alto Patrimonio
-        </div>
-        <h1 class="hero-title">
-          Santuarios de Autor.
-          <span class="highlight">Legado en El Bajío.</span>
-        </h1>
-        <p class="hero-subtitle">
-          Curaduría exclusiva de residencias irrepetibles y preventas arquitectónicas en los enclaves más codiciados de Querétaro, San Miguel de Allende y León.
-        </p>
-
-        <!-- Floating Glass Quick Search -->
-        <div class="hero-search-glass">
-          <div class="search-field">
-            <label>Destino VIP</label>
-            <select id="hero-zone-select">
-              <option value="all">Todas las Regiones</option>
-              <option value="Querétaro">El Campanario / Juriquilla</option>
-              <option value="San Miguel">San Miguel de Allende</option>
-              <option value="León">El Molino / Campestre</option>
-            </select>
-          </div>
-          <div class="search-field">
-            <label>Tipología</label>
-            <select id="hero-type-select">
-              <option value="all">Cualquier Tipología</option>
-              <option value="mansion">Mansión de Autor</option>
-              <option value="hacienda">Hacienda Contemporánea</option>
-              <option value="penthouse">Sky Penthouse</option>
-            </select>
-          </div>
-          <div class="search-field">
-            <label>Rango de Inversión</label>
-            <select>
-              <option>$25M - $50M MXN</option>
-              <option>$50M - $90M MXN</option>
-              <option>$90M+ MXN / USD</option>
-            </select>
-          </div>
-          <a href="catalogo.html" class="btn-gold" style="text-decoration: none;">
-            Explorar
-          </a>
-        </div>
-      </div>
-
-      <!-- Hero Visual 3D Showcase -->
-      <div class="hero-visual-wrapper">
-        <div class="hero-main-card">
-          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85" alt="Villa de Lujo Travertino en el Bajío">
-        </div>
-        <div class="hero-floating-stat">
-          <div class="floating-stat-icon">🏛️</div>
-          <div class="floating-stat-info">
-            <div class="stat-num">$54.2M MXN</div>
-            <div class="stat-lbl">Ticket Promedio Curado</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- The Private Collection: Interactive Catalog Preview -->
   <section id="coleccion" class="section-padding">
     <div class="container">
@@ -159,11 +151,12 @@
 
       <!-- Filters -->
       <div class="catalog-filters">
-        <button class="filter-btn active" data-filter="all">Todas las Obras</button>
-        <button class="filter-btn" data-filter="Campanario">El Campanario QRO</button>
+        <button class="filter-btn active" data-filter="all">Todas las obras</button>
+        <button class="filter-btn" data-filter="León">León</button>
+        <button class="filter-btn" data-filter="Molino">El Molino</button>
+        <button class="filter-btn" data-filter="Bosque">El Bosque</button>
         <button class="filter-btn" data-filter="San Miguel">San Miguel de Allende</button>
-        <button class="filter-btn" data-filter="Juriquilla">Juriquilla Reserve</button>
-        <button class="filter-btn" data-filter="León">El Molino León</button>
+        <button class="filter-btn" data-filter="Guanajuato">Guanajuato capital</button>
       </div>
 
       <!-- 3D Tilt Cards Grid -->
@@ -430,7 +423,7 @@
       <div style="display: flex; align-items: center; gap: 0.8rem;">
         <div class="ai-avatar-ring" style="width: 30px; height: 30px; font-size: 0.8rem;">✦</div>
         <div>
-          <h4 style="font-size: 0.9rem; color: var(--text-main);">Estate Bajío Advisor IA</h4>
+          <h4 style="font-size: 0.9rem; color: var(--text-main);">PRAETORA Advisor IA</h4>
           <span style="font-size: 0.7rem; color: #2E7D32;">● Inteligencia Patrimonial Activa</span>
         </div>
       </div>
@@ -439,7 +432,7 @@
 
     <div id="ai-chat-body" class="ai-chat-body">
       <div class="chat-bubble ai">
-        Bienvenido a <strong>Estate Bajío Private Vault</strong>. Soy su asesor patrimonial con inteligencia artificial. ¿Desea consultar plusvalía por zonas, residencias en El Campanario o retornos de inversión en preventas?
+        Bienvenido a <strong>PRAETORA Private Vault</strong>. Soy su asesor patrimonial con inteligencia artificial. ¿Desea consultar plusvalía por zonas, residencias en El Campanario o retornos de inversión en preventas?
       </div>
     </div>
 
@@ -467,8 +460,8 @@
       <div class="footer-grid">
         <div class="footer-col">
           <a href="#" class="brand-logo" style="margin-bottom: 1.2rem;">
-            <span class="logo-title">Estate Bajío</span>
-            <span class="logo-subtitle">Private Collection</span>
+            <span class="logo-title">PRAETORA</span>
+            <span class="logo-subtitle">Grupo Inmobiliario</span>
           </a>
           <p style="font-size: 0.9rem; color: var(--text-muted); max-width: 320px; line-height: 1.7;">
             La plataforma líder en comercialización de inmuebles de autor, residencias de alta gama y aceleración de preventas arquitectónicas en el Bajío mexicano.
@@ -478,11 +471,11 @@
         <div class="footer-col">
           <h5>Enclaves Exclusivos</h5>
           <ul>
-            <li><a href="#coleccion">El Campanario Querétaro</a></li>
-            <li><a href="#coleccion">San Miguel de Allende</a></li>
-            <li><a href="#coleccion">Juriquilla Santa Fe</a></li>
-            <li><a href="#coleccion">Balvanera Polo & Golf</a></li>
             <li><a href="#coleccion">El Molino León</a></li>
+            <li><a href="#coleccion">El Bosque Country Club</a></li>
+            <li><a href="#coleccion">San Miguel de Allende</a></li>
+            <li><a href="#coleccion">Guanajuato capital</a></li>
+            <li><a href="#coleccion">Rancho Los Labradores</a></li>
           </ul>
         </div>
 
@@ -499,16 +492,16 @@
         <div class="footer-col">
           <h5>Sedes & Concierge</h5>
           <ul>
-            <li><a href="#">Juriquilla Towers, Querétaro</a></li>
-            <li><a href="#">Centro Histórico, San Miguel</a></li>
-            <li><a href="#">Puerta Bajío, León</a></li>
+            <li><a href="#">León, Guanajuato</a></li>
+            <li><a href="#">Centro Histórico, San Miguel de Allende</a></li>
+            <li><a href="#">Guanajuato capital</a></li>
             <li><a href="tel:+524420000000">+52 442 000 0000</a></li>
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <div>© 2026 Estate Bajío. Todos los derechos reservados. Confidencialidad y Blindaje Legal Garantizados.</div>
+        <div>© 2026 PRAETORA. Todos los derechos reservados. Confidencialidad y Blindaje Legal Garantizados.</div>
         <div>Aviso de Privacidad • Términos Patrimoniales</div>
       </div>
     </div>
