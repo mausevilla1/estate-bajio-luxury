@@ -5,15 +5,33 @@
 let currentCurrency = 'MXN';
 let currentViewMode = 'grid';
 let activeZoneFilter = 'all';
+let activeTypeFilter = 'all';
 let activeAmenities = [];
-let searchQuery = '';
-let currentSort = 'default';
+let currentSort = 'price-desc'; // Orden inicial por defecto: mayor valor
 let comparedProperties = [];
 
-/* Dato no publicado por el anuncio (m2Terreno viene null en 7 de 10 casas).
+function esc(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+/* Dato no publicado por el anuncio.
    Se muestra la raya, nunca "null" ni un cero inventado. */
 function m2(v) {
   return (v === null || v === undefined || v === '') ? '—' : v + ' m²';
+}
+
+function formatCatalogPrice(prop, curr) {
+  if (curr === 'USD') {
+    return prop.priceUSD ? `$${(prop.priceUSD / 1000000).toFixed(2)}M USD` : 'USD en consulta';
+  }
+  return `$${(prop.priceMXN / 1000000).toFixed(1)}M MXN`;
+}
+
+function formatCatalogSubPrice(prop, curr) {
+  if (curr === 'USD') {
+    return `$${(prop.priceMXN / 1000000).toFixed(1)}M MXN`;
+  }
+  return prop.priceUSD ? `$${(prop.priceUSD / 1000000).toFixed(2)}M USD` : '';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -115,16 +133,9 @@ function renderMasterCatalog() {
     );
   }
 
-  // 2. Search query
-  if (searchQuery.trim() !== '') {
-    const q = searchQuery.toLowerCase();
-    filtered = filtered.filter(p => 
-      p.title.toLowerCase().includes(q) ||
-      p.zone.toLowerCase().includes(q) ||
-      p.subzone.toLowerCase().includes(q) ||
-      p.architect.toLowerCase().includes(q) ||
-      p.description.toLowerCase().includes(q)
-    );
+  // 2. Type filter
+  if (activeTypeFilter !== 'all') {
+    filtered = filtered.filter(p => p.type === activeTypeFilter);
   }
 
   // 3. Amenities filter
@@ -160,12 +171,8 @@ function renderMasterCatalog() {
     } else {
       gridContainer.innerHTML = filtered.map(prop => {
         const isCompared = comparedProperties.includes(prop.id);
-        const formattedPrice = currentCurrency === 'MXN'
-          ? `$${(prop.priceMXN / 1000000).toFixed(1)}M MXN`
-          : `$${(prop.priceUSD / 1000000).toFixed(2)}M USD`;
-        const subPrice = currentCurrency === 'MXN'
-          ? `$${(prop.priceUSD / 1000000).toFixed(2)}M USD`
-          : `$${(prop.priceMXN / 1000000).toFixed(1)}M MXN`;
+        const formattedPrice = formatCatalogPrice(prop, currentCurrency);
+        const subPrice = formatCatalogSubPrice(prop, currentCurrency);
 
         return `
           <article class="property-card" data-id="${prop.id}">
@@ -220,9 +227,7 @@ function renderMasterCatalog() {
     } else {
       lookbookContainer.innerHTML = filtered.map(prop => {
         const isCompared = comparedProperties.includes(prop.id);
-        const formattedPrice = currentCurrency === 'MXN'
-          ? `$${(prop.priceMXN / 1000000).toFixed(1)}M MXN`
-          : `$${(prop.priceUSD / 1000000).toFixed(2)}M USD`;
+        const formattedPrice = formatCatalogPrice(prop, currentCurrency);
 
         return `
           <article class="lookbook-card" data-id="${prop.id}">
@@ -307,17 +312,78 @@ function initCatalogFilters() {
   });
 }
 
+function buildDynamicFilters() {
+  if (typeof LUXURY_PROPERTIES === 'undefined') return;
+
+  // 1. Zonas: construir desde LUXURY_PROPERTIES. Si hay una sola zona, ocultar grupo Zona
+  const zoneGroup = document.querySelector('.filter-accordion-group[data-filter-group="zona"]');
+  const uniqueZones = [...new Set(LUXURY_PROPERTIES.map(p => p.zone).filter(Boolean))];
+  if (zoneGroup) {
+    if (uniqueZones.length <= 1) {
+      zoneGroup.style.display = 'none';
+    } else {
+      zoneGroup.style.display = '';
+      const pillsWrap = zoneGroup.querySelector('.filter-pills-group');
+      if (pillsWrap) {
+        let html = '<button class="filter-pill active" data-filter="all">Todas las obras</button>';
+        uniqueZones.forEach(z => {
+          html += `<button class="filter-pill" data-filter="${esc(z)}">${esc(z)}</button>`;
+        });
+        pillsWrap.innerHTML = html;
+        pillsWrap.querySelectorAll('.filter-pill').forEach(btn => {
+          btn.addEventListener('click', () => {
+            pillsWrap.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeZoneFilter = btn.dataset.filter || 'all';
+            const valZona = document.getElementById('filter-val-zona');
+            if (valZona) valZona.textContent = activeZoneFilter === 'all' ? 'Todas' : btn.textContent.trim();
+            renderMasterCatalog();
+          });
+        });
+      }
+    }
+  }
+
+  // 2. Amenidades: ocultar si hay menos de 6 propiedades
+  const amenityGroup = document.querySelector('.filter-accordion-group[data-filter-group="amenidades"]');
+  if (amenityGroup) {
+    if (LUXURY_PROPERTIES.length < 6) {
+      amenityGroup.style.display = 'none';
+    } else {
+      amenityGroup.style.display = '';
+    }
+  }
+
+  // 3. Tipología: generado desde los datos
+  const tipoGroup = document.querySelector('.filter-accordion-group[data-filter-group="tipologia"]');
+  const uniqueTypes = [...new Set(LUXURY_PROPERTIES.map(p => p.type).filter(Boolean))];
+  if (tipoGroup && uniqueTypes.length > 0) {
+    const pillsWrap = tipoGroup.querySelector('.filter-pills-group');
+    if (pillsWrap) {
+      let html = '<button class="filter-pill active" data-type="all">Todas las tipologías</button>';
+      uniqueTypes.forEach(t => {
+        html += `<button class="filter-pill" data-type="${esc(t)}">${esc(t)}</button>`;
+      });
+      pillsWrap.innerHTML = html;
+      pillsWrap.querySelectorAll('.filter-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          pillsWrap.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeTypeFilter = btn.dataset.type || 'all';
+          const valTipo = document.getElementById('filter-val-tipologia');
+          if (valTipo) valTipo.textContent = activeTypeFilter === 'all' ? 'Todas' : btn.textContent.trim();
+          renderMasterCatalog();
+        });
+      });
+    }
+  }
+}
+
 /* --------------------------------------------------------------------------
    4. Dedicated Catalog Page Handlers (catalogo.html)
    -------------------------------------------------------------------------- */
 function initDedicatedCatalogPage() {
-  const searchInput = document.getElementById('catalog-search-input');
-  if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      searchQuery = e.target.value;
-      renderMasterCatalog();
-    });
-  }
+  buildDynamicFilters();
 
   // Currency Switcher
   const currencyBtns = document.querySelectorAll('.currency-btn');
@@ -450,7 +516,7 @@ window.openComparisonModal = function() {
           </div>
           <div>${p.zone}</div>
           <div style="font-family: var(--font-mono); font-weight: 700; color: var(--gold-primary);">$${(p.priceMXN / 1000000).toFixed(1)}M MXN</div>
-          <div style="font-family: var(--font-mono);">$${(p.priceUSD / 1000000).toFixed(2)}M USD</div>
+          <div style="font-family: var(--font-mono);">${p.priceUSD ? `$${(p.priceUSD / 1000000).toFixed(2)}M USD` : '—'}</div>
           <div>${m2(p.m2Construccion)}</div>
           <div>${m2(p.m2Terreno)}</div>
           <div>${p.bedrooms} Recs / ${p.bathrooms} Baños</div>
@@ -943,12 +1009,19 @@ function praetoraRevelarNuevos(contenedor) {
         }
       }
 
-      // 4. Orden
+      // 4. Tipología
+      const activeTipoBtn = document.querySelector('[data-filter-group="tipologia"] .filter-pill.active');
+      const valTipo = document.getElementById('filter-val-tipologia');
+      if (valTipo && activeTipoBtn) {
+        valTipo.textContent = (activeTipoBtn.dataset.type === 'all' || !activeTipoBtn.dataset.type) ? 'Todas' : activeTipoBtn.textContent.trim();
+      }
+
+      // 5. Orden
       const sortSelect = document.getElementById('catalog-sort-select');
       const valOrden = document.getElementById('filter-val-orden');
       if (valOrden && sortSelect) {
-        const optText = sortSelect.options[sortSelect.selectedIndex]?.text || 'Curada';
-        valOrden.textContent = optText.includes('Curada') ? 'Curada' : (optText.includes('Mayor Valor') ? 'Mayor $' : (optText.includes('Menor Valor') ? 'Menor $' : 'Superficie'));
+        const optText = sortSelect.options[sortSelect.selectedIndex]?.text || 'Mayor $';
+        valOrden.textContent = optText.includes('Mayor Valor') ? 'Mayor $' : (optText.includes('Menor Valor') ? 'Menor $' : (optText.includes('Curada') ? 'Curada' : 'Superficie'));
       }
     }
 
@@ -1332,14 +1405,14 @@ function praetoraRevelarNuevos(contenedor) {
 
 
 /* ==========================================================================
-   PORTADA — las dos marquesinas (index.html)
+   PORTADA — la marquesina de casas (index.html)
    --------------------------------------------------------------------------
    Todo sale de LUXURY_PROPERTIES: no hay contenido escrito a mano. El día que
    cambie una casa en data.js, la portada se actualiza sola.
 
-   Las dos tiras corren solas por CSS (animación sobre la pista duplicada).
-   Aquí va lo que el CSS no puede: dibujar el contenido, duplicarlo para que
-   el ciclo no se note, y cambiar las fotos de la tira de detalles.
+   La tira corre sola por CSS (animación sobre la pista duplicada). Aquí va lo
+   que el CSS no puede: dibujar el contenido y duplicarlo para que el ciclo no
+   se note.
    ========================================================================== */
 (function () {
   var reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1354,82 +1427,10 @@ function praetoraRevelarNuevos(contenedor) {
     return '$' + (n / 1000000).toFixed(1).replace('.0', '') + ' M MXN';
   }
 
-  var INTERIOR = /(sala|cocina|recámara|recamara|baño|bano|comedor|estancia|vestidor|patio|zagu[áa]n|arcada)/i;
-
-  /* Todas las fotos de interior del sitio, de todas las casas. De aquí come
-     la tira del hero, tanto para dibujarse como para irse cambiando. */
-  function bolsaDeInteriores() {
-    var bolsa = [];
-    (LUXURY_PROPERTIES || []).forEach(function (p) {
-      (p.flujo || []).forEach(function (f) {
-        if (INTERIOR.test(f.pie || '')) bolsa.push(f.src);
-      });
-    });
-    return bolsa;
-  }
-
   /* Duplicar el contenido es lo que hace que la marquesina no dé el salto:
      al correr -50% la segunda copia cae justo donde arrancó la primera. */
   function duplicar(pista) {
     pista.innerHTML += pista.innerHTML;
-  }
-
-  /* La tarjeta es 660x412 — horizontal. Dos tercios de las fotos de interior
-     son verticales (3:4 y 2:3) y dentro de la tarjeta perdían más de la mitad
-     del alto. En vez de recortarlas con object-fit, se le pide a Unsplash el
-     recorte ya hecho a la proporción de la tarjeta: así la foto llega entera
-     en la forma correcta y nada se corta en el navegador. */
-  function aLaMedidaDeLaCarta(src) {
-    // Proporción de la tarjeta (660:412 = 1.602). Se pide al doble del tamaño
-    // que se muestra, para que se vea nítida en pantallas de alta densidad.
-    return String(src).split('?')[0] + '?auto=format&fit=crop&w=880&h=550&q=85';
-  }
-
-  /* Baraja del hero. Cinco tarjetas en cinco plazas fijas; cada tanto todas
-     recorren una plaza. La que sale por la izquierda reaparece por la derecha
-     con otra foto — ese salto no se anima. Movimiento de cartas, distinto a
-     propósito del carrusel de casas, que corre en línea. */
-  function montarBaraja() {
-    var caja = document.getElementById('portada-baraja');
-    if (!caja || typeof LUXURY_PROPERTIES === 'undefined') return;
-
-    var bolsa = bolsaDeInteriores().map(aLaMedidaDeLaCarta);
-    if (bolsa.length < 5) return;
-
-    var PLAZAS = [-2, -1, 0, 1, 2];
-    var cartas = PLAZAS.map(function (plaza, i) {
-      var el = document.createElement('div');
-      el.className = 'portada-carta';
-      el.dataset.plaza = String(plaza);
-      el.innerHTML = '<img src="' + esc(bolsa[i % bolsa.length]) + '" alt="" loading="lazy">';
-      caja.appendChild(el);
-      return { el: el, plaza: plaza };
-    });
-
-    if (reducido) return;            // sin movimiento: se queda la primera mano
-
-    var siguiente = PLAZAS.length % bolsa.length;
-
-    setInterval(function () {
-      if (document.hidden) return;   // pestaña oculta: no gastar
-      cartas.forEach(function (c) {
-        c.plaza--;
-        if (c.plaza < -2) {
-          // Da la vuelta: salta al otro extremo sin animar y con foto nueva.
-          c.plaza = 2;
-          c.el.classList.add('saltando');
-          c.el.querySelector('img').src = bolsa[siguiente];
-          siguiente = (siguiente + 1) % bolsa.length;
-          c.el.dataset.plaza = '2';
-          // Se devuelve la transición en el siguiente cuadro, ya colocada.
-          requestAnimationFrame(function () {
-            requestAnimationFrame(function () { c.el.classList.remove('saltando'); });
-          });
-        } else {
-          c.el.dataset.plaza = String(c.plaza);
-        }
-      });
-    }, 3400);
   }
 
   function pintarCasas() {
@@ -1448,21 +1449,35 @@ function praetoraRevelarNuevos(contenedor) {
       '</a>';
     }).join('');
 
-    // La copia sólo sirve para que el ciclo no se note. Para un lector de
-    // pantalla son diez casas repetidas, así que la segunda mitad se oculta.
+    // Duplicación suficiente para que el ciclo sea continuo sin huecos en pantallas anchas
     if (!reducido && window.matchMedia('(min-width: 1024px)').matches) {
-      var antes = pista.children.length;
-      duplicar(pista);
-      for (var i = antes; i < pista.children.length; i++) {
-        pista.children[i].setAttribute('aria-hidden', 'true');
-        pista.children[i].setAttribute('tabindex', '-1');
+      var htmlBase = pista.innerHTML;
+      var iter = 0;
+      while (pista.scrollWidth < 2 * window.innerWidth && iter < 6) {
+        pista.innerHTML += htmlBase;
+        iter++;
+      }
+      var cards = pista.children;
+      var total = cards.length;
+      var originalCount = LUXURY_PROPERTIES.length;
+      for (var i = originalCount; i < total; i++) {
+        cards[i].setAttribute('aria-hidden', 'true');
+        cards[i].setAttribute('tabindex', '-1');
+      }
+
+      // Calcula la velocidad apuntando a ~33 px/s:
+      // La animación CSS portada-correr va de translateX(0) a translateX(-50%).
+      // Distancia recorrida por ciclo = pista.scrollWidth / 2
+      var distancia = pista.scrollWidth / 2;
+      var duracionSegundos = Math.round(distancia / 33);
+      if (duracionSegundos > 0) {
+        pista.style.animationDuration = duracionSegundos + 's';
       }
     }
   }
 
   function iniciar() {
     if (!document.querySelector('.portada-hero')) return;   // no es index.html
-    montarBaraja();
     pintarCasas();
   }
 

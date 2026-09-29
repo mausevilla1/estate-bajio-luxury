@@ -7,8 +7,8 @@
   <!-- SEO Primary Meta Tags -->
   <title>The Private Collection | Catálogo Maestro de Residencias High-Ticket en El Bajío</title>
   <meta name="title" content="The Private Collection | Catálogo Maestro de Residencias High-Ticket en El Bajío">
-  <meta name="description" content="Catálogo de residencias en León, Guanajuato capital y San Miguel de Allende: El Molino, El Bosque Country Club, Centro Histórico y Rancho Los Labradores.">
-  <meta name="keywords" content="casas en venta leon guanajuato, casas el molino leon, casas el bosque country club, casas san miguel de allende, casas guanajuato capital, residencias de autor bajio">
+  <meta name="description" content="Catálogo de residencias de autor en San Miguel de Allende: Club de Golf Malanquín. Arquitectura contemporánea y alta plusvalía patrimonial.">
+  <meta name="keywords" content="casas en venta san miguel de allende, casas club de golf malanquin, residencias de lujo san miguel de allende, propiedades club de golf, praetora inmobiliaria">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://luxuryestatebajio.com/catalogo.html">
 
@@ -127,17 +127,29 @@
           </div>
         </div>
 
-        <!-- 4. Orden -->
+        <!-- 4. Tipología -->
+        <div class="filter-accordion-group" data-filter-group="tipologia">
+          <button type="button" class="filter-accordion-btn" aria-expanded="false" aria-controls="filter-panel-tipologia">
+            <span class="filter-acc-label">Tipología</span>
+            <span class="filter-acc-val" id="filter-val-tipologia">Todas</span>
+          </button>
+          <div class="filter-accordion-panel" id="filter-panel-tipologia">
+            <div class="filter-pills-group" id="filter-pills-tipologia">
+              <!-- Generado dinámicamente desde data.js por app.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Orden -->
         <div class="filter-accordion-group" data-filter-group="orden">
           <button type="button" class="filter-accordion-btn" aria-expanded="false" aria-controls="filter-panel-orden">
             <span class="filter-acc-label">Orden</span>
-            <span class="filter-acc-val" id="filter-val-orden">Curada</span>
+            <span class="filter-acc-val" id="filter-val-orden">Mayor $</span>
           </button>
           <div class="filter-accordion-panel" id="filter-panel-orden">
             <div class="sort-select-wrap">
               <select id="catalog-sort-select">
-                <option value="default">Selección Curada</option>
-                <option value="price-desc">Mayor Valor de Inversión</option>
+                <option value="price-desc" selected>Mayor Valor de Inversión</option>
                 <option value="price-asc">Menor Valor de Inversión</option>
                 <option value="m2-desc">Mayor Superficie Construida (m²)</option>
               </select>
@@ -172,7 +184,7 @@
 
       <!-- Results Stats Bar & View Switcher -->
       <div class="catalog-stats-bar">
-        <div class="results-count">Mostrando <span id="catalog-count">10</span> obras disponibles</div>
+        <div class="results-count">Mostrando <span id="catalog-count">3</span> obras disponibles</div>
         <div class="view-mode-group">
           <button class="view-btn active" data-view="grid" title="Vista Cuadrícula 3D">
             <span>▦</span> Grid 3D
@@ -181,6 +193,11 @@
             <span>☰</span> Lookbook
           </button>
         </div>
+      </div>
+
+      <!-- Línea de contexto sobre el grid -->
+      <div class="catalog-context-line" style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+        Tres residencias en Club de Golf Malanquín, San Miguel de Allende.
       </div>
 
       <!-- 3D Grid View Container -->
@@ -275,11 +292,7 @@
         <div class="footer-col">
           <h5>Enclaves Exclusivos</h5>
           <ul>
-            <li><a href="catalogo.html?filter=Molino">El Molino León</a></li>
-            <li><a href="catalogo.html?filter=Bosque">El Bosque Country Club</a></li>
-            <li><a href="catalogo.html?filter=San+Miguel">San Miguel de Allende</a></li>
-            <li><a href="catalogo.html?filter=Guanajuato">Guanajuato capital</a></li>
-            <li><a href="catalogo.html?filter=Leon">Todo León</a></li>
+            <li><a href="catalogo.html?filter=Malanquin">Club de Golf Malanquín</a></li>
           </ul>
         </div>
 

@@ -3152,17 +3152,13 @@ body.home .site-header.scrolled { box-shadow: none; }
    Mecanismo de squarespace.com (1440x900) acromático en --ink (#111111):
    - Media (video/img) mide 852px de alto (o 94.67svh proporcional).
    - Degradado 0%->70% transparente, fundiendo al 100% en --ink (sin costura).
-   - Baraja arranca en el 70% de la media (donde arranca el fade).
-   - Negro de la sección termina ~64px (--space-block) bajo la tarjeta más baja.
-   - Título en blanco y CTA sin caja en claro en el 70% superior limpio.
+   - El nombre va encima del video, arriba a la izquierda, sin barra de fondo.
+   - La sección mide lo mismo que la media: termina en negro y sigue el blanco.
    -------------------------------------------------------------------------- */
 .portada-hero {
   --hero-media-h: clamp(600px, 94.67svh, 1200px);
-  --k: 0.62;
   position: relative;
-  /* Altura total: baraja en el 70% de la media, baja (412px * k) hasta
-     el borde inferior de la tarjeta más baja, y 448px (space-footer * 2 + space-block) de aire. */
-  height: calc((var(--hero-media-h) * 0.70) + (412px * var(--k)) + calc(var(--space-footer) * 2 + var(--space-block)));
+  height: var(--hero-media-h);
   overflow: hidden;
   background: var(--ink);
 }
@@ -3183,7 +3179,8 @@ body.home .site-header.scrolled { box-shadow: none; }
   display: block;
 }
 
-/* Degradado encima de la media: transparente 0%->70%, funde a --ink en 100%. */
+/* Degradado encima de la media: oscurece un poco arriba (para que el nombre
+   se lea sobre zonas claras), limpio hasta el 70% y funde a --ink en 100%. */
 .portada-hero-degradado {
   position: absolute;
   inset: 0;
@@ -3191,7 +3188,8 @@ body.home .site-header.scrolled { box-shadow: none; }
   height: 100%;
   background: linear-gradient(
     to bottom,
-    rgba(17, 17, 17, 0) 0%,
+    rgba(17, 17, 17, 0.6) 0%,
+    rgba(17, 17, 17, 0) 18%,
     rgba(17, 17, 17, 0) 70%,
     var(--ink) 100%
   );
@@ -3199,50 +3197,21 @@ body.home .site-header.scrolled { box-shadow: none; }
   z-index: 1;
 }
 
-/* --- Texto y CTA del Hero -----------------------------------------------
-   En claro sobre el negro: título en blanco, CTA sin caja con línea de 1px.
-   Ubicados en el tercio superior donde la media está limpia (0% fade).
+/* --- Nombre sobre el hero -------------------------------------------------
+   Arriba a la izquierda, en blanco sobre el video. Montserrat 800.
    ------------------------------------------------------------------------ */
-.portada-hero-cuerpo {
-  position: absolute;
-  top: var(--space-block);
-  left: 0;
-  width: 100%;
-  padding: 0 var(--gutter);
-  text-align: center;
-  z-index: 3;
-  pointer-events: auto;
-}
-
 .portada-hero-titulo {
-  font-size: var(--t-1);
-  line-height: 1.2;
-  font-weight: 500;
+  position: absolute;
+  top: 34px;
+  left: var(--gutter);
+  margin: 0;
+  z-index: 3;
+  font-family: 'Montserrat', var(--font-sans);
+  font-size: var(--t-2);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.14em;
   color: var(--text-inverse);
-  margin: 0 0 var(--space-close) 0;
-  letter-spacing: normal;
-}
-
-.portada-hero-accion {
-  display: flex;
-  justify-content: center;
-}
-
-.portada-hero-cta {
-  display: inline-block;
-  font-size: var(--t-label);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-inverse);
-  text-decoration: none;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--text-inverse);
-  transition: opacity 0.2s ease;
-}
-
-.portada-hero-cta:hover,
-.portada-hero-cta:focus-visible {
-  opacity: 0.45;
 }
 
 /* --- Marquesina del carrusel de casas -------------------------------------
@@ -3269,80 +3238,9 @@ body.home .site-header.scrolled { box-shadow: none; }
   animation-play-state: paused;
 }
 
-/* --- Baraja de detalles del hero ------------------------------------------
-   Medido en squarespace.com a 1440x900 (su `angled-carousel`):
-     · Tarjeta base 660 x 412 px, overflow hidden, origen en su centro.
-     · Cinco posiciones, cada una con su escala, giro y desplazamiento:
-         -2  escala 0.80  giro -4°  x -1320  y 41.23
-         -1  escala 0.88  giro -2°  x  -680  y 20.62
-          0  escala 1.00  giro  0°  x     0  y 25
-         +1  escala 0.88  giro +2°  x   680  y 20.62
-         +2  escala 0.80  giro +4°  x  1320  y 41.23
-     · Las de los lados van veladas; sólo la del centro va limpia.
-     · Curva cubic-bezier(0.23, 1, 0.32, 1) — la misma que usan ellos.
-   Se mueve como una baraja: distinto del carrusel de abajo, a propósito.
-   -------------------------------------------------------------------------- */
-.portada-baraja {
-  position: absolute;
-  left: 50%;
-  /* La baraja traslapa la media y su borde superior arranca en la línea del 70%.
-     La tarjeta central (data-plaza="0") tiene desplazamiento de (25px * k),
-     por lo que al restar ese desplazamiento en el top del marco de la baraja,
-     el borde superior de la tarjeta central cae exactamente en el 70% de la media. */
-  top: calc((var(--hero-media-h) * 0.70) - (25px * var(--k)));
-  width: calc(660px * var(--k));
-  height: calc(412px * var(--k));
-  margin-left: calc(-330px * var(--k));
-  pointer-events: none;
-  z-index: 2;
-}
-
-.portada-carta {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  background: var(--text-main);
-  transition: transform 0.9s cubic-bezier(0.23, 1, 0.32, 1);
-  will-change: transform;
-}
-
-/* Al dar la vuelta, la tarjeta salta del extremo izquierdo al derecho: ese
-   salto no se anima, si no se vería cruzar la pantalla. */
-.portada-carta.saltando { transition: none; }
-
-.portada-carta img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* El velo apaga las tarjetas que no están al centro (40% de negro). */
-.portada-carta::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.40);
-  opacity: 1;
-  transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.portada-carta[data-plaza="0"]::after { opacity: 0; }
-
-/* Los desplazamientos también van por `--k`; los giros y las escalas no,
-   porque son proporciones y no cambian al encoger el conjunto. */
-.portada-carta[data-plaza="-2"] { transform: translate(calc(-1320px * var(--k)), calc(41.23px * var(--k))) rotate(-4deg) scale(0.80); }
-.portada-carta[data-plaza="-1"] { transform: translate(calc(-680px * var(--k)),  calc(20.62px * var(--k))) rotate(-2deg) scale(0.88); }
-.portada-carta[data-plaza="0"]  { transform: translate(0, calc(25px * var(--k)))                            rotate(0deg)  scale(1); }
-.portada-carta[data-plaza="1"]  { transform: translate(calc(680px * var(--k)),   calc(20.62px * var(--k))) rotate(2deg)  scale(0.88); }
-.portada-carta[data-plaza="2"]  { transform: translate(calc(1320px * var(--k)),  calc(41.23px * var(--k))) rotate(4deg)  scale(0.80); }
-
 /* --- Carrusel de casas --------------------------------------------------- */
 .portada-casas {
-  /* Arriba 64px en vez de 128: al quitar la línea del encabezado, los 128
-     dejaban un hueco muerto entre la barra y "La colección". Abajo se
-     conserva el ritmo de sección completo. */
-  padding: var(--space-block) 0 var(--space-section);
+  padding: var(--space-footer) 0 var(--space-section);
   background: var(--bg-primary);
 }
 
@@ -3436,26 +3334,136 @@ body.home .site-header.scrolled { box-shadow: none; }
 .portada-enlace:hover,
 .portada-enlace:focus-visible { opacity: 0.45; }
 
+/* --- El enclave (Club de Golf Malanquín) ----------------------------------
+   Bloque tipográfico editorial sobre blanco.
+   Espaciado con tokens de :root: --space-section (128px), --space-block (64px),
+   --gutter (24px). Patrón de ficha PRAETORA: etiqueta #222, valor #AAA, 16px.
+   -------------------------------------------------------------------------- */
+.portada-enclave {
+  padding: var(--space-section) var(--gutter);
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.portada-enclave-interior {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* Hueco previsto para fotografía en alta resolución */
+.portada-enclave-foto {
+  display: none;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  margin-bottom: var(--space-block);
+}
+
+.portada-enclave-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.portada-enclave-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-block);
+  align-items: start;
+}
+
+.portada-enclave-tag {
+  display: block;
+  font-size: var(--t-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: var(--space-close);
+}
+
+.portada-enclave-titulo {
+  font-size: var(--t-2);
+  line-height: 1.2;
+  font-weight: 500;
+  color: var(--text-main);
+  margin: 0 0 calc(var(--space-close) * 2) 0;
+  letter-spacing: normal;
+}
+
+.portada-enclave-parrafo {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 520px;
+}
+
+.portada-enclave-datos {
+  margin: 0;
+  padding: 0;
+}
+
+.portada-enclave-fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-close);
+  padding: calc(var(--space-close) * 1.2) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.portada-enclave-fila:first-child {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.portada-enclave-etiqueta {
+  font-size: 16px;
+  font-weight: 500;
+  color: #222222;
+  margin: 0;
+}
+
+.portada-enclave-valor {
+  font-size: 16px;
+  font-weight: 400;
+  color: #AAAAAA;
+  text-align: right;
+  margin: 0;
+}
+
+
 @media (max-width: 1023px) {
+  .portada-enclave {
+    padding: var(--space-block) var(--gutter);
+  }
+
+  .portada-enclave-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-block);
+  }
+
+  .portada-enclave-fila {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .portada-enclave-valor {
+    text-align: left;
+  }
   .portada-hero {
     --hero-media-h: 70svh;
     height: auto;
     min-height: 320px;
-    padding-bottom: calc(var(--space-footer) * 2 + var(--space-block));
-  }
-
-  .portada-hero-cuerpo {
-    top: var(--space-block);
   }
 
   .portada-hero-titulo {
-    font-size: var(--t-2);
+    top: 24px;
+    font-size: var(--t-3);
   }
 
-  /* Una baraja de 660px no cabe en un teléfono: fuera. */
-  .portada-baraja { display: none; }
-
-  .portada-casas { padding: var(--space-block) 0; }
+  .portada-casas { padding: var(--space-section) 0 var(--space-block); }
   .portada-titulo { font-size: var(--t-2); }
 
   /* En un teléfono no hay mouse que detenga la marquesina: una tira de
@@ -3485,8 +3493,6 @@ body.home .site-header.scrolled { box-shadow: none; }
     background-position: center;
   }
   .portada-casas-pista { animation: none; }
-  .portada-carta { transition: none; }
-  .portada-carta::after { transition: none; }
   .portada-casa-foto img { transition: none; }
   .portada-casa:hover .portada-casa-foto img { transform: none; }
 }
