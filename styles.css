@@ -2881,6 +2881,7 @@ body.ficha-page {
   flex-direction: column;
   justify-content: flex-start;   /* ALINEADAS ARRIBA — la clave del ritmo */
   align-items: flex-start;
+  width: min-content;
 }
 
 /* Las tres alturas. Porcentaje del contenedor, no del viewport, para que el
@@ -2922,6 +2923,8 @@ body.ficha-page {
   color: var(--text-light);
   margin-top: 10px;
   max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 .ficha-pie:empty { display: none; }
 
