@@ -10,9 +10,9 @@
 //   · priceMXN, m2Construccion, m2Terreno, bedrooms, bathrooms, features.
 //
 // FOTOGRAFÍAS:
-//   · heroImage: recorte de fachada provisional en espera de material en alta.
-//   · gallery: [] vacía en esta tanda para no estirar miniaturas en la ficha individual.
-//   · Sin campo flujo: la ficha individual se construye a partir de heroImage.
+//   · Casa Córdoba y Casa Granada: heroImage y gallery pobladas con fotografías en alta resolución (1280px).
+//   · Casa Olivos: heroImage provisional en espera de material en alta.
+//   · Sin campo flujo: la ficha individual se construye dinámicamente a partir de heroImage y gallery.
 //
 // PENDIENTE DE DECISIÓN:
 //   · priceUSD: null (tipo de cambio pendiente de decisión de Luis; no calcular ni deducir).
@@ -35,9 +35,19 @@ const LUXURY_PROPERTIES = [
     bedrooms: 4,
     bathrooms: 5.5,
     garage: 2,
-    // heroImage provisional: recorte de fachada en espera de fotos en alta resolución
-    heroImage: "assets/propiedades/casa-cordoba/fotos/01-fachada-jardin.jpg",
-    gallery: [],
+    heroImage: "assets/propiedades/casa-cordoba/fotos/21.jpeg",
+    gallery: [
+      "assets/propiedades/casa-cordoba/fotos/21.jpeg",
+      "assets/propiedades/casa-cordoba/fotos/22.jpeg",
+      "assets/propiedades/casa-cordoba/fotos/7.jpeg",
+      "assets/propiedades/casa-cordoba/fotos/17.jpeg",
+      "assets/propiedades/casa-cordoba/fotos/20.jpeg",
+      "assets/propiedades/casa-cordoba/fotos/24.jpeg",
+      "assets/propiedades/casa-cordoba/fotos/10.jpeg",
+      "assets/propiedades/casa-cordoba/fotos/1.jpeg",
+      "assets/propiedades/casa-cordoba/fotos/14.jpeg",
+      "assets/propiedades/casa-cordoba/fotos/18.jpeg"
+    ],
     floorplan: null,
     architect: "Autoría contemporánea",
     amenities: ["golf", "garden"],
@@ -67,9 +77,19 @@ const LUXURY_PROPERTIES = [
     bedrooms: 4,
     bathrooms: 5.5,
     garage: 2,
-    // heroImage provisional: recorte de fachada en espera de fotos en alta resolución
-    heroImage: "assets/propiedades/casa-granada/fotos/01-fachada-jardin.jpg",
-    gallery: [],
+    heroImage: "assets/propiedades/casa-granada/fotos/11.jpeg",
+    gallery: [
+      "assets/propiedades/casa-granada/fotos/11.jpeg",
+      "assets/propiedades/casa-granada/fotos/2.jpeg",
+      "assets/propiedades/casa-granada/fotos/10.jpeg",
+      "assets/propiedades/casa-granada/fotos/12.jpeg",
+      "assets/propiedades/casa-granada/fotos/14.jpeg",
+      "assets/propiedades/casa-granada/fotos/18.jpeg",
+      "assets/propiedades/casa-granada/fotos/20.jpeg",
+      "assets/propiedades/casa-granada/fotos/28.jpeg",
+      "assets/propiedades/casa-granada/fotos/29.jpeg",
+      "assets/propiedades/casa-granada/fotos/5.jpeg"
+    ],
     floorplan: null,
     architect: "Autoría contemporánea",
     amenities: ["golf", "garden"],
