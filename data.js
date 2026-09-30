@@ -119,21 +119,53 @@ const LUXURY_PROPERTIES = [
     bedrooms: 3,
     bathrooms: 3.5,
     garage: 2,
-    // heroImage provisional: recorte de fachada en espera de fotos en alta resolución
-    heroImage: "assets/propiedades/casa-olivos/fotos/01-fachada-acceso.jpg",
-    gallery: [],
+    heroImage: "assets/propiedades/casa-olivos/fotos/01-fachada.jpg",
+    gallery: [
+      "assets/propiedades/casa-olivos/fotos/01-fachada.jpg",
+      "assets/propiedades/casa-olivos/fotos/02.jpg",
+      "assets/propiedades/casa-olivos/fotos/03.jpg",
+      "assets/propiedades/casa-olivos/fotos/04.jpg",
+      "assets/propiedades/casa-olivos/fotos/05.jpg",
+      "assets/propiedades/casa-olivos/fotos/06.jpg",
+      "assets/propiedades/casa-olivos/fotos/07.jpg",
+      "assets/propiedades/casa-olivos/fotos/08.jpg",
+      "assets/propiedades/casa-olivos/fotos/09.jpg",
+      "assets/propiedades/casa-olivos/fotos/10.jpg",
+      "assets/propiedades/casa-olivos/fotos/11.jpg",
+      "assets/propiedades/casa-olivos/fotos/12.jpg",
+      "assets/propiedades/casa-olivos/fotos/13.jpg",
+      "assets/propiedades/casa-olivos/fotos/14.jpg",
+      "assets/propiedades/casa-olivos/fotos/15.jpg"
+    ],
+    flujo: [
+      { src: "assets/propiedades/casa-olivos/fotos/01-fachada.jpg", prop: "3:4", alto: "a", pie: "Acceso exterior con pérgola de madera y muros en tonos cálidos." },
+      { src: "assets/propiedades/casa-olivos/fotos/11.jpg", prop: "3:4", alto: "b", pie: "Estancia principal a doble altura con techos de vigas de madera noble." },
+      { src: "assets/propiedades/casa-olivos/fotos/13.jpg", prop: "3:4", alto: "c", pie: "Cocina integral de autor con isla de cuarzo y carpintería contemporánea." },
+      { src: "assets/propiedades/casa-olivos/fotos/09.jpg", prop: "3:4", alto: "a", pie: "Patio central empedrado con enredaderas y escalera hacia planta alta." },
+      { src: "assets/propiedades/casa-olivos/fotos/02.jpg", prop: "3:4", alto: "b", pie: "Cancel corredizo de piso a techo con vistas directas al patio privado." },
+      { src: "assets/propiedades/casa-olivos/fotos/14.jpg", prop: "3:4", alto: "a", pie: "Recámara principal con viguería expuesta y vistas abiertas a Los Picachos." },
+      { src: "assets/propiedades/casa-olivos/fotos/06.jpg", prop: "3:4", alto: "b", pie: "Walk-in closet de diseño artesanal con iluminación natural cenital." },
+      { src: "assets/propiedades/casa-olivos/fotos/08.jpg", prop: "3:4", alto: "a", pie: "Baño principal con tocador rústico doble, espejos circulares y mosaico de autor." },
+      { src: "assets/propiedades/casa-olivos/fotos/04.jpg", prop: "9:16", alto: "b", pie: "Detalle de lavabo de piedra pulida y grifería en negro mate." },
+      { src: "assets/propiedades/casa-olivos/fotos/03.jpg", prop: "3:4", alto: "c", pie: "Medio baño de visitas con carpintería en madera oscura recuperada." },
+      { src: "assets/propiedades/casa-olivos/fotos/05.jpg", prop: "3:4", alto: "b", pie: "Conexión visual continua entre las estancias y los jardines interiores." },
+      { src: "assets/propiedades/casa-olivos/fotos/10.jpg", prop: "3:4", alto: "a", pie: "Patio interior soleado con ventanales enmarcados en cantera." },
+      { src: "assets/propiedades/casa-olivos/fotos/12.jpg", prop: "3:4", alto: "b", pie: "Perspectiva luminosa desde la estancia hacia el empedrado tradicional." },
+      { src: "assets/propiedades/casa-olivos/fotos/15.jpg", prop: "3:4", alto: "c", pie: "Distribuidor interior con domo de luz y acceso a recámaras." },
+      { src: "assets/propiedades/casa-olivos/fotos/07.jpg", prop: "3:4", alto: "b", pie: "Detalle de estanterías empotradas y pisos de madera en espiga." }
+    ],
     floorplan: null,
     architect: "Autoría contemporánea",
     amenities: ["golf", "garden"],
     features: [
       "300 m² de construcción sobre 350 m² de terreno",
       "Vistas a las montañas de Los Picachos",
-      "Despacho privado o biblioteca",
+      "Patios interiores empedrados con cantera",
       "3 recámaras y 3.5 baños",
-      "Patios interiores, techos altos de madera y acabados en piedra y cantera"
+      "Techos de doble altura con vigas de madera noble y acabados contemporáneos"
     ],
     projectedYield: "Consultar",
-    description: "Casa contemporánea en el Club de Golf Malanquín que fusiona arquitectura moderna y elementos tradicionales de San Miguel. Espacios a doble altura con cantera y techos de vigas de madera, patio interior, despacho/biblioteca independiente y vistas abiertas a Los Picachos."
+    description: "Increíble residencia nueva en el Club de Golf Malanquín con vistas imponentes a las montañas de Los Picachos. Diseñada en dos niveles con techos a doble altura de vigas de madera, cantera y acabados de autor que combinan elegancia moderna con el carácter rústico de San Miguel de Allende. Cuenta con patio interior empedrado, cocina de diseño con isla y amplios ventanales de luz natural."
   }
 ];
 
