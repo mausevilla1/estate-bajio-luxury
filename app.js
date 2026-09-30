@@ -1230,26 +1230,49 @@ function praetoraRevelarNuevos(contenedor) {
   }
 
   function panelDatos(p) {
-    return '<section class="ficha-panel ficha-panel-texto" id="ficha-info">' +
-      '<span class="ficha-etiqueta">' + esc(p.zone) + ' · ' + esc(p.subzone) + '</span>' +
-      '<h1 class="ficha-titulo">' + esc(p.title) + '</h1>' +
-      '<div class="ficha-precio">' + millones(p.priceMXN) + ' MXN</div>' +
-      (p.priceUSD ? '<div class="ficha-precio-alt">' + millones(p.priceUSD) + ' USD</div>' : '') +
-      '<div class="ficha-datos ficha-datos-sep">' +
-        fila('Ubicación', p.subzone) +
+    var esActivo = !!p.llaves || p.id === 'activo-1';
+    var precioHtml = '';
+    if (p.priceMXN != null) {
+      precioHtml = '<div class="ficha-precio">' + millones(p.priceMXN) + ' MXN</div>' +
+        (p.priceUSD ? '<div class="ficha-precio-alt">' + millones(p.priceUSD) + ' USD</div>' : '');
+    } else if (p.precioEstado) {
+      precioHtml = '<div class="ficha-precio">' + esc(p.precioEstado) + '</div>';
+    }
+
+    var datosHtml = '';
+    if (esActivo) {
+      datosHtml = fila('Ubicación', p.subzone) +
+        fila('Tipología', p.type) +
+        fila('Construcción', p.m2Construccion ? p.m2Construccion.toLocaleString('es-MX') + ' m²' : null) +
+        fila('Terreno', p.m2Terreno ? p.m2Terreno.toLocaleString('es-MX') + ' m²' : null) +
+        fila('Suites', p.llaves ? p.llaves + (p.llavesDetalle ? ' (' + p.llavesDetalle + ')' : '') : null) +
+        fila('Inquilino PB', p.inquilino) +
+        fila('Renta mensual', p.rentaMensualMXN ? '$' + p.rentaMensualMXN.toLocaleString('es-MX') + ' MXN' : null) +
+        fila('Reseñas', p.booking) +
+        fila('Precio', p.precioEstado || (p.priceMXN ? '$' + Number(p.priceMXN).toLocaleString('es-MX') + ' MXN' : null));
+    } else {
+      datosHtml = fila('Ubicación', p.subzone) +
         fila('Tipología', p.type) +
         fila('Construcción', p.m2Construccion ? p.m2Construccion.toLocaleString('es-MX') + ' m²' : null) +
         fila('Terreno', p.m2Terreno ? p.m2Terreno.toLocaleString('es-MX') + ' m²' : null) +
         fila('Recámaras', p.bedrooms) +
         fila('Baños', p.bathrooms) +
         fila('Estacionamiento', p.garage ? p.garage + ' autos' : null) +
-        fila('Inversión', '$' + Number(p.priceMXN).toLocaleString('es-MX') + ' MXN') +
-        fila('Estatus', p.status) +
+        fila('Inversión', p.priceMXN ? '$' + Number(p.priceMXN).toLocaleString('es-MX') + ' MXN' : null) +
+        fila('Estatus', p.status);
+    }
+
+    return '<section class="ficha-panel ficha-panel-texto" id="ficha-info">' +
+      '<span class="ficha-etiqueta">' + esc(p.zone) + ' · ' + esc(p.subzone) + '</span>' +
+      '<h1 class="ficha-titulo">' + esc(p.title) + '</h1>' +
+      precioHtml +
+      '<div class="ficha-datos ficha-datos-sep">' +
+        datosHtml +
       '</div>' +
       '</section>';
   }
 
-  var PROPS = ['2:3', '3:4', '4:3', '3:2', '16:9'];
+  var PROPS = ['2:3', '3:4', '4:3', '3:2', '16:9', '9:16'];
   var ALTOS = ['a', 'b', 'c'];
 
   function panelFoto(f, i) {
@@ -1257,18 +1280,38 @@ function praetoraRevelarNuevos(contenedor) {
     // trae forma, se le asigna una rotada para que no salgan todas iguales.
     var prop = PROPS.indexOf(f.prop) >= 0 ? f.prop : PROPS[i % PROPS.length];
     var alto = ALTOS.indexOf(f.alto) >= 0 ? f.alto : ALTOS[i % ALTOS.length];
+    var medioHtml = '';
+    if (f.tipo === 'video') {
+      medioHtml = '<video src="' + esc(f.src) + '"' +
+        (f.poster ? ' poster="' + esc(f.poster) + '"' : '') +
+        ' controls preload="metadata" playsinline></video>';
+    } else {
+      medioHtml = '<img src="' + esc(f.src) + '" alt="" loading="lazy">';
+    }
     return '<figure class="ficha-panel" data-prop="' + prop + '" data-alto="' + alto + '">' +
-      '<div class="ficha-marco"><img src="' + esc(f.src) + '" alt="" loading="lazy"></div>' +
+      '<div class="ficha-marco">' + medioHtml + '</div>' +
       '<figcaption class="ficha-pie">' + esc(f.pie || '') + '</figcaption>' +
       '</figure>';
   }
 
   function panelCierre(p) {
-    var msg = encodeURIComponent('Me interesa ' + p.title + ' (' + p.subzone + ').');
+    var esActivo = !!p.llaves || p.id === 'activo-1';
+    var msg = encodeURIComponent(esActivo
+      ? 'Deseo solicitar el expediente de inversión de ' + p.title + ' (' + p.subzone + ').'
+      : 'Me interesa ' + p.title + ' (' + p.subzone + ').');
+    var btnTexto = esActivo ? 'Solicitar expediente' : 'Consultar esta casa';
+    var extraNotas = '';
+    if (esActivo) {
+      if (p.roofNota) {
+        extraNotas += '<p class="ficha-parrafo" style="font-size: 0.9rem; color: var(--text-light); margin-top: 1.5rem; line-height: 1.6;">' + esc(p.roofNota) + '</p>';
+      }
+      extraNotas += '<p class="ficha-parrafo" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.8rem; line-height: 1.6;">Superficies informadas por el propietario. Expediente y proyecciones bajo solicitud.</p>';
+    }
     return '<section class="ficha-panel ficha-panel-texto">' +
       '<p class="ficha-parrafo ficha-parrafo-alto">' + esc(p.description) + '</p>' +
+      extraNotas +
       '<div class="ficha-acciones">' +
-        '<a class="btn-gold" href="https://wa.me/524420000000?text=' + msg + '" target="_blank" rel="noopener">Consultar esta casa</a>' +
+        '<a class="btn-gold" href="https://wa.me/524420000000?text=' + msg + '" target="_blank" rel="noopener">' + btnTexto + '</a>' +
         '<a class="ficha-volver" href="catalogo.html">Volver al catálogo</a>' +
       '</div>' +
       '</section>';
@@ -1351,9 +1394,13 @@ function praetoraRevelarNuevos(contenedor) {
     if (!cont) return;                       // no es propiedad.html
 
     var clave = new URLSearchParams(window.location.search).get('id');
-    var p = (typeof LUXURY_PROPERTIES !== 'undefined')
-      ? LUXURY_PROPERTIES.find(function (x) { return x.id === clave || x.slug === clave; })
-      : null;
+    var p = null;
+    if (typeof LUXURY_PROPERTIES !== 'undefined') {
+      p = LUXURY_PROPERTIES.find(function (x) { return x.id === clave || x.slug === clave; });
+    }
+    if (!p && typeof ACTIVOS_INVERSION !== 'undefined') {
+      p = ACTIVOS_INVERSION.find(function (x) { return x.id === clave || x.slug === clave; });
+    }
 
     // Sin `?id=` se muestra la primera casa, para que abrir propiedad.html
     // con doble clic sirva para revisar la ficha. Con `?id=` equivocado sí

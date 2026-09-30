@@ -2903,8 +2903,10 @@ body.ficha-page {
 .ficha-panel[data-prop="4:3"]  .ficha-marco { aspect-ratio: 4 / 3; }
 .ficha-panel[data-prop="3:2"]  .ficha-marco { aspect-ratio: 3 / 2; }
 .ficha-panel[data-prop="16:9"] .ficha-marco { aspect-ratio: 16 / 9; }
+.ficha-panel[data-prop="9:16"] .ficha-marco { aspect-ratio: 9 / 16; }
 
-.ficha-marco img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ficha-marco img,
+.ficha-marco video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* Hueco a propósito: lo que se ve si la foto no carga. Nunca el ícono roto. */
 .ficha-marco.media-slot {
@@ -3496,3 +3498,206 @@ body.home .site-header.scrolled { box-shadow: none; }
   .portada-casa-foto img { transition: none; }
   .portada-casa:hover .portada-casa-foto img { transform: none; }
 }
+
+/* ==========================================================================
+   PORTADA - BLOQUE ACTIVO DE INVERSIÓN (Casa Julieta, Centro Histórico)
+   Editorial diferenciado sobre blanco con tokens de :root
+   ========================================================================== */
+.portada-inversion {
+  background: #FFFFFF;
+  color: #111111;
+  padding: var(--space-section) var(--gutter);
+  border-top: 1px solid var(--border-subtle);
+  position: relative;
+  z-index: 10;
+}
+
+.portada-inversion-interior {
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.portada-inversion-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: var(--space-block);
+  align-items: center;
+}
+
+.portada-inversion-marco {
+  aspect-ratio: 16 / 9;
+  background: var(--gold-subtle);
+  overflow: hidden;
+}
+
+.portada-inversion-marco img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.portada-inversion-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 12px;
+}
+
+.portada-inversion-titulo {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 3.5vw, 44px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: #111111;
+  margin: 0 0 20px 0;
+  letter-spacing: -0.01em;
+}
+
+.portada-inversion-parrafo {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin: 0 0 32px 0;
+  max-width: 520px;
+}
+
+.portada-inversion-datos {
+  margin: 0 0 36px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.portada-inversion-fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 12px 0;
+  border-top: 1px solid #EAEAEA;
+  font-family: var(--font-sans);
+}
+
+.portada-inversion-fila:last-child {
+  border-bottom: 1px solid #EAEAEA;
+}
+
+.portada-inversion-etiqueta {
+  font-size: 16px;
+  font-weight: 500;
+  color: #222222;
+  margin: 0;
+}
+
+.portada-inversion-valor {
+  font-size: 16px;
+  font-weight: 400;
+  color: #AAAAAA;
+  text-align: right;
+  margin: 0;
+}
+
+.portada-inversion-acciones {
+  margin-top: 16px;
+}
+
+@media (max-width: 1023px) {
+  .portada-inversion {
+    padding: var(--space-block) var(--gutter);
+  }
+
+  .portada-inversion-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .portada-inversion-fila {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .portada-inversion-valor {
+    text-align: left;
+  }
+}
+
+/* ==========================================================================
+   CATÁLOGO - FRANJA EDITORIAL ACTIVO DE INVERSIÓN
+   ========================================================================== */
+.catalog-inversion-strip {
+  margin-top: var(--space-block);
+  padding-top: var(--space-block);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.catalog-inversion-interior {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 32px;
+  background: #FAFAFA;
+  padding: 24px;
+  align-items: center;
+  border: 1px solid var(--border-subtle);
+}
+
+.catalog-inversion-thumb {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--gold-subtle);
+}
+
+.catalog-inversion-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.catalog-inversion-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 8px;
+}
+
+.catalog-inversion-titulo {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 400;
+  margin: 0 0 10px 0;
+  color: #111111;
+}
+
+.catalog-inversion-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0 0 16px 0;
+}
+
+.catalog-inversion-metricas {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.catalog-inversion-metricas strong {
+  color: #222222;
+}
+
+@media (max-width: 900px) {
+  .catalog-inversion-interior {
+    grid-template-columns: 1fr;
+  }
+}
+

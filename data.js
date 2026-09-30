@@ -137,5 +137,119 @@ const LUXURY_PROPERTIES = [
   }
 ];
 
-const ACTIVOS_INVERSION = [];  // Hotel — en espera de ficha de Luis.
-// Campos previstos: llaves, ocupacion, retorno, licencias.
+const ACTIVOS_INVERSION = [
+  {
+    id: "activo-1",
+    slug: "casa-julieta",
+    title: "Casa Julieta",
+    zone: "San Miguel de Allende",
+    subzone: "Centro Histórico, Umarán 27 / Zacateros",
+    type: "Hotel boutique + renta comercial",
+    priceMXN: null,
+    priceUSD: null,
+    precioEstado: "Por confirmar", // CADENA de texto, nunca un número
+    objetoVenta: "Por confirmar: inmueble completo o participación",
+    m2Terreno: 295,
+    m2Construccion: 530,
+    anoConstruccion: "Siglo XIX",
+    llaves: 6,
+    llavesDetalle: "4 Junior Suites, 1 Deluxe y 1 Presidencial. Tres con balcón y vista a la Parroquia.",
+    inquilino: "Birkenstock",
+    rentaMensualMXN: 95000,
+    booking: "9.7 / 10 en Booking sobre 60 reseñas",
+    caminando: "3 minutos a pie de la Parroquia y el Jardín Allende",
+    roofNota: "Terraza con vistas a la Parroquia y a Las Monjas. Potencial adicional sujeto a las autorizaciones del INAH y municipales aplicables.",
+    status: "Consultar",
+    amenities: [],
+    heroImage: "assets/propiedades/hotel/fotos/1.jpeg",
+    description: "Casona histórica del siglo XIX en el corazón de San Miguel de Allende, ubicada en la esquina de Umarán y Zacateros a tres minutos a pie de la Parroquia y el Jardín Allende. El activo combina la operación de un hotel boutique de 6 suites con alta calificación en hospitalidad, local comercial en planta baja arrendado a Birkenstock y terraza panorámica con vistas abiertas al centro virreinal.",
+    flujo: [
+      {
+        src: "assets/propiedades/hotel/fotos/1.jpeg",
+        prop: "16:9",
+        alto: "b",
+        pie: "Fachada histórica del siglo XIX en Umarán y Zacateros, con local Birkenstock en planta baja."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/2.jpeg",
+        prop: "2:3",
+        alto: "a",
+        pie: "Patio interior empedrado y acceso principal a las suites."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/5.jpeg",
+        prop: "3:4",
+        alto: "c",
+        pie: "Roof garden con vistas panorámicas al Centro Histórico y al atardecer."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/12.jpeg",
+        prop: "2:3",
+        alto: "b",
+        pie: "Terraza superior con vista a las cúpulas de San Miguel de Allende."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/11.jpeg",
+        prop: "3:4",
+        alto: "a",
+        pie: "Balcón colonial con herrería tradicional e iluminación cálida."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/8.jpeg",
+        prop: "2:3",
+        alto: "c",
+        pie: "Fuente colonial y escalinata de cantera hacia niveles superiores."
+      },
+      {
+        tipo: "video",
+        src: "assets/propiedades/hotel/video/28.mp4",
+        poster: "assets/propiedades/hotel/video/28-poster.jpg",
+        prop: "9:16",
+        alto: "b",
+        pie: "Recorrido por la arquitectura y los patios coloniales de Casa Julieta."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/15.jpeg",
+        prop: "3:4",
+        alto: "a",
+        pie: "Suite Presidencial con techos de vigas de madera y arquitectura de época."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/20.jpeg",
+        prop: "2:3",
+        alto: "c",
+        pie: "Junior Suite con acabados artesanales y candelabro contemporáneo."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/22.jpeg",
+        prop: "3:4",
+        alto: "b",
+        pie: "Suite con vigas expuestas y vistas interiores al patio."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/21.jpeg",
+        prop: "2:3",
+        alto: "a",
+        pie: "Acceso privado y balcón en suite de planta alta."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/13.jpeg",
+        prop: "3:4",
+        alto: "c",
+        pie: "Ambiente de hospitalidad y coctelería en la terraza."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/7.jpeg",
+        prop: "2:3",
+        alto: "b",
+        pie: "Solárium y área lounge en terraza con horizonte abierto."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/9.jpeg",
+        prop: "3:4",
+        alto: "a",
+        pie: "Vista exterior hacia la cúpula del Templo de las Monjas."
+      }
+    ]
+  }
+];
