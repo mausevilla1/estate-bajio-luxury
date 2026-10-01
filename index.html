@@ -111,25 +111,82 @@
        ========================================================================== -->
   <section class="portada-enclave" id="enclave">
     <div class="portada-enclave-interior">
-      <div class="portada-enclave-grid">
-        <div class="portada-enclave-col-narrativa">
-          <span class="portada-enclave-tag">El enclave</span>
-          <h2 class="portada-enclave-titulo">Club de Golf Malanquín</h2>
-          <p class="portada-enclave-parrafo">
-            Ubicado en el acceso sur de San Miguel de Allende, el Club de Golf Malanquín combina privacidad absoluta, campo de golf profesional de 18 hoyos y vistas despejadas a la cordillera de Los Picachos. Un micro-mercado residencial distinguido por su tranquilidad, seguridad integral y arquitectura de autor en coexistencia con el paisaje del Bajío.
-          </p>
+      <div class="portada-enclave-encabezado">
+        <span class="portada-enclave-tag">El enclave</span>
+        <h2 class="portada-enclave-titulo">Club de Golf Malanquín</h2>
+        <p class="portada-enclave-parrafo">
+          Ubicado en el acceso sur de San Miguel de Allende, el Club de Golf Malanquín combina privacidad absoluta, campo de golf profesional de 18 hoyos y vistas despejadas a la cordillera de Los Picachos. Un micro-mercado residencial distinguido por su tranquilidad, seguridad integral y arquitectura de autor en coexistencia con el paisaje del Bajío.
+        </p>
+      </div>
+
+      <div class="enclave-mosaico">
+        <!-- 01 Casa club -->
+        <div class="enclave-mosaico-item enclave-mosaico-club">
+          <img src="assets/enclave/casa-club.webp" alt="Casa club" loading="lazy">
+          <div class="enclave-mosaico-rotulo">
+            <span class="enclave-mosaico-num">01</span>
+            <span class="enclave-mosaico-txt">Casa club</span>
+          </div>
         </div>
 
-        <div class="portada-enclave-col-ficha">
-          <video class="portada-enclave-video"
+        <!-- 02 Recorrido aéreo (Video) -->
+        <div class="enclave-mosaico-item enclave-mosaico-video-wrap">
+          <video class="enclave-mosaico-video"
                  autoplay muted loop playsinline preload="metadata"
                  poster="assets/enclave/club-malanquin-poster.webp"
                  aria-hidden="true">
             <source src="assets/enclave/club-malanquin.mp4" type="video/mp4">
           </video>
-          <img class="portada-enclave-video-fija"
+          <img class="enclave-mosaico-video-fija"
                src="assets/enclave/club-malanquin-poster.webp"
-               alt="Vista aérea del Club de Golf Malanquín">
+               alt="Recorrido aéreo del Club de Golf Malanquín">
+          <div class="enclave-mosaico-rotulo">
+            <span class="enclave-mosaico-num">02</span>
+            <span class="enclave-mosaico-txt">Recorrido aéreo</span>
+          </div>
+        </div>
+
+        <!-- 03 El campo -->
+        <div class="enclave-mosaico-item enclave-mosaico-aerea">
+          <img src="assets/enclave/aerea-campo.webp" alt="El campo" loading="lazy">
+          <div class="enclave-mosaico-rotulo">
+            <span class="enclave-mosaico-num">03</span>
+            <span class="enclave-mosaico-txt">El campo</span>
+          </div>
+        </div>
+
+        <!-- 04 Hoyos y lagos -->
+        <div class="enclave-mosaico-item enclave-mosaico-hoyos">
+          <img src="assets/enclave/aerea-hoyos.webp" alt="Hoyos y lagos" loading="lazy">
+          <div class="enclave-mosaico-rotulo">
+            <span class="enclave-mosaico-num">04</span>
+            <span class="enclave-mosaico-txt">Hoyos y lagos</span>
+          </div>
+        </div>
+
+        <!-- 05 Canchas -->
+        <div class="enclave-mosaico-item enclave-mosaico-tenis">
+          <img src="assets/enclave/tenis.webp" alt="Canchas" loading="lazy">
+          <div class="enclave-mosaico-rotulo">
+            <span class="enclave-mosaico-num">05</span>
+            <span class="enclave-mosaico-txt">Canchas</span>
+          </div>
+        </div>
+
+        <!-- 06 18 hoyos (Vacía) -->
+        <div class="enclave-mosaico-item enclave-mosaico-vacia enclave-mosaico-vacia1">
+          <div class="enclave-mosaico-rotulo-vacia">
+            <span class="enclave-mosaico-num">06</span>
+            <span class="enclave-mosaico-txt">18 hoyos</span>
+          </div>
+        </div>
+
+        <!-- 07 Vista a Los Picachos (Vacía) -->
+        <div class="enclave-mosaico-item enclave-mosaico-vacia enclave-mosaico-vacia2">
+          <div class="enclave-mosaico-rotulo-vacia">
+            <span class="enclave-mosaico-num">07</span>
+            <span class="enclave-mosaico-txt">Vista a Los Picachos</span>
+          </div>
         </div>
       </div>
     </div>
