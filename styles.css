@@ -3391,25 +3391,9 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   margin: 0 auto;
 }
 
-/* Hueco previsto para fotografía en alta resolución */
-.portada-enclave-foto {
-  display: none;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  margin-bottom: var(--space-block);
-}
-
-.portada-enclave-foto img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
 .portada-enclave-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 380px;
   gap: var(--space-block);
   align-items: start;
 }
@@ -3440,38 +3424,31 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   max-width: 520px;
 }
 
-.portada-enclave-datos {
-  margin: 0;
-  padding: 0;
+.portada-enclave-video {
+  width: 380px;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+  display: block;
+  background: var(--gold-subtle);
 }
 
-.portada-enclave-fila {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--space-close);
-  padding: calc(var(--space-close) * 1.2) 0;
-  border-bottom: 1px solid var(--border-subtle);
+.portada-enclave-video-fija {
+  display: none;
 }
 
-.portada-enclave-fila:first-child {
-  border-top: 1px solid var(--border-subtle);
+@media (prefers-reduced-motion: reduce) {
+  .portada-enclave-video {
+    display: none;
+  }
+
+  .portada-enclave-video-fija {
+    display: block;
+    width: 380px;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+  }
 }
 
-.portada-enclave-etiqueta {
-  font-size: 16px;
-  font-weight: 500;
-  color: #222222;
-  margin: 0;
-}
-
-.portada-enclave-valor {
-  font-size: 16px;
-  font-weight: 400;
-  color: #AAAAAA;
-  text-align: right;
-  margin: 0;
-}
 
 
 @media (max-width: 1023px) {
@@ -3484,14 +3461,10 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
     gap: var(--space-block);
   }
 
-  .portada-enclave-fila {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
-
-  .portada-enclave-valor {
-    text-align: left;
+  .portada-enclave-video,
+  .portada-enclave-video-fija {
+    width: 300px;
+    margin-inline: auto;
   }
   .portada-hero {
     --hero-media-h: 70svh;

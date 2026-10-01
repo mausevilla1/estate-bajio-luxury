@@ -111,11 +111,6 @@
        ========================================================================== -->
   <section class="portada-enclave" id="enclave">
     <div class="portada-enclave-interior">
-      <!-- Hueco previsto para fotografía en alta resolución:
-      <div class="portada-enclave-foto">
-        <img src="..." alt="Club de Golf Malanquín" loading="lazy">
-      </div>
-      -->
       <div class="portada-enclave-grid">
         <div class="portada-enclave-col-narrativa">
           <span class="portada-enclave-tag">El enclave</span>
@@ -126,28 +121,15 @@
         </div>
 
         <div class="portada-enclave-col-ficha">
-          <dl class="portada-enclave-datos">
-            <div class="portada-enclave-fila">
-              <dt class="portada-enclave-etiqueta">Ubicación</dt>
-              <dd class="portada-enclave-valor">Club de Golf Malanquín, San Miguel de Allende</dd>
-            </div>
-            <div class="portada-enclave-fila">
-              <dt class="portada-enclave-etiqueta">Residencias</dt>
-              <dd class="portada-enclave-valor">3 disponibles</dd>
-            </div>
-            <div class="portada-enclave-fila">
-              <dt class="portada-enclave-etiqueta">Rango</dt>
-              <dd class="portada-enclave-valor">$14.5 M – $24.4 M MXN</dd>
-            </div>
-            <div class="portada-enclave-fila">
-              <dt class="portada-enclave-etiqueta">Vista</dt>
-              <dd class="portada-enclave-valor">Los Picachos</dd>
-            </div>
-            <div class="portada-enclave-fila">
-              <dt class="portada-enclave-etiqueta">Acceso</dt>
-              <dd class="portada-enclave-valor">Campo de golf</dd>
-            </div>
-          </dl>
+          <video class="portada-enclave-video"
+                 autoplay muted loop playsinline preload="metadata"
+                 poster="assets/enclave/club-malanquin-poster.webp"
+                 aria-hidden="true">
+            <source src="assets/enclave/club-malanquin.mp4" type="video/mp4">
+          </video>
+          <img class="portada-enclave-video-fija"
+               src="assets/enclave/club-malanquin-poster.webp"
+               alt="Vista aérea del Club de Golf Malanquín">
         </div>
       </div>
     </div>
