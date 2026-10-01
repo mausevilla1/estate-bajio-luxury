@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- SEO Primary Meta Tags -->
-  <title>The Private Collection | Catálogo Maestro de Residencias High-Ticket en El Bajío</title>
-  <meta name="title" content="The Private Collection | Catálogo Maestro de Residencias High-Ticket en El Bajío">
+  <title>Catálogo de Residencias · Club de Golf Malanquín · San Miguel de Allende | PRAETORA</title>
+  <meta name="title" content="Catálogo de Residencias · Club de Golf Malanquín · San Miguel de Allende | PRAETORA">
   <meta name="description" content="Catálogo de residencias de autor en San Miguel de Allende: Club de Golf Malanquín. Arquitectura contemporánea y alta plusvalía patrimonial.">
   <meta name="keywords" content="casas en venta san miguel de allende, casas club de golf malanquin, residencias de lujo san miguel de allende, propiedades club de golf, praetora inmobiliaria">
   <meta name="robots" content="index, follow">
@@ -15,8 +15,8 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://luxuryestatebajio.com/catalogo.html">
-  <meta property="og:title" content="The Private Collection | PRAETORA">
-  <meta property="og:description" content="Colección curada de residencias de ultra-lujo en el Bajío mexicano.">
+  <meta property="og:title" content="Catálogo de Residencias · Club de Golf Malanquín | PRAETORA">
+  <meta property="og:description" content="Colección de residencias de autor en Club de Golf Malanquín, San Miguel de Allende. Arquitectura contemporánea y acabados de autor.">
   <meta property="og:image" content="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1600&q=85">
 
   <!-- Schema.org JSON-LD Structured Data for Collection Page -->
@@ -47,206 +47,73 @@
   <!-- Dynamic Ambient Lighting Canvas -->
   <canvas id="ambient-canvas"></canvas>
 
-  <!-- Main 2-Column Catalog Layout (spacelab.co.uk inspired) -->
-  <main class="catalog-layout container">
-
-
-    <!-- Left Sticky Column (Text over white, no rail, no border, no background) -->
-    <aside class="catalog-left-col">
-      <!-- a) Logo PRAETORA / Grupo Inmobiliario -->
+  <!-- Site Header (Navegación horizontal estandarizada) -->
+  <header class="site-header">
+    <div class="container nav-container">
       <a href="index.html" class="brand-logo">
         <span class="logo-title">PRAETORA</span>
         <span class="logo-subtitle">Grupo Inmobiliario</span>
       </a>
 
-      <!-- b) Espacio grande: 96px -->
-      <div class="col-spacer-96"></div>
-
-      <!-- c) Navegación del sitio, en lista vertical, una por renglón. 16px -->
-      <nav class="catalog-nav">
+      <nav>
         <ul class="nav-links">
-          <li><a href="index.html" class="nav-link">Inicio</a></li>
           <li><a href="catalogo.html" class="nav-link active">Catálogo Completo</a></li>
           <li><a href="index.html#desarrolladores" class="nav-link">Desarrolladores</a></li>
           <li><a href="index.html#consignacion" class="nav-link">Consignación VIP</a></li>
         </ul>
       </nav>
 
-      <!-- d) Una línea: border-top 1px solid var(--border-subtle), 32px margen arriba y abajo -->
-      <div class="col-divider-32"></div>
+      <a href="index.html#consignacion" class="btn-gold">
+        Acceso Private Vault
+      </a>
+    </div>
+  </header>
 
-
-      <!-- e) Los CUATRO filtros en acordeón colapsable -->
-      <div class="catalog-filters-accordion">
-        <!-- 1. Zona -->
-        <div class="filter-accordion-group" data-filter-group="zona">
-          <button type="button" class="filter-accordion-btn" aria-expanded="false" aria-controls="filter-panel-zona">
-            <span class="filter-acc-label">Zona</span>
-            <span class="filter-acc-val" id="filter-val-zona">Todas</span>
-          </button>
-          <div class="filter-accordion-panel" id="filter-panel-zona">
-            <div class="filter-pills-group">
-              <button class="filter-pill active" data-filter="all">Todas las obras</button>
-              <button class="filter-pill" data-filter="San Miguel de Allende">San Miguel de Allende</button>
-            </div>
-          </div>
+  <!-- Contenido Principal del Catálogo -->
+  <main class="catalogo-principal">
+    <!-- Frase editorial y línea de contexto -->
+    <div class="catalogo-cabecera">
+      <div class="catalogo-cabecera-interior">
+        <div class="catalog-hero-box">
+          <h1 class="catalog-hero-statement">Hogares de autor para quienes entienden que dónde vives define cómo vives.</h1>
         </div>
-
-        <!-- 2. Moneda -->
-        <div class="filter-accordion-group" data-filter-group="moneda">
-          <button type="button" class="filter-accordion-btn" aria-expanded="false" aria-controls="filter-panel-moneda">
-            <span class="filter-acc-label">Moneda</span>
-            <span class="filter-acc-val" id="filter-val-moneda">MXN</span>
-          </button>
-          <div class="filter-accordion-panel" id="filter-panel-moneda">
-            <div class="currency-toggle-group">
-              <button class="currency-btn active" data-currency="MXN">MXN ($)</button>
-              <button class="currency-btn" data-currency="USD">USD ($)</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- 3. Amenidades -->
-        <div class="filter-accordion-group" data-filter-group="amenidades">
-          <button type="button" class="filter-accordion-btn" aria-expanded="false" aria-controls="filter-panel-amenidades">
-            <span class="filter-acc-label">Amenidades</span>
-            <span class="filter-acc-val" id="filter-val-amenidades">Todas</span>
-          </button>
-          <div class="filter-accordion-panel" id="filter-panel-amenidades">
-            <div class="amenity-filters-wrap">
-              <button class="amenity-tag" data-amenity="garden">Jardín</button>
-              <button class="amenity-tag" data-amenity="pool">Alberca</button>
-              <button class="amenity-tag" data-amenity="golf">Campo de golf</button>
-              <button class="amenity-tag" data-amenity="spa">Spa</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- 4. Tipología -->
-        <div class="filter-accordion-group" data-filter-group="tipologia">
-          <button type="button" class="filter-accordion-btn" aria-expanded="false" aria-controls="filter-panel-tipologia">
-            <span class="filter-acc-label">Tipología</span>
-            <span class="filter-acc-val" id="filter-val-tipologia">Todas</span>
-          </button>
-          <div class="filter-accordion-panel" id="filter-panel-tipologia">
-            <div class="filter-pills-group" id="filter-pills-tipologia">
-              <!-- Generado dinámicamente desde data.js por app.js -->
-            </div>
-          </div>
-        </div>
-
-        <!-- 5. Orden -->
-        <div class="filter-accordion-group" data-filter-group="orden">
-          <button type="button" class="filter-accordion-btn" aria-expanded="false" aria-controls="filter-panel-orden">
-            <span class="filter-acc-label">Orden</span>
-            <span class="filter-acc-val" id="filter-val-orden">Mayor $</span>
-          </button>
-          <div class="filter-accordion-panel" id="filter-panel-orden">
-            <div class="sort-select-wrap">
-              <select id="catalog-sort-select">
-                <option value="price-desc" selected>Mayor Valor de Inversión</option>
-                <option value="price-asc">Menor Valor de Inversión</option>
-                <option value="m2-desc">Mayor Superficie Construida (m²)</option>
-              </select>
-            </div>
-          </div>
+        <div class="catalog-context-line">
+          Tres residencias en Club de Golf Malanquín, San Miguel de Allende.
         </div>
       </div>
+    </div>
 
-      <!-- f) El comparador: al fondo, discreto, reutiliza #comparison-dock -->
-      <div id="comparison-dock" class="comparison-floating-dock">
-        <div style="display: flex; align-items: center; gap: 1rem;">
-          <div id="dock-bubbles" class="dock-item-bubbles"></div>
-          <span id="dock-count" style="font-size: 0.85rem; font-family: var(--font-mono); font-weight: 600;">0 obras seleccionadas</span>
+    <!-- Bloques editoriales de residencias (app.js inyecta Córdoba, Granada y Olivos) -->
+    <div id="catalogo-casas-grid" class="catalogo-casas-grid">
+      <!-- Generado dinámicamente por app.js con renderPropiedadBloque -->
+    </div>
+
+    <!-- Franja editorial: Activo de Inversión (Casa Julieta) -->
+    <aside class="catalog-inversion-strip">
+      <div class="catalog-inversion-interior">
+        <div class="catalog-inversion-thumb">
+          <img src="assets/propiedades/hotel/fotos/1.jpeg" alt="Casa Julieta — Hotel Boutique y Renta Comercial" loading="lazy">
         </div>
-        <div style="display: flex; gap: 0.6rem; align-items: center;">
-          <button class="btn-gold" style="padding: 0.5rem 1.2rem; font-size: 0.75rem;" onclick="openComparisonModal()">
-            Ver Tabla Comparativa
-          </button>
-          <button onclick="clearComparison()" style="background: none; border: none; color: var(--text-light); font-size: 0.75rem; cursor: pointer; text-decoration: underline;">
-            Limpiar
-          </button>
+        <div class="catalog-inversion-body">
+          <span class="catalog-inversion-tag">Activo de inversión · Centro Histórico</span>
+          <h3 class="catalog-inversion-titulo">Casa Julieta</h3>
+          <p class="catalog-inversion-desc">
+            Casona del siglo XIX con 6 suites boutique y local comercial en planta baja arrendado a Birkenstock ($95,000 / mes). Terraza panorámica con vistas a la Parroquia.
+          </p>
+          <div class="catalog-inversion-metricas">
+            <span><strong>530 m²</strong> constr.</span>
+            <span><strong>295 m²</strong> terr.</span>
+            <span><strong>6</strong> suites</span>
+            <span><strong>Birkenstock</strong> PB</span>
+            <span><strong>Por confirmar</strong></span>
+          </div>
+          <div class="catalog-inversion-acciones">
+            <a href="propiedad.html?id=casa-julieta" class="btn-gold" style="font-size: 0.8rem; padding: 0.5rem 1.2rem;">Solicitar expediente</a>
+          </div>
         </div>
       </div>
     </aside>
-
-    <!-- Right Column (Hero desc left-aligned, live search, 2-column grid) -->
-    <section class="catalog-right-col">
-      <!-- Dedicated Catalog Header: Hero de una sola frase -->
-      <div class="catalog-hero-box">
-        <h1 class="catalog-hero-statement">Hogares de autor para quienes entienden que dónde vives define cómo vives.</h1>
-      </div>
-
-      <!-- Results Stats Bar & View Switcher -->
-      <div class="catalog-stats-bar">
-        <div class="results-count">Mostrando <span id="catalog-count">3</span> obras disponibles</div>
-        <div class="view-mode-group">
-          <button class="view-btn active" data-view="grid" title="Vista Cuadrícula 3D">
-            <span>▦</span> Grid 3D
-          </button>
-          <button class="view-btn" data-view="lookbook" title="Vista Lookbook Editorial">
-            <span>☰</span> Lookbook
-          </button>
-        </div>
-      </div>
-
-      <!-- Línea de contexto sobre el grid -->
-      <div class="catalog-context-line" style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem;">
-        Tres residencias en Club de Golf Malanquín, San Miguel de Allende.
-      </div>
-
-      <!-- 3D Grid View Container -->
-      <div id="properties-container" class="properties-grid">
-        <!-- Injected dynamically via app.js -->
-      </div>
-
-      <!-- Lookbook Editorial View Container (Hidden by default) -->
-      <div id="lookbook-container" class="lookbook-container" style="display: none;">
-        <!-- Injected dynamically via app.js -->
-      </div>
-
-      <!-- Franja editorial: Activo de Inversión (Casa Julieta) -->
-      <aside class="catalog-inversion-strip">
-        <div class="catalog-inversion-interior">
-          <div class="catalog-inversion-thumb">
-            <img src="assets/propiedades/hotel/fotos/1.jpeg" alt="Casa Julieta — Hotel Boutique y Renta Comercial" loading="lazy">
-          </div>
-          <div class="catalog-inversion-body">
-            <span class="catalog-inversion-tag">Activo de inversión · Centro Histórico</span>
-            <h3 class="catalog-inversion-titulo">Casa Julieta</h3>
-            <p class="catalog-inversion-desc">
-              Casona del siglo XIX con 6 suites boutique y local comercial en planta baja arrendado a Birkenstock ($95,000 / mes). Terraza panorámica con vistas a la Parroquia.
-            </p>
-            <div class="catalog-inversion-metricas">
-              <span><strong>530 m²</strong> constr.</span>
-              <span><strong>295 m²</strong> terr.</span>
-              <span><strong>6</strong> suites</span>
-              <span><strong>Birkenstock</strong> PB</span>
-              <span><strong>Por confirmar</strong></span>
-            </div>
-            <div class="catalog-inversion-acciones">
-              <a href="propiedad.html?id=casa-julieta" class="btn-gold" style="font-size: 0.8rem; padding: 0.5rem 1.2rem;">Solicitar expediente</a>
-            </div>
-          </div>
-        </div>
-      </aside>
-    </section>
-
   </main>
-
-  <!-- Comparison Modal (Side-by-Side Table) -->
-  <div id="comparison-modal" class="modal-overlay">
-    <div class="property-modal-content" style="max-width: 1150px;">
-      <button class="modal-close-btn" onclick="closeComparisonModal()">✕</button>
-      <div style="padding: 2rem 2.5rem 0.5rem 2.5rem; border-bottom: 1px solid var(--border-subtle);">
-        <span class="section-tag">Análisis Comparativo</span>
-        <h2 style="font-family: var(--font-serif); font-size: 2rem;">Contraste de Obras Patrimoniales</h2>
-      </div>
-      <div id="comparison-modal-body">
-        <!-- Rendered by app.js -->
-      </div>
-    </div>
-  </div>
 
   <!-- Property Detail Modal -->
   <div id="property-modal" class="modal-overlay">

@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initDedicatedCatalogPage();
   pintarPropiedadDestacada();
   pintarVitrina();
+  pintarCatalogoBloques();
 });
 
 /* --------------------------------------------------------------------------
@@ -118,6 +119,7 @@ function renderCatalog(filter = 'all') {
   renderMasterCatalog();
 }
 
+// Huérfano desde la reconstrucción del catálogo. Limpiar en su propio PR.
 function renderMasterCatalog() {
   const gridContainer = document.getElementById('properties-container');
   const lookbookContainer = document.getElementById('lookbook-container');
@@ -302,6 +304,7 @@ function attachCardTiltEffect() {
   });
 }
 
+// Huérfano desde la reconstrucción del catálogo. Limpiar en su propio PR.
 function initCatalogFilters() {
   const filterBtns = document.querySelectorAll('.filter-btn, .filter-pill');
   filterBtns.forEach(btn => {
@@ -384,6 +387,7 @@ function buildDynamicFilters() {
 /* --------------------------------------------------------------------------
    4. Dedicated Catalog Page Handlers (catalogo.html)
    -------------------------------------------------------------------------- */
+// Huérfano desde la reconstrucción del catálogo. Limpiar en su propio PR.
 function initDedicatedCatalogPage() {
   buildDynamicFilters();
 
@@ -454,6 +458,7 @@ function initDedicatedCatalogPage() {
 /* --------------------------------------------------------------------------
    5. Comparison Dock & Modal (Side-by-Side)
    -------------------------------------------------------------------------- */
+// Huérfano desde la reconstrucción del catálogo. Limpiar en su propio PR.
 window.toggleCompare = function(id) {
   if (comparedProperties.includes(id)) {
     comparedProperties = comparedProperties.filter(pId => pId !== id);
@@ -468,6 +473,7 @@ window.toggleCompare = function(id) {
   renderMasterCatalog();
 };
 
+// Huérfano desde la reconstrucción del catálogo. Limpiar en su propio PR.
 function updateComparisonDock() {
   const dock = document.getElementById('comparison-dock');
   const bubblesWrap = document.getElementById('dock-bubbles');
@@ -488,6 +494,7 @@ function updateComparisonDock() {
   }
 }
 
+// Huérfano desde la reconstrucción del catálogo. Limpiar en su propio PR.
 window.openComparisonModal = function() {
   if (comparedProperties.length === 0) return;
 
@@ -537,11 +544,13 @@ window.openComparisonModal = function() {
   modal.classList.add('open');
 };
 
+// Huérfano desde la reconstrucción del catálogo. Limpiar en su propio PR.
 window.closeComparisonModal = function() {
   const modal = document.getElementById('comparison-modal');
   if (modal) modal.classList.remove('open');
 };
 
+// Huérfano desde la reconstrucción del catálogo. Limpiar en su propio PR.
 window.clearComparison = function() {
   comparedProperties = [];
   updateComparisonDock();
@@ -959,6 +968,7 @@ function praetoraRevelarNuevos(contenedor) {
    5. ACORDEÓN DE FILTROS COLAPSABLE (spacelab.co.uk editorial layout)
    ========================================================================== */
 (function() {
+  // Huérfano desde la reconstrucción del catálogo. Limpiar en su propio PR.
   function initCatalogFilterAccordion() {
     const accordionGroups = document.querySelectorAll('.filter-accordion-group');
     if (!accordionGroups.length) return;
@@ -1593,5 +1603,25 @@ function pintarPropiedadDestacada() {
       break;
     }
   }
+}
+
+/* ==========================================================================
+   CATÁLOGO — RECORRIDO DE PROPIEDADES POR BLOQUES (catalogo.html)
+   --------------------------------------------------------------------------
+   Dibuja cada residencia de LUXURY_PROPERTIES ordenada por priceMXN descendente
+   usando el bloque editorial generalizado renderPropiedadBloque().
+   ========================================================================== */
+function pintarCatalogoBloques() {
+  var contenedor = document.getElementById('catalogo-casas-grid');
+  if (!contenedor) return;
+  if (typeof LUXURY_PROPERTIES === 'undefined' || !Array.isArray(LUXURY_PROPERTIES)) return;
+
+  var propiedades = LUXURY_PROPERTIES.slice().sort(function (a, b) {
+    var pA = a.priceMXN != null ? a.priceMXN : -Infinity;
+    var pB = b.priceMXN != null ? b.priceMXN : -Infinity;
+    return pB - pA;
+  });
+
+  contenedor.innerHTML = propiedades.map(renderPropiedadBloque).join('');
 }
 

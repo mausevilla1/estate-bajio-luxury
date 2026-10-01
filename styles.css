@@ -2145,10 +2145,6 @@ body {
   margin-left: 0 !important;
 }
 
-.catalog-page .site-header {
-  display: none !important;
-}
-
 .catalog-layout {
   position: relative;
   padding-top: 48px;
@@ -3040,7 +3036,8 @@ body.ficha-page {
    La columna vertical sigue viva en las demás páginas. */
 body.home { margin-left: 0; }
 
-body.home .site-header {
+body.home .site-header,
+body.catalog-page .site-header {
   position: static;
   width: 100%;
   height: auto;
@@ -3051,7 +3048,8 @@ body.home .site-header {
   background: var(--bg-primary);
 }
 
-body.home .site-header .nav-container {
+body.home .site-header .nav-container,
+body.catalog-page .site-header .nav-container {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -3059,9 +3057,11 @@ body.home .site-header .nav-container {
   padding: 0 var(--gutter);
 }
 
-body.home .site-header nav { width: auto; margin-bottom: 0; }
+body.home .site-header nav,
+body.catalog-page .site-header nav { width: auto; margin-bottom: 0; }
 
-body.home .site-header .nav-links {
+body.home .site-header .nav-links,
+body.catalog-page .site-header .nav-links {
   display: flex;
   flex-direction: row;
   gap: var(--space-block);
@@ -3071,12 +3071,50 @@ body.home .site-header .nav-links {
 
 /* En barra horizontal los enlaces se partían en dos renglones
    ("CATÁLOGO / COMPLETO"). Cada uno va en una sola línea. */
-body.home .site-header .nav-link { white-space: nowrap; }
+body.home .site-header .nav-link,
+body.catalog-page .site-header .nav-link { white-space: nowrap; }
 
-body.home .site-header .btn-gold { margin-top: 0; width: auto; }
+body.home .site-header .btn-gold,
+body.catalog-page .site-header .btn-gold { margin-top: 0; width: auto; }
 
-/* Con el encabezado fuera del flujo fijo, .scrolled ya no aplica en la portada. */
-body.home .site-header.scrolled { box-shadow: none; }
+/* Con el encabezado fuera del flujo fijo, .scrolled ya no aplica en la portada ni catálogo. */
+body.home .site-header.scrolled,
+body.catalog-page .site-header.scrolled { box-shadow: none; }
+
+/* ==========================================================================
+   CATÁLOGO - CABECERA EDITORIAL & FRANJA DE INVERSIÓN
+   ========================================================================== */
+.catalogo-cabecera {
+  padding: var(--space-section) var(--gutter) var(--space-block);
+  background: var(--bg-primary);
+}
+
+.catalogo-cabecera-interior {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.catalogo-cabecera .catalog-hero-box {
+  margin-bottom: var(--space-close);
+}
+
+.catalogo-cabecera .catalog-context-line {
+  font-size: var(--t-small);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.catalog-page .catalog-inversion-strip {
+  margin-top: 0;
+  padding: var(--space-section) var(--gutter);
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-primary);
+}
+
+.catalog-page .catalog-inversion-interior {
+  max-width: 1440px;
+  margin: 0 auto;
+}
 
 @media (max-width: 1023px) {
   /* La foto completa, sin recorte: el letrero quemado no se puede partir. */
@@ -3100,8 +3138,18 @@ body.home .site-header.scrolled { box-shadow: none; }
   .hero-cta:hover,
   .hero-cta:focus-visible { background: var(--text-main); color: var(--text-inverse); }
 
-  body.home .site-header .nav-container { flex-wrap: wrap; gap: var(--space-close); }
-  body.home .site-header .nav-links { flex-wrap: wrap; gap: var(--space-close) 24px; }
+  body.home .site-header .nav-container,
+  body.catalog-page .site-header .nav-container { flex-wrap: wrap; gap: var(--space-close); }
+  body.home .site-header .nav-links,
+  body.catalog-page .site-header .nav-links { flex-wrap: wrap; gap: var(--space-close) 24px; }
+
+  .catalogo-cabecera {
+    padding: var(--space-block) var(--gutter) var(--space-close);
+  }
+
+  .catalog-page .catalog-inversion-strip {
+    padding: var(--space-block) var(--gutter);
+  }
 }
 
 /* --- Concierge IA: sólo el círculo ---------------------------------------
