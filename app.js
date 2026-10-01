@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSellerWizard();
   initAIConcierge();
   initDedicatedCatalogPage();
+  pintarPropiedadDestacada();
 });
 
 /* --------------------------------------------------------------------------
@@ -1526,6 +1527,7 @@ function praetoraRevelarNuevos(contenedor) {
   function iniciar() {
     if (!document.querySelector('.portada-hero')) return;   // no es index.html
     pintarCasas();
+    pintarPropiedadDestacada();
   }
 
   if (document.readyState === 'loading') {
@@ -1534,3 +1536,109 @@ function praetoraRevelarNuevos(contenedor) {
     iniciar();
   }
 })();
+
+/* ==========================================================================
+   PORTADA — PROPIEDAD DESTACADA (index.html)
+   --------------------------------------------------------------------------
+   Dibuja dinámicamente la propiedad con destacada === true desde LUXURY_PROPERTIES.
+   Si ninguna propiedad tiene la bandera activa, o el contenedor no existe,
+   la sección se oculta y no deja espacio en blanco ni desbordes.
+   ========================================================================== */
+function pintarPropiedadDestacada() {
+  var seccion = document.getElementById('destacada');
+  var contenedor = document.getElementById('portada-destacada-grid');
+  if (!seccion || !contenedor) return;
+
+  if (typeof LUXURY_PROPERTIES === 'undefined' || !Array.isArray(LUXURY_PROPERTIES)) {
+    seccion.style.display = 'none';
+    contenedor.innerHTML = '';
+    return;
+  }
+
+  var prop = null;
+  for (var i = 0; i < LUXURY_PROPERTIES.length; i++) {
+    if (LUXURY_PROPERTIES[i].destacada === true) {
+      prop = LUXURY_PROPERTIES[i];
+      break;
+    }
+  }
+
+  if (!prop) {
+    seccion.style.display = 'none';
+    contenedor.innerHTML = '';
+    return;
+  }
+
+  seccion.style.display = '';
+
+  function datoItem(rotulo, valor) {
+    if (valor === null || valor === undefined || valor === '') return '';
+    return '<div class="portada-destacada-dato">' +
+      '<div class="portada-destacada-numero">' + esc(valor) + '</div>' +
+      '<div class="portada-destacada-rotulo">' + esc(rotulo) + '</div>' +
+      '</div>';
+  }
+
+  function formatoM2(val) {
+    if (val === null || val === undefined || val === '') return null;
+    var num = Number(val);
+    if (isNaN(num)) return val + ' m²';
+    return (num >= 1000 ? num.toLocaleString('es-MX') : num) + ' m²';
+  }
+
+  var datosHtml = '';
+  datosHtml += datoItem('Recámaras', prop.bedrooms != null && prop.bedrooms !== '' ? String(prop.bedrooms) : null);
+  datosHtml += datoItem('Baños', prop.bathrooms != null && prop.bathrooms !== '' ? String(prop.bathrooms) : null);
+  datosHtml += datoItem('Construcción', formatoM2(prop.m2Construccion));
+  datosHtml += datoItem('Terreno', formatoM2(prop.m2Terreno));
+
+  var miniaturas = [];
+  if (Array.isArray(prop.gallery)) {
+    for (var j = 0; j < prop.gallery.length; j++) {
+      var foto = prop.gallery[j];
+      if (foto && foto !== prop.heroImage) {
+        miniaturas.push(foto);
+        if (miniaturas.length === 4) break;
+      }
+    }
+  }
+
+  var miniaturasHtml = '';
+  if (miniaturas.length > 0) {
+    miniaturasHtml = '<div class="portada-destacada-miniaturas">' +
+      miniaturas.map(function (m, idx) {
+        return '<a href="propiedad.html?id=' + esc(prop.id) + '" class="portada-destacada-miniatura" aria-label="Ver foto ' + (idx + 1) + ' de ' + esc(prop.title) + '">' +
+          '<img src="' + esc(m) + '" alt="' + esc(prop.title) + ' - Vista ' + (idx + 1) + '" loading="lazy">' +
+        '</a>';
+      }).join('') +
+    '</div>';
+  }
+
+  var pinSvg = '<svg class="portada-destacada-pin" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>';
+
+  var ubicacionTexto = (prop.subzone ? prop.subzone + ', ' : '') + (prop.zone || '');
+
+  var html = '' +
+    '<div class="portada-destacada-info">' +
+      '<span class="portada-destacada-tag">Propiedad destacada</span>' +
+      '<h2 class="portada-destacada-titulo">' + esc(prop.title) + '</h2>' +
+      '<div class="portada-destacada-ubicacion">' +
+        pinSvg +
+        '<span>' + esc(ubicacionTexto) + '</span>' +
+      '</div>' +
+      (prop.resumen ? '<p class="portada-destacada-parrafo">' + esc(prop.resumen) + '</p>' : '') +
+      (datosHtml ? '<div class="portada-destacada-datos">' + datosHtml + '</div>' : '') +
+      '<div class="portada-destacada-accion">' +
+        '<a href="propiedad.html?id=' + esc(prop.id) + '" class="portada-enlace">Ver propiedad</a>' +
+      '</div>' +
+    '</div>' +
+    '<div class="portada-destacada-visual">' +
+      '<a href="propiedad.html?id=' + esc(prop.id) + '" class="portada-destacada-foto-principal" aria-label="Ver ' + esc(prop.title) + '">' +
+        '<img src="' + esc(prop.heroImage) + '" alt="' + esc(prop.title) + '" loading="lazy">' +
+      '</a>' +
+      miniaturasHtml +
+    '</div>';
+
+  contenedor.innerHTML = html;
+}
+

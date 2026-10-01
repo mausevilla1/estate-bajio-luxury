@@ -35,6 +35,8 @@ const LUXURY_PROPERTIES = [
     bedrooms: 4,
     bathrooms: 5.5,
     garage: 2,
+    destacada: true,
+    resumen: "Residencia en Club de Golf Malanquín con vistas a Los Picachos y acceso al campo. Dos niveles con techos de madera estilo San Miguel, cantera y acabados de autor contemporáneos.",
     heroImage: "assets/propiedades/casa-cordoba/fotos/21.jpeg",
     gallery: [
       "assets/propiedades/casa-cordoba/fotos/21.jpeg",
