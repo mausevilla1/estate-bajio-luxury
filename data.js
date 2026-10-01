@@ -35,7 +35,8 @@ const LUXURY_PROPERTIES = [
     bedrooms: 4,
     bathrooms: 5.5,
     garage: 2,
-    destacada: true,
+    fotoTarjeta: "assets/propiedades/casa-cordoba/fotos/22.jpeg",
+    fotoTarjetaPos: "55% center",
     resumen: "Residencia en Club de Golf Malanquín con vistas a Los Picachos y acceso al campo. Dos niveles con techos de madera estilo San Miguel, cantera y acabados de autor contemporáneos.",
     heroImage: "assets/propiedades/casa-cordoba/fotos/21.jpeg",
     gallery: [
@@ -79,6 +80,8 @@ const LUXURY_PROPERTIES = [
     bedrooms: 4,
     bathrooms: 5.5,
     garage: 2,
+    fotoTarjeta: "assets/propiedades/casa-granada/fotos/30.jpeg",
+    resumen: "Residencia en Club de Golf Malanquín con vistas a Los Picachos. Dos niveles con techos altos de madera, cantera, jacuzzi privado, terraza con asador y jardín.",
     heroImage: "assets/propiedades/casa-granada/fotos/11.jpeg",
     gallery: [
       "assets/propiedades/casa-granada/fotos/11.jpeg",
@@ -121,6 +124,8 @@ const LUXURY_PROPERTIES = [
     bedrooms: 3,
     bathrooms: 3.5,
     garage: 2,
+    fotoTarjeta: "assets/propiedades/casa-olivos/fotos/01-fachada.jpg",
+    resumen: "Residencia en Club de Golf Malanquín con vistas a Los Picachos. Dos niveles con techos a doble altura de vigas, cantera, patio interior empedrado y cocina con isla.",
     heroImage: "assets/propiedades/casa-olivos/fotos/01-fachada.jpg",
     gallery: [
       "assets/propiedades/casa-olivos/fotos/01-fachada.jpg",

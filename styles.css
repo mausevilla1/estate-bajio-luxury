@@ -3219,71 +3219,63 @@ body.home .site-header.scrolled { box-shadow: none; }
   color: var(--text-inverse);
 }
 
-/* --- Marquesina del carrusel de casas -------------------------------------
-   Avanza sola hacia la derecha. Se duplica el contenido y la pista corre un
-   -50%: al terminar, la segunda copia queda donde arrancó la primera y el
-   ciclo no se nota. Se detiene con el mouse encima — sin eso, la casa que
-   interesa se va antes de poder alcanzarla.
-   -------------------------------------------------------------------------- */
-@keyframes portada-correr {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-.portada-casas-pista {
-  display: flex;
-  width: max-content;
-  gap: var(--space-close);
-  animation: portada-correr 150s linear infinite;
-  will-change: transform;
-}
-
-.portada-casas-marco:hover .portada-casas-pista,
-.portada-casas-marco:focus-within .portada-casas-pista {
-  animation-play-state: paused;
-}
-
-/* --- Carrusel de casas --------------------------------------------------- */
-.portada-casas {
-  padding: var(--space-footer) 0 var(--space-section);
+/* ==========================================================================
+   PORTADA - VITRINA DE PROPIEDADES DESTACADAS
+   3 tarjetas verticales (4:5) ordenadas por priceMXN descendente.
+   ========================================================================== */
+.portada-vitrina {
+  padding: var(--space-section) var(--gutter);
   background: var(--bg-primary);
 }
 
-.portada-casas-cabeza {
-  padding: 0 var(--gutter);
+.portada-vitrina-interior {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.portada-vitrina-cabecera {
+  text-align: center;
   margin-bottom: var(--space-block);
 }
 
-.portada-titulo {
+.portada-vitrina-titulo {
   font-size: var(--t-1);
-  line-height: 1.2;
   font-weight: 500;
   color: var(--text-main);
+  letter-spacing: normal;
   margin: 0;
 }
 
-.portada-casas-marco {
-  overflow: hidden;
-  padding-left: var(--gutter);
+.portada-vitrina-subtitulo {
+  display: block;
+  font-size: var(--t-label);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-light);
+  margin-top: var(--space-close);
 }
 
-.portada-casa {
-  flex: 0 0 auto;
-  width: clamp(320px, 34vw, 480px);
+.portada-vitrina-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-block);
+}
+
+.portada-vitrina-tarjeta {
+  display: block;
   text-decoration: none;
   color: inherit;
-  display: block;
 }
 
-.portada-casa-foto {
+.portada-vitrina-foto {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
-  background: var(--gold-subtle);
-  margin-bottom: var(--space-close);
+  border-radius: 0;
+  box-shadow: none;
 }
 
-.portada-casa-foto img {
+.portada-vitrina-foto img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -3291,38 +3283,34 @@ body.home .site-header.scrolled { box-shadow: none; }
   transition: transform 0.5s ease;
 }
 
-.portada-casa:hover .portada-casa-foto img,
-.portada-casa:focus-visible .portada-casa-foto img { transform: scale(1.03); }
-
-.portada-casa-linea {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
+.portada-vitrina-tarjeta:hover .portada-vitrina-foto img,
+.portada-vitrina-tarjeta:focus-visible .portada-vitrina-foto img {
+  transform: scale(1.03);
 }
 
-.portada-casa-zona {
-  display: block;
-  font-size: var(--t-label);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-light);
-}
-
-.portada-casa-nombre {
-  font-size: var(--t-5);
-  line-height: 1.4;
+.portada-vitrina-nombre {
+  font-size: var(--t-4);
   font-weight: 500;
   color: var(--text-main);
-  margin: 0 0 4px 0;
+  margin: var(--space-close) 0 0 0;
 }
 
-/* --- CTA: sin caja ------------------------------------------------------- */
-/* Antes era un rectángulo con borde de 1px. Ahora es texto con una línea
-   debajo, que es lo único que queda cuando se le quita todo lo prescindible. */
-.portada-casas-pie {
+.portada-vitrina-ubicacion {
+  font-size: var(--t-small);
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+.portada-vitrina-precio {
+  font-size: var(--t-small);
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.portada-vitrina-pie {
   display: flex;
   justify-content: center;
-  padding: var(--space-block) var(--gutter) 0;
+  margin-top: var(--space-block);
 }
 
 .portada-enlace {
@@ -3468,26 +3456,19 @@ body.home .site-header.scrolled { box-shadow: none; }
     font-size: var(--t-3);
   }
 
-  .portada-casas { padding: var(--space-section) 0 var(--space-block); }
-  .portada-titulo { font-size: var(--t-2); }
-
-  /* En un teléfono no hay mouse que detenga la marquesina: una tira de
-     enlaces corriendo sola es imposible de tocar. Aquí se desplaza a dedo. */
-  .portada-casas-marco {
-    overflow-x: auto;
-    padding-left: 0;
-    scroll-snap-type: x proximity;
-    scroll-padding-left: var(--gutter);
-    overscroll-behavior-x: contain;
+  .portada-vitrina {
+    padding: var(--space-block) var(--gutter);
   }
 
-  .portada-casas-pista {
-    animation: none;
-    width: auto;
-    padding: 0 var(--gutter);
+  .portada-vitrina-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
+}
 
-  .portada-casa { width: 74vw; scroll-snap-align: start; }
+@media (max-width: 640px) {
+  .portada-vitrina-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3497,32 +3478,32 @@ body.home .site-header.scrolled { box-shadow: none; }
     background-size: cover;
     background-position: center;
   }
-  .portada-casas-pista { animation: none; }
-  .portada-casa-foto img { transition: none; }
-  .portada-casa:hover .portada-casa-foto img { transform: none; }
+  .portada-vitrina-foto img { transition: none; }
+  .portada-vitrina-tarjeta:hover .portada-vitrina-foto img,
+  .portada-vitrina-tarjeta:focus-visible .portada-vitrina-foto img { transform: none; }
 }
 
 /* ==========================================================================
-   PORTADA - PROPIEDAD DESTACADA
-   Bloque editorial para residencia insignia (data.js: destacada === true).
+   BLOQUE EDITORIAL DE PROPIEDAD
    Retícula asimétrica 1fr 2fr en escritorio, apilada en móvil.
+   Usado en Catálogo (y antes en Portada).
    ========================================================================== */
-.portada-destacada {
+.propiedad-bloque {
   padding: var(--space-section) var(--gutter);
   background: var(--bg-primary);
   border-top: 1px solid var(--border-subtle);
 }
 
-.portada-destacada:not(:has(.portada-destacada-grid > *)) {
+.propiedad-bloque:not(:has(.propiedad-bloque-grid > *)) {
   display: none;
 }
 
-.portada-destacada-interior {
+.propiedad-bloque-interior {
   max-width: 1440px;
   margin: 0 auto;
 }
 
-.portada-destacada-grid {
+.propiedad-bloque-grid {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: var(--space-block);
@@ -3530,12 +3511,12 @@ body.home .site-header.scrolled { box-shadow: none; }
 }
 
 /* Columna izquierda: Información editorial */
-.portada-destacada-info {
+.propiedad-bloque-info {
   display: flex;
   flex-direction: column;
 }
 
-.portada-destacada-tag {
+.propiedad-bloque-tag {
   display: block;
   font-size: var(--t-label);
   text-transform: uppercase;
@@ -3544,7 +3525,7 @@ body.home .site-header.scrolled { box-shadow: none; }
   margin-bottom: var(--space-close);
 }
 
-.portada-destacada-titulo {
+.propiedad-bloque-titulo {
   font-size: var(--t-1);
   font-weight: 500;
   color: var(--text-main);
@@ -3553,7 +3534,7 @@ body.home .site-header.scrolled { box-shadow: none; }
   margin: 0 0 var(--space-close) 0;
 }
 
-.portada-destacada-ubicacion {
+.propiedad-bloque-ubicacion {
   font-size: var(--t-label);
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -3564,13 +3545,13 @@ body.home .site-header.scrolled { box-shadow: none; }
   margin-bottom: var(--space-close);
 }
 
-.portada-destacada-ubicacion svg {
+.propiedad-bloque-ubicacion svg {
   width: 12px;
   height: 12px;
   flex-shrink: 0;
 }
 
-.portada-destacada-parrafo {
+.propiedad-bloque-parrafo {
   font-size: 16px;
   line-height: 1.7;
   color: var(--text-muted);
@@ -3578,30 +3559,30 @@ body.home .site-header.scrolled { box-shadow: none; }
   margin: 0;
 }
 
-.portada-destacada-datos {
+.propiedad-bloque-datos {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   margin: var(--space-block) 0;
 }
 
-.portada-destacada-dato {
+.propiedad-bloque-dato {
   border-left: 1px solid var(--border-subtle);
   padding-left: 16px;
 }
 
-.portada-destacada-dato:first-child {
+.propiedad-bloque-dato:first-child {
   border-left: none;
   padding-left: 0;
 }
 
-.portada-destacada-numero {
+.propiedad-bloque-numero {
   font-size: var(--t-3);
   font-weight: 500;
   color: var(--text-main);
   line-height: 1.1;
 }
 
-.portada-destacada-rotulo {
+.propiedad-bloque-rotulo {
   font-size: var(--t-label);
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -3609,18 +3590,18 @@ body.home .site-header.scrolled { box-shadow: none; }
   margin-top: 4px;
 }
 
-.portada-destacada-accion {
+.propiedad-bloque-accion {
   display: flex;
   align-items: flex-start;
 }
 
 /* Columna derecha: Visual principal y miniaturas */
-.portada-destacada-visual {
+.propiedad-bloque-visual {
   display: flex;
   flex-direction: column;
 }
 
-.portada-destacada-foto-principal {
+.propiedad-bloque-foto-principal {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -3629,7 +3610,7 @@ body.home .site-header.scrolled { box-shadow: none; }
   box-shadow: none;
 }
 
-.portada-destacada-foto-principal img {
+.propiedad-bloque-foto-principal img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -3637,19 +3618,19 @@ body.home .site-header.scrolled { box-shadow: none; }
   transition: transform 0.5s ease;
 }
 
-.portada-destacada-foto-principal:hover img,
-.portada-destacada-foto-principal:focus-visible img {
+.propiedad-bloque-foto-principal:hover img,
+.propiedad-bloque-foto-principal:focus-visible img {
   transform: scale(1.03);
 }
 
-.portada-destacada-miniaturas {
+.propiedad-bloque-miniaturas {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-close);
   margin-top: var(--space-close);
 }
 
-.portada-destacada-miniatura {
+.propiedad-bloque-miniatura {
   display: block;
   width: 100%;
   aspect-ratio: 3 / 2;
@@ -3658,7 +3639,7 @@ body.home .site-header.scrolled { box-shadow: none; }
   box-shadow: none;
 }
 
-.portada-destacada-miniatura img {
+.propiedad-bloque-miniatura img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -3666,55 +3647,55 @@ body.home .site-header.scrolled { box-shadow: none; }
   transition: transform 0.5s ease;
 }
 
-.portada-destacada-miniatura:hover img,
-.portada-destacada-miniatura:focus-visible img {
+.propiedad-bloque-miniatura:hover img,
+.propiedad-bloque-miniatura:focus-visible img {
   transform: scale(1.03);
 }
 
 @media (max-width: 1023px) {
-  .portada-destacada {
+  .propiedad-bloque {
     padding: var(--space-block) var(--gutter);
   }
 
-  .portada-destacada-grid {
+  .propiedad-bloque-grid {
     grid-template-columns: 1fr;
     gap: var(--space-block);
   }
 }
 
 @media (max-width: 640px) {
-  .portada-destacada-datos {
+  .propiedad-bloque-datos {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .portada-destacada-dato {
+  .propiedad-bloque-dato {
     border-left: 1px solid var(--border-subtle);
     padding-left: 16px;
   }
 
-  .portada-destacada-dato:nth-child(odd) {
+  .propiedad-bloque-dato:nth-child(odd) {
     border-left: none;
     padding-left: 0;
   }
 
-  .portada-destacada-dato:nth-child(n+3) {
+  .propiedad-bloque-dato:nth-child(n+3) {
     margin-top: var(--space-close);
   }
 
-  .portada-destacada-miniaturas {
+  .propiedad-bloque-miniaturas {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .portada-destacada-foto-principal img,
-  .portada-destacada-miniatura img {
+  .propiedad-bloque-foto-principal img,
+  .propiedad-bloque-miniatura img {
     transition: none;
   }
-  .portada-destacada-foto-principal:hover img,
-  .portada-destacada-foto-principal:focus-visible img,
-  .portada-destacada-miniatura:hover img,
-  .portada-destacada-miniatura:focus-visible img {
+  .propiedad-bloque-foto-principal:hover img,
+  .propiedad-bloque-foto-principal:focus-visible img,
+  .propiedad-bloque-miniatura:hover img,
+  .propiedad-bloque-miniatura:focus-visible img {
     transform: none;
   }
 }

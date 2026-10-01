@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAIConcierge();
   initDedicatedCatalogPage();
   pintarPropiedadDestacada();
+  pintarVitrina();
 });
 
 /* --------------------------------------------------------------------------
@@ -1453,129 +1454,59 @@ function praetoraRevelarNuevos(contenedor) {
 
 
 /* ==========================================================================
-   PORTADA — la marquesina de casas (index.html)
+   PORTADA — VITRINA DE PROPIEDADES DESTACADAS (index.html)
    --------------------------------------------------------------------------
-   Todo sale de LUXURY_PROPERTIES: no hay contenido escrito a mano. El día que
-   cambie una casa en data.js, la portada se actualiza sola.
-
-   La tira corre sola por CSS (animación sobre la pista duplicada). Aquí va lo
-   que el CSS no puede: dibujar el contenido y duplicarlo para que el ciclo no
-   se note.
+   3 tarjetas verticales (4:5) ordenadas por priceMXN descendente.
    ========================================================================== */
-(function () {
-  var reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function pintarVitrina() {
+  var grid = document.getElementById('portada-vitrina-grid');
+  if (!grid) return;
+  if (typeof LUXURY_PROPERTIES === 'undefined' || !Array.isArray(LUXURY_PROPERTIES)) return;
 
-  function esc(t) {
-    return String(t == null ? '' : t)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
+  var propiedades = LUXURY_PROPERTIES.slice().sort(function (a, b) {
+    var pA = a.priceMXN != null ? a.priceMXN : -Infinity;
+    var pB = b.priceMXN != null ? b.priceMXN : -Infinity;
+    return pB - pA;
+  });
 
-  function millones(n) {
-    return '$' + (n / 1000000).toFixed(1).replace('.0', '') + ' M MXN';
-  }
-
-  /* Duplicar el contenido es lo que hace que la marquesina no dé el salto:
-     al correr -50% la segunda copia cae justo donde arrancó la primera. */
-  function duplicar(pista) {
-    pista.innerHTML += pista.innerHTML;
-  }
-
-  function pintarCasas() {
-    var pista = document.getElementById('portada-casas-pista');
-    if (!pista || typeof LUXURY_PROPERTIES === 'undefined') return;
-
-    pista.innerHTML = LUXURY_PROPERTIES.map(function (p) {
-      return '<a class="portada-casa" href="propiedad.html?id=' + esc(p.id) + '">' +
-        '<div class="portada-casa-foto">' +
-          '<img src="' + esc(p.heroImage) + '" alt="' + esc(p.title) + '" loading="lazy">' +
-        '</div>' +
-        '<div class="portada-casa-linea">' +
-          '<span class="portada-casa-zona">' + esc(p.zone) + ' · ' + esc(p.subzone) + '</span>' +
-          '<h3 class="portada-casa-nombre">' + esc(p.title) + '</h3>' +
-        '</div>' +
-      '</a>';
-    }).join('');
-
-    // Duplicación suficiente para que el ciclo sea continuo sin huecos en pantallas anchas
-    if (!reducido && window.matchMedia('(min-width: 1024px)').matches) {
-      var htmlBase = pista.innerHTML;
-      var iter = 0;
-      while (pista.scrollWidth < 2 * window.innerWidth && iter < 6) {
-        pista.innerHTML += htmlBase;
-        iter++;
-      }
-      var cards = pista.children;
-      var total = cards.length;
-      var originalCount = LUXURY_PROPERTIES.length;
-      for (var i = originalCount; i < total; i++) {
-        cards[i].setAttribute('aria-hidden', 'true');
-        cards[i].setAttribute('tabindex', '-1');
-      }
-
-      // Calcula la velocidad apuntando a ~33 px/s:
-      // La animación CSS portada-correr va de translateX(0) a translateX(-50%).
-      // Distancia recorrida por ciclo = pista.scrollWidth / 2
-      var distancia = pista.scrollWidth / 2;
-      var duracionSegundos = Math.round(distancia / 33);
-      if (duracionSegundos > 0) {
-        pista.style.animationDuration = duracionSegundos + 's';
-      }
+  function formatearPrecio(p) {
+    if (p.priceMXN != null && !isNaN(Number(p.priceMXN))) {
+      return '$' + (Number(p.priceMXN) / 1000000).toFixed(1).replace('.0', '') + ' M MXN';
     }
+    return p.precioEstado || '';
   }
 
-  function iniciar() {
-    if (!document.querySelector('.portada-hero')) return;   // no es index.html
-    pintarCasas();
-    pintarPropiedadDestacada();
-  }
+  grid.innerHTML = propiedades.map(function (p) {
+    var foto = p.fotoTarjeta || p.heroImage || '';
+    var estiloPos = p.fotoTarjetaPos ? ' style="object-position: ' + esc(p.fotoTarjetaPos) + ';"' : '';
+    var precio = formatearPrecio(p);
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', iniciar);
-  } else {
-    iniciar();
-  }
-})();
+    return '<a class="portada-vitrina-tarjeta" href="propiedad.html?id=' + esc(p.id) + '">' +
+      '<div class="portada-vitrina-foto">' +
+        '<img src="' + esc(foto) + '" alt="' + esc(p.title) + '" loading="lazy"' + estiloPos + '>' +
+      '</div>' +
+      '<h3 class="portada-vitrina-nombre">' + esc(p.title) + '</h3>' +
+      '<div class="portada-vitrina-ubicacion">' + esc(p.subzone || '') + '</div>' +
+      (precio ? '<div class="portada-vitrina-precio">' + esc(precio) + '</div>' : '') +
+    '</a>';
+  }).join('');
+}
 
 /* ==========================================================================
-   PORTADA — PROPIEDAD DESTACADA (index.html)
+   BLOQUE DE PROPIEDAD GENERALIZADO (Reutilizable en Catálogo y Portada)
    --------------------------------------------------------------------------
-   Dibuja dinámicamente la propiedad con destacada === true desde LUXURY_PROPERTIES.
-   Si ninguna propiedad tiene la bandera activa, o el contenedor no existe,
-   la sección se oculta y no deja espacio en blanco ni desbordes.
+   Renderiza un bloque editorial asimétrico (1fr 2fr) para una propiedad.
+   Columna izquierda: Tipo, Título, Ubicación con SVG pin, Resumen, Métricas y CTA.
+   Columna derecha: Foto 16:9 y cuadrícula de miniaturas 3:2 (hasta 4).
    ========================================================================== */
-function pintarPropiedadDestacada() {
-  var seccion = document.getElementById('destacada');
-  var contenedor = document.getElementById('portada-destacada-grid');
-  if (!seccion || !contenedor) return;
-
-  if (typeof LUXURY_PROPERTIES === 'undefined' || !Array.isArray(LUXURY_PROPERTIES)) {
-    seccion.style.display = 'none';
-    contenedor.innerHTML = '';
-    return;
-  }
-
-  var prop = null;
-  for (var i = 0; i < LUXURY_PROPERTIES.length; i++) {
-    if (LUXURY_PROPERTIES[i].destacada === true) {
-      prop = LUXURY_PROPERTIES[i];
-      break;
-    }
-  }
-
-  if (!prop) {
-    seccion.style.display = 'none';
-    contenedor.innerHTML = '';
-    return;
-  }
-
-  seccion.style.display = '';
+function renderPropiedadBloque(prop) {
+  if (!prop) return '';
 
   function datoItem(rotulo, valor) {
     if (valor === null || valor === undefined || valor === '') return '';
-    return '<div class="portada-destacada-dato">' +
-      '<div class="portada-destacada-numero">' + esc(valor) + '</div>' +
-      '<div class="portada-destacada-rotulo">' + esc(rotulo) + '</div>' +
+    return '<div class="propiedad-bloque-dato">' +
+      '<div class="propiedad-bloque-numero">' + esc(valor) + '</div>' +
+      '<div class="propiedad-bloque-rotulo">' + esc(rotulo) + '</div>' +
       '</div>';
   }
 
@@ -1605,40 +1536,62 @@ function pintarPropiedadDestacada() {
 
   var miniaturasHtml = '';
   if (miniaturas.length > 0) {
-    miniaturasHtml = '<div class="portada-destacada-miniaturas">' +
+    miniaturasHtml = '<div class="propiedad-bloque-miniaturas">' +
       miniaturas.map(function (m, idx) {
-        return '<a href="propiedad.html?id=' + esc(prop.id) + '" class="portada-destacada-miniatura" aria-label="Ver foto ' + (idx + 1) + ' de ' + esc(prop.title) + '">' +
+        return '<a href="propiedad.html?id=' + esc(prop.id) + '" class="propiedad-bloque-miniatura" aria-label="Ver foto ' + (idx + 1) + ' de ' + esc(prop.title) + '">' +
           '<img src="' + esc(m) + '" alt="' + esc(prop.title) + ' - Vista ' + (idx + 1) + '" loading="lazy">' +
         '</a>';
       }).join('') +
     '</div>';
   }
 
-  var pinSvg = '<svg class="portada-destacada-pin" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>';
+  var pinSvg = '<svg class="propiedad-bloque-pin" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>';
 
   var ubicacionTexto = (prop.subzone ? prop.subzone + ', ' : '') + (prop.zone || '');
+  var etiqueta = prop.type || 'Residencia';
 
-  var html = '' +
-    '<div class="portada-destacada-info">' +
-      '<span class="portada-destacada-tag">Propiedad destacada</span>' +
-      '<h2 class="portada-destacada-titulo">' + esc(prop.title) + '</h2>' +
-      '<div class="portada-destacada-ubicacion">' +
-        pinSvg +
-        '<span>' + esc(ubicacionTexto) + '</span>' +
-      '</div>' +
-      (prop.resumen ? '<p class="portada-destacada-parrafo">' + esc(prop.resumen) + '</p>' : '') +
-      (datosHtml ? '<div class="portada-destacada-datos">' + datosHtml + '</div>' : '') +
-      '<div class="portada-destacada-accion">' +
-        '<a href="propiedad.html?id=' + esc(prop.id) + '" class="portada-enlace">Ver propiedad</a>' +
+  return '<article class="propiedad-bloque" id="propiedad-' + esc(prop.id) + '">' +
+    '<div class="propiedad-bloque-interior">' +
+      '<div class="propiedad-bloque-grid">' +
+        '<div class="propiedad-bloque-info">' +
+          '<span class="propiedad-bloque-tag">' + esc(etiqueta) + '</span>' +
+          '<h2 class="propiedad-bloque-titulo">' + esc(prop.title) + '</h2>' +
+          '<div class="propiedad-bloque-ubicacion">' +
+            pinSvg +
+            '<span>' + esc(ubicacionTexto) + '</span>' +
+          '</div>' +
+          (prop.resumen ? '<p class="propiedad-bloque-parrafo">' + esc(prop.resumen) + '</p>' : '') +
+          (datosHtml ? '<div class="propiedad-bloque-datos">' + datosHtml + '</div>' : '') +
+          '<div class="propiedad-bloque-accion">' +
+            '<a href="propiedad.html?id=' + esc(prop.id) + '" class="portada-enlace">Ver propiedad</a>' +
+          '</div>' +
+        '</div>' +
+        '<div class="propiedad-bloque-visual">' +
+          '<a href="propiedad.html?id=' + esc(prop.id) + '" class="propiedad-bloque-foto-principal" aria-label="Ver ' + esc(prop.title) + '">' +
+            '<img src="' + esc(prop.heroImage) + '" alt="' + esc(prop.title) + '" loading="lazy">' +
+          '</a>' +
+          miniaturasHtml +
+        '</div>' +
       '</div>' +
     '</div>' +
-    '<div class="portada-destacada-visual">' +
-      '<a href="propiedad.html?id=' + esc(prop.id) + '" class="portada-destacada-foto-principal" aria-label="Ver ' + esc(prop.title) + '">' +
-        '<img src="' + esc(prop.heroImage) + '" alt="' + esc(prop.title) + '" loading="lazy">' +
-      '</a>' +
-      miniaturasHtml +
-    '</div>';
+  '</article>';
+}
 
-  contenedor.innerHTML = html;
+function pintarPropiedadBloque(prop, contenedor) {
+  var target = typeof contenedor === 'string' ? document.getElementById(contenedor) : contenedor;
+  if (!target) return;
+  target.innerHTML = renderPropiedadBloque(prop);
+}
+
+function pintarPropiedadDestacada() {
+  var contenedor = document.getElementById('portada-destacada-grid');
+  if (!contenedor) return;
+  if (typeof LUXURY_PROPERTIES === 'undefined' || !Array.isArray(LUXURY_PROPERTIES)) return;
+  for (var i = 0; i < LUXURY_PROPERTIES.length; i++) {
+    if (LUXURY_PROPERTIES[i].destacada === true) {
+      pintarPropiedadBloque(LUXURY_PROPERTIES[i], contenedor);
+      break;
+    }
+  }
 }
 

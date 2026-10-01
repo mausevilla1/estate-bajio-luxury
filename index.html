@@ -84,31 +84,22 @@
   </section>
 
   <!-- ==========================================================================
-       CARRUSEL DE CASAS — las 10 del catálogo, avance a mano.
-       Sale entero de data.js: no hay contenido escrito a mano aquí.
-       Cada casa lleva a su propiedad.html?id=…
+       VITRINA DE PROPIEDADES DESTACADAS
+       3 tarjetas verticales (4:5) ordenadas por priceMXN descendente.
        ========================================================================== -->
-  <section class="portada-casas">
-    <!-- Avanza sola hacia la derecha. Se detiene al pasar el mouse, para que
-         una casa que interesa se pueda alcanzar y no se vaya sola. -->
-    <div class="portada-casas-marco">
-      <div class="portada-casas-pista" id="portada-casas-pista">
+  <section class="portada-vitrina" id="vitrina">
+    <div class="portada-vitrina-interior">
+      <header class="portada-vitrina-cabecera">
+        <h2 class="portada-vitrina-titulo">Propiedades destacadas</h2>
+        <span class="portada-vitrina-subtitulo">Club de Golf Malanquín · San Miguel de Allende</span>
+      </header>
+
+      <div class="portada-vitrina-grid" id="portada-vitrina-grid">
         <!-- lo dibuja app.js -->
       </div>
-    </div>
 
-    <div class="portada-casas-pie">
-      <a href="catalogo.html" class="portada-enlace">Catálogo completo</a>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       PROPIEDAD DESTACADA
-       ========================================================================== -->
-  <section class="portada-destacada" id="destacada">
-    <div class="portada-destacada-interior">
-      <div class="portada-destacada-grid" id="portada-destacada-grid">
-        <!-- lo dibuja app.js -->
+      <div class="portada-vitrina-pie">
+        <a href="catalogo.html" class="portada-enlace">Catálogo completo</a>
       </div>
     </div>
   </section>
