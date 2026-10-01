@@ -3391,38 +3391,11 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   margin: 0 auto;
 }
 
-.portada-enclave-tag {
-  display: block;
-  font-size: var(--t-label);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-light);
-  margin-bottom: var(--space-close);
-}
-
-.portada-enclave-titulo {
-  font-size: var(--t-2);
-  line-height: 1.2;
-  font-weight: 500;
-  color: var(--text-main);
-  margin: 0 0 calc(var(--space-close) * 2) 0;
-  letter-spacing: normal;
-}
-
-.portada-enclave-parrafo {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--text-muted);
-  margin: 0;
-  max-width: 520px;
-}
-
 .enclave-mosaico {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 215px;
+  grid-auto-rows: 224px;
   gap: var(--space-close);
-  margin-top: var(--space-block);
   grid-template-areas:
     "club  club  video aerea"
     "club  club  video vacia1"
@@ -3554,8 +3527,9 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 
   .enclave-mosaico {
     grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 200px;
+    grid-auto-rows: 224px;
     grid-template-areas:
+      "club  club"
       "club  club"
       "video aerea"
       "video tenis"
@@ -3605,7 +3579,11 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
     gap: var(--space-block);
   }
 
-  .enclave-mosaico-club,
+  .enclave-mosaico-club {
+    aspect-ratio: 3 / 2;
+    height: auto;
+  }
+
   .enclave-mosaico-aerea,
   .enclave-mosaico-hoyos,
   .enclave-mosaico-tenis {
