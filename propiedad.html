@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- El título y la descripción los reescribe app.js con los datos de la casa.
+       OJO: la vista previa con foto en WhatsApp NO la da esto — las etiquetas og
+       inyectadas por JS no las lee el robot. Eso necesita HTML estático por
+       propiedad (el build.js de la arquitectura objetivo). -->
+  <title>Ficha de propiedad | PRAETORA</title>
+  <meta name="description" content="Ficha individual de residencia — PRAETORA Grupo Inmobiliario.">
+  <meta name="robots" content="index, follow">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="PRAETORA Grupo Inmobiliario">
+  <meta property="og:description" content="Ficha individual de residencia.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="ficha-page">
+
+  <!-- Sin encabezado arriba, como MANNA: la marca vive en la barra de abajo.
+       tabindex para que las flechas del teclado desplacen el flujo. -->
+  <main id="ficha-flujo" class="ficha-flujo" tabindex="0" aria-label="Recorrido de la propiedad">
+    <noscript>
+      <div class="ficha-panel ficha-panel-texto">
+        <p class="ficha-dato-valor">
+          Esta ficha se arma con JavaScript. Actívalo para verla, o vuelve al
+          <a href="catalogo.html">catálogo</a>.
+        </p>
+      </div>
+    </noscript>
+  </main>
+
+  <!-- Barra inferior: marca a la izquierda, INFO a la derecha. Igual que MANNA. -->
+  <footer class="ficha-barra">
+    <a href="catalogo.html" class="ficha-barra-enlace ficha-barra-marca">PRAETORA</a>
+    <a href="#ficha-info" class="ficha-barra-enlace ficha-barra-info">INFO</a>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

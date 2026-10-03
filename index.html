@@ -5,18 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- SEO Primary Meta Tags -->
-  <title>ESTATE BAJÍO | Residencias de Autor & Preventas High-Ticket en Querétaro y San Miguel</title>
-  <meta name="title" content="ESTATE BAJÍO | Residencias de Autor & Preventas High-Ticket en Querétaro y San Miguel">
-  <meta name="description" content="Colección privada de residencias de ultra-lujo, mansiones de autor y preventas exclusivas en El Campanario, San Miguel de Allende, Juriquilla y El Molino León. Preservación patrimonial y altos rendimientos de plusvalía.">
-  <meta name="keywords" content="inmobiliaria de lujo queretaro, casas en venta el campanario queretaro, mansiones san miguel de allende, preventas de lujo juriquilla, bienes raices high ticket bajio, haciendas en venta guanajuato, penthouses de lujo leon el molino">
+  <title>PRAETORA | Residencias de Autor en San Miguel de Allende</title>
+  <meta name="title" content="PRAETORA | Residencias de Autor en San Miguel de Allende">
+  <meta name="description" content="Colección privada de residencias de autor en Club de Golf Malanquín, San Miguel de Allende. Arquitectura contemporánea, acabados de alta gama y vistas a Los Picachos.">
+  <meta name="keywords" content="inmobiliaria de lujo san miguel de allende, casas en venta malanquin san miguel, club de golf malanquin residencias, bienes raices high ticket san miguel de allende, arquitectura de autor san miguel">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://luxuryestatebajio.com/">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://luxuryestatebajio.com/">
-  <meta property="og:title" content="ESTATE BAJÍO | Residencias de Autor & Preventas High-Ticket">
-  <meta property="og:description" content="Inversión patrimonial en las residencias más exclusivas del Bajío mexicano. Mansiones, penthouses y preventas de autor.">
+  <meta property="og:title" content="PRAETORA | Residencias de Autor en San Miguel de Allende">
+  <meta property="og:description" content="Colección de residencias de autor en Club de Golf Malanquín, San Miguel de Allende. Inversión patrimonial de alta gama.">
   <meta property="og:image" content="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85">
 
   <!-- Schema.org JSON-LD Structured Data for High-Ticket Real Estate -->
@@ -27,16 +27,14 @@
       {
         "@type": "RealEstateAgent",
         "@id": "https://luxuryestatebajio.com/#agency",
-        "name": "ESTATE BAJÍO - Private Vault",
+        "name": "PRAETORA - Private Vault",
         "url": "https://luxuryestatebajio.com",
-        "description": "Firma boutique especializada en comercialización de inmuebles High-Ticket y aceleración de preventas arquitectónicas en el Bajío.",
+        "description": "Firma boutique especializada en comercialización de residencias de autor en San Miguel de Allende.",
         "priceRange": "$$$$$",
         "telephone": "+524420000000",
         "areaServed": [
-          { "@type": "AdministrativeArea", "name": "Querétaro" },
           { "@type": "AdministrativeArea", "name": "San Miguel de Allende" },
-          { "@type": "AdministrativeArea", "name": "Guanajuato" },
-          { "@type": "AdministrativeArea", "name": "León" }
+          { "@type": "AdministrativeArea", "name": "Guanajuato" }
         ],
         "knowsAbout": [
           "Luxury Real Estate Acquisition",
@@ -50,26 +48,217 @@
   </script>
 
   <!-- Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@800&display=swap">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="home">
 
 
   <!-- Dynamic Ambient Lighting Canvas -->
   <canvas id="ambient-canvas"></canvas>
 
-  <!-- Header Navigation -->
+
+  <!-- ==========================================================================
+       HERO — medio a sangre con el nombre encima y degradado a negro
+       El medio es intercambiable: hoy <img>, mañana <video> en el mismo hueco.
+       Degradado 0%->70% transparente a --ink en 100%.
+       ========================================================================== -->
+  <section class="portada-hero">
+    <div class="portada-hero-marco">
+      <video class="portada-hero-medio"
+             autoplay
+             muted
+             loop
+             playsinline
+             preload="metadata"
+             poster="hero-poster.webp"
+             aria-hidden="true">
+        <source src="hero.mp4" type="video/mp4">
+      </video>
+      <div class="portada-hero-degradado" aria-hidden="true"></div>
+    </div>
+
+    <h1 class="portada-hero-titulo">PRAETORA</h1>
+  </section>
+
+  <!-- ==========================================================================
+       VITRINA DE PROPIEDADES DESTACADAS
+       3 tarjetas verticales (4:5) ordenadas por priceMXN descendente.
+       ========================================================================== -->
+  <section class="portada-vitrina" id="vitrina">
+    <div class="portada-vitrina-interior">
+      <header class="portada-vitrina-cabecera">
+        <h2 class="portada-vitrina-titulo">Propiedades destacadas</h2>
+        <span class="portada-vitrina-subtitulo">Club de Golf Malanquín · San Miguel de Allende</span>
+      </header>
+
+      <div class="portada-vitrina-grid" id="portada-vitrina-grid">
+        <!-- lo dibuja app.js -->
+      </div>
+
+      <div class="portada-vitrina-pie">
+        <a href="catalogo.html" class="portada-enlace">Catálogo completo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       EL ENCLAVE — Club de Golf Malanquín
+       Bloque tipográfico editorial sobre blanco.
+       Hueco para fotografía previsto para cuando lleguen las fotos en alta.
+       ========================================================================== -->
+  <section class="portada-enclave" id="enclave">
+    <div class="portada-enclave-interior">
+      <div class="enclave-mosaico">
+        <!-- 01 Casa club -->
+        <div class="enclave-mosaico-item enclave-mosaico-club">
+          <img src="assets/enclave/casa-club.webp" alt="Club de Golf Malanquín, San Miguel de Allende. Casa club de cantera con estanque y jardines." loading="lazy">
+        </div>
+
+        <!-- 02 Recorrido aéreo (Video) -->
+        <div class="enclave-mosaico-item enclave-mosaico-video-wrap">
+          <video class="enclave-mosaico-video"
+                 autoplay muted loop playsinline preload="metadata"
+                 poster="assets/enclave/club-malanquin-poster.webp"
+                 aria-hidden="true">
+            <source src="assets/enclave/club-malanquin.mp4" type="video/mp4">
+          </video>
+          <img class="enclave-mosaico-video-fija"
+               src="assets/enclave/club-malanquin-poster.webp"
+               alt="Recorrido aéreo del Club de Golf Malanquín">
+          <div class="enclave-mosaico-rotulo">
+            <span class="enclave-mosaico-num">02</span>
+            <span class="enclave-mosaico-txt">Recorrido aéreo</span>
+          </div>
+        </div>
+
+        <!-- 03 El campo -->
+        <div class="enclave-mosaico-item enclave-mosaico-aerea">
+          <img src="assets/enclave/aerea-campo.webp" alt="El campo" loading="lazy">
+          <div class="enclave-mosaico-rotulo">
+            <span class="enclave-mosaico-num">03</span>
+            <span class="enclave-mosaico-txt">El campo</span>
+          </div>
+        </div>
+
+        <!-- 04 Hoyos y lagos -->
+        <div class="enclave-mosaico-item enclave-mosaico-hoyos">
+          <img src="assets/enclave/aerea-hoyos.webp" alt="Hoyos y lagos" loading="lazy">
+          <div class="enclave-mosaico-rotulo">
+            <span class="enclave-mosaico-num">04</span>
+            <span class="enclave-mosaico-txt">Hoyos y lagos</span>
+          </div>
+        </div>
+
+        <!-- 05 Canchas -->
+        <div class="enclave-mosaico-item enclave-mosaico-tenis">
+          <img src="assets/enclave/tenis.webp" alt="Canchas" loading="lazy">
+          <div class="enclave-mosaico-rotulo">
+            <span class="enclave-mosaico-num">05</span>
+            <span class="enclave-mosaico-txt">Canchas</span>
+          </div>
+        </div>
+
+        <!-- 06 El campo (Datos) -->
+        <div class="enclave-mosaico-item enclave-mosaico-vacia enclave-mosaico-vacia1">
+          <div class="enclave-mosaico-rotulo-vacia">
+            <span class="enclave-mosaico-num">06</span>
+            <span class="enclave-mosaico-txt">El campo</span>
+          </div>
+          <div class="enclave-mosaico-datos">
+            <div class="enclave-mosaico-linea">18 hoyos · Par 72</div>
+            <div class="enclave-mosaico-linea">7,289 yardas</div>
+            <div class="enclave-mosaico-linea">Más de 50 años</div>
+          </div>
+        </div>
+
+        <!-- 07 El club (Datos) -->
+        <div class="enclave-mosaico-item enclave-mosaico-vacia enclave-mosaico-vacia2">
+          <div class="enclave-mosaico-rotulo-vacia">
+            <span class="enclave-mosaico-num">07</span>
+            <span class="enclave-mosaico-txt">El club</span>
+          </div>
+          <div class="enclave-mosaico-datos">
+            <div class="enclave-mosaico-linea">Casa club y restaurante</div>
+            <div class="enclave-mosaico-linea">Tenis, pádel y pickleball</div>
+            <div class="enclave-mosaico-linea">Alberca semiolímpica</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       ACTIVO DE INVERSIÓN — Casa Julieta (Centro Histórico)
+       Bloque editorial diferenciado: activo de hospitalidad y renta comercial.
+       ========================================================================== -->
+  <section class="portada-inversion" id="activo-inversion">
+    <div class="portada-inversion-interior">
+      <div class="portada-inversion-grid">
+        <div class="portada-inversion-col-visual">
+          <div class="portada-inversion-marco">
+            <img src="assets/propiedades/hotel/fotos/1.jpeg" alt="Casa Julieta — Hotel Boutique y Renta Comercial" loading="lazy">
+          </div>
+        </div>
+
+        <div class="portada-inversion-col-info">
+          <span class="portada-inversion-tag">Activo de inversión</span>
+          <h2 class="portada-inversion-titulo">Casa Julieta</h2>
+          <p class="portada-inversion-parrafo">
+            Casona virreinal del siglo XIX en la esquina de Umarán y Zacateros, a tres minutos a pie de la Parroquia de San Miguel Arcángel. Integra un hotel boutique de 6 suites con alta calificación y un local comercial en planta baja arrendado a Birkenstock, complementado con terraza panorámica de vistas abiertas al centro histórico.
+          </p>
+
+          <dl class="portada-inversion-datos">
+            <div class="portada-inversion-fila">
+              <dt class="portada-inversion-etiqueta">Ubicación</dt>
+              <dd class="portada-inversion-valor">Centro Histórico, San Miguel de Allende</dd>
+            </div>
+            <div class="portada-inversion-fila">
+              <dt class="portada-inversion-etiqueta">Concepto</dt>
+              <dd class="portada-inversion-valor">Hotel boutique + renta comercial</dd>
+            </div>
+            <div class="portada-inversion-fila">
+              <dt class="portada-inversion-etiqueta">Suites</dt>
+              <dd class="portada-inversion-valor">6</dd>
+            </div>
+            <div class="portada-inversion-fila">
+              <dt class="portada-inversion-etiqueta">Inquilino PB</dt>
+              <dd class="portada-inversion-valor">Birkenstock · $95,000 / mes</dd>
+            </div>
+            <div class="portada-inversion-fila">
+              <dt class="portada-inversion-etiqueta">Construcción</dt>
+              <dd class="portada-inversion-valor">530 m²</dd>
+            </div>
+            <div class="portada-inversion-fila">
+              <dt class="portada-inversion-etiqueta">Terreno</dt>
+              <dd class="portada-inversion-valor">295 m²</dd>
+            </div>
+            <div class="portada-inversion-fila">
+              <dt class="portada-inversion-etiqueta">Precio</dt>
+              <dd class="portada-inversion-valor">Por confirmar</dd>
+            </div>
+          </dl>
+
+          <div class="portada-inversion-acciones">
+            <a href="propiedad.html?id=casa-julieta" class="btn-gold">Solicitar expediente</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <header class="site-header">
     <div class="container nav-container">
       <a href="#" class="brand-logo">
-        <span class="logo-title">Estate Bajío</span>
-        <span class="logo-subtitle">Private Collection</span>
+        <span class="logo-title">PRAETORA</span>
+        <span class="logo-subtitle">Grupo Inmobiliario</span>
       </a>
 
       <nav>
         <ul class="nav-links">
           <li><a href="catalogo.html" class="nav-link">Catálogo Completo</a></li>
-          <li><a href="#preventas" class="nav-link">Preventas 3D</a></li>
           <li><a href="#desarrolladores" class="nav-link">Desarrolladores</a></li>
           <li><a href="#consignacion" class="nav-link">Consignación VIP</a></li>
         </ul>
@@ -81,178 +270,6 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero-section">
-    <div class="container hero-grid">
-      <div class="hero-content">
-        <div class="hero-badge">
-          <span>✦</span> Arquitectura de Autor & Alto Patrimonio
-        </div>
-        <h1 class="hero-title">
-          Santuarios de Autor.
-          <span class="highlight">Legado en El Bajío.</span>
-        </h1>
-        <p class="hero-subtitle">
-          Curaduría exclusiva de residencias irrepetibles y preventas arquitectónicas en los enclaves más codiciados de Querétaro, San Miguel de Allende y León.
-        </p>
-
-        <!-- Floating Glass Quick Search -->
-        <div class="hero-search-glass">
-          <div class="search-field">
-            <label>Destino VIP</label>
-            <select id="hero-zone-select">
-              <option value="all">Todas las Regiones</option>
-              <option value="Querétaro">El Campanario / Juriquilla</option>
-              <option value="San Miguel">San Miguel de Allende</option>
-              <option value="León">El Molino / Campestre</option>
-            </select>
-          </div>
-          <div class="search-field">
-            <label>Tipología</label>
-            <select id="hero-type-select">
-              <option value="all">Cualquier Tipología</option>
-              <option value="mansion">Mansión de Autor</option>
-              <option value="hacienda">Hacienda Contemporánea</option>
-              <option value="penthouse">Sky Penthouse</option>
-            </select>
-          </div>
-          <div class="search-field">
-            <label>Rango de Inversión</label>
-            <select>
-              <option>$25M - $50M MXN</option>
-              <option>$50M - $90M MXN</option>
-              <option>$90M+ MXN / USD</option>
-            </select>
-          </div>
-          <a href="catalogo.html" class="btn-gold" style="text-decoration: none;">
-            Explorar
-          </a>
-        </div>
-      </div>
-
-      <!-- Hero Visual 3D Showcase -->
-      <div class="hero-visual-wrapper">
-        <div class="hero-main-card">
-          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85" alt="Villa de Lujo Travertino en el Bajío">
-        </div>
-        <div class="hero-floating-stat">
-          <div class="floating-stat-icon">🏛️</div>
-          <div class="floating-stat-info">
-            <div class="stat-num">$54.2M MXN</div>
-            <div class="stat-lbl">Ticket Promedio Curado</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- The Private Collection: Interactive Catalog Preview -->
-  <section id="coleccion" class="section-padding">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Curated Portfolio</span>
-        <h2 class="section-title">The Private Collection</h2>
-        <p class="section-desc">
-          Propiedades con escrituración verificada, firmas arquitectónicas reconocidas y máxima privacidad patrimonial.
-        </p>
-      </div>
-
-      <!-- Filters -->
-      <div class="catalog-filters">
-        <button class="filter-btn active" data-filter="all">Todas las Obras</button>
-        <button class="filter-btn" data-filter="Campanario">El Campanario QRO</button>
-        <button class="filter-btn" data-filter="San Miguel">San Miguel de Allende</button>
-        <button class="filter-btn" data-filter="Juriquilla">Juriquilla Reserve</button>
-        <button class="filter-btn" data-filter="León">El Molino León</button>
-      </div>
-
-      <!-- 3D Tilt Cards Grid -->
-      <div id="properties-container" class="properties-grid">
-        <!-- Rendered dynamically by app.js -->
-      </div>
-
-      <div style="text-align: center; margin-top: 3.5rem;">
-        <a href="catalogo.html" class="btn-gold" style="font-size: 0.95rem; padding: 1rem 2.5rem;">
-          Ver Catálogo Completo & Comparador ➔
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Interactive 3D Pre-Sale Scrollytelling Section -->
-  <section id="preventas" class="section-padding presale-section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Showroom Interactivo</span>
-        <h2 class="section-title">The Alabaster Sanctuary</h2>
-        <p class="section-desc">
-          Preventa vertical exclusiva en Juriquilla Reserve. Experimenta el desglose arquitectónico por niveles y rentabilidad proyectada en tiempo real.
-        </p>
-      </div>
-
-      <div class="presale-container">
-        <!-- Visual Viewport -->
-        <div class="presale-render-showcase">
-          <div class="presale-canvas-view">
-            <img id="presale-render-img" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=85" alt="Showcase de Preventa Arquitectónica">
-          </div>
-
-          <!-- Floor Level Tabs -->
-          <div class="level-selector-tabs">
-            <button class="level-tab active" data-level="lvl-sky">
-              <span class="tab-title">Nivel Sky</span>
-              <span class="tab-sub">Penthouses Triplex</span>
-            </button>
-            <button class="level-tab" data-level="lvl-residence">
-              <span class="tab-title">Nivel Signature</span>
-              <span class="tab-sub">Suites de Autor</span>
-            </button>
-            <button class="level-tab" data-level="lvl-garden">
-              <span class="tab-title">Nivel Garden</span>
-              <span class="tab-sub">Villas con Jardín</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Dynamic Data Panel -->
-        <div class="presale-info-panel">
-          <div class="presale-status-bar">
-            <div>
-              <span style="font-size: 0.75rem; color: var(--gold-primary); font-weight: 600; text-transform: uppercase;">Estado de Absorción</span>
-              <h4 id="presale-level-title" style="font-family: var(--font-serif); font-size: 1.4rem;">Nivel Sky: Penthouses Triplex</h4>
-            </div>
-            <div>
-              <div class="progress-bar-wrap">
-                <div class="progress-fill"></div>
-              </div>
-              <span style="font-size: 0.7rem; color: var(--text-muted); display: block; text-align: right; margin-top: 0.2rem;">65% Vendido</span>
-            </div>
-          </div>
-
-          <div class="roi-metrics-grid">
-            <div class="roi-card">
-              <div class="roi-label">Rendimiento Proyectado</div>
-              <div class="roi-value">26.8% ROI</div>
-            </div>
-            <div class="roi-card">
-              <div class="roi-label">Inversión Desde</div>
-              <div id="presale-level-price" class="roi-value">$38.5M MXN</div>
-            </div>
-          </div>
-
-          <div style="background: #FFFFFF; padding: 1.5rem; border-radius: 16px; border: 1px solid var(--border-subtle); margin-bottom: 2rem;">
-            <div style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--gold-primary); margin-bottom: 0.4rem;">Metraje & Espacios</div>
-            <div id="presale-level-m2" style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 600; margin-bottom: 0.8rem;">580 m² - 720 m²</div>
-            <div id="presale-level-features" style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">Plunge Pool Privada, Doble Altura, Helipad Access</div>
-          </div>
-
-          <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="document.getElementById('desarrolladores').scrollIntoView({behavior: 'smooth'})">
-            Solicitar Dossier Financiero Completo
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- B2B Section: Lleva tus Preventas con Nosotros -->
   <section id="desarrolladores" class="section-padding b2b-section">
@@ -430,7 +447,7 @@
       <div style="display: flex; align-items: center; gap: 0.8rem;">
         <div class="ai-avatar-ring" style="width: 30px; height: 30px; font-size: 0.8rem;">✦</div>
         <div>
-          <h4 style="font-size: 0.9rem; color: var(--text-main);">Estate Bajío Advisor IA</h4>
+          <h4 style="font-size: 0.9rem; color: var(--text-main);">PRAETORA Advisor IA</h4>
           <span style="font-size: 0.7rem; color: #2E7D32;">● Inteligencia Patrimonial Activa</span>
         </div>
       </div>
@@ -439,7 +456,7 @@
 
     <div id="ai-chat-body" class="ai-chat-body">
       <div class="chat-bubble ai">
-        Bienvenido a <strong>Estate Bajío Private Vault</strong>. Soy su asesor patrimonial con inteligencia artificial. ¿Desea consultar plusvalía por zonas, residencias en El Campanario o retornos de inversión en preventas?
+        Bienvenido a <strong>PRAETORA Private Vault</strong>. Soy su asesor patrimonial con inteligencia artificial. ¿Desea consultar detalles de nuestras residencias en Club de Golf Malanquín o agendar un recorrido privado?
       </div>
     </div>
 
@@ -467,22 +484,18 @@
       <div class="footer-grid">
         <div class="footer-col">
           <a href="#" class="brand-logo" style="margin-bottom: 1.2rem;">
-            <span class="logo-title">Estate Bajío</span>
-            <span class="logo-subtitle">Private Collection</span>
+            <span class="logo-title">PRAETORA</span>
+            <span class="logo-subtitle">Grupo Inmobiliario</span>
           </a>
           <p style="font-size: 0.9rem; color: var(--text-muted); max-width: 320px; line-height: 1.7;">
-            La plataforma líder en comercialización de inmuebles de autor, residencias de alta gama y aceleración de preventas arquitectónicas en el Bajío mexicano.
+            Firma boutique especializada en la comercialización de residencias de autor y propiedades de alta gama en San Miguel de Allende.
           </p>
         </div>
 
         <div class="footer-col">
           <h5>Enclaves Exclusivos</h5>
           <ul>
-            <li><a href="#coleccion">El Campanario Querétaro</a></li>
-            <li><a href="#coleccion">San Miguel de Allende</a></li>
-            <li><a href="#coleccion">Juriquilla Santa Fe</a></li>
-            <li><a href="#coleccion">Balvanera Polo & Golf</a></li>
-            <li><a href="#coleccion">El Molino León</a></li>
+            <li><a href="catalogo.html?filter=Malanquin">Club de Golf Malanquín</a></li>
           </ul>
         </div>
 
@@ -499,16 +512,16 @@
         <div class="footer-col">
           <h5>Sedes & Concierge</h5>
           <ul>
-            <li><a href="#">Juriquilla Towers, Querétaro</a></li>
-            <li><a href="#">Centro Histórico, San Miguel</a></li>
-            <li><a href="#">Puerta Bajío, León</a></li>
+            <li><a href="#">León, Guanajuato</a></li>
+            <li><a href="#">Centro Histórico, San Miguel de Allende</a></li>
+            <li><a href="#">Guanajuato capital</a></li>
             <li><a href="tel:+524420000000">+52 442 000 0000</a></li>
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <div>© 2026 Estate Bajío. Todos los derechos reservados. Confidencialidad y Blindaje Legal Garantizados.</div>
+        <div>© 2026 PRAETORA. Todos los derechos reservados. Confidencialidad y Blindaje Legal Garantizados.</div>
         <div>Aviso de Privacidad • Términos Patrimoniales</div>
       </div>
     </div>
