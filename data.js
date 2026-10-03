@@ -91,7 +91,7 @@ const LUXURY_PROPERTIES = [
       "assets/propiedades/casa-granada/fotos/12.webp",
       "assets/propiedades/casa-granada/fotos/08.webp",
       "assets/propiedades/casa-granada/fotos/27.webp",
-      "assets/propiedades/casa-granada/fotos/60.webp",
+      "assets/propiedades/casa-granada/fotos/54.webp",
       "assets/propiedades/casa-granada/fotos/49.webp",
       "assets/propiedades/casa-granada/fotos/11.webp"
     ],
@@ -111,7 +111,7 @@ const LUXURY_PROPERTIES = [
       { src: "assets/propiedades/casa-granada/fotos/54.webp", prop: "3:4", alto: "a", pie: "Recámara con ventanales de esquina y vista abierta." },
       { src: "assets/propiedades/casa-granada/fotos/49.webp", prop: "3:4", alto: "b", pie: "Baño principal con doble lavabo y tragaluz." },
       { src: "assets/propiedades/casa-granada/fotos/43.webp", prop: "3:4", alto: "c", pie: "Baño con espejo circular y regadera de cristal." },
-      { src: "assets/propiedades/casa-granada/fotos/68.webp", prop: "3:4", alto: "a", pie: "Patio de servicio empedrado en planta alta." }
+      { src: "assets/propiedades/casa-granada/fotos/38.webp", prop: "3:4", alto: "a", pie: "Ventanal hacia la terraza de planta alta." }
     ],
     floorplan: null,
     architect: "Autoría contemporánea",
