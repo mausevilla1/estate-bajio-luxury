@@ -3402,7 +3402,42 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
     "vacia2 tenis video hoyos";
 }
 
-.enclave-mosaico-club { grid-area: club; }
+.enclave-mosaico-club {
+  grid-area: club;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: var(--space-block);
+  background: transparent;
+}
+
+.enclave-mosaico-club-etiqueta {
+  font-size: var(--t-label);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-light);
+}
+
+.enclave-mosaico-club h2,
+.enclave-mosaico-club-nombre {
+  font-size: var(--t-1);
+  font-weight: 500;
+  color: var(--text-main);
+  line-height: 1.15;
+  letter-spacing: normal;
+  margin: var(--space-close) 0 var(--space-block) 0;
+}
+
+.enclave-mosaico-club-ubicacion {
+  display: flex;
+  flex-direction: column;
+}
+
+.enclave-mosaico-club-linea {
+  font-size: var(--t-body);
+  color: var(--text-muted);
+  line-height: 2.2;
+}
 .enclave-mosaico-video-wrap { grid-area: video; }
 .enclave-mosaico-aerea { grid-area: aerea; }
 .enclave-mosaico-hoyos { grid-area: hoyos; }
@@ -3580,8 +3615,13 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   }
 
   .enclave-mosaico-club {
-    aspect-ratio: 3 / 2;
     height: auto;
+    padding-right: 0;
+  }
+
+  .enclave-mosaico-club h2,
+  .enclave-mosaico-club-nombre {
+    font-size: var(--t-2);
   }
 
   .enclave-mosaico-aerea,
