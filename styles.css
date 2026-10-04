@@ -3250,21 +3250,75 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   z-index: 1;
 }
 
-/* --- Nombre sobre el hero -------------------------------------------------
-   Arriba a la izquierda, en blanco sobre el video. Montserrat 800.
+/* --- Navegación y logotipo sobre el hero ----------------------------------
+   Textos en vector sobre la imagen fija. Tipografía: Acumin Pro.
    ------------------------------------------------------------------------ */
-.portada-hero-titulo {
+.portada-hero-nav {
   position: absolute;
-  top: 34px;
   left: var(--gutter);
-  margin: 0;
+  top: 16%;
   z-index: 3;
-  font-family: 'Montserrat', var(--font-sans);
-  font-size: var(--t-2);
-  font-weight: 800;
-  line-height: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-block);
+}
+
+.portada-hero-nav-link {
+  font-family: "acumin-pro", sans-serif;
+  font-weight: 300;
+  text-transform: uppercase;
+  font-size: clamp(12px, 1.05vw, 17px);
   letter-spacing: 0.14em;
-  color: var(--text-inverse);
+  line-height: 1.5;
+  color: #FFF;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.portada-hero-nav-link:hover,
+.portada-hero-nav-link:focus-visible {
+  opacity: 0.6;
+}
+
+.portada-hero-logo {
+  position: absolute;
+  right: var(--gutter);
+  top: 12%;
+  z-index: 3;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: "acumin-pro", sans-serif;
+  font-weight: 200;
+  color: #FFF;
+  text-transform: uppercase;
+}
+
+.portada-hero-logo-marca {
+  font-family: "acumin-pro", sans-serif;
+  font-size: clamp(34px, 5.2vw, 96px);
+  font-weight: 200;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  margin: 0 0 0.35em 0;
+  color: #FFF;
+  text-transform: uppercase;
+}
+
+.portada-hero-logo-linea {
+  font-family: "acumin-pro", sans-serif;
+  font-size: clamp(20px, 3.1vw, 56px);
+  font-weight: 200;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: #FFF;
+  text-transform: uppercase;
+  margin-bottom: 0.35em;
+}
+
+.portada-hero-logo-linea:last-child {
+  margin-bottom: 0;
 }
 
 /* ==========================================================================
@@ -3581,9 +3635,31 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
     min-height: 320px;
   }
 
-  .portada-hero-titulo {
-    top: 24px;
-    font-size: var(--t-3);
+  .portada-hero-degradado {
+    background: linear-gradient(
+      to bottom,
+      rgba(17, 17, 17, 0.4) 0%,
+      rgba(17, 17, 17, 0) 25%,
+      rgba(17, 17, 17, 0.55) 52%,
+      rgba(17, 17, 17, 0.85) 75%,
+      var(--ink) 100%
+    );
+  }
+
+  .portada-hero-logo {
+    top: auto;
+    bottom: 180px;
+    right: auto;
+    left: var(--gutter);
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .portada-hero-nav {
+    top: auto;
+    bottom: 34px;
+    left: var(--gutter);
+    gap: var(--space-close);
   }
 
   .portada-vitrina {
@@ -3647,6 +3723,31 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 
   .enclave-mosaico-vacia .enclave-mosaico-linea {
     line-height: 2.4;
+  }
+
+  .portada-hero-medio {
+    object-position: 48% center;
+  }
+
+  .portada-hero-logo {
+    bottom: 140px;
+  }
+
+  .portada-hero-logo-marca {
+    font-size: clamp(28px, 9vw, 40px);
+  }
+
+  .portada-hero-logo-linea {
+    font-size: 14px;
+  }
+
+  .portada-hero-nav {
+    bottom: 24px;
+  }
+
+  .portada-hero-nav-link {
+    font-size: 12px;
+    letter-spacing: 0.12em;
   }
 }
 

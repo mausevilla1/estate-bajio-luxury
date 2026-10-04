@@ -51,6 +51,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@800&display=swap">
+  <link rel="stylesheet" href="https://use.typekit.net/eyy5hrp.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="home">
@@ -67,20 +68,28 @@
        ========================================================================== -->
   <section class="portada-hero">
     <div class="portada-hero-marco">
-      <video class="portada-hero-medio"
-             autoplay
-             muted
-             loop
-             playsinline
-             preload="metadata"
-             poster="hero-poster.webp"
-             aria-hidden="true">
-        <source src="hero.mp4" type="video/mp4">
-      </video>
+      <img class="portada-hero-medio"
+           src="hero-1600.webp"
+           srcset="hero-1024.webp 1024w, hero-1600.webp 1600w, hero-2560.webp 2560w"
+           sizes="100vw"
+           alt="Parroquia de San Miguel Arcángel al atardecer, San Miguel de Allende"
+           fetchpriority="high">
       <div class="portada-hero-degradado" aria-hidden="true"></div>
     </div>
 
-    <h1 class="portada-hero-titulo">PRAETORA</h1>
+    <!-- Navegación principal en el hero (Columna izquierda) -->
+    <nav class="portada-hero-nav" aria-label="Navegación principal">
+      <a href="catalogo.html" class="portada-hero-nav-link">Propiedades</a>
+      <a href="propiedad.html?id=activo-1" class="portada-hero-nav-link">Inversionistas</a>
+      <a href="#desarrolladores" class="portada-hero-nav-link">Desarrolladores<br>e Inmobiliarias</a>
+    </nav>
+
+    <!-- Logotipo PRAETORA Grupo Inmobiliario (Bloque derecho) -->
+    <div class="portada-hero-logo">
+      <h1 class="portada-hero-logo-marca">PRAETORA</h1>
+      <span class="portada-hero-logo-linea">Grupo</span>
+      <span class="portada-hero-logo-linea">Inmobiliario</span>
+    </div>
   </section>
 
   <!-- ==========================================================================
