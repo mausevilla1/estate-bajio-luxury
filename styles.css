@@ -3268,9 +3268,14 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   font-size: 2.43cqw;
   line-height: 1;
   color: #FFF;
-  text-decoration: none;
+  /* El subrayado existe siempre pero transparente: al pasar el cursor sólo
+     cambia de color, así aparece suave en lugar de saltar. */
+  text-decoration: underline;
+  text-decoration-thickness: max(1px, 0.06em);
+  text-underline-offset: 0.28em;
+  text-decoration-color: transparent;
   pointer-events: auto;
-  transition: opacity 0.2s ease;
+  transition: text-decoration-color 0.2s ease;
   white-space: nowrap;
   letter-spacing: -0.034em;
   margin-top: -0.18em;
@@ -3278,7 +3283,7 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 
 .portada-hero-nav-link:hover,
 .portada-hero-nav-link:focus-visible {
-  opacity: 0.6;
+  text-decoration-color: currentColor;
 }
 
 .portada-hero-nav-link:nth-child(1) {
@@ -3349,7 +3354,7 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
    3 tarjetas verticales (4:5) ordenadas por priceMXN descendente.
    ========================================================================== */
 .portada-vitrina {
-  padding: var(--space-section) var(--gutter);
+  padding: var(--space-footer) var(--gutter) var(--space-section);
   background: var(--bg-primary);
 }
 
@@ -3397,18 +3402,6 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   font-weight: 500;
   color: var(--text-main);
   margin: var(--space-close) 0 0 0;
-}
-
-.portada-vitrina-ubicacion {
-  font-size: var(--t-small);
-  color: var(--text-light);
-  margin-top: 4px;
-}
-
-.portada-vitrina-precio {
-  font-size: var(--t-small);
-  color: var(--text-muted);
-  margin-top: 4px;
 }
 
 .portada-vitrina-pie {
@@ -3632,7 +3625,7 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
     margin-top: 24px;
   }
   .portada-vitrina {
-    padding: var(--space-block) var(--gutter);
+    padding: calc(var(--space-block) * 1.5) var(--gutter) var(--space-block);
   }
 
   .portada-vitrina-grid {
@@ -4020,95 +4013,90 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 }
 
 .portada-inversion-interior {
-  max-width: 1320px;
+  max-width: 1440px;
   margin: 0 auto;
+  container-type: inline-size;
 }
 
-.portada-inversion-grid {
+/* Mosaico editorial: foto grande a la izquierda, columna de dos fotos al centro,
+   descripción arriba a la derecha y una franja inferior con el nombre y dos fotos.
+   Las filas van en cqw para que el mosaico escale entero, sin deformarse. */
+.inversion-mosaico {
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: var(--space-block);
-  align-items: center;
+  grid-template-columns: 1.6fr 1fr 1.13fr;
+  grid-template-rows: 20.5cqw 16.9cqw 15.3cqw;
+  gap: var(--space-close);
+  grid-template-areas:
+    "f1     f2  info"
+    "f1     f3  info"
+    "titulo f4  f5";
 }
 
-.portada-inversion-marco {
-  aspect-ratio: 16 / 9;
-  background: var(--gold-subtle);
+.inversion-f1 { grid-area: f1; }
+.inversion-f2 { grid-area: f2; }
+.inversion-f3 { grid-area: f3; }
+.inversion-f4 { grid-area: f4; }
+.inversion-f5 { grid-area: f5; }
+.inversion-mosaico-titulo { grid-area: titulo; }
+.inversion-mosaico-info   { grid-area: info; }
+
+.inversion-mosaico-foto {
+  display: block;
   overflow: hidden;
+  background: var(--gold-subtle);
 }
 
-.portada-inversion-marco img {
+.inversion-mosaico-foto img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.5s ease;
 }
 
-.portada-inversion-tag {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--text-light);
-  margin-bottom: 12px;
+/* Casi todas las fotos son verticales en celdas horizontales: el encuadre
+   de cada una está elegido para que no pierda su asunto. */
+.inversion-f2 img { object-position: center 20%; }
+.inversion-f4 img { object-position: center 45%; }
+.inversion-f5 img { object-position: center 55%; }
+
+.inversion-mosaico-foto:hover img,
+.inversion-mosaico-foto:focus-visible img { transform: scale(1.03); }
+
+/* Hueco inferior izquierdo: el nombre, pegado arriba como pie de la foto grande */
+.inversion-mosaico-titulo {
+  padding-top: var(--space-close);
 }
 
-.portada-inversion-titulo {
-  font-family: var(--font-serif);
-  font-size: clamp(32px, 3.5vw, 44px);
+.inversion-mosaico-titulo h2 {
+  font-size: var(--t-1);
   font-weight: 400;
   line-height: 1.15;
-  color: #111111;
-  margin: 0 0 20px 0;
-  letter-spacing: -0.01em;
+  color: var(--text-main);
+  margin: 0;
+  letter-spacing: normal;
 }
 
-.portada-inversion-parrafo {
-  font-size: 15px;
-  line-height: 1.7;
+.inversion-mosaico-titulo span {
+  display: block;
+  margin-top: var(--space-close);
+  font-size: var(--t-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-light);
+}
+
+/* Hueco derecho: la descripción, con aire. Sin caja ni fondo. */
+.inversion-mosaico-info {
+  padding: var(--space-close) 0 0 var(--space-block);
+}
+
+.inversion-mosaico-info p {
+  font-size: var(--t-body);
+  line-height: 1.8;
   color: var(--text-muted);
-  margin: 0 0 32px 0;
-  max-width: 520px;
-}
-
-.portada-inversion-datos {
-  margin: 0 0 36px 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.portada-inversion-fila {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 12px 0;
-  border-top: 1px solid #EAEAEA;
-  font-family: var(--font-sans);
-}
-
-.portada-inversion-fila:last-child {
-  border-bottom: 1px solid #EAEAEA;
-}
-
-.portada-inversion-etiqueta {
-  font-size: 16px;
-  font-weight: 500;
-  color: #222222;
-  margin: 0;
-}
-
-.portada-inversion-valor {
-  font-size: 16px;
-  font-weight: 400;
-  color: #AAAAAA;
-  text-align: right;
-  margin: 0;
-}
-
-.portada-inversion-acciones {
-  margin-top: 16px;
+  margin: 0 0 var(--space-block) 0;
+  max-width: 34ch;
 }
 
 @media (max-width: 1023px) {
@@ -4116,20 +4104,39 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
     padding: var(--space-block) var(--gutter);
   }
 
-  .portada-inversion-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
+  .inversion-mosaico-info {
+    padding-left: var(--space-close);
+  }
+}
+
+@media (max-width: 767px) {
+  .inversion-mosaico {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: none;
+    grid-auto-rows: auto;
+    grid-template-areas:
+      "titulo titulo"
+      "f1     f1"
+      "info   info"
+      "f2     f3"
+      "f4     f5";
   }
 
-  .portada-inversion-fila {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
+  .inversion-f1 { aspect-ratio: 1 / 1; }
+  .inversion-f2, .inversion-f3,
+  .inversion-f4, .inversion-f5 { aspect-ratio: 3 / 4; }
 
-  .portada-inversion-valor {
-    text-align: left;
-  }
+  .inversion-mosaico-titulo { padding-top: 0; }
+  .inversion-mosaico-titulo h2 { font-size: var(--t-2); }
+
+  .inversion-mosaico-info { padding: 0; }
+  .inversion-mosaico-info p { max-width: none; margin-bottom: var(--space-close); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inversion-mosaico-foto img { transition: none; }
+  .inversion-mosaico-foto:hover img,
+  .inversion-mosaico-foto:focus-visible img { transform: none; }
 }
 
 /* ==========================================================================

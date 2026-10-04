@@ -1479,25 +1479,16 @@ function pintarVitrina() {
     return pB - pA;
   });
 
-  function formatearPrecio(p) {
-    if (p.priceMXN != null && !isNaN(Number(p.priceMXN))) {
-      return '$' + (Number(p.priceMXN) / 1000000).toFixed(1).replace('.0', '') + ' M MXN';
-    }
-    return p.precioEstado || '';
-  }
-
+  // La tarjeta sólo lleva el nombre: la ubicación y el precio viven en la ficha.
   grid.innerHTML = propiedades.map(function (p) {
     var foto = p.fotoTarjeta || p.heroImage || '';
     var estiloPos = p.fotoTarjetaPos ? ' style="object-position: ' + esc(p.fotoTarjetaPos) + ';"' : '';
-    var precio = formatearPrecio(p);
 
     return '<a class="portada-vitrina-tarjeta" href="propiedad.html?id=' + esc(p.id) + '">' +
       '<div class="portada-vitrina-foto">' +
         '<img src="' + esc(foto) + '" alt="' + esc(p.title) + '" loading="lazy"' + estiloPos + '>' +
       '</div>' +
       '<h3 class="portada-vitrina-nombre">' + esc(p.title) + '</h3>' +
-      '<div class="portada-vitrina-ubicacion">' + esc(p.subzone || '') + '</div>' +
-      (precio ? '<div class="portada-vitrina-precio">' + esc(precio) + '</div>' : '') +
     '</a>';
   }).join('');
 }
