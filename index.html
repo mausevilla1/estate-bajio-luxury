@@ -48,9 +48,6 @@
   </script>
 
   <!-- Stylesheet -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@800&display=swap">
   <link rel="stylesheet" href="https://use.typekit.net/eyy5hrp.css">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -67,28 +64,30 @@
        Degradado 0%->70% transparente a --ink en 100%.
        ========================================================================== -->
   <section class="portada-hero">
-    <div class="portada-hero-marco">
-      <img class="portada-hero-medio"
+    <div class="portada-hero-escena">
+      <img class="portada-hero-fondo"
            src="hero-1600.webp"
            srcset="hero-1024.webp 1024w, hero-1600.webp 1600w, hero-2560.webp 2560w"
-           sizes="100vw"
-           alt="Parroquia de San Miguel Arcángel al atardecer, San Miguel de Allende"
-           fetchpriority="high">
-      <div class="portada-hero-degradado" aria-hidden="true"></div>
-    </div>
-
-    <!-- Navegación principal en el hero (Columna izquierda) -->
-    <nav class="portada-hero-nav" aria-label="Navegación principal">
-      <a href="catalogo.html" class="portada-hero-nav-link">Propiedades</a>
-      <a href="propiedad.html?id=activo-1" class="portada-hero-nav-link">Inversionistas</a>
-      <a href="#desarrolladores" class="portada-hero-nav-link">Desarrolladores<br>e Inmobiliarias</a>
-    </nav>
-
-    <!-- Logotipo PRAETORA Grupo Inmobiliario (Bloque derecho) -->
-    <div class="portada-hero-logo">
-      <h1 class="portada-hero-logo-marca">PRAETORA</h1>
-      <span class="portada-hero-logo-linea">Grupo</span>
-      <span class="portada-hero-logo-linea">Inmobiliario</span>
+           sizes="100vw" fetchpriority="high"
+           alt="Parroquia de San Miguel Arcángel al atardecer, San Miguel de Allende">
+      <div class="portada-hero-logo">
+        <h1 class="portada-hero-logo-marca">PRAETORA</h1>
+        <span class="portada-hero-logo-grupo">Grupo</span>
+        <span class="portada-hero-logo-inmob">Inmobiliario</span>
+      </div>
+      <picture class="portada-hero-frente">
+        <source media="(min-width: 768px)"
+                srcset="hero-frente-1024.webp 1024w, hero-frente-1600.webp 1600w,
+                        hero-frente-2560.webp 2560w"
+                sizes="100vw">
+        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+             alt="" aria-hidden="true">
+      </picture>
+      <nav class="portada-hero-nav" aria-label="Navegación principal">
+        <a href="catalogo.html" class="portada-hero-nav-link">Propiedades</a>
+        <a href="propiedad.html?id=activo-1" class="portada-hero-nav-link">Inversionistas</a>
+        <a href="#desarrolladores" class="portada-hero-nav-link">Desarrolladores<br>e Inmobiliarias</a>
+      </nav>
     </div>
   </section>
 
@@ -96,13 +95,8 @@
        VITRINA DE PROPIEDADES DESTACADAS
        3 tarjetas verticales (4:5) ordenadas por priceMXN descendente.
        ========================================================================== -->
-  <section class="portada-vitrina" id="vitrina">
+  <section class="portada-vitrina" id="vitrina" aria-label="Propiedades destacadas">
     <div class="portada-vitrina-interior">
-      <header class="portada-vitrina-cabecera">
-        <h2 class="portada-vitrina-titulo">Propiedades destacadas</h2>
-        <span class="portada-vitrina-subtitulo">Club de Golf Malanquín · San Miguel de Allende</span>
-      </header>
-
       <div class="portada-vitrina-grid" id="portada-vitrina-grid">
         <!-- lo dibuja app.js -->
       </div>
