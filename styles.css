@@ -4081,7 +4081,7 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   position: absolute;
   left: 1.9%;
   top: 5.89%;
-  width: 19.1%;   /* borrador: 17.5 %; +1.6 % para que quepa la flecha */
+  width: 17.5%;
   height: 32.29%;
 }
 
@@ -4093,20 +4093,19 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   text-decoration: none;
   white-space: nowrap;
   background: rgba(255, 255, 255, 0.095);
-  border: 1px solid rgba(255, 255, 255, 0.55);   /* el borde lo hace leerse como botón */
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .julieta-cta:hover,
-.julieta-cta:focus-visible { background: rgba(255, 255, 255, 0.2); border-color: #FFF; }
+.julieta-cta:focus-visible { background: rgba(255, 255, 255, 0.2); }
 
 .julieta-cta:focus-visible { outline: 1px solid #FFF; outline-offset: 2px; }
 
 .julieta-cta-texto {
   position: absolute;
-  left: 4.87%;
-  top: 9.3%;
-  font-size: 1.75cqw;   /* borrador: 1.945; 10 % menos para que quepa la flecha */
+  left: 5.31%;
+  top: 8.66%;
+  font-size: 1.945cqw;
   font-weight: 400;
   line-height: 1;
   text-decoration: underline;
@@ -4129,18 +4128,7 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   transition: transform 0.2s ease;
 }
 
-/* En el renglón del título, a la derecha: se lee "Activo de inversión →". */
-.julieta-cta > .julieta-flecha {
-  position: absolute;
-  right: 5%;
-  top: 10.2%;
-  margin: 0;
-  width: 1.5cqw;
-  height: 1cqw;
-}
 
-.julieta-cta:hover .julieta-flecha,
-.julieta-cta:focus-visible .julieta-flecha,
 .julieta-parrafo-cta:hover .julieta-flecha,
 .julieta-parrafo-cta:focus-visible .julieta-flecha { transform: translateX(25%); }
 
@@ -4179,8 +4167,8 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 .julieta-dato dt,
 .julieta-dato dd { position: absolute; top: 0; margin: 0; white-space: nowrap; }
 
-.julieta-dato dt { left: 4.4%; }
-.julieta-dato dd { left: 62.76%; }
+.julieta-dato dt { left: 4.8%; }
+.julieta-dato dd { left: 68.5%; }
 
 /* Ubicación abajo a la izquierda, con pin. */
 .julieta-ubicacion {
