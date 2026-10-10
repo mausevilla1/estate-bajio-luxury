@@ -5,18 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- SEO Primary Meta Tags -->
-  <title>The Private Collection | Catálogo Maestro de Residencias High-Ticket en El Bajío</title>
-  <meta name="title" content="The Private Collection | Catálogo Maestro de Residencias High-Ticket en El Bajío">
-  <meta name="description" content="Explore el catálogo completo de mansiones de autor, haciendas coloniales contemporáneas y sky penthouses en El Campanario, San Miguel de Allende, Juriquilla y León. Fichas técnicas en 8K y comparador side-by-side.">
-  <meta name="keywords" content="catalogo inmobiliario lujo bajio, mansiones en venta queretaro, casas exclusivas san miguel allende, residencias de autor el campanario, penthouses juriquilla, fincas campestres guanajuato">
+  <title>Catálogo de Residencias · Club de Golf Malanquín · San Miguel de Allende | PRAETORA</title>
+  <meta name="title" content="Catálogo de Residencias · Club de Golf Malanquín · San Miguel de Allende | PRAETORA">
+  <meta name="description" content="Catálogo de residencias de autor en San Miguel de Allende: Club de Golf Malanquín. Arquitectura contemporánea y alta plusvalía patrimonial.">
+  <meta name="keywords" content="casas en venta san miguel de allende, casas club de golf malanquin, residencias de lujo san miguel de allende, propiedades club de golf, praetora inmobiliaria">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://luxuryestatebajio.com/catalogo.html">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://luxuryestatebajio.com/catalogo.html">
-  <meta property="og:title" content="The Private Collection | Estate Bajío">
-  <meta property="og:description" content="Colección curada de residencias de ultra-lujo en el Bajío mexicano.">
+  <meta property="og:title" content="Catálogo de Residencias · Club de Golf Malanquín | PRAETORA">
+  <meta property="og:description" content="Colección de residencias de autor en Club de Golf Malanquín, San Miguel de Allende. Arquitectura contemporánea y acabados de autor.">
   <meta property="og:image" content="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1600&q=85">
 
   <!-- Schema.org JSON-LD Structured Data for Collection Page -->
@@ -24,12 +24,12 @@
   {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "name": "The Private Collection - Estate Bajío",
-    "description": "Catálogo curado de inmuebles residenciales de alta gama y preventas en el Bajío mexicano.",
+    "name": "The Private Collection - PRAETORA",
+    "description": "Catálogo curado de residencias de autor en Club de Golf Malanquín, San Miguel de Allende.",
     "url": "https://luxuryestatebajio.com/catalogo.html",
     "provider": {
       "@type": "RealEstateAgent",
-      "name": "ESTATE BAJÍO",
+      "name": "PRAETORA",
       "priceRange": "$$$$$",
       "telephone": "+524420000000"
     }
@@ -37,26 +37,25 @@
   </script>
 
   <!-- Stylesheet -->
+  <link rel="stylesheet" href="https://use.typekit.net/eyy5hrp.css">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="catalog-page">
 
   <!-- Dynamic Ambient Lighting Canvas -->
   <canvas id="ambient-canvas"></canvas>
 
-  <!-- Header Navigation -->
+  <!-- Site Header (Navegación horizontal estandarizada) -->
   <header class="site-header">
     <div class="container nav-container">
       <a href="index.html" class="brand-logo">
-        <span class="logo-title">Estate Bajío</span>
-        <span class="logo-subtitle">Private Collection</span>
+        <span class="logo-title">PRAETORA</span>
+        <span class="logo-subtitle">Grupo Inmobiliario</span>
       </a>
 
       <nav>
         <ul class="nav-links">
-          <li><a href="index.html" class="nav-link">Inicio</a></li>
-          <li><a href="catalogo.html" class="nav-link" style="color: var(--text-main); font-weight: 700;">Catálogo Completo</a></li>
-          <li><a href="index.html#preventas" class="nav-link">Preventas 3D</a></li>
+          <li><a href="catalogo.html" class="nav-link active">Catálogo Completo</a></li>
           <li><a href="index.html#desarrolladores" class="nav-link">Desarrolladores</a></li>
           <li><a href="index.html#consignacion" class="nav-link">Consignación VIP</a></li>
         </ul>
@@ -68,131 +67,42 @@
     </div>
   </header>
 
-  <!-- Dedicated Catalog Header & Live Search -->
-  <section class="catalog-header-section">
-    <div class="container">
-      <div class="catalog-hero-box">
-        <span class="section-tag">Colección Exclusiva de Autor</span>
-        <h1 class="section-title" style="font-size: 3.5rem;">The Private Collection</h1>
-        <p class="section-desc">
-          Residencias arquitectónicas, haciendas y penthouses verificados con expediente notarial íntegro y máxima discreción patrimonial.
-        </p>
-      </div>
+  <!-- Contenido Principal del Catálogo -->
+  <main class="catalogo-principal">
+    <!-- Título de la página: no se ve, pero lo leen Google y los lectores de pantalla. -->
+    <h1 class="oculto-visual">Catálogo de residencias en San Miguel de Allende</h1>
 
-      <!-- Live Search Bar -->
-      <div class="catalog-main-search">
-        <span class="catalog-search-icon">🔍</span>
-        <input type="text" id="catalog-search-input" placeholder="Buscar por zona, arquitecto, estilo o amenidad (ej. 'Campanario', 'Legorreta', 'Cava')...">
-      </div>
+    <!-- Bloques editoriales de residencias (app.js inyecta Córdoba, Granada y Olivos) -->
+    <div id="catalogo-casas-grid" class="catalogo-casas-grid">
+      <!-- Generado dinámicamente por app.js con renderPropiedadBloque -->
     </div>
-  </section>
 
-  <!-- Multi-Dimensional Filter Bar & Master Catalog -->
-  <section class="section-padding" style="padding-top: 0;">
-    <div class="container">
-      
-      <div class="filter-master-bar">
-        <!-- Top Row: Zone Filter Pills, Currency Switcher & View Mode Toggle -->
-        <div class="filter-row-top">
-          <div class="filter-pills-group">
-            <button class="filter-pill active" data-filter="all">Todas las Obras</button>
-            <button class="filter-pill" data-filter="Campanario">El Campanario QRO</button>
-            <button class="filter-pill" data-filter="San Miguel">San Miguel de Allende</button>
-            <button class="filter-pill" data-filter="Juriquilla">Juriquilla Reserve</button>
-            <button class="filter-pill" data-filter="Balvanera">Balvanera Polo</button>
-            <button class="filter-pill" data-filter="León">El Molino León</button>
-          </div>
-
-          <div class="filter-controls-right">
-            <!-- Currency Switcher -->
-            <div class="currency-toggle-group">
-              <button class="currency-btn active" data-currency="MXN">MXN ($)</button>
-              <button class="currency-btn" data-currency="USD">USD ($)</button>
-            </div>
-
-            <!-- View Mode Switcher -->
-            <div class="view-mode-group">
-              <button class="view-btn active" data-view="grid" title="Vista Cuadrícula 3D">
-                <span>▦</span> Grid 3D
-              </button>
-              <button class="view-btn" data-view="lookbook" title="Vista Lookbook Editorial">
-                <span>☰</span> Lookbook
-              </button>
-            </div>
-          </div>
+    <!-- Franja editorial: Activo de Inversión (Casa Julieta) -->
+    <aside class="catalog-inversion-strip">
+      <div class="catalog-inversion-interior">
+        <div class="catalog-inversion-thumb">
+          <img src="assets/propiedades/hotel/fotos/1.jpeg" alt="Casa Julieta — Hotel Boutique y Renta Comercial" loading="lazy">
         </div>
-
-        <!-- Bottom Row: Amenity Multi-Filters & Sort Selector -->
-        <div class="filter-row-bottom">
-          <div class="amenity-filters-wrap">
-            <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-right: 0.4rem;">Amenidades VIP:</span>
-            <button class="amenity-tag" data-amenity="cava">🍷 Cava Subterránea</button>
-            <button class="amenity-tag" data-amenity="pool">🏊 Alberca / Plunge</button>
-            <button class="amenity-tag" data-amenity="golf">⛳ Campo de Golf</button>
-            <button class="amenity-tag" data-amenity="helipad">🚁 Helipuerto</button>
-            <button class="amenity-tag" data-amenity="spa">💆 Spa & Wellness</button>
+        <div class="catalog-inversion-body">
+          <span class="catalog-inversion-tag">Activo de inversión · Centro Histórico</span>
+          <h3 class="catalog-inversion-titulo">Casa Julieta</h3>
+          <p class="catalog-inversion-desc">
+            Casona del siglo XIX con 6 suites boutique y local comercial en planta baja arrendado a Birkenstock ($95,000 / mes). Terraza panorámica con vistas a la Parroquia.
+          </p>
+          <div class="catalog-inversion-metricas">
+            <span><strong>530 m²</strong> constr.</span>
+            <span><strong>295 m²</strong> terr.</span>
+            <span><strong>6</strong> suites</span>
+            <span><strong>Birkenstock</strong> PB</span>
+            <span><strong>Por confirmar</strong></span>
           </div>
-
-          <div class="sort-select-wrap">
-            <label for="catalog-sort-select">Ordenar por:</label>
-            <select id="catalog-sort-select">
-              <option value="default">Selección Curada</option>
-              <option value="price-desc">Mayor Valor de Inversión</option>
-              <option value="price-asc">Menor Valor de Inversión</option>
-              <option value="m2-desc">Mayor Superficie Construida (m²)</option>
-            </select>
+          <div class="catalog-inversion-acciones">
+            <a href="propiedad.html?id=casa-julieta" class="btn-gold" style="font-size: 0.8rem; padding: 0.5rem 1.2rem;">Solicitar expediente</a>
           </div>
         </div>
       </div>
-
-      <!-- Results Stats Bar -->
-      <div class="catalog-stats-bar">
-        <div class="results-count">Mostrando <span id="catalog-count">7</span> obras de autor disponibles</div>
-        <div style="font-size: 0.8rem; color: var(--gold-primary); font-weight: 600;">✦ Título de Propiedad y Certificación Notarial 100%</div>
-      </div>
-
-      <!-- 3D Grid View Container -->
-      <div id="properties-container" class="properties-grid">
-        <!-- Injected dynamically via app.js -->
-      </div>
-
-      <!-- Lookbook Editorial View Container (Hidden by default) -->
-      <div id="lookbook-container" class="lookbook-container" style="display: none;">
-        <!-- Injected dynamically via app.js -->
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Floating Comparison Dock -->
-  <div id="comparison-dock" class="comparison-floating-dock">
-    <div style="display: flex; align-items: center; gap: 1rem;">
-      <div id="dock-bubbles" class="dock-item-bubbles"></div>
-      <span id="dock-count" style="font-size: 0.85rem; font-family: var(--font-mono); font-weight: 600;">0 obras seleccionadas</span>
-    </div>
-    <div style="display: flex; gap: 0.6rem; align-items: center;">
-      <button class="btn-gold" style="padding: 0.5rem 1.2rem; font-size: 0.75rem;" onclick="openComparisonModal()">
-        Ver Tabla Comparativa
-      </button>
-      <button onclick="clearComparison()" style="background: none; border: none; color: rgba(255,255,255,0.6); font-size: 0.75rem; cursor: pointer; text-decoration: underline;">
-        Limpiar
-      </button>
-    </div>
-  </div>
-
-  <!-- Comparison Modal (Side-by-Side Table) -->
-  <div id="comparison-modal" class="modal-overlay">
-    <div class="property-modal-content" style="max-width: 1150px;">
-      <button class="modal-close-btn" onclick="closeComparisonModal()">✕</button>
-      <div style="padding: 2rem 2.5rem 0.5rem 2.5rem; border-bottom: 1px solid var(--border-subtle);">
-        <span class="section-tag">Análisis Comparativo</span>
-        <h2 style="font-family: var(--font-serif); font-size: 2rem;">Contraste de Obras Patrimoniales</h2>
-      </div>
-      <div id="comparison-modal-body">
-        <!-- Rendered by app.js -->
-      </div>
-    </div>
-  </div>
+    </aside>
+  </main>
 
   <!-- Property Detail Modal -->
   <div id="property-modal" class="modal-overlay">
@@ -221,7 +131,7 @@
       <div style="display: flex; align-items: center; gap: 0.8rem;">
         <div class="ai-avatar-ring" style="width: 30px; height: 30px; font-size: 0.8rem;">✦</div>
         <div>
-          <h4 style="font-size: 0.9rem; color: var(--text-main);">Estate Bajío Advisor IA</h4>
+          <h4 style="font-size: 0.9rem; color: var(--text-main);">PRAETORA Advisor IA</h4>
           <span style="font-size: 0.7rem; color: #2E7D32;">● Inteligencia Patrimonial Activa</span>
         </div>
       </div>
@@ -248,22 +158,18 @@
       <div class="footer-grid">
         <div class="footer-col">
           <a href="index.html" class="brand-logo" style="margin-bottom: 1.2rem;">
-            <span class="logo-title">Estate Bajío</span>
-            <span class="logo-subtitle">Private Collection</span>
+            <span class="logo-title">PRAETORA</span>
+            <span class="logo-subtitle">Grupo Inmobiliario</span>
           </a>
           <p style="font-size: 0.9rem; color: var(--text-muted); max-width: 320px; line-height: 1.7;">
-            La plataforma líder en comercialización de inmuebles de autor, residencias de alta gama y aceleración de preventas arquitectónicas en el Bajío mexicano.
+            Firma boutique especializada en la comercialización de residencias de autor y propiedades de alta gama en San Miguel de Allende.
           </p>
         </div>
 
         <div class="footer-col">
           <h5>Enclaves Exclusivos</h5>
           <ul>
-            <li><a href="catalogo.html?filter=Campanario">El Campanario Querétaro</a></li>
-            <li><a href="catalogo.html?filter=San+Miguel">San Miguel de Allende</a></li>
-            <li><a href="catalogo.html?filter=Juriquilla">Juriquilla Santa Fe</a></li>
-            <li><a href="catalogo.html?filter=Balvanera">Balvanera Polo & Golf</a></li>
-            <li><a href="catalogo.html?filter=Leon">El Molino León</a></li>
+            <li><a href="catalogo.html?filter=Malanquin">Club de Golf Malanquín</a></li>
           </ul>
         </div>
 
@@ -280,16 +186,16 @@
         <div class="footer-col">
           <h5>Sedes & Concierge</h5>
           <ul>
-            <li><a href="#">Juriquilla Towers, Querétaro</a></li>
-            <li><a href="#">Centro Histórico, San Miguel</a></li>
-            <li><a href="#">Puerta Bajío, León</a></li>
+            <li><a href="#">León, Guanajuato</a></li>
+            <li><a href="#">Centro Histórico, San Miguel de Allende</a></li>
+            <li><a href="#">Guanajuato capital</a></li>
             <li><a href="tel:+524420000000">+52 442 000 0000</a></li>
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <div>© 2026 Estate Bajío. Todos los derechos reservados. Confidencialidad y Blindaje Legal Garantizados.</div>
+        <div>© 2026 PRAETORA. Todos los derechos reservados. Confidencialidad y Blindaje Legal Garantizados.</div>
         <div>Aviso de Privacidad • Términos Patrimoniales</div>
       </div>
     </div>
