@@ -4007,7 +4007,6 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   background: #FFFFFF;
   color: #111111;
   padding: var(--space-section) 0;   /* la foto va a todo el ancho */
-  border-top: 1px solid var(--border-subtle);
   position: relative;
   z-index: 10;
 }
