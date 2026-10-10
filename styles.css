@@ -3353,7 +3353,8 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
    3 tarjetas verticales (4:5) ordenadas por priceMXN descendente.
    ========================================================================== */
 .portada-vitrina {
-  padding: var(--space-footer) var(--gutter) var(--space-section);
+  /* Abajo sin relleno: el aire hasta Casa Julieta lo da .portada-inversion. */
+  padding: var(--space-footer) var(--gutter) 0;
   background: var(--bg-primary);
 }
 
@@ -3624,7 +3625,7 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
     margin-top: 24px;
   }
   .portada-vitrina {
-    padding: calc(var(--space-block) * 1.5) var(--gutter) var(--space-block);
+    padding: calc(var(--space-block) * 1.5) var(--gutter) 0;
   }
 
   .portada-vitrina-grid {
@@ -4004,9 +4005,10 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 .portada-inversion {
   background: #FFFFFF;
   color: #111111;
-  /* Arriba: 64 px, que sumados a los 128 del final de la vitrina dan 192, el mismo aire
-     que hay entre el hero y las tres casas. La foto va a todo el ancho. */
-  padding: var(--space-block) 0 var(--space-section);
+  /* Debajo de las casas debe haber el mismo aire que arriba (192 px, medido del nombre de
+     las casas a la foto). Ahí dentro va "Catálogo completo": 64 px de las casas al enlace,
+     26 px de enlace y este relleno, 192 - 64 - 26 = 102 px. La foto va a todo el ancho. */
+  padding: calc(var(--space-footer) - var(--space-block) - 26px) 0 var(--space-section);
   position: relative;
   z-index: 10;
 }
@@ -4190,8 +4192,9 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 /* Celular — PENDIENTE de diseño (YOPE lo trabajará después). Por ahora: foto a todo el
    ancho en 4:3 y el texto debajo, sobre blanco, en orden de lectura. */
 @media (max-width: 767px) {
-  /* 32 + 64 del final de la vitrina = 96, igual que entre el hero y las casas. */
-  .portada-inversion { padding: calc(var(--space-block) / 2) var(--gutter) var(--space-block); }
+  /* Celular: 96 px de las casas a la foto, igual que arriba: 32 al enlace + 26 de enlace + 38. */
+  .portada-inversion { padding: calc(var(--space-block) * 1.5 - var(--space-block) / 2 - 26px) var(--gutter) var(--space-block); }
+  .portada-vitrina-pie { margin-top: calc(var(--space-block) / 2); }
 
   .julieta-escena { aspect-ratio: auto; overflow: visible; background: none; }
   .julieta-foto {
