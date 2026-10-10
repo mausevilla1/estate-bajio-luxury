@@ -4004,7 +4004,9 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 .portada-inversion {
   background: #FFFFFF;
   color: #111111;
-  padding: var(--space-section) 0;   /* la foto va a todo el ancho */
+  /* Arriba: 64 px, que sumados a los 128 del final de la vitrina dan 192, el mismo aire
+     que hay entre el hero y las tres casas. La foto va a todo el ancho. */
+  padding: var(--space-block) 0 var(--space-section);
   position: relative;
   z-index: 10;
 }
@@ -4159,7 +4161,7 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 
 .julieta-dato:nth-child(1) { top: 40.8%; }
 .julieta-dato:nth-child(2) { top: 60.2%; }
-.julieta-dato:nth-child(3) { top: 82.2%; }
+.julieta-dato:nth-child(3) { top: 79.6%; }   /* misma separación que entre los dos primeros */
 
 .julieta-dato dt,
 .julieta-dato dd { position: absolute; top: 0; margin: 0; white-space: nowrap; }
@@ -4188,7 +4190,8 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 /* Celular — PENDIENTE de diseño (YOPE lo trabajará después). Por ahora: foto a todo el
    ancho en 4:3 y el texto debajo, sobre blanco, en orden de lectura. */
 @media (max-width: 767px) {
-  .portada-inversion { padding: var(--space-block) var(--gutter); }
+  /* 32 + 64 del final de la vitrina = 96, igual que entre el hero y las casas. */
+  .portada-inversion { padding: calc(var(--space-block) / 2) var(--gutter) var(--space-block); }
 
   .julieta-escena { aspect-ratio: auto; overflow: visible; background: none; }
   .julieta-foto {
