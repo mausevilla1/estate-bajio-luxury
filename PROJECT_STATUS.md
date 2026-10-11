@@ -1,59 +1,153 @@
-# ESTATE BAJÍO | Private Collection & Pre-Sale Vault
-**Estado del Proyecto y Registro de Progreso (Checkpointed)**
+# PRAETORA Grupo Inmobiliario — Estado del proyecto
+
+**Actualizado:** 11 de octubre de 2026 · **Rama de trabajo:** `praetora/branding` · **Pull Request:** #1
+
+Este archivo es la fuente de verdad del sitio para todo colaborador y todo agente (Claude Code, Antigravity).
+Reemplaza la versión de agosto ("Estate Bajío — Quiet Luxury"), que ya no aplica: el nombre, la
+paleta dorada, las tipografías Cormorant/Outfit y los mercados de Querétaro quedaron fuera.
 
 ---
 
-## 📌 Identidad y Nombre del Proyecto
-* **Nombre Oficial:** `ESTATE BAJÍO — Private Collection & Pre-Sale Vault`
-* **Directorio Local:** `c:\Users\Mauricio\.claude\luxury_estate_bajio\`
-* **Servidor Local de Desarrollo:** `http://localhost:8080` (ejecutado con `python -m http.server 8080`)
-* **Enfoque:** Plataforma Inmobiliaria High-Ticket y Motor de Preventas 3D con SEO Ultra-Optimizado y Diseño *Quiet Luxury* (Travertino, Beige Cálido, Blanco Alabastro y Oro Champagne).
+## 1. Cómo incorporarse (Mau, empezar aquí)
+
+`master` sigue en `d75ae64` (21 de agosto). **Todo el trabajo nuevo está en `praetora/branding`** (PR #1).
+
+```bash
+git fetch origin
+git checkout -b mau/<tema> origin/praetora/branding   # trabajar siempre desde esta rama
+```
+
+- **Si tienes trabajo local hecho sobre `master`** (por ejemplo, el showroom de preventas): súbelo tal cual
+  a una rama propia (`git push origin mau/<tema>`), sin mezclarlo ni forzar nada. Lo integramos nosotros
+  en la sección que le corresponde (ver §3).
+- **Nunca** `push` directo a `master` ni `push --force` a `praetora/branding`.
+- Archivos compartidos, siempre por rama y PR: `index.html`, `catalogo.html`, `propiedad.html`,
+  `styles.css`, `app.js`, `data.js`.
+- Servidor local: `npx http-server -p 8080 -c-1` → <http://localhost:8080>
 
 ---
 
-## 🏗️ Estado de Construcción & Módulos Implementados
+## 2. Identidad
 
-### 1. Sistema de Diseño Quiet Luxury (Travertino & Oro Champagne)
-* **Tokens de Color:** Fondos en travertino suave (`#F8F6F1`), paneles de vidrio esmerilado blanco alabastro (`rgba(255, 255, 255, 0.85)`), acentos en oro cepillado (`#B8934A`) y tipografía en carbón espresso (`#201D19`).
-* **Tipografías:** *Cormorant Garamond* (titulares editoriales), *Outfit* (cuerpo y UI), *Space Grotesk* (métricas y números financieros).
-* **Física y Efectos:** Canvas interactivo de halo de luz ambiental cálida (`ambient-canvas`), perspectiva tridimensional en tarjetas (`3D Tilt`), transiciones bezier fluidas.
-* **Cursor:** Cursor nativo limpio (se retiró el custom magnetic cursor a petición del usuario para navegación natural).
-
-### 2. Módulos Funcionales
-* **Hero Section & Buscador de Vidrio:** Barra de filtrado rápido por zona VIP, tipología y rango de inversión ($25M a $90M+ MXN), con badge dinámico de ticket promedio curado ($54.2M MXN).
-* **The Private Collection (Catálogo Interactivo):** Grid de propiedades con filtros instantáneos por micro-mercados (*El Campanario, San Miguel de Allende, Juriquilla, El Molino León*), badges de exclusividad y modal detallado de ficha técnica con enlace directo a WhatsApp Concierge VIP.
-* **Showroom de Preventas 3D (The Alabaster Sanctuary):** Scrollytelling con conmutador por niveles (*Nivel Sky, Nivel Signature, Nivel Garden*), desglose de amenidades, barra de absorción de ventas (65%) y cálculo de ROI en tiempo real (26.8% en Fase 1).
-  > **⚠️ NOTA DE COORDINACIÓN DE EQUIPO:** Este módulo del *Showroom de Preventas de Muestra* está siendo desarrollado/evolucionado por el **colaborador**. Mantener modularidad y sincronizar vía `git pull` antes de realizar modificaciones en esta sección para evitar conflictos.
-* **Módulo B2B Desarrolladores ("Lleva tus Preventas con Nosotros"):** Propuesta de valor de showroom digital y canal directo con *Family Offices* e inversionistas patrimoniales.
-* **Wizard de Captación VIP (Consignación de Autor):** Flujo de 4 pasos para registro de propiedades con **Calculador de Valuación Express** algorítmica ($/m² según zona).
-* **AI Private Concierge & Wealth Advisor:** Chatbot conversacional flotante con inteligencia inmobiliaria para responder consultas de plusvalía, zonas y blindaje patrimonial.
-
-### 3. SEO Técnico y Estructuración Semántica
-* Metatags semánticos para el mercado de alto patrimonio del Bajío.
-* Marcado estructurado **JSON-LD Schema.org** para `RealEstateAgent`, `SingleFamilyResidence` y `AdministrativeArea`.
+- **Nombre:** PRAETORA Grupo Inmobiliario.
+- **Mercado actual:** San Miguel de Allende (Club de Golf Malanquín y Centro Histórico). Otras
+  ciudades, incluida León, entran más adelante.
+- **Trato:** el sitio habla de **usted** en todos los textos.
+- **Idiomas:** el sitio está en español (`lang="es-MX"`). La traducción la ofrece el navegador
+  (Chrome, Safari, Edge). Lo que no debe traducirse lleva `translate="no"`: el logotipo,
+  "Praetora Studio" y los nombres de las casas.
 
 ---
 
-## 📂 Archivos Principales del Proyecto
+## 3. Estructura: las cuatro puertas
 
-1. [`index.html`](file:///c:/Users/Mauricio/.claude/luxury_estate_bajio/index.html) — Estructura semántica, SEO, buscador, catálogo, showroom de preventas, wizard y AI Concierge.
-2. [`styles.css`](file:///c:/Users/Mauricio/.claude/luxury_estate_bajio/styles.css) — Sistema de diseño Quiet Luxury, tokens cromáticos, glassmorphism y micro-interacciones.
-3. [`app.js`](file:///c:/Users/Mauricio/.claude/luxury_estate_bajio/app.js) — Motor JavaScript de filtrado, 3D tilt, scrollytelling de preventas, valuador del wizard y simulador de IA.
-4. [`data.js`](file:///c:/Users/Mauricio/.claude/luxury_estate_bajio/data.js) — Dataset curado de mansiones, haciendas y preventas en Querétaro, San Miguel y León.
-5. [`PROJECT_STATUS.md`](file:///c:/Users/Mauricio/.claude/luxury_estate_bajio/PROJECT_STATUS.md) — Registro de progreso y arquitectura del proyecto.
+El menú de la portada (sobre la foto del hero) y el encabezado del catálogo nombran igual las cuatro
+entradas. Los **enganches** ya existen; las secciones marcadas ⬜ son donde entra el trabajo nuevo.
+
+| Puerta | Para quién | Enlace hoy | Estado |
+|---|---|---|---|
+| **Propiedades** | Quien compra o vende casa | `catalogo.html` · vender: formulario `#consignacion` de la portada | ✅ catálogo y fichas; ⬜ el formulario de vender necesita revisión de textos |
+| **Invertir** | Inversionistas | `propiedad.html?id=activo-1` (ficha de Casa Julieta) | ⬜ falta la sección: introducción y, debajo, Casa Julieta con diseño de YOPE (pendiente) |
+| **Desarrollar / buscar capital** | Quien trae un terreno o proyecto y busca capital | `index.html#desarrolladores` (provisional) | ⬜ falta la sección propia |
+| **Praetora Studio** | Desarrolladores e inmobiliarias (servicios de media, tecnología y comercialización) | `index.html#desarrolladores` | 🟡 la sección existe; adentro se titula "Servicios para desarrolladores e inmobiliarias". Contenido por rediseñar |
+
+**El showroom de preventas** (módulo de Mau, retirado de la portada en el rediseño) tiene su lugar
+natural en **Praetora Studio**, como demostración de lo que se ofrece a desarrolladores. Se confirma con YOPE
+al integrarlo.
 
 ---
 
-## 📚 Documentación de Investigación en Artifacts
+## 4. Páginas
 
-* [Knowledge Base SEO High-Ticket Bajío](file:///C:/Users/Mauricio/.gemini/antigravity-ide/brain/4d7c36aa-9c98-4811-a89c-01d5a343fd7c/seo_master_knowledge_bajio.md)
-* [Manifiesto de Diseño UI/UX y Física Sensorial](file:///C:/Users/Mauricio/.gemini/antigravity-ide/brain/4d7c36aa-9c98-4811-a89c-01d5a343fd7c/luxury_ui_ux_master_research.md)
-* [Implementation Plan Maestro](file:///C:/Users/Mauricio/.gemini/antigravity-ide/brain/4d7c36aa-9c98-4811-a89c-01d5a343fd7c/implementation_plan.md)
-* [Walkthrough & Galería Visual](file:///C:/Users/Mauricio/.gemini/antigravity-ide/brain/4d7c36aa-9c98-4811-a89c-01d5a343fd7c/walkthrough.md)
+### `index.html` — portada (en este orden)
+1. **Hero** — foto de San Miguel con efecto de profundidad; logotipo PRAETORA / GRUPO / INMOBILIARIO y
+   las cuatro puertas. Posiciones medidas sobre el borrador de YOPE: **no se "limpian" ni se realinean**.
+2. **Vitrina** (`#vitrina`) — las tres casas (sólo nombre) y el enlace "Catálogo completo".
+3. **Casa Julieta** (`#activo-inversion`) — foto de la terraza a la izquierda y texto en vino `#3E101A` a la derecha,
+   con posiciones medidas del borrador. Celular: pendiente de diseño.
+4. **Praetora Studio** (`#desarrolladores`).
+5. **Consignación / vender** (`#consignacion`) — formulario de 4 pasos.
+6. Asistente flotante (chat).
+
+Sin pie de página (se quitó por decisión de YOPE).
+
+### `catalogo.html` — Propiedades
+Encabezado con las cuatro puertas (Praetora Studio es el botón negro) y un bloque editorial por casa,
+generado por `app.js` (`renderPropiedadBloque`). Casa Julieta **no** va aquí: pertenece a Invertir.
+
+### `propiedad.html?id=…` — ficha
+Recorrido horizontal en escritorio y vertical en celular: fotos (`flujo`), planos escondidos detrás de
+**"Ver planos"**, panel de datos y cierre con contacto. Las fotos van **sin texto debajo**.
 
 ---
 
-## 🚀 Próximos Pasos para la Siguiente Sesión (Fase 2)
-1. Integración de la identidad visual definitiva con el diseñador de marca (logotipo vectorial, tipografías finales, paleta refinada).
-2. Backend y Base de Datos (CRM multi-rol: Administradores, Asesores, Desarrolladores e Inversionistas).
-3. Pre-Sale Visual Builder (Dashboard para que asesores suban renders y configuren showrooms de preventas dinámicamente).
+## 5. Sistema de diseño (reglas)
+
+- **Paleta acromática** (tokens en `:root`):
+
+  | Token | Valor | Uso |
+  |---|---|---|
+  | `--ink` / `--text-main` | `#111111` | Tinta principal |
+  | `--text-muted` | `#222222` | Tinta secundaria |
+  | `--text-light` | `#AAAAAA` | Texto apagado |
+  | `--border-subtle` | `#E6E6E6` | Líneas |
+  | `--bg-primary` | `#FFFFFF` | Fondo |
+
+  Sin dorado. Ojo: los tokens `--gold-*` conservan su nombre viejo, pero hoy valen negro o gris.
+  No se les devuelve el dorado.
+- **Tipografía única: Acumin Pro** (Adobe Fonts, kit `eyy5hrp`, cargado con `<link>` en las tres páginas).
+  Licencia web del Creative Cloud de YOPE. **Nunca subir archivos `.otf` al repo.**
+- **Escala:** 32 / 24 / 20 / 18 / 16 / 14 / 12 px. **Pesos 400 y 500.** **Mayúsculas sólo a 12 px** (+0.12em).
+  Antes de darle tamaño a un texto nuevo se le asigna una función de la escala; nada de tamaños sueltos.
+- **Dos estilos de acción, y sólo dos:**
+  - **Enlace** (lleva a otra página): 18 px, flecha larga y subrayado de 1 px. Clases `.portada-enlace`,
+    `.ficha-volver`, `.julieta-cta`, `.ficha-ver-planos`.
+  - **Botón** (hace algo): 12 px en mayúsculas sobre negro, invertido sobre fondo oscuro. Clase `.btn-gold`.
+- **Espaciado:** margen lateral 24 px; 12 / 64 / 128 / 192 px (`--space-close`, `--space-block`,
+  `--space-section`, `--space-footer`).
+- **Fotografía:** esquinas rectas, sin sombra.
+- El bloque **"SISTEMA TIPOGRÁFICO"** al final de `styles.css` manda sobre las reglas viejas: va al final a propósito.
+
+---
+
+## 6. Datos (`data.js`) y archivos
+
+- `LUXURY_PROPERTIES` — Casa Córdoba (`prop-1`), Casa Granada (`prop-2`), Casa Olivos (`prop-3`).
+- `ACTIVOS_INVERSION` — Casa Julieta (`activo-1`, slug `casa-julieta`).
+- Campos de ficha:
+  - `flujo: [{ src, prop, alto }]`, con `prop` en `2:3 · 3:4 · 4:3 · 3:2 · 16:9 · 9:16` y `alto` en `a · b · c`.
+  - `planos: [{ nivel, base, proporcion, etiquetas }]`, donde `base` apunta a `…/planos/<planta>-h.svg`
+    (escritorio) y `-v.svg` (celular).
+- Fotos: `assets/propiedades/<casa>/fotos/`. **El orden por nombre de archivo es el orden de la ficha**
+  (YOPE intercala con decimales: `9.8`, `9.9`, `26.9`).
+- Planos: `assets/propiedades/<casa>/planos/`, dibujos de línea redibujados desde los as-built, sin
+  ningún texto de la lámina.
+- Las **cifras** (precios, m², rentas, rendimientos) las pasa la dirección. No se calculan ni se deducen.
+- **Nunca entran al repo:** PDF de propiedades o de inversión, planos originales, fuentes `.otf`.
+
+---
+
+## 7. Reglas de contenido
+
+- No prometer garantías ("blindaje", "verificado 100 %") ni inventar cifras de plusvalía o rendimiento.
+- La IA del asistente **no** se presenta como asesor y no sustituye asesoría legal, financiera ni de valuación.
+- Sin escasez falsa: "últimas unidades" sólo si es verdad.
+- No pedir datos antes de tiempo: primero se explora y después se piden datos (al agendar, consultar o pedir información).
+- El sitio **capta** prospectos y contactos. El seguimiento vive en el CRM, aparte del sitio.
+
+---
+
+## 8. Pendientes
+
+- [ ] Sección **Invertir** (introducción y Casa Julieta con diseño de YOPE).
+- [ ] Sección **Desarrollar / buscar capital**.
+- [ ] Rediseño del contenido de **Praetora Studio** (y lugar del showroom de preventas).
+- [ ] **Número real de WhatsApp.** "Consultar esta casa" usa `+52 442 000 0000` de ejemplo.
+- [ ] **A dónde envían los formularios.** Hoy sólo muestran un aviso.
+- [ ] Limpiar el texto heredado que choca con §7:
+  - El chat ("asesor patrimonial", plusvalías y "Querétaro").
+  - "Blindaje" en el formulario.
+  - "Verificado 100 %" en el catálogo.
+- [ ] Casa Julieta en celular (diseño de YOPE).
+- [ ] Renta: ¿entra al sitio? (pregunta abierta).
+- [ ] Aviso de privacidad: el sitio recaba datos y necesita un enlace visible.
