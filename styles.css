@@ -2905,9 +2905,22 @@ body.ficha-page {
 .ficha-marco img,
 .ficha-marco video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
+/* "Ver planos": el enlace de navegación del sitio, hecho botón (muestra los planos). */
+.ficha-ver-planos {
+  margin-top: var(--space-block);
+  padding: 0 0 6px;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  cursor: pointer;
+}
+.ficha-ver-planos:focus-visible { outline: 1px solid var(--text-main); outline-offset: 4px; }
+
 /* --- Paneles de plano ----------------------------------------------------
    Dibujo de línea sobre blanco, sin marco. El alto es el de las fotos "b" y el
    ancho sale de la proporción de la planta (--plano-prop = largo / ancho). */
+.ficha-plano[hidden] { display: none; }   /* .ficha-panel les pone display:flex */
+
 .ficha-plano-marco {
   position: relative;
   height: 78%;

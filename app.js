@@ -1274,6 +1274,11 @@ function praetoraRevelarNuevos(contenedor) {
         fila('Estatus', p.status);
     }
 
+    // Los planos van escondidos: este enlace los muestra junto a las fotos.
+    var planosHtml = (p.planos && p.planos.length)
+      ? '<button type="button" class="portada-enlace ficha-ver-planos" aria-expanded="false">Ver planos</button>'
+      : '';
+
     return '<section class="ficha-panel ficha-panel-texto" id="ficha-info">' +
       '<span class="ficha-etiqueta">' + esc(p.zone) + ' · ' + esc(p.subzone) + '</span>' +
       '<h1 class="ficha-titulo">' + esc(p.title) + '</h1>' +
@@ -1281,6 +1286,7 @@ function praetoraRevelarNuevos(contenedor) {
       '<div class="ficha-datos ficha-datos-sep">' +
         datosHtml +
       '</div>' +
+      planosHtml +
       '</section>';
   }
 
@@ -1317,7 +1323,7 @@ function praetoraRevelarNuevos(contenedor) {
         ' style="--x:' + e.x + '%;--y:' + e.y + '%;--w:' + e.w +
         '%;--xm:' + e.xm + '%;--ym:' + e.ym + '%;--wm:' + e.wm + '%">' + esc(e.t) + '</span>';
     }).join('');
-    return '<figure class="ficha-panel ficha-plano" style="--plano-prop:' + pl.proporcion + '">' +
+    return '<figure class="ficha-panel ficha-plano" hidden style="--plano-prop:' + pl.proporcion + '">' +
       '<div class="ficha-plano-marco">' +
         '<picture>' +
           '<source media="(max-width: 1023px)" srcset="' + esc(pl.base) + '-v.svg">' +
@@ -1472,6 +1478,27 @@ function praetoraRevelarNuevos(contenedor) {
           destino.scrollIntoView({ behavior: suave, block: 'start' });
         } else {
           cont.scrollTo({ left: cont.scrollWidth, behavior: suave });
+        }
+      });
+    }
+
+    // "Ver planos": muestra los planos (van entre las fotos y los datos) y lleva el
+    // recorrido al primero. Otro clic los vuelve a esconder.
+    var btnPlanos = cont.querySelector('.ficha-ver-planos');
+    if (btnPlanos) {
+      btnPlanos.addEventListener('click', function () {
+        var planos = cont.querySelectorAll('.ficha-plano');
+        var mostrar = btnPlanos.getAttribute('aria-expanded') !== 'true';
+        Array.prototype.forEach.call(planos, function (el) { el.hidden = !mostrar; });
+        btnPlanos.setAttribute('aria-expanded', mostrar ? 'true' : 'false');
+        btnPlanos.textContent = mostrar ? 'Ocultar planos' : 'Ver planos';
+        var suave = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? 'auto' : 'smooth';
+        var destino = mostrar ? planos[0] : document.getElementById('ficha-info');
+        if (esVertical()) {
+          destino.scrollIntoView({ behavior: suave, block: 'start' });
+        } else {
+          cont.scrollTo({ left: destino.offsetLeft - parseFloat(getComputedStyle(cont).paddingLeft), behavior: suave });
         }
       });
     }
