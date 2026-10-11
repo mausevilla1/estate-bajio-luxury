@@ -3138,27 +3138,6 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   body.home .site-header .nav-links,
   body.catalog-page .site-header .nav-links { gap: 32px; }
 }
-
-/* El botón del Private Vault ("Servicios para desarrolladores e inmobiliarias") es
-   largo: debajo de 1340 px va en dos renglones en vez de encogerse y cortarse, y
-   debajo de 1180 px también "Desarrollar / buscar capital" se parte en dos. */
-@media (min-width: 1024px) and (max-width: 1339px) {
-  body.catalog-page .site-header .btn-gold {
-    flex-shrink: 0;
-    max-width: 330px;
-    white-space: normal;
-    line-height: 1.5;
-    text-align: center;
-    justify-content: center;
-    padding-top: 12px;
-    padding-bottom: 12px;
-  }
-}
-@media (min-width: 1024px) and (max-width: 1179px) {
-  body.catalog-page .site-header .nav-links li { flex: 0 0 auto; width: auto; max-width: 150px; }
-  body.catalog-page .site-header .nav-link { white-space: normal; }
-}
-
 /* ==========================================================================
    CATÁLOGO - CABECERA EDITORIAL & FRANJA DE INVERSIÓN
    ========================================================================== */
@@ -3375,15 +3354,15 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   top: 42.57%;
 }
 
-/* Cuarta entrada (Servicios para desarrolladores e inmobiliarias = Private Vault):
-   mismo aire que hay entre las tres del borrador (~9.3 % del alto entre el final de
-   una y el inicio de la siguiente). La 3 ocupa dos renglones: 42.57 + 13.4 + 9.25. */
+/* Cuarta entrada (Private Vault): mismo aire que hay entre las tres del borrador
+   (~9.3 % del alto entre el final de una y el inicio de la siguiente). La 3 ocupa
+   dos renglones: 42.57 + 13.4 + 9.25. */
 .portada-hero-nav-link:nth-child(4) {
   top: 65.2%;
 }
 
-/* Las de varios renglones (3 y 4) van con el interlineado del borrador. */
-.portada-hero-nav-link:nth-child(n+3) {
+/* "Desarrollar / buscar capital" va en dos renglones, con el interlineado del borrador. */
+.portada-hero-nav-link:nth-child(3) {
   line-height: 1.17;
   white-space: normal;
 }
