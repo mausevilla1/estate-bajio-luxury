@@ -4018,230 +4018,115 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   margin: 0 auto;
 }
 
-/* Casa Julieta: foto de YOPE (6000 x 2546) a todo el ancho, con el texto en vector encima.
-   El recuadro tiene la proporción EXACTA de la foto: entra completa, sin recorte, y las
-   posiciones en % y los tamaños en cqw caen donde YOPE las puso en su borrador
-   (scratch/julieta-referencia-borrador.jpg). Las líneas blancas vienen en la foto.
-   El borrador está en Acumin condensada; aquí se usa la de ancho normal, con cada
-   renglón ajustado al mismo ancho y al mismo centro que en el borrador. */
+/* Casa Julieta — diseño de YOPE: foto de la terraza en la mitad izquierda y texto en la
+   mitad derecha, sobre blanco. El recuadro tiene la proporción EXACTA del borrador
+   (6000 x 2045), así las posiciones en % y los tamaños en cqw caen donde YOPE las puso
+   (scratch/julieta-referencia-borrador.jpg). Sólo la mitad con foto se carga como imagen.
+   Color del texto: el vino oscuro que YOPE eligió en su borrador (#3E101A). */
 .julieta-escena {
   --julieta-fuente: "acumin-pro-condensed", "acumin-pro", sans-serif;
+  --julieta-tinta: #3E101A;
   position: relative;
-  aspect-ratio: 6000 / 2546;
-  overflow: hidden;
-  background: var(--gold-subtle);
+  aspect-ratio: 6000 / 2045;
+  container-type: inline-size;
+  background: var(--bg-primary);
 }
 
 .julieta-foto {
   position: absolute;
-  inset: 0;
-  width: 100%;
+  top: 0;
+  left: 0;
+  width: 50%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
 .julieta-texto {
-  position: absolute;
-  inset: 0;
-  container-type: inline-size;
   font-family: var(--julieta-fuente);
-  color: #FFF;
+  color: var(--julieta-tinta);
 }
 
-.julieta-titulo { margin: 0; font-weight: 200; letter-spacing: normal; }
-
-.julieta-casa,
-.julieta-nombre,
-.julieta-linea1,
-.julieta-linea2 {
-  position: absolute;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.julieta-casa,
-.julieta-nombre { font-size: 6.93cqw; }
-
-.julieta-casa   { top: 3.49%;  left: 66.0%; }
-.julieta-nombre { top: 23.73%; right: 3.29%; }
-
-.julieta-parrafo { margin: 0; font-weight: 300; }
-
-.julieta-linea1,
-.julieta-linea2 { font-size: 2cqw; }
-
-.julieta-linea1 { top: 84.1%; right: 2.46%; }
-.julieta-linea2 { top: 91.45%; left: 79.74%; }
-
-/* Recuadro de datos arriba a la izquierda, medido sobre el borrador de YOPE:
-   velo blanco al 9.5 % sobre el cielo, sin esquinas redondeadas.
-   TODO el recuadro es el CTA: el enlace lo cubre entero, y al pasar el cursor el velo
-   se aclara y el título se subraya. Así se lee como botón. */
-.julieta-ficha {
-  position: absolute;
-  left: 1.9%;
-  top: 5.89%;
-  width: 17.5%;
-  height: 32.29%;
-}
-
+.julieta-etiqueta,
+.julieta-titulo,
+.julieta-parrafo,
 .julieta-cta {
   position: absolute;
-  inset: 0;
-  display: block;
-  color: #FFF;
-  text-decoration: none;
-  white-space: nowrap;
-  background: rgba(255, 255, 255, 0.095);
-  transition: background-color 0.2s ease;
-}
-
-.julieta-cta:hover,
-.julieta-cta:focus-visible { background: rgba(255, 255, 255, 0.2); }
-
-.julieta-cta:focus-visible { outline: 1px solid #FFF; outline-offset: 2px; }
-
-.julieta-cta-texto {
-  position: absolute;
-  left: 5.31%;
-  top: 8.66%;
-  font-size: 1.945cqw;
-  font-weight: 400;
+  left: 58.2%;
+  margin: 0;
   line-height: 1;
-  text-decoration: underline;
-  text-decoration-thickness: max(1px, 0.05em);
-  text-underline-offset: 0.2em;
-  text-decoration-color: transparent;
-  transition: text-decoration-color 0.2s ease;
+  white-space: nowrap;
 }
 
-.julieta-cta:hover .julieta-cta-texto,
-.julieta-cta:focus-visible .julieta-cta-texto { text-decoration-color: currentColor; }
+.julieta-etiqueta { top: 8.53%; font-size: 2.45cqw; font-weight: 300; }
+.julieta-titulo   { top: 20.58%; left: 57.76%; font-size: 6.55cqw; font-weight: 200; letter-spacing: normal; }
 
-/* Flecha: la señal visible de que el recuadro y el párrafo llevan a la ficha. */
+.julieta-parrafo {
+  top: 47%;
+  font-size: 1.84cqw;
+  font-weight: 300;
+  line-height: 1.225;
+}
+
+/* CTA: "ver ficha" con flecha larga y subrayado permanente, como en el borrador. */
+.julieta-cta {
+  top: 86.7%;
+  display: inline-flex;
+  align-items: center;
+  gap: 1.6cqw;
+  padding-bottom: 0.45cqw;
+  border-bottom: 1px solid currentColor;
+  font-size: 1.88cqw;
+  font-weight: 300;
+  color: var(--julieta-tinta);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
 .julieta-flecha {
-  width: 0.9em;
-  height: 0.6em;
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 0.35em;
+  width: 3.75cqw;
+  height: 0.9cqw;
+  flex: none;
   transition: transform 0.2s ease;
 }
 
+.julieta-cta:hover .julieta-flecha,
+.julieta-cta:focus-visible .julieta-flecha { transform: translateX(0.5cqw); }
 
-.julieta-parrafo-cta:hover .julieta-flecha,
-.julieta-parrafo-cta:focus-visible .julieta-flecha { transform: translateX(25%); }
+.julieta-cta:focus-visible { outline: 1px solid var(--julieta-tinta); outline-offset: 4px; }
 
-/* Párrafo de abajo a la derecha: también lleva a la ficha. */
-.julieta-parrafo-cta { color: #FFF; text-decoration: none; }
-.julieta-parrafo-cta .julieta-linea1,
-.julieta-parrafo-cta .julieta-linea2 {
-  text-decoration: underline;
-  text-decoration-thickness: max(1px, 0.05em);
-  text-underline-offset: 0.2em;
-  text-decoration-color: transparent;
-  transition: text-decoration-color 0.2s ease;
-}
-.julieta-parrafo-cta:hover .julieta-linea1,
-.julieta-parrafo-cta:hover .julieta-linea2,
-.julieta-parrafo-cta:focus-visible .julieta-linea1,
-.julieta-parrafo-cta:focus-visible .julieta-linea2 { text-decoration-color: currentColor; }
-.julieta-parrafo-cta:focus-visible { outline: none; }
-
-/* Los datos quedan por encima del enlace pero no interceptan el clic. */
-.julieta-datos { margin: 0; pointer-events: none; }
-
-.julieta-dato {
-  position: absolute;
-  left: 0;
-  right: 0;
-  font-size: 1.395cqw;
-  font-weight: 300;
-  line-height: 1;
-}
-
-.julieta-dato:nth-child(1) { top: 40.8%; }
-.julieta-dato:nth-child(2) { top: 60.2%; }
-.julieta-dato:nth-child(3) { top: 79.6%; }   /* misma separación que entre los dos primeros */
-
-.julieta-dato dt,
-.julieta-dato dd { position: absolute; top: 0; margin: 0; white-space: nowrap; }
-
-.julieta-dato dt { left: 4.8%; }
-.julieta-dato dd { left: 68.5%; }
-
-/* Ubicación abajo a la izquierda, con pin. */
-.julieta-ubicacion {
-  position: absolute;
-  left: 0.75%;
-  top: 94.1%;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.35em;
-  font-size: 1.47cqw;
-  font-weight: 300;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.julieta-pin { width: 0.95em; height: 1.2em; flex: none; }
-
-
-/* Celular — PENDIENTE de diseño (YOPE lo trabajará después). Por ahora: foto a todo el
-   ancho en 4:3 y el texto debajo, sobre blanco, en orden de lectura. */
+/* Celular — PENDIENTE de diseño. Por ahora: la foto arriba a todo el ancho y el texto
+   debajo, en el mismo orden y color. */
 @media (max-width: 767px) {
   /* Celular: 96 px de las casas a la foto, igual que arriba: 32 al enlace + 26 de enlace + 38. */
   .portada-inversion { padding: calc(var(--space-block) * 1.5 - var(--space-block) / 2 - 26px) var(--gutter) var(--space-block); }
   .portada-vitrina-pie { margin-top: calc(var(--space-block) / 2); }
 
-  .julieta-escena { aspect-ratio: auto; overflow: visible; background: none; }
+  .julieta-escena { aspect-ratio: auto; container-type: normal; }
   .julieta-foto {
     position: static;
     width: calc(100% + 2 * var(--gutter));
     max-width: none;
     margin-left: calc(-1 * var(--gutter));
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3000 / 2045;
     height: auto;
-    object-position: 40% center;
   }
+  .julieta-texto { padding-top: var(--space-block); }
 
-  .julieta-texto {
-    position: static;
-    container-type: normal;
-    color: var(--text-main);
-    padding-top: var(--space-block);
-  }
+  .julieta-etiqueta, .julieta-titulo,
+  .julieta-parrafo, .julieta-cta { position: static; white-space: normal; }
 
-  .julieta-casa, .julieta-nombre,
-  .julieta-linea1, .julieta-linea2,
-  .julieta-ficha, .julieta-cta, .julieta-cta-texto,
-  .julieta-dato, .julieta-dato dt, .julieta-dato dd,
-  .julieta-ubicacion { position: static; white-space: normal; }
-
-  .julieta-titulo { font-size: 44px; line-height: 1.05; }
-  .julieta-casa, .julieta-nombre { font-size: inherit; }
-
-  .julieta-parrafo {
-    margin-top: var(--space-close);
-    font-size: var(--t-5);
-    line-height: 1.5;
-    color: var(--text-muted);
-  }
-  .julieta-linea1, .julieta-linea2 { font-size: inherit; }
-
-  .julieta-ficha { width: auto; height: auto; margin-top: calc(var(--space-block) / 2); }
+  .julieta-etiqueta { display: block; font-size: var(--t-4); }
+  .julieta-titulo { font-size: 48px; line-height: 1.05; margin-top: 4px; }
+  .julieta-parrafo { margin-top: var(--space-close); font-size: var(--t-5); line-height: 1.5; }
+  .julieta-parrafo br { display: none; }
   .julieta-cta {
-    display: inline-block;
-    padding: 14px 20px;
-    background: var(--ink);
-    color: #FFF;
+    margin-top: calc(var(--space-block) / 2);
+    font-size: var(--t-4);
+    gap: 16px;
+    padding-bottom: 6px;
   }
-  .julieta-cta-texto { font-size: var(--t-small); letter-spacing: 0.08em; text-transform: uppercase; }
-  .julieta-datos { margin-top: var(--space-close); }
-  .julieta-dato { display: flex; justify-content: space-between; font-size: var(--t-body); padding: 8px 0; border-bottom: 1px solid var(--border-subtle); color: var(--text-muted); }
-  .julieta-ubicacion { margin-top: var(--space-close); font-size: var(--t-small); color: var(--text-light); display: flex; }
+  .julieta-flecha { width: 44px; height: 12px; }
 }
 
 /* ==========================================================================
