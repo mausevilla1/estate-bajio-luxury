@@ -8,7 +8,8 @@
 //   · zone: "San Miguel de Allende"
 //   · subzone: "Club de Golf Malanquín"
 //   · priceMXN, m2Construccion, m2Terreno, bedrooms, bathrooms, features.
-//   · Las tres casas se entregan SIN MUEBLES: ningún texto debe sugerir mobiliario incluido.
+//   · Las tres casas se entregan SIN MUEBLES y CON COCINA EQUIPADA: ningún texto debe sugerir
+//     mobiliario incluido.
 //
 // FICHA TÉCNICA (después de las fotos): niveles, caracteristicas (de info.md),
 //   planos (espacios por planta) y entorno (clave de ENTORNOS, más abajo).
@@ -48,7 +49,7 @@ const LUXURY_PROPERTIES = [
       "Arquitectura contemporánea con techos altos de madera estilo San Miguel",
       "Acabados de alta gama en piedra y cantera natural",
       "Espacios amplios con gran iluminación natural",
-      "Cocina abierta",
+      "Cocina abierta y equipada",
       "Sala de medios",
       "Terraza con asador",
       "Jardín privado amplio"
@@ -141,7 +142,7 @@ const LUXURY_PROPERTIES = [
     caracteristicas: [
       "Vistas a las montañas de Los Picachos",
       "Gran iluminación natural en dos niveles",
-      "Cocina abierta",
+      "Cocina abierta y equipada",
       "Sala y comedor de generosas dimensiones",
       "Terraza con asador",
       "Jardín privado"

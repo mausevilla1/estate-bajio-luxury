@@ -24,7 +24,7 @@
 - Techos altos de vigas de madera estilo San Miguel.
 - Acabados en piedra y cantera con estilo moderno y rústico cálido.
 - Gran iluminación natural en dos niveles.
-- Cocina abierta (Open Kitchen).
+- Cocina abierta y equipada (Open Kitchen).
 - Sala y comedor de generosas dimensiones.
 - Terraza con asador (BBQ & Terrace).
 - Jardín privado.

@@ -147,7 +147,8 @@ si se agrega contenido, hay que repartirlo, no alargar el panel.
 - Sin escasez falsa: "últimas unidades" sólo si es verdad.
 - No pedir datos antes de tiempo: primero se explora y después se piden datos (al agendar, consultar o pedir información).
 - El sitio **capta** prospectos y contactos. El seguimiento vive en el CRM, aparte del sitio.
-- Las tres casas del Club de Golf se entregan **sin muebles**: ningún texto debe sugerir mobiliario incluido.
+- Las tres casas del Club de Golf se entregan **sin muebles** y **con cocina equipada**: ningún texto debe
+  sugerir mobiliario incluido.
 
 ---
 

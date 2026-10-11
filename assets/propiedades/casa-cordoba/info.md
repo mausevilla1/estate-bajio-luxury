@@ -24,7 +24,7 @@
 - Arquitectura contemporánea con techos altos de madera estilo tradicional San Miguel.
 - Acabados de alta gama en piedra y cantera natural.
 - Espacios amplios con gran iluminación natural.
-- Cocina abierta (Open Kitchen).
+- Cocina abierta y equipada (Open Kitchen).
 - Sala de medios / family room (Media Room).
 - Terraza con asador (BBQ & Terrace).
 - Jardín privado amplio.
