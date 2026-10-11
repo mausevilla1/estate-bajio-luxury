@@ -3069,6 +3069,15 @@ body.catalog-page .site-header .btn-gold { margin-top: 0; width: auto; }
 body.home .site-header.scrolled,
 body.catalog-page .site-header.scrolled { box-shadow: none; }
 
+/* Entre 1024 y 1279 px no caben logo, tres enlaces y botón con 64 px de aire:
+   el aire se reduce para que el botón no se salga de la pantalla. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  body.home .site-header .nav-container,
+  body.catalog-page .site-header .nav-container { gap: 24px; }
+  body.home .site-header .nav-links,
+  body.catalog-page .site-header .nav-links { gap: 32px; }
+}
+
 /* ==========================================================================
    CATÁLOGO - CABECERA EDITORIAL & FRANJA DE INVERSIÓN
    ========================================================================== */
