@@ -4341,6 +4341,54 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 }
 
 /* ==========================================================================
+   DESARROLLAR / BUSCAR CAPITAL (portada, #capital) — provisional hasta el diseño
+   de YOPE. Va entre Casa Julieta, que ya deja 128 px abajo, y Praetora Studio.
+   ========================================================================== */
+.capital-seccion {
+  background: var(--bg-primary);
+  padding: 0 0 var(--space-section);
+}
+
+.capital-columnas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 360px));
+  gap: var(--space-block);
+  margin-top: var(--space-block);
+}
+
+.capital-subtitulo { color: var(--text-main); margin: 0 0 var(--space-close); }
+
+.capital-lista { list-style: none; margin: 0; padding: 0; color: var(--text-muted); }
+.capital-lista li + li { margin-top: 6px; }
+
+/* Pasos numerados 01 … 05, el número en la letra de etiqueta. */
+.capital-pasos { counter-reset: paso; }
+.capital-pasos li { counter-increment: paso; display: flex; align-items: baseline; gap: 16px; }
+.capital-pasos li::before {
+  content: counter(paso, decimal-leading-zero);
+  flex: none;
+  min-width: 20px;
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--text-light);
+}
+
+.capital-cierre {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-close);
+  margin-top: var(--space-block);
+}
+.capital-nota { color: var(--text-light); max-width: 65ch; margin: 0; }
+
+@media (max-width: 767px) {
+  .capital-seccion { padding-bottom: calc(var(--space-block) * 1.5); }
+  .capital-columnas { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* ==========================================================================
    SISTEMA TIPOGRÁFICO — una sola familia, una sola escala, dos pesos.
    --------------------------------------------------------------------------
    Familia: Acumin Pro (Adobe Fonts), a través de --font-sans.
@@ -4415,6 +4463,8 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 .ficha-dato-valor,
 .ficha-subtitulo,
 .ficha-lista li,
+.capital-subtitulo,
+.capital-lista li,
 .catalog-inversion-metricas,
 .catalog-inversion-metricas span {
   font-size: var(--t-body);
@@ -4422,7 +4472,8 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   line-height: 1.5;
 }
 .catalog-inversion-metricas strong { font-weight: 500; }
-.ficha-subtitulo { font-weight: 500; }
+.ficha-subtitulo,
+.capital-subtitulo { font-weight: 500; }
 
 /* Pie y notas · 14 / 400 */
 .site-footer p,
@@ -4430,6 +4481,7 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 .site-footer .footer-bottom,
 .site-footer .footer-bottom div,
 .ficha-nota,
+.capital-nota,
 .t-pie {
   font-size: var(--t-small);
   font-weight: 400;
