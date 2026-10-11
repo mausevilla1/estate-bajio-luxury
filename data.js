@@ -290,13 +290,13 @@ const ACTIVOS_INVERSION = [
         src: "assets/propiedades/hotel/fotos/5.jpeg",
         prop: "3:4",
         alto: "b",
-        pie: "Roof garden con vistas panorámicas al Centro Histórico y al atardecer."
+        pie: "Roof garden al atardecer, con sombrillas de flecos y camastros."
       },
       {
         src: "assets/propiedades/hotel/fotos/6.jpeg",
         prop: "3:4",
         alto: "c",
-        pie: "Mesa en la terraza, bajo las sombrillas de flecos."
+        pie: "Mesas de la terraza con cojines verdes, bajo las sombrillas de flecos."
       },
       {
         src: "assets/propiedades/hotel/fotos/7.jpeg",
@@ -347,24 +347,6 @@ const ACTIVOS_INVERSION = [
         pie: "Terraza superior con vista a las cúpulas de San Miguel de Allende."
       },
       {
-        src: "assets/propiedades/hotel/fotos/13.jpeg",
-        prop: "3:4",
-        alto: "c",
-        pie: "Ambiente de hospitalidad y coctelería en la terraza."
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/14.jpeg",
-        prop: "3:4",
-        alto: "a",
-        pie: "Suite en tono coral."
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/14.9.jpeg",
-        prop: "16:9",
-        alto: "b",
-        pie: "El roof: sombrillas de flecos con la Parroquia al fondo."
-      },
-      {
         src: "assets/propiedades/hotel/fotos/15.jpeg",
         prop: "2:3",
         alto: "c",
@@ -401,24 +383,6 @@ const ACTIVOS_INVERSION = [
         pie: "Suite con acabados artesanales y candelabro contemporáneo."
       },
       {
-        src: "assets/propiedades/hotel/fotos/21.jpeg",
-        prop: "2:3",
-        alto: "c",
-        pie: "Acceso privado y balcón en suite de planta alta."
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/22.jpeg",
-        prop: "2:3",
-        alto: "a",
-        pie: "Suite con vigas expuestas y vistas interiores al patio."
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/24.jpeg",
-        prop: "2:3",
-        alto: "b",
-        pie: "Detalle de cantera y farol."
-      },
-      {
         src: "assets/propiedades/hotel/fotos/25.jpeg",
         prop: "2:3",
         alto: "c",
@@ -431,10 +395,10 @@ const ACTIVOS_INVERSION = [
         pie: "Espejo antiguo en una suite verde."
       },
       {
-        src: "assets/propiedades/hotel/fotos/27.jpeg",
-        prop: "3:4",
+        src: "assets/propiedades/hotel/fotos/26.9.jpeg",
+        prop: "4:3",
         alto: "b",
-        pie: "Detalle decorativo con jarrones y cuadro."
+        pie: "Pasillo de las suites con piso de madera en espiga, vigas y retrato de época."
       }
     ]
   }
