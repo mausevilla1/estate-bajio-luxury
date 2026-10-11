@@ -4008,7 +4008,7 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   /* Debajo de las casas debe haber el mismo aire que arriba (192 px, medido del nombre de
      las casas a la foto). Ahí dentro va "Catálogo completo": 64 px de las casas al enlace,
      26 px de enlace y este relleno, 192 - 64 - 26 = 102 px. La foto va a todo el ancho. */
-  padding: calc(var(--space-footer) - var(--space-block) - 26px) 0 var(--space-section);
+  padding: calc(var(--space-footer) - var(--space-block) - var(--enlace-alto)) 0 var(--space-section);
   position: relative;
   z-index: 10;
 }
@@ -4024,7 +4024,7 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
    (scratch/julieta-referencia-borrador.jpg). Sólo la mitad con foto se carga como imagen.
    Color del texto: el vino oscuro que YOPE eligió en su borrador (#3E101A). */
 .julieta-escena {
-  --julieta-fuente: "acumin-pro-condensed", "acumin-pro", sans-serif;
+  --julieta-fuente: var(--font-sans);   /* una sola familia en todo el sitio */
   --julieta-tinta: #3E101A;
   position: relative;
   aspect-ratio: 6000 / 2045;
@@ -4083,23 +4083,13 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   transition: opacity 0.2s ease;
 }
 
-.julieta-flecha {
-  width: 3.75cqw;
-  height: 0.9cqw;
-  flex: none;
-  transition: transform 0.2s ease;
-}
-
-.julieta-cta:hover .julieta-flecha,
-.julieta-cta:focus-visible .julieta-flecha { transform: translateX(0.5cqw); }
-
 .julieta-cta:focus-visible { outline: 1px solid var(--julieta-tinta); outline-offset: 4px; }
 
 /* Celular — PENDIENTE de diseño. Por ahora: la foto arriba a todo el ancho y el texto
    debajo, en el mismo orden y color. */
 @media (max-width: 767px) {
   /* Celular: 96 px de las casas a la foto, igual que arriba: 32 al enlace + 26 de enlace + 38. */
-  .portada-inversion { padding: calc(var(--space-block) * 1.5 - var(--space-block) / 2 - 26px) var(--gutter) var(--space-block); }
+  .portada-inversion { padding: calc(var(--space-block) * 1.5 - var(--space-block) / 2 - var(--enlace-alto)) var(--gutter) var(--space-block); }
   .portada-vitrina-pie { margin-top: calc(var(--space-block) / 2); }
 
   .julieta-escena { aspect-ratio: auto; container-type: normal; }
@@ -4126,7 +4116,6 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
     gap: 16px;
     padding-bottom: 6px;
   }
-  .julieta-flecha { width: 44px; height: 12px; }
 }
 
 /* ==========================================================================
@@ -4215,4 +4204,206 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   clip: rect(0 0 0 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* ==========================================================================
+   SISTEMA TIPOGRÁFICO — una sola familia, una sola escala, dos pesos.
+   --------------------------------------------------------------------------
+   Familia: Acumin Pro (Adobe Fonts), a través de --font-sans.
+   Escala del documento de marca: 32 · 24 · 20 · 18 · 16 · 14 · 12 px. Pesos 400 y 500.
+   Mayúsculas sólo a 12 px (etiquetas, menú y botones).
+   UN estilo de ENLACE de navegación (18 px, flecha, subrayado fino) para todo lo que
+   lleva a otra página, y UN estilo de BOTÓN de acción (contactar, solicitar, continuar).
+   Excepciones de "display", por diseño de YOPE (no entran en este bloque):
+     · el logotipo PRAETORA / GRUPO / INMOBILIARIO del hero y su navegación;
+     · el texto de Casa Julieta (etiqueta, título y párrafo).
+   Este bloque va al final de la hoja a propósito: manda sobre las reglas viejas.
+   ========================================================================== */
+:root {
+  /* Alto del enlace de navegación (renglón de 18 px x 1.3 + 6 px de aire + 1 px de línea).
+     Lo usa el cálculo del aire entre las casas y Casa Julieta. */
+  --enlace-alto: calc(var(--t-5) * 1.3 + 7px);
+  --flecha-derecha: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 12'%3E%3Cpath d='M0 6h42M36.5 1 42 6l-5.5 5' fill='none' stroke='black' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --flecha-izquierda: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 12'%3E%3Cpath d='M44 6H2M7.5 1 2 6l5.5 5' fill='none' stroke='black' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+/* Título · 32 / 500 */
+.section-title,
+.propiedad-bloque-titulo,
+.ficha-titulo,
+.t-titulo {
+  font-family: var(--font-sans);
+  font-size: var(--t-1);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: normal;
+}
+
+/* Título secundario y dato numérico · 24 / 500 */
+.b2b-cta-box h3,
+.wizard-step-pane h3,
+.catalog-inversion-titulo,
+.propiedad-bloque-numero {
+  font-family: var(--font-sans);
+  font-size: var(--t-3);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: normal;
+}
+
+/* Subtítulo y nombre de propiedad · 20 / 500 */
+.portada-vitrina-nombre,
+.ficha-precio,
+.b2b-feature-text h4 {
+  font-size: var(--t-4);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: normal;
+}
+
+/* Texto destacado · 18 / 400 */
+.section-desc,
+.propiedad-bloque-parrafo,
+.catalog-inversion-desc,
+.ficha-parrafo,
+.b2b-cta-box p,
+.wizard-step-pane > p {
+  font-size: var(--t-5);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* Texto · 16 / 400 */
+.b2b-feature-text p,
+.ficha-dato-etiqueta,
+.ficha-dato-valor,
+.catalog-inversion-metricas,
+.catalog-inversion-metricas span {
+  font-size: var(--t-body);
+  font-weight: 400;
+  line-height: 1.5;
+}
+.catalog-inversion-metricas strong { font-weight: 500; }
+
+/* Pie y notas · 14 / 400 */
+.site-footer p,
+.site-footer .footer-col li a,
+.site-footer .footer-bottom,
+.site-footer .footer-bottom div,
+.t-pie {
+  font-size: var(--t-small);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+/* Etiqueta y menú · 12 / 500 · MAYÚSCULAS */
+.section-tag,
+.propiedad-bloque-tag,
+.propiedad-bloque-rotulo,
+.propiedad-bloque-ubicacion,
+.catalog-inversion-tag,
+.ficha-etiqueta,
+.site-footer .footer-col h5,
+.wizard-section label,
+.site-header .nav-link,
+.t-etiqueta {
+  font-family: var(--font-sans);
+  font-size: var(--t-label);
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ENLACE de navegación — lleva a otra página: texto, flecha y subrayado fino.
+   Catálogo completo · Ver ficha · Ver propiedad · Volver al catálogo. */
+.portada-enlace,
+.julieta-cta,
+.ficha-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid currentColor;
+  font-family: var(--font-sans);
+  font-size: var(--t-5);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: normal;
+  text-transform: none;
+  text-decoration: none;
+  color: var(--text-main);
+  opacity: 1;
+}
+
+.portada-enlace::after,
+.julieta-cta::after,
+.ficha-volver::before {
+  content: "";
+  flex: none;
+  width: 44px;
+  height: 12px;
+  background: currentColor;
+  -webkit-mask: var(--flecha-derecha) center / contain no-repeat;
+          mask: var(--flecha-derecha) center / contain no-repeat;
+  transition: transform 0.2s ease;
+}
+
+.ficha-volver::before {
+  -webkit-mask-image: var(--flecha-izquierda);
+          mask-image: var(--flecha-izquierda);
+}
+
+.portada-enlace:hover::after,
+.portada-enlace:focus-visible::after,
+.julieta-cta:hover::after,
+.julieta-cta:focus-visible::after { transform: translateX(4px); }
+
+.ficha-volver:hover::before,
+.ficha-volver:focus-visible::before { transform: translateX(-4px); }
+
+.portada-enlace:hover,
+.portada-enlace:focus-visible,
+.ficha-volver:hover,
+.ficha-volver:focus-visible { opacity: 1; color: var(--text-main); }
+
+/* Casa Julieta conserva el vino de su diseño también en el enlace. */
+.julieta-cta { color: var(--julieta-tinta); }
+
+/* BOTÓN de acción — contactar, solicitar, continuar: 12 px mayúsculas sobre negro. */
+.btn-gold,
+.btn-outline-gold {
+  font-family: var(--font-sans);
+  font-size: var(--t-label);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 16px 28px;
+  border-radius: 0;
+  box-shadow: none;
+  transform: none;
+}
+
+.btn-gold { background: var(--ink); color: #FFF; border: 1px solid var(--ink); }
+.btn-gold:hover,
+.btn-gold:focus-visible { transform: none; opacity: 0.85; }
+
+.btn-outline-gold { background: transparent; color: var(--text-main); border: 1px solid var(--ink); }
+.btn-outline-gold:hover,
+.btn-outline-gold:focus-visible { transform: none; background: var(--bg-secondary); border-color: var(--ink); }
+
+/* El botón del encabezado tenía su propio tamaño y espaciado: también sigue el sistema. */
+.site-header .btn-gold {
+  font-size: var(--t-label);
+  letter-spacing: 0.12em;
+}
+
+/* Sobre fondo oscuro el botón va invertido: blanco con letra negra. */
+.b2b-section .btn-gold {
+  background: #FFF;
+  color: var(--ink);
+  border-color: #FFF;
 }
