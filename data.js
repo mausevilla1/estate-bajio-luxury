@@ -264,71 +264,87 @@ const ACTIVOS_INVERSION = [
     flujo: [
       {
         src: "assets/propiedades/hotel/fotos/1.jpeg",
-        prop: "16:9",
-        alto: "b",
+        prop: "3:2",
+        alto: "a",
         pie: "Fachada histórica del siglo XIX en Umarán y Zacateros, con local Birkenstock en planta baja."
       },
       {
         src: "assets/propiedades/hotel/fotos/2.jpeg",
+        prop: "3:4",
+        alto: "b",
+        pie: "Patio interior empedrado y acceso principal a las suites."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/3.jpeg",
+        prop: "2:3",
+        alto: "c",
+        pie: "Fachada con balcón de herrería y farol."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/4.jpeg",
         prop: "2:3",
         alto: "a",
-        pie: "Patio interior empedrado y acceso principal a las suites."
+        pie: "Detalle de cantera labrada y farol en el muro."
       },
       {
         src: "assets/propiedades/hotel/fotos/5.jpeg",
         prop: "3:4",
-        alto: "c",
+        alto: "b",
         pie: "Roof garden con vistas panorámicas al Centro Histórico y al atardecer."
       },
       {
-        src: "assets/propiedades/hotel/fotos/12.jpeg",
-        prop: "2:3",
+        src: "assets/propiedades/hotel/fotos/6.jpeg",
+        prop: "3:4",
+        alto: "c",
+        pie: "Mesa en la terraza, bajo las sombrillas de flecos."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/7.jpeg",
+        prop: "3:4",
+        alto: "a",
+        pie: "Solárium y área lounge en terraza con horizonte abierto."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/8.jpeg",
+        prop: "3:4",
         alto: "b",
-        pie: "Terraza superior con vista a las cúpulas de San Miguel de Allende."
+        pie: "Escalinata de cantera hacia los niveles superiores."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/9.jpeg",
+        prop: "2:3",
+        alto: "c",
+        pie: "Vista exterior hacia la cúpula del Templo de las Monjas."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/9.8.jpeg",
+        prop: "4:3",
+        alto: "a",
+        pie: "Patio interior con escalera, plantas y puertas de madera tallada."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/9.9.jpeg",
+        prop: "4:3",
+        alto: "b",
+        pie: "Descanso de la escalera, entre plantas y puertas de madera."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/10.jpeg",
+        prop: "2:3",
+        alto: "c",
+        pie: "Camastros en la terraza."
       },
       {
         src: "assets/propiedades/hotel/fotos/11.jpeg",
-        prop: "3:4",
+        prop: "2:3",
         alto: "a",
         pie: "Balcón colonial con herrería tradicional e iluminación cálida."
       },
       {
-        src: "assets/propiedades/hotel/fotos/8.jpeg",
-        prop: "2:3",
-        alto: "c",
-        pie: "Fuente colonial y escalinata de cantera hacia niveles superiores."
-      },
-      {
-        tipo: "video",
-        src: "assets/propiedades/hotel/video/28.mp4",
-        poster: "assets/propiedades/hotel/video/28-poster.jpg",
-        prop: "9:16",
-        alto: "b",
-        pie: "Recorrido por la arquitectura y los patios coloniales de Casa Julieta."
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/15.jpeg",
-        prop: "3:4",
-        alto: "a",
-        pie: "Suite Presidencial con techos de vigas de madera y arquitectura de época."
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/20.jpeg",
-        prop: "2:3",
-        alto: "c",
-        pie: "Junior Suite con acabados artesanales y candelabro contemporáneo."
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/22.jpeg",
+        src: "assets/propiedades/hotel/fotos/12.jpeg",
         prop: "3:4",
         alto: "b",
-        pie: "Suite con vigas expuestas y vistas interiores al patio."
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/21.jpeg",
-        prop: "2:3",
-        alto: "a",
-        pie: "Acceso privado y balcón en suite de planta alta."
+        pie: "Terraza superior con vista a las cúpulas de San Miguel de Allende."
       },
       {
         src: "assets/propiedades/hotel/fotos/13.jpeg",
@@ -337,16 +353,88 @@ const ACTIVOS_INVERSION = [
         pie: "Ambiente de hospitalidad y coctelería en la terraza."
       },
       {
-        src: "assets/propiedades/hotel/fotos/7.jpeg",
-        prop: "2:3",
-        alto: "b",
-        pie: "Solárium y área lounge en terraza con horizonte abierto."
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/9.jpeg",
+        src: "assets/propiedades/hotel/fotos/14.jpeg",
         prop: "3:4",
         alto: "a",
-        pie: "Vista exterior hacia la cúpula del Templo de las Monjas."
+        pie: "Suite en tono coral."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/14.9.jpeg",
+        prop: "16:9",
+        alto: "b",
+        pie: "El roof: sombrillas de flecos con la Parroquia al fondo."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/15.jpeg",
+        prop: "2:3",
+        alto: "c",
+        pie: "Suite con techos de vigas de madera y arquitectura de época."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/16.jpeg",
+        prop: "3:4",
+        alto: "a",
+        pie: "Nichos con platos de talavera en una suite coral."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/17.jpeg",
+        prop: "3:4",
+        alto: "b",
+        pie: "Puerta de madera blanca hacia una suite."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/18.jpeg",
+        prop: "3:4",
+        alto: "c",
+        pie: "Suite con luz natural."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/19.jpeg",
+        prop: "2:3",
+        alto: "a",
+        pie: "Suite en tono verde con espejo antiguo."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/20.jpeg",
+        prop: "2:3",
+        alto: "b",
+        pie: "Suite con acabados artesanales y candelabro contemporáneo."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/21.jpeg",
+        prop: "2:3",
+        alto: "c",
+        pie: "Acceso privado y balcón en suite de planta alta."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/22.jpeg",
+        prop: "2:3",
+        alto: "a",
+        pie: "Suite con vigas expuestas y vistas interiores al patio."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/24.jpeg",
+        prop: "2:3",
+        alto: "b",
+        pie: "Detalle de cantera y farol."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/25.jpeg",
+        prop: "2:3",
+        alto: "c",
+        pie: "Sillas de herrería en la terraza."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/26.jpeg",
+        prop: "3:4",
+        alto: "a",
+        pie: "Espejo antiguo en una suite verde."
+      },
+      {
+        src: "assets/propiedades/hotel/fotos/27.jpeg",
+        prop: "3:4",
+        alto: "b",
+        pie: "Detalle decorativo con jarrones y cuadro."
       }
     ]
   }
