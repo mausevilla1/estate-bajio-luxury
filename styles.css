@@ -3947,9 +3947,18 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   transform: scale(1.03);
 }
 
+/* La última casa del catálogo es lo último antes del pie: lleva el aire del pie. */
+.catalogo-casas-grid .propiedad-bloque:last-child {
+  padding-bottom: var(--space-footer);
+}
+
 @media (max-width: 1023px) {
   .propiedad-bloque {
     padding: var(--space-block) var(--gutter);
+  }
+
+  .catalogo-casas-grid .propiedad-bloque:last-child {
+    padding-bottom: calc(var(--space-block) * 1.5);
   }
 
   .propiedad-bloque-grid {
