@@ -1281,7 +1281,7 @@ function praetoraRevelarNuevos(contenedor) {
 
     return '<section class="ficha-panel ficha-panel-texto" id="ficha-info">' +
       '<span class="ficha-etiqueta">' + esc(p.zone) + ' · ' + esc(p.subzone) + '</span>' +
-      '<h1 class="ficha-titulo">' + esc(p.title) + '</h1>' +
+      '<h1 class="ficha-titulo" translate="no">' + esc(p.title) + '</h1>' +
       precioHtml +
       '<div class="ficha-datos ficha-datos-sep">' +
         datosHtml +
@@ -1539,7 +1539,7 @@ function pintarVitrina() {
       '<div class="portada-vitrina-foto">' +
         '<img src="' + esc(foto) + '" alt="' + esc(p.title) + '" loading="lazy"' + estiloPos + '>' +
       '</div>' +
-      '<h3 class="portada-vitrina-nombre">' + esc(p.title) + '</h3>' +
+      '<h3 class="portada-vitrina-nombre" translate="no">' + esc(p.title) + '</h3>' +
     '</a>';
   }).join('');
 }
@@ -1607,7 +1607,7 @@ function renderPropiedadBloque(prop) {
       '<div class="propiedad-bloque-grid">' +
         '<div class="propiedad-bloque-info">' +
           '<span class="propiedad-bloque-tag">' + esc(etiqueta) + '</span>' +
-          '<h2 class="propiedad-bloque-titulo">' + esc(prop.title) + '</h2>' +
+          '<h2 class="propiedad-bloque-titulo" translate="no">' + esc(prop.title) + '</h2>' +
           '<div class="propiedad-bloque-ubicacion">' +
             pinSvg +
             '<span>' + esc(ubicacionTexto) + '</span>' +
