@@ -308,7 +308,7 @@ const ACTIVOS_INVERSION = [
         src: "assets/propiedades/hotel/fotos/8.jpeg",
         prop: "3:4",
         alto: "b",
-        pie: "Escalinata de cantera hacia los niveles superiores."
+        pie: "Fuente de cantera labrada con mascarón de león, bajo la escalera del patio."
       },
       {
         src: "assets/propiedades/hotel/fotos/9.jpeg",
