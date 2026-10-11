@@ -1305,6 +1305,30 @@ function praetoraRevelarNuevos(contenedor) {
       '</figure>';
   }
 
+  /* Plano minimal de una planta: dibujo de línea (SVG) y los nombres de los
+     espacios encima, en la letra del sitio. Dos versiones del dibujo: acostado
+     en escritorio (la fachada a la izquierda, se recorre como las fotos) y
+     parado en celular. Cada etiqueta trae su posición en % para las dos. */
+  function panelPlano(pl, p) {
+    var locales = (pl.etiquetas || []).map(function (e) {
+      // --w es el ancho libre del local: si el nombre no cabe, se parte en renglones.
+      // oculta: "h" en escritorio, "m" en celular (el local es muy chico a ese tamaño).
+      return '<span class="ficha-plano-local"' + (e.oculta ? ' data-oculta="' + esc(e.oculta) + '"' : '') +
+        ' style="--x:' + e.x + '%;--y:' + e.y + '%;--w:' + e.w +
+        '%;--xm:' + e.xm + '%;--ym:' + e.ym + '%;--wm:' + e.wm + '%">' + esc(e.t) + '</span>';
+    }).join('');
+    return '<figure class="ficha-panel ficha-plano" style="--plano-prop:' + pl.proporcion + '">' +
+      '<div class="ficha-plano-marco">' +
+        '<picture>' +
+          '<source media="(max-width: 1023px)" srcset="' + esc(pl.base) + '-v.svg">' +
+          '<img src="' + esc(pl.base) + '-h.svg" alt="Plano de ' + esc(pl.nivel.toLowerCase()) + ' de ' + esc(p.title) + '" loading="lazy">' +
+        '</picture>' +
+        locales +
+      '</div>' +
+      '<figcaption class="ficha-plano-nivel">' + esc(pl.nivel) + '</figcaption>' +
+      '</figure>';
+  }
+
   function panelCierre(p) {
     var esActivo = !!p.llaves || p.id === 'activo-1';
     var msg = encodeURIComponent(esActivo
@@ -1426,6 +1450,7 @@ function praetoraRevelarNuevos(contenedor) {
 
     var html = '';
     construirFlujo(p).forEach(function (f, i) { html += panelFoto(f, i); });
+    (p.planos || []).forEach(function (pl) { html += panelPlano(pl, p); });
     html += panelDatos(p);
     html += panelCierre(p);
     cont.innerHTML = html;

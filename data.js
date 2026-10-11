@@ -62,6 +62,43 @@ const LUXURY_PROPERTIES = [
       "Cocina abierta, sala de medios, terraza con asador y jardín amplio"
     ],
     projectedYield: "Consultar",
+    planos: [
+      {
+        nivel: "Planta baja",
+        base: "assets/propiedades/casa-cordoba/planos/planta-baja",
+        proporcion: 2.679,
+        etiquetas: [
+          { t: "Recámara principal", x: 56.2, y: 81.2, w: 12.3, xm: 81.2, ym: 43.8, wm: 30 },
+          { t: "Baño / vestidor principal", x: 46.4, y: 85.7, w: 13.2, xm: 85.7, ym: 53.6, wm: 21.4 },
+          { t: "Estancia / comedor", x: 43.8, y: 34.7, w: 11.7, xm: 34.7, ym: 56.2, wm: 30 },
+          { t: "Baño de servicio", x: 35.7, y: 12.9, w: 2.4, xm: 12.9, ym: 64.3, wm: 7.4, oculta: "m" },
+          { t: "Recámara de servicio", x: 34.4, y: 26.6, w: 5.1, xm: 26.6, ym: 65.6, wm: 12.8, oculta: "m" },
+          { t: "Cocina", x: 31.9, y: 51.4, w: 12.5, xm: 51.4, ym: 68.1, wm: 30 },
+          { t: "Lavandería", x: 22.5, y: 25.1, w: 4.8, xm: 25.1, ym: 77.5, wm: 15.6, oculta: "m" },
+          { t: "Baño / vestidor 1", x: 21.4, y: 81.7, w: 6.2, xm: 81.7, ym: 78.6, wm: 13.2, oculta: "m" },
+          { t: "Toilet", x: 20, y: 41.3, w: 1, xm: 41.3, ym: 80, wm: 7.9, oculta: "m" },
+          { t: "Vestíbulo", x: 17.1, y: 55, w: 6.7, xm: 55, ym: 82.9, wm: 18.5, oculta: "m" },
+          { t: "Recámara 1", x: 10.4, y: 81.4, w: 12.1, xm: 81.4, ym: 89.6, wm: 30 },
+          { t: "Acceso", x: 8.9, y: 54.8, w: 3.2, xm: 54.8, ym: 91.1, wm: 8, oculta: "m" },
+          { t: "Cochera", x: 2.6, y: 24.5, w: 7.6, xm: 24.5, ym: 97.4, wm: 30 }
+        ]
+      },
+      {
+        nivel: "Planta sótano",
+        base: "assets/propiedades/casa-cordoba/planos/planta-sotano",
+        proporcion: 2.141,
+        etiquetas: [
+          { t: "Jardín", x: 82.7, y: 52.3, w: 6, xm: 52.3, ym: 17.3, wm: 30 },
+          { t: "Recámara 2", x: 45.2, y: 80.9, w: 15.4, xm: 80.9, ym: 54.8, wm: 30 },
+          { t: "Bodega", x: 43.3, y: 6.9, w: 6, xm: 6.9, ym: 56.7, wm: 7, oculta: "m" },
+          { t: "Baño / vestidor 2", x: 32.9, y: 85.5, w: 16.3, xm: 85.5, ym: 67.1, wm: 21.4 },
+          { t: "Terraza pergolada", x: 39.9, y: 37.1, w: 30, xm: 37.1, ym: 60.1, wm: 30 },
+          { t: "Sala de TV / estudio", x: 14.1, y: 43, w: 14, xm: 43, ym: 85.9, wm: 30 },
+          { t: "Jardín interior", x: 13.8, y: 86.2, w: 13.6, xm: 86.2, ym: 86.2, wm: 22.4 },
+          { t: "Baño", x: 3.9, y: 83.3, w: 4.8, xm: 83.3, ym: 96.1, wm: 11.8 }
+        ]
+      }
+    ],
     description: "Increíble residencia de lujo en el Club de Golf Malanquín con vistas a las montañas de Los Picachos y acceso directo al campo de golf. Esta casa de dos niveles combina amplitud, techos altos de madera estilo San Miguel, cantera y acabados de autor contemporáneos con todas las comodidades y amenidades de club de golf."
   },
   {
@@ -95,7 +132,47 @@ const LUXURY_PROPERTIES = [
       "assets/propiedades/casa-granada/fotos/49.webp",
       "assets/propiedades/casa-granada/fotos/11.webp"
     ],
-        flujo: [
+        planos: [
+      {
+        nivel: "Planta baja",
+        base: "assets/propiedades/casa-granada/planos/planta-baja",
+        proporcion: 3.95,
+        etiquetas: [
+          { t: "Terraza pergolada", x: 91.8, y: 52.1, w: 14.5, xm: 52.1, ym: 8.2, wm: 30 },
+          { t: "Jardín", x: 82, y: 43.6, w: 14.3, xm: 43.6, ym: 18, wm: 30 },
+          { t: "Jardín", x: 68.8, y: 23.8, w: 23, xm: 23.8, ym: 31.2, wm: 30 },
+          { t: "Estancia", x: 69.2, y: 69.5, w: 10.7, xm: 69.5, ym: 30.8, wm: 30 },
+          { t: "Patio interior", x: 60.4, y: 77.7, w: 6.2, xm: 77.7, ym: 39.6, wm: 30 },
+          { t: "Comedor", x: 50.9, y: 26.6, w: 11.9, xm: 26.6, ym: 49.1, wm: 30 },
+          { t: "Cocina", x: 50.9, y: 71.6, w: 11.9, xm: 71.6, ym: 49.1, wm: 30 },
+          { t: "Vestíbulo", x: 42.1, y: 47.7, w: 5.3, xm: 47.7, ym: 57.9, wm: 20.8 },
+          { t: "Toilet", x: 40, y: 9.8, w: 3.3, xm: 9.8, ym: 60, wm: 12.9 },
+          { t: "Recámara", x: 33, y: 72, w: 10, xm: 72, ym: 67, wm: 30 },
+          { t: "Jardín", x: 26.8, y: 17.6, w: 21.9, xm: 17.6, ym: 73.2, wm: 29.3 },
+          { t: "Baño / vestidor", x: 24.8, y: 64.1, w: 5.6, xm: 64.1, ym: 75.2, wm: 30 },
+          { t: "Lavandería", x: 18.8, y: 72.3, w: 5.6, xm: 72.3, ym: 81.2, wm: 30 },
+          { t: "Baño de servicio", x: 14, y: 80.5, w: 3.3, xm: 80.5, ym: 86, wm: 11.5, oculta: "m" },
+          { t: "Recámara de servicio", x: 6.6, y: 85.9, w: 8.3, xm: 85.9, ym: 93.4, wm: 22.2 },
+          { t: "Cochera", x: 2.2, y: 47.4, w: 6.9, xm: 47.4, ym: 97.8, wm: 30 }
+        ]
+      },
+      {
+        nivel: "Planta alta",
+        base: "assets/propiedades/casa-granada/planos/planta-alta",
+        proporcion: 3.95,
+        etiquetas: [
+          { t: "Recámara principal", x: 69.2, y: 69.8, w: 10.7, xm: 69.8, ym: 30.8, wm: 30 },
+          { t: "Baño / vestidor principal", x: 49.1, y: 80.2, w: 8.3, xm: 80.2, ym: 50.9, wm: 30 },
+          { t: "Recámara 2", x: 51, y: 23.8, w: 11.9, xm: 23.8, ym: 49, wm: 30 },
+          { t: "Baño / vestidor 2", x: 41.3, y: 31.3, w: 5.8, xm: 31.3, ym: 58.7, wm: 26.5 },
+          { t: "Baño / vestidor 3", x: 35.7, y: 73, w: 4.7, xm: 73, ym: 64.3, wm: 16.5, oculta: "m" },
+          { t: "Recámara 3", x: 27, y: 70.5, w: 10, xm: 70.5, ym: 73, wm: 30 },
+          { t: "Terraza", x: 18.9, y: 59.1, w: 5.8, xm: 59.1, ym: 81.1, wm: 26.5 },
+          { t: "Azotea", x: 8.9, y: 85.5, w: 13.4, xm: 85.5, ym: 91.1, wm: 22.2 }
+        ]
+      }
+    ],
+    flujo: [
       { src: "assets/propiedades/casa-granada/fotos/01.webp", prop: "4:3", alto: "a" },
       { src: "assets/propiedades/casa-granada/fotos/02.webp", prop: "3:4", alto: "b" },
       { src: "assets/propiedades/casa-granada/fotos/03.webp", prop: "3:2", alto: "c" },
@@ -197,6 +274,39 @@ const LUXURY_PROPERTIES = [
       "assets/propiedades/casa-olivos/fotos/08.webp",
       "assets/propiedades/casa-olivos/fotos/09.webp",
       "assets/propiedades/casa-olivos/fotos/10.webp"
+    ],
+    planos: [
+      {
+        nivel: "Planta baja",
+        base: "assets/propiedades/casa-olivos/planos/planta-baja",
+        proporcion: 3.444,
+        etiquetas: [
+          { t: "Recibidor", x: 27.1, y: 25.1, w: 10.7, xm: 25.1, ym: 72.9, wm: 30 },
+          { t: "Cocina", x: 27, y: 77.8, w: 11, xm: 77.8, ym: 73, wm: 26.8 },
+          { t: "Comedor", x: 41.1, y: 70.5, w: 17.2, xm: 70.5, ym: 58.9, wm: 30 },
+          { t: "Sala", x: 53.5, y: 70.7, w: 15.4, xm: 70.7, ym: 46.5, wm: 30 },
+          { t: "Lavado", x: 66, y: 82, w: 6.9, xm: 82, ym: 34, wm: 25.7 },
+          { t: "Vestíbulo", x: 70.2, y: 51, w: 16.3, xm: 51, ym: 29.8, wm: 13.7, oculta: "m" },
+          { t: "Recámara 01", x: 69.7, y: 22.7, w: 14.6, xm: 22.7, ym: 30.3, wm: 30 },
+          { t: "Baño / vestidor", x: 81.7, y: 31.4, w: 4.7, xm: 31.4, ym: 18.3, wm: 22.6 },
+          { t: "Jardín", x: 48.7, y: 26.9, w: 26.8, xm: 26.9, ym: 51.3, wm: 27.8 },
+          { t: "Recámara principal", x: 92.6, y: 69.4, w: 12.8, xm: 69.4, ym: 7.4, wm: 30 },
+          { t: "Baño / vestidor", x: 79.8, y: 78.1, w: 12.1, xm: 78.1, ym: 20.2, wm: 30 },
+          { t: "Jardín", x: 93.4, y: 20.6, w: 11.4, xm: 20.6, ym: 6.6, wm: 30 },
+          { t: "Garage", x: 10.1, y: 62.6, w: 15.9, xm: 62.6, ym: 89.9, wm: 30 },
+          { t: "Baño", x: 22.1, y: 51, w: 6.1, xm: 51, ym: 77.9, wm: 13.7 }
+        ]
+      },
+      {
+        nivel: "Planta alta",
+        base: "assets/propiedades/casa-olivos/planos/planta-alta",
+        proporcion: 3.444,
+        etiquetas: [
+          { t: "Azotea", x: 46.3, y: 70, w: 0.8, xm: 70, ym: 53.7, wm: 30 },
+          { t: "Azotea", x: 71.7, y: 25.3, w: 18.5, xm: 25.3, ym: 28.3, wm: 30 },
+          { t: "Estudio / sala de t.v.", x: 25.3, y: 39.5, w: 12.7, xm: 39.5, ym: 74.7, wm: 30 }
+        ]
+      }
     ],
     flujo: [
       { src: "assets/propiedades/casa-olivos/fotos/01.webp", prop: "3:4", alto: "a" },
