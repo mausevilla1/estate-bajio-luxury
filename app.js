@@ -1224,9 +1224,9 @@ function praetoraRevelarNuevos(contenedor) {
   function construirFlujo(p) {
     if (p.flujo && p.flujo.length) return p.flujo;
     var fotos = [];
-    if (p.heroImage) fotos.push({ src: p.heroImage, prop: '16:9', pie: '' });
+    if (p.heroImage) fotos.push({ src: p.heroImage, prop: '16:9' });
     (p.gallery || []).forEach(function (g) {
-      if (g !== p.heroImage) fotos.push({ src: g, prop: '16:9', pie: '' });
+      if (g !== p.heroImage) fotos.push({ src: g, prop: '16:9' });
     });
     return fotos;
   }
@@ -1302,7 +1302,6 @@ function praetoraRevelarNuevos(contenedor) {
     }
     return '<figure class="ficha-panel" data-prop="' + prop + '" data-alto="' + alto + '">' +
       '<div class="ficha-marco">' + medioHtml + '</div>' +
-      '<figcaption class="ficha-pie">' + esc(f.pie || '') + '</figcaption>' +
       '</figure>';
   }
 

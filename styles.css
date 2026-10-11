@@ -2911,18 +2911,6 @@ body.ficha-page {
   border: 1px solid var(--border-subtle);
 }
 
-/* El pie va pegado bajo la imagen y se sale de la caja, como en la
-   referencia. Sin banda reservada: si no hay pie, no hay hueco. */
-.ficha-pie {
-  font-size: 14px;
-  line-height: 18px;
-  color: var(--text-light);
-  margin-top: 10px;
-  max-width: 100%;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-.ficha-pie:empty { display: none; }
 
 /* --- Paneles de texto ---------------------------------------------------- */
 .ficha-panel-texto {

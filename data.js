@@ -96,63 +96,63 @@ const LUXURY_PROPERTIES = [
       "assets/propiedades/casa-granada/fotos/11.webp"
     ],
         flujo: [
-      { src: "assets/propiedades/casa-granada/fotos/01.webp", prop: "4:3", alto: "a", pie: "Vista aérea de la residencia en Club de Golf Malanquín con la presa al fondo." },
-      { src: "assets/propiedades/casa-granada/fotos/02.webp", prop: "3:4", alto: "b", pie: "Vista aérea del entorno con pin de localización hacia el valle." },
-      { src: "assets/propiedades/casa-granada/fotos/03.webp", prop: "3:2", alto: "c", pie: "Emplazamiento en Malanquín con vista franca hacia las montañas de Los Picachos." },
-      { src: "assets/propiedades/casa-granada/fotos/04.webp", prop: "4:3", alto: "a", pie: "Fachada principal con acceso vehicular y jardinera de agaves." },
-      { src: "assets/propiedades/casa-granada/fotos/05.webp", prop: "16:9", alto: "b", pie: "Planta de azoteas y patios interiores desde vista cenital aérea." },
-      { src: "assets/propiedades/casa-granada/fotos/06.webp", prop: "3:2", alto: "c", pie: "Perspectiva aérea de la fachada posterior, terraza y jardín." },
-      { src: "assets/propiedades/casa-granada/fotos/07.webp", prop: "3:2", alto: "a", pie: "Jardín posterior con pérgola y asador." },
-      { src: "assets/propiedades/casa-granada/fotos/08.webp", prop: "3:4", alto: "b", pie: "Fachada posterior de dos niveles desde el jardín." },
-      { src: "assets/propiedades/casa-granada/fotos/09.webp", prop: "3:2", alto: "c", pie: "Pérgola de columnas de madera sobre la terraza." },
-      { src: "assets/propiedades/casa-granada/fotos/10.webp", prop: "3:4", alto: "a", pie: "Zaguán de madera antigua hacia el patio de acceso." },
-      { src: "assets/propiedades/casa-granada/fotos/11.webp", prop: "3:4", alto: "b", pie: "La puerta de madera abierta hacia el patio." },
-      { src: "assets/propiedades/casa-granada/fotos/12.webp", prop: "2:3", alto: "c", pie: "Patio empedrado entre muros blancos." },
-      { src: "assets/propiedades/casa-granada/fotos/13.webp", prop: "3:2", alto: "a", pie: "Patio empedrado con vegetación y ventanal hacia el vestíbulo." },
-      { src: "assets/propiedades/casa-granada/fotos/14.webp", prop: "3:4", alto: "b", pie: "Puerta principal de madera rústica con herrajes artesanales." },
-      { src: "assets/propiedades/casa-granada/fotos/15.webp", prop: "3:4", alto: "c", pie: "Ingreso a la residencia con vista al vestíbulo y arranque de escalera." },
-      { src: "assets/propiedades/casa-granada/fotos/16.webp", prop: "3:4", alto: "a", pie: "Medio baño de visitas con lavabo monolítico de piedra labrada." },
-      { src: "assets/propiedades/casa-granada/fotos/17.webp", prop: "3:4", alto: "b", pie: "Vestíbulo de acceso con escalera de mármol y carpintería en madera." },
-      { src: "assets/propiedades/casa-granada/fotos/18.webp", prop: "3:4", alto: "c", pie: "Bodega bajo escalera y arranque de escalones de mármol con luz de cortesía." },
-      { src: "assets/propiedades/casa-granada/fotos/19.webp", prop: "3:4", alto: "a", pie: "Entrada a recámara en planta baja con carpintería en madera y pisos claros." },
-      { src: "assets/propiedades/casa-granada/fotos/20.webp", prop: "3:4", alto: "b", pie: "Recámara con acceso a vestidor privado en carpintería oscura." },
-      { src: "assets/propiedades/casa-granada/fotos/21.webp", prop: "3:4", alto: "c", pie: "Baño completo y clóset vestidor con acabados en mármol y madera." },
-      { src: "assets/propiedades/casa-granada/fotos/22.webp", prop: "3:4", alto: "a", pie: "Área de sanitario y regadera con cancelería de cristal templado." },
-      { src: "assets/propiedades/casa-granada/fotos/23.webp", prop: "3:4", alto: "b", pie: "Recámara en planta baja con ventanal hacia el patio interior ajardinado." },
-      { src: "assets/propiedades/casa-granada/fotos/24.webp", prop: "3:4", alto: "c", pie: "Escalera principal de mármol travertino con iluminación indirecta hacia planta alta." },
-      { src: "assets/propiedades/casa-granada/fotos/25.webp", prop: "3:2", alto: "a", pie: "Cocina con isla y carpintería en madera." },
-      { src: "assets/propiedades/casa-granada/fotos/26.webp", prop: "3:2", alto: "b", pie: "Zona de cocción con campana y barra de trabajo." },
-      { src: "assets/propiedades/casa-granada/fotos/27.webp", prop: "3:2", alto: "c", pie: "Comedor abierto a la cocina, con ventanal al valle." },
-      { src: "assets/propiedades/casa-granada/fotos/28.webp", prop: "3:2", alto: "a", pie: "Comedor con ventanal panorámico hacia las montañas de Los Picachos." },
-      { src: "assets/propiedades/casa-granada/fotos/29.webp", prop: "3:2", alto: "b", pie: "La estancia desde el otro extremo, con salida a la terraza." },
-      { src: "assets/propiedades/casa-granada/fotos/30.webp", prop: "3:2", alto: "c", pie: "Estancia con chimenea y ventanal corrido al jardín." },
-      { src: "assets/propiedades/casa-granada/fotos/31.webp", prop: "3:4", alto: "a", pie: "Descanso de escalera de mármol hacia el distribuidor de planta alta." },
-      { src: "assets/propiedades/casa-granada/fotos/32.webp", prop: "3:4", alto: "b", pie: "Pasillo distribuidor en planta alta con acceso a recámaras y terrazas." },
-      { src: "assets/propiedades/casa-granada/fotos/33.webp", prop: "3:4", alto: "c", pie: "Llegada de escalera a planta alta y vista al vestíbulo de recámaras." },
-      { src: "assets/propiedades/casa-granada/fotos/34.webp", prop: "3:4", alto: "a", pie: "Pasillo hacia recámaras con ventanal al fondo." },
-      { src: "assets/propiedades/casa-granada/fotos/35.webp", prop: "3:4", alto: "b", pie: "Baño completo con lavabo sobre mármol y cancel de regadera al fondo." },
-      { src: "assets/propiedades/casa-granada/fotos/36.webp", prop: "3:4", alto: "c", pie: "Baño con clóset integrado, cancel abatible y luz cenital." },
-      { src: "assets/propiedades/casa-granada/fotos/37.webp", prop: "3:4", alto: "a", pie: "Recámara secundaria en planta alta con ventilador y salida a terraza." },
-      { src: "assets/propiedades/casa-granada/fotos/38.webp", prop: "3:4", alto: "b", pie: "Ventanal hacia la terraza de planta alta." },
-      { src: "assets/propiedades/casa-granada/fotos/39.webp", prop: "3:4", alto: "c", pie: "Corredor de planta alta hacia recámaras y ventanales exteriores." },
-      { src: "assets/propiedades/casa-granada/fotos/40.webp", prop: "3:4", alto: "a", pie: "Acceso a recámara con ventilador y ventanal hacia el jardín posterior." },
-      { src: "assets/propiedades/casa-granada/fotos/41.webp", prop: "3:4", alto: "b", pie: "Recámara amplia con ventanal de piso a techo y jardinera exterior." },
-      { src: "assets/propiedades/casa-granada/fotos/42.webp", prop: "3:4", alto: "c", pie: "Acceso a baño privado y vestidor en suite de planta alta." },
-      { src: "assets/propiedades/casa-granada/fotos/43.webp", prop: "3:4", alto: "a", pie: "Baño con espejo circular y regadera de cristal." },
-      { src: "assets/propiedades/casa-granada/fotos/44.webp", prop: "3:4", alto: "b", pie: "Vestidor integrado en carpintería oscura de piso a techo." },
-      { src: "assets/propiedades/casa-granada/fotos/45.webp", prop: "3:4", alto: "c", pie: "Perspectiva desde el vestidor hacia la recámara y jardinera exterior." },
-      { src: "assets/propiedades/casa-granada/fotos/46.webp", prop: "3:4", alto: "a", pie: "Pasillo de distribución con iluminación natural cenital y lateral." },
-      { src: "assets/propiedades/casa-granada/fotos/47.webp", prop: "3:4", alto: "b", pie: "Ingreso al baño principal y vestidor de la recámara máster." },
-      { src: "assets/propiedades/casa-granada/fotos/48.webp", prop: "3:4", alto: "c", pie: "Acceso con puerta de madera maciza hacia el baño principal." },
-      { src: "assets/propiedades/casa-granada/fotos/49.webp", prop: "3:4", alto: "a", pie: "Baño principal con doble lavabo y tragaluz." },
-      { src: "assets/propiedades/casa-granada/fotos/50.webp", prop: "3:4", alto: "b", pie: "Isla de tocador con doble lavabo y espejo suspendido bajo tragaluz." },
-      { src: "assets/propiedades/casa-granada/fotos/51.webp", prop: "3:4", alto: "c", pie: "Pasillo puente con ventanales de piso a techo y vistas panorámicas." },
-      { src: "assets/propiedades/casa-granada/fotos/52.webp", prop: "3:4", alto: "a", pie: "Recámara principal con ventanales hacia las vistas del lago y campo." },
-      { src: "assets/propiedades/casa-granada/fotos/53.webp", prop: "3:4", alto: "b", pie: "Vista abierta de la recámara máster con ventanal panorámico al valle." },
-      { src: "assets/propiedades/casa-granada/fotos/54.webp", prop: "3:4", alto: "c", pie: "Recámara con ventanales de esquina y vista abierta." },
-      { src: "assets/propiedades/casa-granada/fotos/55.webp", prop: "3:4", alto: "a", pie: "Perspectiva del pasillo acristalado hacia el núcleo de recámaras." },
-      { src: "assets/propiedades/casa-granada/fotos/56.webp", prop: "3:4", alto: "b", pie: "Distribuidor de habitaciones con puertas de madera y pisos de mármol claro." },
-      { src: "assets/propiedades/casa-granada/fotos/57.webp", prop: "3:4", alto: "c", pie: "Corredor de planta alta junto al pretil de escalera hacia ventanal posterior." }
+      { src: "assets/propiedades/casa-granada/fotos/01.webp", prop: "4:3", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/02.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/03.webp", prop: "3:2", alto: "c" },
+      { src: "assets/propiedades/casa-granada/fotos/04.webp", prop: "4:3", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/05.webp", prop: "16:9", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/06.webp", prop: "3:2", alto: "c" },
+      { src: "assets/propiedades/casa-granada/fotos/07.webp", prop: "3:2", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/08.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/09.webp", prop: "3:2", alto: "c" },
+      { src: "assets/propiedades/casa-granada/fotos/10.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/11.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/12.webp", prop: "2:3", alto: "c" },
+      { src: "assets/propiedades/casa-granada/fotos/13.webp", prop: "3:2", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/14.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/15.webp", prop: "3:4", alto: "c" },
+      { src: "assets/propiedades/casa-granada/fotos/16.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/17.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/18.webp", prop: "3:4", alto: "c" },
+      { src: "assets/propiedades/casa-granada/fotos/19.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/20.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/21.webp", prop: "3:4", alto: "c" },
+      { src: "assets/propiedades/casa-granada/fotos/22.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/23.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/24.webp", prop: "3:4", alto: "c" },
+      { src: "assets/propiedades/casa-granada/fotos/25.webp", prop: "3:2", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/26.webp", prop: "3:2", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/27.webp", prop: "3:2", alto: "c" },
+      { src: "assets/propiedades/casa-granada/fotos/28.webp", prop: "3:2", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/29.webp", prop: "3:2", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/30.webp", prop: "3:2", alto: "c" },
+      { src: "assets/propiedades/casa-granada/fotos/31.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/32.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/33.webp", prop: "3:4", alto: "c" },
+      { src: "assets/propiedades/casa-granada/fotos/34.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/35.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/36.webp", prop: "3:4", alto: "c" },
+      { src: "assets/propiedades/casa-granada/fotos/37.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/38.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/39.webp", prop: "3:4", alto: "c" },
+      { src: "assets/propiedades/casa-granada/fotos/40.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/41.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/42.webp", prop: "3:4", alto: "c" },
+      { src: "assets/propiedades/casa-granada/fotos/43.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/44.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/45.webp", prop: "3:4", alto: "c" },
+      { src: "assets/propiedades/casa-granada/fotos/46.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/47.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/48.webp", prop: "3:4", alto: "c" },
+      { src: "assets/propiedades/casa-granada/fotos/49.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/50.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/51.webp", prop: "3:4", alto: "c" },
+      { src: "assets/propiedades/casa-granada/fotos/52.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/53.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/54.webp", prop: "3:4", alto: "c" },
+      { src: "assets/propiedades/casa-granada/fotos/55.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-granada/fotos/56.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-granada/fotos/57.webp", prop: "3:4", alto: "c" }
     ],
     floorplan: null,
     architect: "Autoría contemporánea",
@@ -199,26 +199,26 @@ const LUXURY_PROPERTIES = [
       "assets/propiedades/casa-olivos/fotos/10.webp"
     ],
     flujo: [
-      { src: "assets/propiedades/casa-olivos/fotos/01.webp", prop: "3:4", alto: "a", pie: "Fachada sobre empedrado, con portón de madera y acceso peatonal." },
-      { src: "assets/propiedades/casa-olivos/fotos/02.webp", prop: "4:3", alto: "b", pie: "Acceso bajo pérgola de madera y escalones de cantera." },
-      { src: "assets/propiedades/casa-olivos/fotos/03.webp", prop: "3:4", alto: "c", pie: "Vestíbulo: cancel de cristal enmarcado en cantera, con el patio al fondo." },
-      { src: "assets/propiedades/casa-olivos/fotos/04.webp", prop: "3:4", alto: "a", pie: "Estancia con piso de espiga y salida al patio." },
-      { src: "assets/propiedades/casa-olivos/fotos/05.webp", prop: "3:4", alto: "b", pie: "Ventanal que enmarca el patio interior con enredaderas." },
-      { src: "assets/propiedades/casa-olivos/fotos/06.webp", prop: "3:4", alto: "c", pie: "Medio baño con lavabo de piedra labrada." },
-      { src: "assets/propiedades/casa-olivos/fotos/07.webp", prop: "3:4", alto: "a", pie: "Estancia a doble altura con techo de vigas de madera." },
-      { src: "assets/propiedades/casa-olivos/fotos/08.webp", prop: "3:4", alto: "b", pie: "La cocina abierta a la estancia, bajo la doble altura." },
-      { src: "assets/propiedades/casa-olivos/fotos/09.webp", prop: "3:4", alto: "c", pie: "Cocina con isla y alacenas en madera oscura." },
-      { src: "assets/propiedades/casa-olivos/fotos/10.webp", prop: "3:4", alto: "a", pie: "Patio interior empedrado con enredaderas." },
-      { src: "assets/propiedades/casa-olivos/fotos/11.webp", prop: "4:3", alto: "b", pie: "Recámara con muro en acabado tierra y piso de espiga." },
-      { src: "assets/propiedades/casa-olivos/fotos/12.webp", prop: "4:3", alto: "c", pie: "Estancia con cancel corredizo al patio privado." },
-      { src: "assets/propiedades/casa-olivos/fotos/13.webp", prop: "3:4", alto: "a", pie: "Baño principal con doble tocador y tragaluz." },
-      { src: "assets/propiedades/casa-olivos/fotos/14.webp", prop: "3:4", alto: "b", pie: "Vestidor de carpintería oscura con luz cenital." },
-      { src: "assets/propiedades/casa-olivos/fotos/15.webp", prop: "3:4", alto: "c", pie: "Regadera con mosaico artesanal." },
-      { src: "assets/propiedades/casa-olivos/fotos/16.webp", prop: "3:4", alto: "a", pie: "Patio con escalera exterior y muro de enredadera." },
-      { src: "assets/propiedades/casa-olivos/fotos/17.webp", prop: "3:4", alto: "b", pie: "Escalera exterior hacia la planta alta." },
-      { src: "assets/propiedades/casa-olivos/fotos/18.webp", prop: "3:4", alto: "c", pie: "Recámara con viguería y ventanal a la vista abierta." },
-      { src: "assets/propiedades/casa-olivos/fotos/19.webp", prop: "3:4", alto: "a", pie: "Estancia alta con doble ventanal y techo de vigas." },
-      { src: "assets/propiedades/casa-olivos/fotos/20.webp", prop: "3:4", alto: "b", pie: "Baño con lavabo de piedra y regadera al fondo." }
+      { src: "assets/propiedades/casa-olivos/fotos/01.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-olivos/fotos/02.webp", prop: "4:3", alto: "b" },
+      { src: "assets/propiedades/casa-olivos/fotos/03.webp", prop: "3:4", alto: "c" },
+      { src: "assets/propiedades/casa-olivos/fotos/04.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-olivos/fotos/05.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-olivos/fotos/06.webp", prop: "3:4", alto: "c" },
+      { src: "assets/propiedades/casa-olivos/fotos/07.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-olivos/fotos/08.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-olivos/fotos/09.webp", prop: "3:4", alto: "c" },
+      { src: "assets/propiedades/casa-olivos/fotos/10.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-olivos/fotos/11.webp", prop: "4:3", alto: "b" },
+      { src: "assets/propiedades/casa-olivos/fotos/12.webp", prop: "4:3", alto: "c" },
+      { src: "assets/propiedades/casa-olivos/fotos/13.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-olivos/fotos/14.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-olivos/fotos/15.webp", prop: "3:4", alto: "c" },
+      { src: "assets/propiedades/casa-olivos/fotos/16.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-olivos/fotos/17.webp", prop: "3:4", alto: "b" },
+      { src: "assets/propiedades/casa-olivos/fotos/18.webp", prop: "3:4", alto: "c" },
+      { src: "assets/propiedades/casa-olivos/fotos/19.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-olivos/fotos/20.webp", prop: "3:4", alto: "b" }
     ],
     floorplan: null,
     architect: "Autoría contemporánea",
@@ -265,140 +265,117 @@ const ACTIVOS_INVERSION = [
       {
         src: "assets/propiedades/hotel/fotos/1.jpeg",
         prop: "3:2",
-        alto: "a",
-        pie: "Fachada histórica del siglo XIX en Umarán y Zacateros, con local Birkenstock en planta baja."
+        alto: "a"
       },
       {
         src: "assets/propiedades/hotel/fotos/2.jpeg",
         prop: "3:4",
-        alto: "b",
-        pie: "Patio interior empedrado y acceso principal a las suites."
+        alto: "b"
       },
       {
         src: "assets/propiedades/hotel/fotos/3.jpeg",
         prop: "2:3",
-        alto: "c",
-        pie: "Fachada con balcón de herrería y farol."
+        alto: "c"
       },
       {
         src: "assets/propiedades/hotel/fotos/4.jpeg",
         prop: "2:3",
-        alto: "a",
-        pie: "Detalle de cantera labrada y farol en el muro."
+        alto: "a"
       },
       {
         src: "assets/propiedades/hotel/fotos/5.jpeg",
         prop: "3:4",
-        alto: "b",
-        pie: "Roof garden al atardecer, con sombrillas de flecos y camastros."
+        alto: "b"
       },
       {
         src: "assets/propiedades/hotel/fotos/6.jpeg",
         prop: "3:4",
-        alto: "c",
-        pie: "Mesas de la terraza con cojines verdes, bajo las sombrillas de flecos."
+        alto: "c"
       },
       {
         src: "assets/propiedades/hotel/fotos/7.jpeg",
         prop: "3:4",
-        alto: "a",
-        pie: "Solárium y área lounge en terraza con horizonte abierto."
+        alto: "a"
       },
       {
         src: "assets/propiedades/hotel/fotos/8.jpeg",
         prop: "3:4",
-        alto: "b",
-        pie: "Fuente de cantera labrada con mascarón de león, bajo la escalera del patio."
+        alto: "b"
       },
       {
         src: "assets/propiedades/hotel/fotos/9.jpeg",
         prop: "2:3",
-        alto: "c",
-        pie: "Vista exterior hacia la cúpula del Templo de las Monjas."
+        alto: "c"
       },
       {
         src: "assets/propiedades/hotel/fotos/9.8.jpeg",
         prop: "4:3",
-        alto: "a",
-        pie: "Patio interior con escalera, plantas y puertas de madera tallada."
+        alto: "a"
       },
       {
         src: "assets/propiedades/hotel/fotos/9.9.jpeg",
         prop: "4:3",
-        alto: "b",
-        pie: "Descanso de la escalera, entre plantas y puertas de madera."
+        alto: "b"
       },
       {
         src: "assets/propiedades/hotel/fotos/10.jpeg",
         prop: "2:3",
-        alto: "c",
-        pie: "Camastros en la terraza."
+        alto: "c"
       },
       {
         src: "assets/propiedades/hotel/fotos/11.jpeg",
         prop: "2:3",
-        alto: "a",
-        pie: "Balcón colonial con herrería tradicional e iluminación cálida."
+        alto: "a"
       },
       {
         src: "assets/propiedades/hotel/fotos/12.jpeg",
         prop: "3:4",
-        alto: "b",
-        pie: "Terraza superior con vista a las cúpulas de San Miguel de Allende."
+        alto: "b"
       },
       {
         src: "assets/propiedades/hotel/fotos/15.jpeg",
         prop: "2:3",
-        alto: "c",
-        pie: "Suite con techos de vigas de madera y arquitectura de época."
+        alto: "c"
       },
       {
         src: "assets/propiedades/hotel/fotos/16.jpeg",
         prop: "3:4",
-        alto: "a",
-        pie: "Nichos con platos de talavera en una suite coral."
+        alto: "a"
       },
       {
         src: "assets/propiedades/hotel/fotos/17.jpeg",
         prop: "3:4",
-        alto: "b",
-        pie: "Puerta de madera blanca hacia una suite."
+        alto: "b"
       },
       {
         src: "assets/propiedades/hotel/fotos/18.jpeg",
         prop: "3:4",
-        alto: "c",
-        pie: "Suite con luz natural."
+        alto: "c"
       },
       {
         src: "assets/propiedades/hotel/fotos/19.jpeg",
         prop: "2:3",
-        alto: "a",
-        pie: "Suite en tono verde con espejo antiguo."
+        alto: "a"
       },
       {
         src: "assets/propiedades/hotel/fotos/20.jpeg",
         prop: "2:3",
-        alto: "b",
-        pie: "Suite con acabados artesanales y candelabro contemporáneo."
+        alto: "b"
       },
       {
         src: "assets/propiedades/hotel/fotos/25.jpeg",
         prop: "2:3",
-        alto: "c",
-        pie: "Sillas de herrería en la terraza."
+        alto: "c"
       },
       {
         src: "assets/propiedades/hotel/fotos/26.jpeg",
         prop: "3:4",
-        alto: "a",
-        pie: "Espejo antiguo en una suite verde."
+        alto: "a"
       },
       {
         src: "assets/propiedades/hotel/fotos/26.9.jpeg",
         prop: "4:3",
-        alto: "b",
-        pie: "Pasillo de las suites con piso de madera en espiga, vigas y retrato de época."
+        alto: "b"
       }
     ]
   }
