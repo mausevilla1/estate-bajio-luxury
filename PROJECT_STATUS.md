@@ -76,8 +76,18 @@ Encabezado con las cuatro puertas (Praetora Studio es el botón negro) y un bloq
 generado por `app.js` (`renderPropiedadBloque`). Casa Julieta **no** va aquí: pertenece a Invertir.
 
 ### `propiedad.html?id=…` — ficha
-Recorrido horizontal en escritorio y vertical en celular: fotos (`flujo`), planos escondidos detrás de
-**"Ver planos"**, panel de datos y cierre con contacto. Las fotos van **sin texto debajo**.
+Recorrido horizontal en escritorio y vertical en celular. Las fotos (`flujo`) van **sin texto debajo**.
+Los planos van escondidos y aparecen junto a las fotos con **"Ver planos"**. Después viene la
+**ficha técnica**, en cinco paneles de texto (`app.js`, de `panelFicha` a `panelContacto`):
+
+1. **Ficha:** nombre, precio (una sola vez), cifras clave a 24 px, tipología, estatus y "Ver planos".
+2. **Distribución:** espacios de cada planta, sacados de los planos y ordenados como se recorre la casa.
+3. **La casa:** texto descriptivo y características (`caracteristicas`).
+4. **El entorno:** el club (`ENTORNOS`): cifras, amenidades y ubicación.
+5. **Contacto:** botón y regreso.
+
+Un panel sin datos no se dibuja. En escritorio cada panel cabe en 1366 × 768 sin scroll vertical:
+si se agrega contenido, hay que repartirlo, no alargar el panel.
 
 ---
 
@@ -118,6 +128,9 @@ Recorrido horizontal en escritorio y vertical en celular: fotos (`flujo`), plano
   - `flujo: [{ src, prop, alto }]`, con `prop` en `2:3 · 3:4 · 4:3 · 3:2 · 16:9 · 9:16` y `alto` en `a · b · c`.
   - `planos: [{ nivel, base, proporcion, etiquetas }]`, donde `base` apunta a `…/planos/<planta>-h.svg`
     (escritorio) y `-v.svg` (celular).
+  - `niveles`, `caracteristicas` (tomadas de `info.md`) y `entorno` (clave de `ENTORNOS`).
+- `ENTORNOS` — el club o barrio de cada casa. `malanquin`: datos verificados del Club de Golf Malanquín.
+  Diseñador del campo y año de fundación **no** se publican: las fuentes se contradicen.
 - Fotos: `assets/propiedades/<casa>/fotos/`. **El orden por nombre de archivo es el orden de la ficha**
   (YOPE intercala con decimales: `9.8`, `9.9`, `26.9`).
 - Planos: `assets/propiedades/<casa>/planos/`, dibujos de línea redibujados desde los as-built, sin
@@ -134,14 +147,18 @@ Recorrido horizontal en escritorio y vertical en celular: fotos (`flujo`), plano
 - Sin escasez falsa: "últimas unidades" sólo si es verdad.
 - No pedir datos antes de tiempo: primero se explora y después se piden datos (al agendar, consultar o pedir información).
 - El sitio **capta** prospectos y contactos. El seguimiento vive en el CRM, aparte del sitio.
+- Las tres casas del Club de Golf se entregan **sin muebles**: ningún texto debe sugerir mobiliario incluido.
 
 ---
 
 ## 8. Pendientes
 
-- [ ] Sección **Invertir** (introducción y Casa Julieta con diseño de YOPE).
-- [ ] Sección **Desarrollar / buscar capital**.
-- [ ] Rediseño del contenido de **Praetora Studio** (y lugar del showroom de preventas).
+- [ ] Sección **Invertir**: introducción y, debajo, Casa Julieta. **Diseño de YOPE en camino.**
+- [ ] Sección **Desarrollar / buscar capital**. **Diseño de YOPE en camino.**
+- [ ] Rediseño de **Praetora Studio** y lugar del showroom de preventas. **Diseño de YOPE en camino.**
+- [ ] **Fotos de Casa Granada:** YOPE las va a volver a editar.
+- [ ] **Textos de Casa Granada:** la descripción menciona vigas de madera, cantera y jacuzzi, que no se ven en
+  ninguna foto. Se revisa cuando lleguen las fotos nuevas. Mientras tanto quedan fuera de sus características.
 - [ ] **Número real de WhatsApp.** "Consultar esta casa" usa `+52 442 000 0000` de ejemplo.
 - [ ] **A dónde envían los formularios.** Hoy sólo muestran un aviso.
 - [ ] Limpiar el texto heredado que choca con §7:

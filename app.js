@@ -1215,10 +1215,6 @@ function praetoraRevelarNuevos(contenedor) {
       .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  function millones(n) {
-    return '$' + (n / 1000000).toFixed(1).replace('.0', '') + ' M';
-  }
-
   /* Si la casa no trae `flujo`, se arma solo con lo que haya. Así una
      propiedad nueva nunca deja la ficha en blanco. */
   function construirFlujo(p) {
@@ -1232,46 +1228,68 @@ function praetoraRevelarNuevos(contenedor) {
   }
 
   /* Fila de dato: si el anuncio no lo publica, la fila NO se dibuja.
-     No se rellena con cero ni con raya. */
+     No se rellena con cero ni con raya. Un valor largo va debajo de su
+     etiqueta en vez de partirse alineado a la derecha. */
   function fila(etiqueta, valor) {
     if (valor === null || valor === undefined || valor === '') return '';
-    return '<div class="ficha-dato">' +
+    var largo = String(valor).length > 40;
+    return '<div class="ficha-dato' + (largo ? ' ficha-dato-largo' : '') + '">' +
       '<span class="ficha-dato-etiqueta">' + esc(etiqueta) + '</span>' +
       '<span class="ficha-dato-valor">' + esc(valor) + '</span>' +
       '</div>';
   }
 
-  function panelDatos(p) {
-    var esActivo = !!p.llaves || p.id === 'activo-1';
-    var precioHtml = '';
-    if (p.priceMXN != null) {
-      precioHtml = '<div class="ficha-precio">' + millones(p.priceMXN) + ' MXN</div>' +
-        (p.priceUSD ? '<div class="ficha-precio-alt">' + millones(p.priceUSD) + ' USD</div>' : '');
-    } else if (p.precioEstado) {
-      precioHtml = '<div class="ficha-precio">' + esc(p.precioEstado) + '</div>';
-    }
+  /* Cifra clave: el número a 24 px y su nombre debajo. Sin dato, no se dibuja. */
+  function cifra(valor, etiqueta) {
+    if (valor === null || valor === undefined || valor === '') return '';
+    return '<div class="ficha-cifra">' +
+      '<span class="ficha-cifra-valor">' + esc(valor) + '</span>' +
+      '<span class="ficha-cifra-etiqueta">' + esc(etiqueta) + '</span>' +
+      '</div>';
+  }
 
-    var datosHtml = '';
+  function m2(n) { return n ? n.toLocaleString('es-MX') + ' m²' : null; }
+  function pesos(n) { return '$' + Number(n).toLocaleString('es-MX') + ' MXN'; }
+  function lista(items) {
+    return '<ul class="ficha-lista">' + items.map(function (t) {
+      return '<li>' + esc(t) + '</li>';
+    }).join('') + '</ul>';
+  }
+
+  function esActivoDeInversion(p) { return !!p.llaves || p.id === 'activo-1'; }
+
+  /* FICHA TÉCNICA — lo que sigue a las fotos, en cinco paneles:
+     1 ficha (nombre, precio y cifras) · 2 distribución · 3 la casa ·
+     4 el entorno · 5 contacto. Un panel sin datos no se dibuja. */
+
+  /* 1 · Ficha: nombre, un solo precio y las cifras clave. Aquí vive "Ver planos". */
+  function panelFicha(p) {
+    var esActivo = esActivoDeInversion(p);
+    var precio = p.priceMXN != null ? pesos(p.priceMXN)
+      : (p.precioEstado ? 'Precio ' + p.precioEstado.toLowerCase() : '');
+
+    var cifras, filas, columnas;
     if (esActivo) {
-      datosHtml = fila('Ubicación', p.subzone) +
-        fila('Tipología', p.type) +
-        fila('Construcción', p.m2Construccion ? p.m2Construccion.toLocaleString('es-MX') + ' m²' : null) +
-        fila('Terreno', p.m2Terreno ? p.m2Terreno.toLocaleString('es-MX') + ' m²' : null) +
-        fila('Suites', p.llaves ? p.llaves + (p.llavesDetalle ? ' (' + p.llavesDetalle + ')' : '') : null) +
-        fila('Inquilino PB', p.inquilino) +
-        fila('Renta mensual', p.rentaMensualMXN ? '$' + p.rentaMensualMXN.toLocaleString('es-MX') + ' MXN' : null) +
-        fila('Reseñas', p.booking) +
-        fila('Precio', p.precioEstado || (p.priceMXN ? '$' + Number(p.priceMXN).toLocaleString('es-MX') + ' MXN' : null));
+      var siglo = /siglo\s+(\S+)/i.exec(p.anoConstruccion || '');
+      cifras = cifra(m2(p.m2Construccion), 'Construcción') +
+        cifra(m2(p.m2Terreno), 'Terreno') +
+        cifra(p.llaves, 'Suites') +
+        cifra(siglo ? siglo[1] : null, 'Siglo');
+      columnas = 2;
+      filas = fila('Tipología', p.type) +
+        fila('Ubicación', p.subzone) +
+        fila('Inquilino en planta baja', p.inquilino) +
+        fila('Renta mensual del local', p.rentaMensualMXN ? pesos(p.rentaMensualMXN) : null) +
+        fila('Reseñas', p.booking);
     } else {
-      datosHtml = fila('Ubicación', p.subzone) +
-        fila('Tipología', p.type) +
-        fila('Construcción', p.m2Construccion ? p.m2Construccion.toLocaleString('es-MX') + ' m²' : null) +
-        fila('Terreno', p.m2Terreno ? p.m2Terreno.toLocaleString('es-MX') + ' m²' : null) +
-        fila('Recámaras', p.bedrooms) +
-        fila('Baños', p.bathrooms) +
-        fila('Estacionamiento', p.garage ? p.garage + ' autos' : null) +
-        fila('Inversión', p.priceMXN ? '$' + Number(p.priceMXN).toLocaleString('es-MX') + ' MXN' : null) +
-        fila('Estatus', p.status);
+      cifras = cifra(m2(p.m2Construccion), 'Construcción') +
+        cifra(m2(p.m2Terreno), 'Terreno') +
+        cifra(p.niveles, 'Niveles') +
+        cifra(p.bedrooms, 'Recámaras') +
+        cifra(p.bathrooms, 'Baños') +
+        cifra(p.garage ? p.garage + ' autos' : null, 'Cochera');
+      columnas = 3;
+      filas = fila('Tipología', p.type) + fila('Estatus', p.status);
     }
 
     // Los planos van escondidos: este enlace los muestra junto a las fotos.
@@ -1279,13 +1297,14 @@ function praetoraRevelarNuevos(contenedor) {
       ? '<button type="button" class="portada-enlace ficha-ver-planos" aria-expanded="false">Ver planos</button>'
       : '';
 
+    // En la etiqueta sólo el barrio; la dirección completa va en su fila.
+    var barrio = String(p.subzone || '').split(',')[0];
     return '<section class="ficha-panel ficha-panel-texto" id="ficha-info">' +
-      '<span class="ficha-etiqueta">' + esc(p.zone) + ' · ' + esc(p.subzone) + '</span>' +
+      '<span class="ficha-etiqueta">' + esc(p.zone) + ' · ' + esc(barrio) + '</span>' +
       '<h1 class="ficha-titulo" translate="no">' + esc(p.title) + '</h1>' +
-      precioHtml +
-      '<div class="ficha-datos ficha-datos-sep">' +
-        datosHtml +
-      '</div>' +
+      (precio ? '<div class="ficha-precio">' + esc(precio) + '</div>' : '') +
+      '<div class="ficha-cifras" style="--cifras-col:' + columnas + '">' + cifras + '</div>' +
+      '<div class="ficha-datos">' + filas + '</div>' +
       planosHtml +
       '</section>';
   }
@@ -1335,25 +1354,121 @@ function praetoraRevelarNuevos(contenedor) {
       '</figure>';
   }
 
-  function panelCierre(p) {
-    var esActivo = !!p.llaves || p.id === 'activo-1';
+  /* 2 · Distribución: los espacios de cada planta, tomados de los planos.
+     Se ordenan como se recorre una casa: acceso, áreas sociales, recámaras y
+     baños, exteriores y servicio. Un nombre repetido (dos jardines) va una vez. */
+  var GRUPOS_ESPACIO = [
+    { re: /servicio|lavander|lavado|bodega|cochera|garage/i, orden: 4 },   // se revisa primero
+    { re: /^(acceso|recibidor|vest[ií]bulo)/i, orden: 0 },
+    { re: /^(estancia|sala|comedor|cocina|estudio)/i, orden: 1 },
+    { re: /^(rec[aá]mara|ba[ñn]o|toilet)/i, orden: 2 },
+    { re: /^(terraza|patio|jard[ií]n|azotea)/i, orden: 3 }
+  ];
+
+  // Orden dentro de cada grupo. Entrada: acceso, recibidor, vestíbulo. Social:
+  // sala o estancia, comedor, cocina y al final el estudio. Privado: recámaras y
+  // luego baños, la principal primero. Exteriores y servicio: como en el plano.
+  function subOrden(t, grupo) {
+    if (grupo === 0) return /^acceso/i.test(t) ? 0 : (/^recibidor/i.test(t) ? 1 : 2);
+    if (grupo === 1) {
+      if (/estudio|t\.?v\b/i.test(t)) return 3;
+      return /^(estancia|sala)/i.test(t) ? 0 : (/^comedor/i.test(t) ? 1 : 2);
+    }
+    if (grupo === 2) {
+      var tipo = /rec[aá]mara/i.test(t) ? 0 : (/ba[ñn]o/i.test(t) ? 1 : 2);
+      var n = /principal/i.test(t) ? 0 : parseInt((t.match(/\d+/) || ['99'])[0], 10);
+      return tipo * 1000 + n;
+    }
+    return 0;
+  }
+
+  function espaciosDe(pl) {
+    var vistos = {};
+    return (pl.etiquetas || []).map(function (e, i) {
+      var t = e.t.replace(/\b0(\d)\b/, '$1');               // "Recámara 01" → "Recámara 1"
+      var orden = 2.5;
+      for (var k = 0; k < GRUPOS_ESPACIO.length; k++) {
+        if (GRUPOS_ESPACIO[k].re.test(t)) { orden = GRUPOS_ESPACIO[k].orden; break; }
+      }
+      return { t: t, orden: orden, i: i };
+    }).filter(function (e) {
+      var clave = e.t.toLowerCase();
+      if (vistos[clave]) return false;
+      vistos[clave] = true;
+      return true;
+    }).sort(function (a, b) {
+      return (a.orden - b.orden) ||
+        (subOrden(a.t, a.orden) - subOrden(b.t, b.orden)) ||
+        (a.i - b.i);
+    }).map(function (e) { return e.t; });
+  }
+
+  function panelDistribucion(p) {
+    if (!p.planos || !p.planos.length) return '';
+    return '<section class="ficha-panel ficha-panel-texto">' +
+      '<span class="ficha-etiqueta">Distribución</span>' +
+      p.planos.map(function (pl) {
+        return '<div class="ficha-nivel">' +
+          '<h2 class="ficha-subtitulo">' + esc(pl.nivel) + '</h2>' +
+          lista(espaciosDe(pl)).replace('class="ficha-lista"', 'class="ficha-lista ficha-lista-doble"') +
+          '</div>';
+      }).join('') +
+      '</section>';
+  }
+
+  /* 3 · La casa: el texto y sus características. En un activo de inversión, las
+     suites, la distancia a pie y las notas del propietario. */
+  function panelCasa(p) {
+    var esActivo = esActivoDeInversion(p);
+    var caracteristicas = p.caracteristicas || [];
+    var notas = '';
+    if (esActivo) {
+      caracteristicas = String(p.llavesDetalle || '').split(/\.\s*/).filter(Boolean);
+      if (p.caminando) caracteristicas.push(p.caminando);
+      if (p.roofNota) notas += '<p class="ficha-nota">' + esc(p.roofNota) + '</p>';
+      notas += '<p class="ficha-nota">Superficies informadas por el propietario. Expediente y proyecciones bajo solicitud.</p>';
+    }
+    return '<section class="ficha-panel ficha-panel-texto">' +
+      '<span class="ficha-etiqueta">' + (esActivo ? 'El inmueble' : 'La casa') + '</span>' +
+      '<p class="ficha-parrafo">' + esc(p.description) + '</p>' +
+      (caracteristicas.length
+        ? '<h2 class="ficha-subtitulo">' + (esActivo ? 'Suites y ubicación' : 'Características') + '</h2>' +
+          lista(caracteristicas)
+        : '') +
+      notas +
+      '</section>';
+  }
+
+  /* 4 · El entorno: el club o barrio de la casa (ENTORNOS en data.js). */
+  function panelEntorno(p) {
+    var en = (p.entorno && typeof ENTORNOS !== 'undefined') ? ENTORNOS[p.entorno] : null;
+    if (!en) return '';
+    return '<section class="ficha-panel ficha-panel-texto">' +
+      '<span class="ficha-etiqueta">El entorno</span>' +
+      '<h2 class="ficha-nombre">' + esc(en.nombre) + '</h2>' +
+      '<div class="ficha-cifras" style="--cifras-col:' + en.cifras.length + '">' +
+        en.cifras.map(function (c) { return cifra(c.valor, c.etiqueta); }).join('') +
+      '</div>' +
+      lista(en.amenidades) +
+      '<p class="ficha-nota">' + esc(en.ubicacion) + '</p>' +
+      '</section>';
+  }
+
+  /* 5 · Contacto: la acción y el regreso. */
+  function panelContacto(p) {
+    var esActivo = esActivoDeInversion(p);
     var msg = encodeURIComponent(esActivo
       ? 'Deseo solicitar el expediente de inversión de ' + p.title + ' (' + p.subzone + ').'
       : 'Me interesa ' + p.title + ' (' + p.subzone + ').');
     var btnTexto = esActivo ? 'Solicitar expediente' : 'Consultar esta casa';
-    var extraNotas = '';
-    if (esActivo) {
-      if (p.roofNota) {
-        extraNotas += '<p class="ficha-parrafo" style="font-size: 0.9rem; color: var(--text-light); margin-top: 1.5rem; line-height: 1.6;">' + esc(p.roofNota) + '</p>';
-      }
-      extraNotas += '<p class="ficha-parrafo" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.8rem; line-height: 1.6;">Superficies informadas por el propietario. Expediente y proyecciones bajo solicitud.</p>';
-    }
-    return '<section class="ficha-panel ficha-panel-texto">' +
-      '<p class="ficha-parrafo ficha-parrafo-alto">' + esc(p.description) + '</p>' +
-      extraNotas +
+    // Casa Julieta ya no está en el catálogo: regresa a su sección de la portada.
+    var volver = esActivo
+      ? '<a class="ficha-volver" href="index.html#activo-inversion">Volver al inicio</a>'
+      : '<a class="ficha-volver" href="catalogo.html">Volver al catálogo</a>';
+    return '<section class="ficha-panel ficha-panel-texto ficha-panel-contacto">' +
       '<div class="ficha-acciones">' +
         '<a class="btn-gold" href="https://wa.me/524420000000?text=' + msg + '" target="_blank" rel="noopener">' + btnTexto + '</a>' +
-        '<a class="ficha-volver" href="catalogo.html">Volver al catálogo</a>' +
+        volver +
       '</div>' +
       '</section>';
   }
@@ -1457,8 +1572,7 @@ function praetoraRevelarNuevos(contenedor) {
     var html = '';
     construirFlujo(p).forEach(function (f, i) { html += panelFoto(f, i); });
     (p.planos || []).forEach(function (pl) { html += panelPlano(pl, p); });
-    html += panelDatos(p);
-    html += panelCierre(p);
+    html += panelFicha(p) + panelDistribucion(p) + panelCasa(p) + panelEntorno(p) + panelContacto(p);
     cont.innerHTML = html;
 
     paneles = cont.querySelectorAll('.ficha-panel');

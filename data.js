@@ -8,11 +8,15 @@
 //   · zone: "San Miguel de Allende"
 //   · subzone: "Club de Golf Malanquín"
 //   · priceMXN, m2Construccion, m2Terreno, bedrooms, bathrooms, features.
+//   · Las tres casas se entregan SIN MUEBLES: ningún texto debe sugerir mobiliario incluido.
+//
+// FICHA TÉCNICA (después de las fotos): niveles, caracteristicas (de info.md),
+//   planos (espacios por planta) y entorno (clave de ENTORNOS, más abajo).
 //
 // FOTOGRAFÍAS:
-//   · Casa Córdoba y Casa Granada: heroImage y gallery pobladas con fotografías en alta resolución (1280px).
-//   · Casa Olivos: heroImage provisional en espera de material en alta.
-//   · Sin campo flujo: la ficha individual se construye dinámicamente a partir de heroImage y gallery.
+//   · Casa Granada y Casa Olivos: campo `flujo`, en el orden del álbum.
+//   · Casa Córdoba: sin `flujo`; la ficha se arma con heroImage y gallery.
+//   · Casa Granada: YOPE va a volver a editar sus fotos (pendiente).
 //
 // PENDIENTE DE DECISIÓN:
 //   · priceUSD: null (tipo de cambio pendiente de decisión de Luis; no calcular ni deducir).
@@ -35,6 +39,20 @@ const LUXURY_PROPERTIES = [
     bedrooms: 4,
     bathrooms: 5.5,
     garage: 2,
+    niveles: 2,
+    entorno: "malanquin",
+    // Ficha técnica: tomadas de info.md (características y amenidades clave).
+    caracteristicas: [
+      "Vistas panorámicas a las montañas de Los Picachos",
+      "Acceso directo al campo de golf",
+      "Arquitectura contemporánea con techos altos de madera estilo San Miguel",
+      "Acabados de alta gama en piedra y cantera natural",
+      "Espacios amplios con gran iluminación natural",
+      "Cocina abierta",
+      "Sala de medios",
+      "Terraza con asador",
+      "Jardín privado amplio"
+    ],
     fotoTarjeta: "assets/propiedades/casa-cordoba/fotos/22.jpeg",
     fotoTarjetaPos: "55% center",
     resumen: "Residencia en Club de Golf Malanquín con vistas a Los Picachos y acceso al campo. Dos niveles con techos de madera estilo San Miguel, cantera y acabados de autor contemporáneos.",
@@ -117,6 +135,17 @@ const LUXURY_PROPERTIES = [
     bedrooms: 4,
     bathrooms: 5.5,
     garage: 2,
+    niveles: 2,
+    entorno: "malanquin",
+    // Ficha técnica: tomadas de info.md (características y amenidades clave).
+    caracteristicas: [
+      "Vistas a las montañas de Los Picachos",
+      "Gran iluminación natural en dos niveles",
+      "Cocina abierta",
+      "Sala y comedor de generosas dimensiones",
+      "Terraza con asador",
+      "Jardín privado"
+    ],
     fotoTarjeta: "assets/propiedades/casa-granada/fotos/08.webp",
     resumen: "Residencia en Club de Golf Malanquín con vistas a Los Picachos. Dos niveles con techos altos de madera, cantera, jacuzzi privado, terraza con asador y jardín.",
     heroImage: "assets/propiedades/casa-granada/fotos/07.webp",
@@ -260,6 +289,18 @@ const LUXURY_PROPERTIES = [
     bedrooms: 3,
     bathrooms: 3.5,
     garage: 2,
+    niveles: 2,
+    entorno: "malanquin",
+    // Ficha técnica: tomadas de info.md (características y amenidades clave).
+    caracteristicas: [
+      "Vistas a las montañas de Los Picachos",
+      "Despacho privado / biblioteca",
+      "Patios interiores con luz y vegetación",
+      "Techos altos de madera y acabados en piedra y cantera",
+      "Estilo contemporáneo con detalles rústicos tradicionales",
+      "Cocina equipada",
+      "Sala y comedor con conexión visual al exterior"
+    ],
     fotoTarjeta: "assets/propiedades/casa-olivos/fotos/01.webp",
     resumen: "Residencia en Club de Golf Malanquín con vistas a Los Picachos. Dos niveles con techos a doble altura de vigas, cantera, patio interior empedrado y cocina con isla.",
     heroImage: "assets/propiedades/casa-olivos/fotos/01.webp",
@@ -344,6 +385,32 @@ const LUXURY_PROPERTIES = [
     description: "Increíble residencia nueva en el Club de Golf Malanquín con vistas imponentes a las montañas de Los Picachos. Diseñada en dos niveles con techos a doble altura de vigas de madera, cantera y acabados de autor que combinan elegancia moderna con el carácter rústico de San Miguel de Allende. Cuenta con patio interior empedrado, cocina de diseño con isla y amplios ventanales de luz natural."
   }
 ];
+
+
+// ==========================================================================
+// Entornos: el club o barrio donde está cada casa (campo `entorno` de la casa).
+// Club de Golf Malanquín: datos verificados contra su sitio oficial y bases de
+// golf (ver bóveda: "PRAETORA — Club de Golf Malanquín — Enclave").
+// Diseñador del campo y año de fundación: las fuentes se contradicen. NO se publican.
+// ==========================================================================
+const ENTORNOS = {
+  malanquin: {
+    nombre: "Club de Golf Malanquín",
+    ubicacion: "Km 3, carretera San Miguel de Allende – Celaya",
+    cifras: [
+      { valor: "18", etiqueta: "Hoyos" },
+      { valor: "72", etiqueta: "Par" },
+      { valor: "7,289", etiqueta: "Yardas" },
+      { valor: "+50", etiqueta: "Años" }
+    ],
+    amenidades: [
+      "Casa club con restaurante y bar",
+      "Canchas de tenis de arcilla, pádel y pickleball",
+      "Alberca semiolímpica climatizada",
+      "Campo de fútbol"
+    ]
+  }
+};
 
 const ACTIVOS_INVERSION = [
   {

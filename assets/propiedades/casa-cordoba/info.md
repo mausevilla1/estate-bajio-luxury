@@ -25,7 +25,6 @@
 - Acabados de alta gama en piedra y cantera natural.
 - Espacios amplios con gran iluminación natural.
 - Cocina abierta (Open Kitchen).
-- Comedor y sala principal independientes.
 - Sala de medios / family room (Media Room).
 - Terraza con asador (BBQ & Terrace).
 - Jardín privado amplio.

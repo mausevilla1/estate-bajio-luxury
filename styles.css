@@ -2985,6 +2985,7 @@ body.ficha-page {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-light);
+  display: block;
   margin-bottom: var(--space-close);
 }
 .ficha-titulo {
@@ -3000,7 +3001,6 @@ body.ficha-page {
   font-weight: 500;
   color: var(--text-main);
 }
-.ficha-precio-alt { font-size: var(--t-small); color: var(--text-light); margin-top: 4px; }
 .ficha-parrafo {
   font-size: var(--t-5);
   line-height: 1.4;
@@ -3011,8 +3011,6 @@ body.ficha-page {
 
 /* Ficha de datos: etiqueta #222, valor #AAA, línea de 1px */
 .ficha-datos { width: 100%; }
-.ficha-datos-sep { margin-top: var(--space-block); }
-.ficha-parrafo-alto { margin-top: 0; }
 .ficha-dato {
   display: flex;
   justify-content: space-between;
@@ -3024,6 +3022,62 @@ body.ficha-page {
 }
 .ficha-dato-etiqueta { color: var(--text-muted); }
 .ficha-dato-valor { color: var(--text-light); text-align: right; }
+/* Un valor largo va debajo de su etiqueta, alineado a la izquierda. */
+.ficha-dato-largo { flex-direction: column; gap: 4px; }
+.ficha-dato-largo .ficha-dato-valor { text-align: left; }
+
+/* --- Ficha técnica: lo que sigue a las fotos ------------------------------
+   Cinco paneles de texto: ficha, distribución, la casa, el entorno y contacto
+   (app.js, panelFicha … panelContacto). Los tamaños de letra viven en el
+   SISTEMA TIPOGRÁFICO; aquí sólo medidas y color. */
+
+/* 64 px de aire antes de cada panel de texto (el flujo pone 20). */
+.ficha-panel-texto { margin-left: calc(var(--space-block) - 20px); }
+
+/* Cifras clave: el número grande y su nombre debajo, en rejilla. */
+.ficha-cifras {
+  display: grid;
+  grid-template-columns: repeat(var(--cifras-col, 3), minmax(0, 1fr));
+  gap: 32px 24px;
+  margin-top: var(--space-block);
+}
+.ficha-cifra { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+/* El panel alinea a la izquierda sin estirar: estos bloques ocupan todo su ancho. */
+.ficha-cifras,
+.ficha-nivel,
+.ficha-lista { width: 100%; }
+.ficha-cifra-valor { color: var(--text-main); white-space: nowrap; }
+.ficha-cifra-etiqueta { color: var(--text-light); }
+.ficha-cifras + .ficha-datos { margin-top: var(--space-block); }
+
+/* Subtítulo de bloque (planta, características) y nombre del entorno. */
+.ficha-subtitulo { color: var(--text-main); margin: 0 0 var(--space-close); }
+.ficha-parrafo + .ficha-subtitulo { margin-top: var(--space-block); }
+.ficha-nivel + .ficha-nivel { margin-top: 40px; }
+.ficha-nombre { color: var(--text-main); margin: 0; }
+.ficha-nombre + .ficha-cifras { margin-top: 40px; }
+
+/* Listas sin viñetas: una columna (características) o dos (espacios). */
+.ficha-lista { list-style: none; margin: 0; padding: 0; color: var(--text-muted); }
+.ficha-lista li + li { margin-top: 6px; }
+/* En dos columnas se lee de arriba abajo: primero toda la izquierda. */
+.ficha-lista-doble { columns: 2; column-gap: 24px; }
+.ficha-lista-doble li { break-inside: avoid; padding-bottom: 6px; }
+.ficha-lista-doble li + li { margin-top: 0; }
+.ficha-cifras + .ficha-lista { margin-top: 40px; }
+
+/* Notas: avisos y ubicación, en gris. */
+.ficha-nota { color: var(--text-light); margin: var(--space-close) 0 0; max-width: 65ch; }
+.ficha-lista + .ficha-nota { margin-top: var(--space-block); }
+
+/* Celular angosto: "Construcción" no cabe en tres columnas; van de a dos. */
+@media (max-width: 480px) {
+  .ficha-cifras { grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); }
+}
+
+/* Contacto: sólo la acción y el regreso, sin ancho fijo. */
+.ficha-panel-contacto { width: auto; }
+.ficha-panel-contacto .ficha-acciones { margin-top: 0; }
 
 .ficha-acciones {
   display: flex;
@@ -3064,6 +3118,8 @@ body.ficha-page {
 
   .ficha-panel { width: 100%; height: auto; margin-bottom: var(--space-block); }
   .ficha-panel-texto { width: 100%; padding-top: 0; }
+  .ficha-panel-texto { margin-left: 0; }
+  .ficha-lista-doble { column-gap: 16px; }
 
   /* En vertical el alto lo manda el ancho de la pantalla: la proporción de
      cada foto se conserva y las alturas siguen siendo distintas entre sí. */
@@ -4321,7 +4377,8 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 .b2b-cta-box h3,
 .wizard-step-pane h3,
 .catalog-inversion-titulo,
-.propiedad-bloque-numero {
+.propiedad-bloque-numero,
+.ficha-cifra-valor {
   font-family: var(--font-sans);
   font-size: var(--t-3);
   font-weight: 500;
@@ -4332,6 +4389,7 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 /* Subtítulo y nombre de propiedad · 20 / 500 */
 .portada-vitrina-nombre,
 .ficha-precio,
+.ficha-nombre,
 .b2b-feature-text h4 {
   font-size: var(--t-4);
   font-weight: 500;
@@ -4355,6 +4413,8 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 .b2b-feature-text p,
 .ficha-dato-etiqueta,
 .ficha-dato-valor,
+.ficha-subtitulo,
+.ficha-lista li,
 .catalog-inversion-metricas,
 .catalog-inversion-metricas span {
   font-size: var(--t-body);
@@ -4362,12 +4422,14 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   line-height: 1.5;
 }
 .catalog-inversion-metricas strong { font-weight: 500; }
+.ficha-subtitulo { font-weight: 500; }
 
 /* Pie y notas · 14 / 400 */
 .site-footer p,
 .site-footer .footer-col li a,
 .site-footer .footer-bottom,
 .site-footer .footer-bottom div,
+.ficha-nota,
 .t-pie {
   font-size: var(--t-small);
   font-weight: 400;
@@ -4383,6 +4445,7 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 .propiedad-bloque-ubicacion,
 .catalog-inversion-tag,
 .ficha-etiqueta,
+.ficha-cifra-etiqueta,
 .site-footer .footer-col h5,
 .wizard-section label,
 .site-header .nav-link,
