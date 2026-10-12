@@ -197,7 +197,7 @@ si se agrega contenido, hay que repartirlo, no alargar el panel.
 ## 8. Pendientes
 
 - [ ] **Mau:** landing de **Praetora Studio** (servicios para desarrolladores e inmobiliarias y búsqueda de capital, con su showroom de preventas). Ver §3.
-- [ ] **Fotos de Casa Granada:** YOPE las va a volver a editar.
+- [x] **Fotos de Casa Granada:** YOPE depuró el álbum (2026-10-12): quedan 35 de 57.
 - [ ] **Textos de Casa Granada:** la descripción menciona vigas de madera, cantera y jacuzzi, que no se ven en
   ninguna foto. Se revisa cuando lleguen las fotos nuevas. Mientras tanto quedan fuera de sus características.
 - [ ] **Número real de WhatsApp.** "Consultar esta casa" usa `+52 442 000 0000` de ejemplo.
