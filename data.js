@@ -437,124 +437,53 @@ const ACTIVOS_INVERSION = [
     roofNota: "Terraza con vistas a la Parroquia y a Las Monjas. Potencial adicional sujeto a las autorizaciones del INAH y municipales aplicables.",
     status: "Consultar",
     amenities: [],
-    heroImage: "assets/propiedades/hotel/fotos/1.jpeg",
+    heroImage: "assets/propiedades/hotel/fotos/1.jpg",
     description: "Casona histórica del siglo XIX en el corazón de San Miguel de Allende, ubicada en la esquina de Umarán y Zacateros a tres minutos a pie de la Parroquia y el Jardín Allende. El activo combina la operación de un hotel boutique de 6 suites con alta calificación en hospitalidad, local comercial en planta baja arrendado a Birkenstock y terraza panorámica con vistas abiertas al centro virreinal.",
     flujo: [
-      {
-        src: "assets/propiedades/hotel/fotos/1.jpeg",
-        prop: "3:2",
-        alto: "a"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/2.jpeg",
-        prop: "3:4",
-        alto: "b"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/3.jpeg",
-        prop: "2:3",
-        alto: "c"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/4.jpeg",
-        prop: "2:3",
-        alto: "a"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/5.jpeg",
-        prop: "3:4",
-        alto: "b"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/6.jpeg",
-        prop: "3:4",
-        alto: "c"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/7.jpeg",
-        prop: "3:4",
-        alto: "a"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/8.jpeg",
-        prop: "3:4",
-        alto: "b"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/9.jpeg",
-        prop: "2:3",
-        alto: "c"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/9.8.jpeg",
-        prop: "4:3",
-        alto: "a"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/9.9.jpeg",
-        prop: "4:3",
-        alto: "b"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/10.jpeg",
-        prop: "2:3",
-        alto: "c"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/11.jpeg",
-        prop: "2:3",
-        alto: "a"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/12.jpeg",
-        prop: "3:4",
-        alto: "b"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/15.jpeg",
-        prop: "2:3",
-        alto: "c"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/16.jpeg",
-        prop: "3:4",
-        alto: "a"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/17.jpeg",
-        prop: "3:4",
-        alto: "b"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/18.jpeg",
-        prop: "3:4",
-        alto: "c"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/19.jpeg",
-        prop: "2:3",
-        alto: "a"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/20.jpeg",
-        prop: "2:3",
-        alto: "b"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/25.jpeg",
-        prop: "2:3",
-        alto: "c"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/26.jpeg",
-        prop: "3:4",
-        alto: "a"
-      },
-      {
-        src: "assets/propiedades/hotel/fotos/26.9.jpeg",
-        prop: "4:3",
-        alto: "b"
-      }
+      // Fotos del hotel tomadas de su página en Booking (2026-10-11), en el orden de Booking.
+      { src: "assets/propiedades/hotel/fotos/1.jpg", prop: "3:2", alto: "a" },
+      { src: "assets/propiedades/hotel/fotos/2.jpg", prop: "3:2", alto: "b" },
+      { src: "assets/propiedades/hotel/fotos/3.jpg", prop: "2:3", alto: "c" },
+      { src: "assets/propiedades/hotel/fotos/4.jpg", prop: "3:2", alto: "a" },
+      { src: "assets/propiedades/hotel/fotos/5.jpg", prop: "3:2", alto: "b" },
+      { src: "assets/propiedades/hotel/fotos/6.jpg", prop: "3:2", alto: "c" },
+      { src: "assets/propiedades/hotel/fotos/7.jpg", prop: "3:2", alto: "a" },
+      { src: "assets/propiedades/hotel/fotos/8.jpg", prop: "3:2", alto: "b" },
+      { src: "assets/propiedades/hotel/fotos/9.jpg", prop: "3:2", alto: "c" },
+      { src: "assets/propiedades/hotel/fotos/10.jpg", prop: "3:2", alto: "a" },
+      { src: "assets/propiedades/hotel/fotos/11.jpg", prop: "3:2", alto: "b" },
+      { src: "assets/propiedades/hotel/fotos/12.jpg", prop: "2:3", alto: "c" },
+      { src: "assets/propiedades/hotel/fotos/13.jpg", prop: "3:2", alto: "a" },
+      { src: "assets/propiedades/hotel/fotos/14.jpg", prop: "2:3", alto: "b" },
+      { src: "assets/propiedades/hotel/fotos/15.jpg", prop: "2:3", alto: "c" },
+      { src: "assets/propiedades/hotel/fotos/16.jpg", prop: "3:2", alto: "a" },
+      { src: "assets/propiedades/hotel/fotos/17.jpg", prop: "2:3", alto: "b" },
+      { src: "assets/propiedades/hotel/fotos/18.jpg", prop: "3:2", alto: "c" },
+      { src: "assets/propiedades/hotel/fotos/19.jpg", prop: "3:2", alto: "a" },
+      { src: "assets/propiedades/hotel/fotos/20.jpg", prop: "2:3", alto: "b" },
+      { src: "assets/propiedades/hotel/fotos/21.jpg", prop: "2:3", alto: "c" },
+      { src: "assets/propiedades/hotel/fotos/22.jpg", prop: "3:2", alto: "a" },
+      { src: "assets/propiedades/hotel/fotos/23.jpg", prop: "3:2", alto: "b" },
+      { src: "assets/propiedades/hotel/fotos/24.jpg", prop: "2:3", alto: "c" },
+      { src: "assets/propiedades/hotel/fotos/25.jpg", prop: "3:2", alto: "a" },
+      { src: "assets/propiedades/hotel/fotos/26.jpg", prop: "3:2", alto: "b" },
+      { src: "assets/propiedades/hotel/fotos/27.jpg", prop: "2:3", alto: "c" },
+      { src: "assets/propiedades/hotel/fotos/28.jpg", prop: "3:2", alto: "a" },
+      { src: "assets/propiedades/hotel/fotos/29.jpg", prop: "3:2", alto: "b" },
+      { src: "assets/propiedades/hotel/fotos/30.jpg", prop: "3:2", alto: "c" },
+      { src: "assets/propiedades/hotel/fotos/31.jpg", prop: "3:2", alto: "a" },
+      { src: "assets/propiedades/hotel/fotos/32.jpg", prop: "2:3", alto: "b" },
+      { src: "assets/propiedades/hotel/fotos/33.jpg", prop: "3:2", alto: "c" },
+      { src: "assets/propiedades/hotel/fotos/34.jpg", prop: "3:2", alto: "a" },
+      { src: "assets/propiedades/hotel/fotos/35.jpg", prop: "2:3", alto: "b" },
+      { src: "assets/propiedades/hotel/fotos/36.jpg", prop: "2:3", alto: "c" },
+      { src: "assets/propiedades/hotel/fotos/37.jpg", prop: "3:2", alto: "a" },
+      { src: "assets/propiedades/hotel/fotos/38.jpg", prop: "2:3", alto: "b" },
+      { src: "assets/propiedades/hotel/fotos/39.jpg", prop: "3:2", alto: "c" },
+      { src: "assets/propiedades/hotel/fotos/40.jpg", prop: "2:3", alto: "a" },
+      { src: "assets/propiedades/hotel/fotos/41.jpg", prop: "3:2", alto: "b" },
+      { src: "assets/propiedades/hotel/fotos/42.jpg", prop: "3:2", alto: "c" },
+      { src: "assets/propiedades/hotel/fotos/43.jpg", prop: "2:3", alto: "a" }
     ]
   }
 ];
