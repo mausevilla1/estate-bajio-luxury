@@ -47,13 +47,27 @@ entradas. Los **enganches** ya existen; las secciones marcadas ⬜ son donde ent
 | Puerta | Para quién | Enlace hoy | Estado |
 |---|---|---|---|
 | **Propiedades** | Quien compra o vende casa | `catalogo.html` · vender: formulario `#consignacion` de la portada | ✅ catálogo y fichas; ⬜ el formulario de vender necesita revisión de textos |
-| **Invertir** | Inversionistas | `invertir.html` | ✅ página propia con la referencia de YOPE: foto de Casa Julieta arriba con título sobre el cielo y difuminado, introducción en dos columnas y oportunidades (Casa Julieta → su ficha) |
-| **Desarrollar / buscar capital** | Quien trae un terreno, inmueble o proyecto y busca inversionistas o coinversión | `index.html#capital` | 🟡 sección provisional con la estructura de negocio (qué recibimos, cómo funciona, "Presentar un proyecto"); diseño de YOPE en camino |
-| **Praetora Studio** | Desarrolladores e inmobiliarias (servicios de media, tecnología y comercialización) | `index.html#desarrolladores` | 🟡 la sección existe; adentro se titula "Servicios para desarrolladores e inmobiliarias". Contenido por rediseñar |
+| **Invertir** | Inversionistas | `invertir.html` | ✅ página propia: la introducción va sobre el cielo de la foto de Casa Julieta y abajo están las oportunidades (Casa Julieta → su ficha). La seguimos puliendo YOPE y Claude |
+| **Desarrollar / buscar capital** | Desarrolladores, inmobiliarias y dueños de terrenos o proyectos | `index.html#capital` (provisional) | ⬜ **una sola landing con Praetora Studio. La hace Mau** |
+| **Praetora Studio** | (la misma landing) | `index.html#desarrolladores` (provisional) | ⬜ **la misma landing de Mau** |
 
-**El showroom de preventas** (módulo de Mau, retirado de la portada en el rediseño) tiene su lugar
-natural en **Praetora Studio**, como demostración de lo que se ofrece a desarrolladores. Se confirma con YOPE
-al integrarlo.
+### Asignado a Mau: la landing de Desarrollar / buscar capital + Praetora Studio
+
+Decisión de YOPE (2026-10-12): **Desarrollar / buscar capital y Praetora Studio son una sola landing, y la hace
+Mau** con la estructura que ya tiene para ella. Lo que hay hoy en la portada es provisional y se reemplaza:
+
+- `#capital` — "¿Tiene un terreno, un inmueble o un proyecto?" (qué recibimos, cómo funciona, "Presentar un proyecto").
+- `#desarrolladores` — "Servicios para desarrolladores e inmobiliarias" (showroom digital, CRM).
+
+Para hacerla:
+- Mau decide con YOPE si va como **página propia** (por ejemplo `desarrollar.html`, con el encabezado de
+  `invertir.html` y `catalogo.html`) o como sección de la portada. Después, las **dos entradas del menú** (portada y
+  catálogo) se apuntan a ella o se juntan en una.
+- Su **showroom de preventas** cabe aquí, como demostración para desarrolladores.
+- Sigue el sistema de diseño (§5) y las reglas de contenido (§7). **No repite a Invertir:** Invertir le habla a quien
+  tiene el capital; esta landing, a quien tiene el proyecto o necesita comercializarlo.
+- Cuando la landing exista, salen de `index.html` las secciones `#capital` y `#desarrolladores`, con sus estilos
+  (`.capital-*`, `.b2b-*`).
 
 ---
 
@@ -65,24 +79,24 @@ al integrarlo.
 2. **Vitrina** (`#vitrina`) — las tres casas (sólo nombre) y el enlace "Catálogo completo".
 3. **Casa Julieta** (`#activo-inversion`) — foto de la terraza a la izquierda y texto en vino `#3E101A` a la derecha,
    con posiciones medidas del borrador. Celular: pendiente de diseño.
-4. **Desarrollar / buscar capital** (`#capital`) — provisional hasta el diseño de YOPE.
-5. **Praetora Studio** (`#desarrolladores`).
+4. **Desarrollar / buscar capital** (`#capital`) — provisional: la reemplaza la landing de Mau (§3).
+5. **Praetora Studio** (`#desarrolladores`) — provisional: la misma landing de Mau (§3).
 6. **Consignación / vender** (`#consignacion`) — formulario de 4 pasos.
 7. Asistente flotante (chat).
 
 Sin pie de página (se quitó por decisión de YOPE).
 
 ### `invertir.html` — Invertir
-Foto de YOPE con mucho cielo (`assets/propiedades/hotel/invertir/cielo-*.webp`). La introducción va sobre el
+**La pulen YOPE y Claude** (no Mau). Foto de YOPE con mucho cielo (`assets/propiedades/hotel/invertir/cielo-*.webp`). La introducción va sobre el
 cielo en cuatro tiempos: apertura (título de 48 px, excepción de display), **qué buscamos** (siete tipos de
 oportunidad), **el filtro** (siete pasos numerados) y **cómo trabajamos con usted** (perfil de inversionista y
 sala de inversión, "Solicitar información" y "Ver oportunidades"). La casona aparece al final con un difuminado
 a blanco y sigue la tarjeta de Casa Julieta. El fondo de la sección es el azul liso de la foto (`#0859A9`): si
 el texto necesita más alto (celular), el cielo crece hacia arriba sin costura.
 
-**Invertir y Desarrollar / buscar capital son las dos caras del mismo mercado, y no deben repetirse:** Invertir
-le habla a quien tiene el capital y Desarrollar a quien tiene el proyecto (que se estructura y se presenta a
-inversionistas compatibles). Praetora Studio no habla de inversionistas.
+**Invertir y la landing de Desarrollar / Studio son dos caras del mismo mercado, y no deben repetirse:** Invertir
+le habla a quien tiene el capital; la landing, a quien tiene el proyecto (que se estructura y se presenta a
+inversionistas compatibles) o necesita comercializarlo.
 
 ### `catalogo.html` — Propiedades
 Encabezado con las cuatro puertas (Praetora Studio es el botón negro) y un bloque editorial por casa,
@@ -167,8 +181,7 @@ si se agrega contenido, hay que repartirlo, no alargar el panel.
 
 ## 8. Pendientes
 
-- [ ] Sección **Desarrollar / buscar capital**: hay una versión provisional en `#capital`. **Diseño de YOPE en camino.**
-- [ ] Rediseño de **Praetora Studio** y lugar del showroom de preventas. **Diseño de YOPE en camino.**
+- [ ] **Mau:** landing única de **Desarrollar / buscar capital + Praetora Studio** (con su showroom de preventas). Ver §3.
 - [ ] **Fotos de Casa Granada:** YOPE las va a volver a editar.
 - [ ] **Textos de Casa Granada:** la descripción menciona vigas de madera, cantera y jacuzzi, que no se ven en
   ninguna foto. Se revisa cuando lleguen las fotos nuevas. Mientras tanto quedan fuera de sus características.
