@@ -73,10 +73,16 @@ al integrarlo.
 Sin pie de página (se quitó por decisión de YOPE).
 
 ### `invertir.html` — Invertir
-Hero con la foto de la fachada de Casa Julieta (`assets/propiedades/hotel/invertir/`), encabezado blanco
-sobre el cielo, título de 48 px (excepción de display) y difuminado a blanco. En celular el cielo se
-prolonga con un degradado (`#4A7EBF` → `#5387C5`). Debajo: introducción, "Perfil de inversionista" y
-"Sala de inversión", y la tarjeta de Casa Julieta. La ficha de Julieta regresa aquí.
+Foto de YOPE con mucho cielo (`assets/propiedades/hotel/invertir/cielo-*.webp`). La introducción va sobre el
+cielo en cuatro tiempos: apertura (título de 48 px, excepción de display), **qué buscamos** (siete tipos de
+oportunidad), **el filtro** (siete pasos numerados) y **cómo trabajamos con usted** (perfil de inversionista y
+sala de inversión, "Solicitar información" y "Ver oportunidades"). La casona aparece al final con un difuminado
+a blanco y sigue la tarjeta de Casa Julieta. El fondo de la sección es el azul liso de la foto (`#0859A9`): si
+el texto necesita más alto (celular), el cielo crece hacia arriba sin costura.
+
+**Invertir y Desarrollar / buscar capital son las dos caras del mismo mercado, y no deben repetirse:** Invertir
+le habla a quien tiene el capital y Desarrollar a quien tiene el proyecto (que se estructura y se presenta a
+inversionistas compatibles). Praetora Studio no habla de inversionistas.
 
 ### `catalogo.html` — Propiedades
 Encabezado con las cuatro puertas (Praetora Studio es el botón negro) y un bloque editorial por casa,

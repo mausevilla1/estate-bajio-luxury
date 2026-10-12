@@ -4389,12 +4389,12 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 }
 
 /* ==========================================================================
-   INVERTIR (invertir.html) — referencia de YOPE: la foto de Casa Julieta arriba,
-   el título sobre el cielo y un difuminado largo a blanco; abajo, introducción en
-   dos columnas y las oportunidades.
+   INVERTIR (invertir.html) — la foto de YOPE con mucho cielo: la introducción va
+   sobre el cielo, en cuatro tiempos, y la casona aparece al final con un
+   difuminado a blanco. Abajo, las oportunidades.
    ========================================================================== */
 
-/* Encabezado transparente sobre el cielo: letra blanca, el botón se queda negro. */
+/* Encabezado transparente sobre el cielo, en blanco. */
 body.invertir-page .site-header {
   position: absolute;
   top: 0; left: 0; right: 0;
@@ -4408,82 +4408,129 @@ body.invertir-page .site-header .nav-link:hover { color: #FFFFFF; }
 body.invertir-page .site-header .nav-link { color: rgba(255, 255, 255, 0.75); }
 body.invertir-page .site-header .nav-link::after { background: #FFFFFF; }
 
-/* El cielo de la foto arranca en #5387C5: el fondo lo continúa hacia arriba cuando
-   hace falta más cielo para el texto (celular). */
-.invertir-hero {
+/* Las medidas de la foto salen del ancho de la página (cqw): la foto mide
+   100cqw × 158.35cqw (2528 × 4003) y la casona ocupa su 42 % de abajo. */
+.invertir-principal { container-type: inline-size; }
+
+.invertir-cielo {
+  --foto-alto: calc(100cqw * 4003 / 2528);
   position: relative;
-  background: linear-gradient(to bottom, #4A7EBF, #5387C5);
+  display: flex;
+  flex-direction: column;
+  min-height: var(--foto-alto);
+  padding-bottom: calc(var(--foto-alto) * 0.42);
+  background: #0859A9;               /* el azul liso de lo alto de la foto */
+  color: #FFFFFF;
+  overflow: hidden;
 }
-.invertir-hero-foto {
-  display: block;
+.invertir-cielo-foto {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
   width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  object-position: 50% 100%;
+  height: auto;
+  display: block;
+  /* El borde de arriba se funde con el fondo, por si el cielo creció. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 5%);
+          mask-image: linear-gradient(to bottom, transparent 0, #000 5%);
 }
-/* Difuminado: más largo y suave que el de la foto, termina en el blanco de la página. */
-.invertir-hero::after {
+/* Difuminado de la calle al blanco de la página. */
+.invertir-cielo::after {
   content: "";
   position: absolute;
   left: 0; right: 0; bottom: 0;
-  height: 34%;
+  height: calc(var(--foto-alto) * 0.16);
   background: linear-gradient(to bottom,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.55) 45%,
-    rgba(255, 255, 255, 0.92) 75%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.94) 80%,
     #FFFFFF 100%);
   pointer-events: none;
 }
 
-.invertir-hero-texto {
-  position: absolute;
-  top: 0; left: 0; right: 0;
+.invertir-cielo-contenido {
+  position: relative;
+  width: 100%;              /* en la columna flex, margin:auto la encogería al ancho del texto */
   z-index: 2;
-  padding: calc(var(--space-section) + 40px) var(--gutter) 0;
-  text-align: center;
-  color: #FFFFFF;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: var(--space-section);
+  padding-top: calc(var(--space-section) + 72px);
 }
+
+/* Etiquetas: 12 px en mayúsculas; en el cielo, blanco translúcido. */
+.invertir-etiqueta { display: block; color: var(--text-light); margin: 0; }
+.invertir-cielo .invertir-etiqueta { color: rgba(255, 255, 255, 0.7); margin-bottom: 20px; }
+
+/* 1 · Apertura */
+.invertir-apertura { max-width: 820px; }
 .invertir-titulo { margin: 0; color: #FFFFFF; }
-.invertir-bajada { margin: var(--space-close) 0 0; max-width: 46ch; color: rgba(255, 255, 255, 0.92); }
-.invertir-hero-texto .btn-gold { margin-top: 28px; }
+.invertir-bajada { margin: 20px 0 0; max-width: 52ch; color: rgba(255, 255, 255, 0.85); }
 
-/* Introducción: etiqueta a la izquierda, texto grande a la derecha. */
-.invertir-intro { padding: var(--space-block) 0 var(--space-section); }
-.invertir-intro-rejilla {
+/* 2 · Qué buscamos: ocho tipos en cuatro columnas, con línea fina arriba. */
+.invertir-tipos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-  gap: var(--space-block);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0 24px;
 }
-.invertir-etiqueta { color: var(--text-light); margin: 0; }
-.invertir-intro-texto { margin: 0; max-width: 46ch; color: var(--text-main); }
+.invertir-tipos li {
+  padding: 14px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+}
 
+/* 3 · El filtro: siete pasos en una línea, numerados. */
+.invertir-frase { margin: 0 0 40px; max-width: 34ch; color: #FFFFFF; }
+.invertir-pasos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: paso;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0 16px;
+}
+.invertir-pasos li {
+  counter-increment: paso;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.6);
+}
+.invertir-pasos li::before {
+  content: counter(paso, decimal-leading-zero);
+  display: block;
+  margin-bottom: 8px;
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* 4 · Cómo trabajamos con usted */
 .invertir-puntos {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 40px;
-  margin: var(--space-block) 0;
-  max-width: 760px;
+  max-width: 820px;
 }
-.invertir-icono {
-  display: inline-flex;
+.invertir-punto-titulo { margin: 0 0 6px; color: #FFFFFF; }
+.invertir-punto-texto { margin: 0; color: rgba(255, 255, 255, 0.75); }
+
+.invertir-acciones {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  width: 32px; height: 32px;
-  background: var(--gold-subtle);
+  gap: 24px 40px;
+  margin-top: var(--space-block);
 }
-.invertir-icono svg {
-  width: 18px; height: 18px;
-  fill: none; stroke: var(--ink); stroke-width: 1.4;
-  stroke-linecap: round; stroke-linejoin: round;
-}
-.invertir-punto-titulo { margin: var(--space-close) 0 6px; color: var(--text-main); }
-.invertir-punto-texto { margin: 0; color: var(--text-light); }
+/* Sobre el cielo el botón va invertido y el enlace en blanco. */
+.invertir-cielo .btn-gold { background: #FFFFFF; color: var(--ink); border-color: #FFFFFF; }
+.invertir-cielo .portada-enlace,
+.invertir-cielo .portada-enlace:hover,
+.invertir-cielo .portada-enlace:focus-visible { color: #FFFFFF; }
 
 /* Oportunidades: una tarjeta por activo, foto a la izquierda y texto a la derecha. */
-.invertir-oportunidades { padding: 0 0 var(--space-footer); }
+.invertir-oportunidades { padding: var(--space-block) 0 var(--space-footer); }
 .invertir-tarjeta {
   display: grid;
   grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
@@ -4501,20 +4548,19 @@ body.invertir-page .site-header .nav-link::after { background: #FFFFFF; }
 .invertir-tarjeta-texto .portada-enlace { margin-top: var(--space-block); }
 
 @media (max-width: 1023px) {
-  .invertir-intro-rejilla,
+  .invertir-tipos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .invertir-pasos { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 16px; }
   .invertir-tarjeta { grid-template-columns: 1fr; gap: 40px; }
 }
 
-/* Celular: el texto va sobre un cielo prolongado y la foto completa debajo. */
 @media (max-width: 767px) {
-  .invertir-hero-texto { position: relative; padding: 248px var(--gutter) 32px; }
-  .invertir-hero-foto {
-    aspect-ratio: auto;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 8%);
-            mask-image: linear-gradient(to bottom, transparent 0, #000 8%);
-  }
-  .invertir-hero::after { height: 22%; }
-  .invertir-puntos { grid-template-columns: 1fr; gap: 32px; }
+  .invertir-cielo-contenido { gap: var(--space-block); padding-top: 248px; }
+  .invertir-tipos { grid-template-columns: 1fr; }
+  .invertir-tipos li { padding: 10px 0; }
+  .invertir-pasos { grid-template-columns: 1fr; gap: 0; }
+  .invertir-pasos li { display: flex; align-items: baseline; gap: 16px; padding: 10px 0; border-top-color: rgba(255, 255, 255, 0.28); }
+  .invertir-pasos li::before { margin: 0; min-width: 20px; }
+  .invertir-puntos { grid-template-columns: 1fr; gap: 28px; }
   .invertir-oportunidades { padding-bottom: calc(var(--space-block) * 1.5); }
 }
 
@@ -4557,7 +4603,7 @@ body.invertir-page .site-header .nav-link::after { background: #FFFFFF; }
 .catalog-inversion-titulo,
 .propiedad-bloque-numero,
 .ficha-cifra-valor,
-.invertir-intro-texto {
+.invertir-frase {
   font-family: var(--font-sans);
   font-size: var(--t-3);
   font-weight: 500;
@@ -4581,6 +4627,8 @@ body.invertir-page .site-header .nav-link::after { background: #FFFFFF; }
 .propiedad-bloque-parrafo,
 .catalog-inversion-desc,
 .ficha-parrafo,
+.invertir-bajada,
+.invertir-tipos li,
 .b2b-cta-box p,
 .wizard-step-pane > p {
   font-size: var(--t-5);
@@ -4596,7 +4644,7 @@ body.invertir-page .site-header .nav-link::after { background: #FFFFFF; }
 .ficha-lista li,
 .capital-subtitulo,
 .capital-lista li,
-.invertir-bajada,
+.invertir-pasos li,
 .invertir-punto-titulo,
 .catalog-inversion-metricas,
 .catalog-inversion-metricas span {

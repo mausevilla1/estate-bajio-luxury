@@ -48,44 +48,68 @@
        Textos tomados de la estructura de negocio (vertical "Inversionistas").
        ========================================================================== -->
   <main class="invertir-principal">
-    <section class="invertir-hero">
-      <div class="invertir-hero-texto">
-        <h1 class="invertir-titulo">Oportunidades seleccionadas<br> y analizadas</h1>
-        <p class="invertir-bajada">Nuestro equipo inmobiliario, legal y financiero revisa cada oportunidad antes de presentarla.</p>
-        <a class="btn-gold" href="#oportunidades">Ver oportunidades</a>
-      </div>
-      <img class="invertir-hero-foto"
-           src="assets/propiedades/hotel/invertir/fachada-1600.webp"
-           srcset="assets/propiedades/hotel/invertir/fachada-900.webp 900w, assets/propiedades/hotel/invertir/fachada-1600.webp 1600w, assets/propiedades/hotel/invertir/fachada-2400.webp 2400w"
+    <!-- El cielo de Casa Julieta (foto de YOPE). La introducción va sobre el cielo en
+         cuatro tiempos y la casona aparece al final. El azul liso de lo alto de la foto
+         (#0859A9) es el fondo de la sección: si el texto necesita más alto, el cielo crece
+         hacia arriba sin costura. Textos de la estructura de negocio (vertical "Inversionistas"). -->
+    <section class="invertir-cielo" aria-labelledby="invertir-titulo">
+      <img class="invertir-cielo-foto"
+           src="assets/propiedades/hotel/invertir/cielo-1600.webp"
+           srcset="assets/propiedades/hotel/invertir/cielo-900.webp 900w, assets/propiedades/hotel/invertir/cielo-1600.webp 1600w, assets/propiedades/hotel/invertir/cielo-2400.webp 2400w"
            sizes="100vw"
-           alt="Casa Julieta: casona del siglo XIX en la esquina de Umarán y Zacateros, con el local de Birkenstock en planta baja">
-    </section>
+           alt="Casa Julieta bajo el cielo de San Miguel de Allende: casona del siglo XIX en la esquina de Umarán y Zacateros, con el local de Birkenstock en planta baja">
 
-    <section class="invertir-intro" aria-labelledby="invertir-intro-titulo">
-      <div class="container invertir-intro-rejilla">
-        <h2 id="invertir-intro-titulo" class="invertir-etiqueta">Invertir con PRAETORA</h2>
-        <div>
-          <p class="invertir-intro-texto">Buscamos, analizamos y filtramos oportunidades inmobiliarias en San Miguel de Allende. No presentamos inventario para llenar un catálogo: cada oportunidad pasa por un filtro de precio de entrada, mercado, costos, situación jurídica, riesgos y estrategia de salida.</p>
+      <div class="container invertir-cielo-contenido">
+        <header class="invertir-tiempo invertir-apertura">
+          <span class="invertir-etiqueta">Invertir</span>
+          <h1 id="invertir-titulo" class="invertir-titulo">Oportunidades seleccionadas<br> y analizadas</h1>
+          <p class="invertir-bajada">Buscamos, analizamos y filtramos oportunidades inmobiliarias en San Miguel de Allende. No presentamos inventario para llenar un catálogo.</p>
+        </header>
 
+        <section class="invertir-tiempo" aria-labelledby="invertir-buscamos">
+          <h2 id="invertir-buscamos" class="invertir-etiqueta">Qué buscamos</h2>
+          <ul class="invertir-tipos">
+            <li>Propiedades con renta</li>
+            <li>Coinversiones</li>
+            <li>Terrenos</li>
+            <li>Proyectos en desarrollo</li>
+            <li>Inmuebles subvaluados</li>
+            <li>Reposicionamiento</li>
+            <li>Oportunidades fuera de mercado</li>
+          </ul>
+        </section>
+
+        <section class="invertir-tiempo" aria-labelledby="invertir-filtro">
+          <h2 id="invertir-filtro" class="invertir-etiqueta">El filtro</h2>
+          <p class="invertir-frase">Antes de presentarle una oportunidad, nuestro equipo inmobiliario, legal y financiero la pasa por siete filtros.</p>
+          <ol class="invertir-pasos">
+            <li>Precio de entrada</li>
+            <li>Mercado y valor</li>
+            <li>Costos</li>
+            <li>Situación jurídica</li>
+            <li>Riesgos</li>
+            <li>Flujo y rentabilidad</li>
+            <li>Estrategia de salida</li>
+          </ol>
+        </section>
+
+        <section class="invertir-tiempo" aria-labelledby="invertir-como">
+          <h2 id="invertir-como" class="invertir-etiqueta">Cómo trabajamos con usted</h2>
           <div class="invertir-puntos">
             <div class="invertir-punto">
-              <span class="invertir-icono" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg>
-              </span>
               <h3 class="invertir-punto-titulo">Perfil de inversionista</h3>
               <p class="invertir-punto-texto">Capital, horizonte, liquidez y objetivo nos sirven para mostrarle oportunidades compatibles. La decisión siempre es suya.</p>
             </div>
             <div class="invertir-punto">
-              <span class="invertir-icono" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4z"/><path d="M8 13h8M8 16h5"/></svg>
-              </span>
               <h3 class="invertir-punto-titulo">Sala de inversión</h3>
               <p class="invertir-punto-texto">Resumen ejecutivo, capital requerido, escenarios, mercado, aspectos legales y riesgos. La documentación para due diligence se comparte bajo solicitud.</p>
             </div>
           </div>
-
-          <a class="btn-gold" href="https://wa.me/524420000000?text=Deseo%20informaci%C3%B3n%20sobre%20oportunidades%20de%20inversi%C3%B3n%20con%20PRAETORA." target="_blank" rel="noopener">Solicitar información</a>
-        </div>
+          <div class="invertir-acciones">
+            <a class="btn-gold" href="https://wa.me/524420000000?text=Deseo%20informaci%C3%B3n%20sobre%20oportunidades%20de%20inversi%C3%B3n%20con%20PRAETORA." target="_blank" rel="noopener">Solicitar información</a>
+            <a class="portada-enlace" href="#oportunidades">Ver oportunidades</a>
+          </div>
+        </section>
       </div>
     </section>
 
