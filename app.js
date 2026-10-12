@@ -1461,9 +1461,9 @@ function praetoraRevelarNuevos(contenedor) {
       ? 'Deseo solicitar el expediente de inversión de ' + p.title + ' (' + p.subzone + ').'
       : 'Me interesa ' + p.title + ' (' + p.subzone + ').');
     var btnTexto = esActivo ? 'Solicitar expediente' : 'Consultar esta casa';
-    // Casa Julieta ya no está en el catálogo: regresa a su sección de la portada.
+    // Casa Julieta ya no está en el catálogo: regresa a la página de Invertir.
     var volver = esActivo
-      ? '<a class="ficha-volver" href="index.html#activo-inversion">Volver al inicio</a>'
+      ? '<a class="ficha-volver" href="invertir.html">Volver a Invertir</a>'
       : '<a class="ficha-volver" href="catalogo.html">Volver al catálogo</a>';
     return '<section class="ficha-panel ficha-panel-texto ficha-panel-contacto">' +
       '<div class="ficha-acciones">' +

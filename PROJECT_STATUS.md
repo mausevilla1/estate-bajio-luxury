@@ -47,7 +47,7 @@ entradas. Los **enganches** ya existen; las secciones marcadas ⬜ son donde ent
 | Puerta | Para quién | Enlace hoy | Estado |
 |---|---|---|---|
 | **Propiedades** | Quien compra o vende casa | `catalogo.html` · vender: formulario `#consignacion` de la portada | ✅ catálogo y fichas; ⬜ el formulario de vender necesita revisión de textos |
-| **Invertir** | Inversionistas | `propiedad.html?id=activo-1` (ficha de Casa Julieta) | ⬜ falta la sección: introducción y, debajo, Casa Julieta con diseño de YOPE (pendiente) |
+| **Invertir** | Inversionistas | `invertir.html` | ✅ página propia con la referencia de YOPE: foto de Casa Julieta arriba con título sobre el cielo y difuminado, introducción en dos columnas y oportunidades (Casa Julieta → su ficha) |
 | **Desarrollar / buscar capital** | Quien trae un terreno, inmueble o proyecto y busca inversionistas o coinversión | `index.html#capital` | 🟡 sección provisional con la estructura de negocio (qué recibimos, cómo funciona, "Presentar un proyecto"); diseño de YOPE en camino |
 | **Praetora Studio** | Desarrolladores e inmobiliarias (servicios de media, tecnología y comercialización) | `index.html#desarrolladores` | 🟡 la sección existe; adentro se titula "Servicios para desarrolladores e inmobiliarias". Contenido por rediseñar |
 
@@ -71,6 +71,12 @@ al integrarlo.
 7. Asistente flotante (chat).
 
 Sin pie de página (se quitó por decisión de YOPE).
+
+### `invertir.html` — Invertir
+Hero con la foto de la fachada de Casa Julieta (`assets/propiedades/hotel/invertir/`), encabezado blanco
+sobre el cielo, título de 48 px (excepción de display) y difuminado a blanco. En celular el cielo se
+prolonga con un degradado (`#4A7EBF` → `#5387C5`). Debajo: introducción, "Perfil de inversionista" y
+"Sala de inversión", y la tarjeta de Casa Julieta. La ficha de Julieta regresa aquí.
 
 ### `catalogo.html` — Propiedades
 Encabezado con las cuatro puertas (Praetora Studio es el botón negro) y un bloque editorial por casa,
@@ -155,7 +161,6 @@ si se agrega contenido, hay que repartirlo, no alargar el panel.
 
 ## 8. Pendientes
 
-- [ ] Sección **Invertir**: introducción y, debajo, Casa Julieta. **Diseño de YOPE en camino.**
 - [ ] Sección **Desarrollar / buscar capital**: hay una versión provisional en `#capital`. **Diseño de YOPE en camino.**
 - [ ] Rediseño de **Praetora Studio** y lugar del showroom de preventas. **Diseño de YOPE en camino.**
 - [ ] **Fotos de Casa Granada:** YOPE las va a volver a editar.

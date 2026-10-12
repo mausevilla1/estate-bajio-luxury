@@ -4389,6 +4389,136 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 }
 
 /* ==========================================================================
+   INVERTIR (invertir.html) — referencia de YOPE: la foto de Casa Julieta arriba,
+   el título sobre el cielo y un difuminado largo a blanco; abajo, introducción en
+   dos columnas y las oportunidades.
+   ========================================================================== */
+
+/* Encabezado transparente sobre el cielo: letra blanca, el botón se queda negro. */
+body.invertir-page .site-header {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 5;
+  background: transparent;
+}
+body.invertir-page .site-header .logo-title,
+body.invertir-page .site-header .logo-subtitle,
+body.invertir-page .site-header .nav-link.active,
+body.invertir-page .site-header .nav-link:hover { color: #FFFFFF; }
+body.invertir-page .site-header .nav-link { color: rgba(255, 255, 255, 0.75); }
+body.invertir-page .site-header .nav-link::after { background: #FFFFFF; }
+
+/* El cielo de la foto arranca en #5387C5: el fondo lo continúa hacia arriba cuando
+   hace falta más cielo para el texto (celular). */
+.invertir-hero {
+  position: relative;
+  background: linear-gradient(to bottom, #4A7EBF, #5387C5);
+}
+.invertir-hero-foto {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: 50% 100%;
+}
+/* Difuminado: más largo y suave que el de la foto, termina en el blanco de la página. */
+.invertir-hero::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 34%;
+  background: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.55) 45%,
+    rgba(255, 255, 255, 0.92) 75%,
+    #FFFFFF 100%);
+  pointer-events: none;
+}
+
+.invertir-hero-texto {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 2;
+  padding: calc(var(--space-section) + 40px) var(--gutter) 0;
+  text-align: center;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.invertir-titulo { margin: 0; color: #FFFFFF; }
+.invertir-bajada { margin: var(--space-close) 0 0; max-width: 46ch; color: rgba(255, 255, 255, 0.92); }
+.invertir-hero-texto .btn-gold { margin-top: 28px; }
+
+/* Introducción: etiqueta a la izquierda, texto grande a la derecha. */
+.invertir-intro { padding: var(--space-block) 0 var(--space-section); }
+.invertir-intro-rejilla {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: var(--space-block);
+}
+.invertir-etiqueta { color: var(--text-light); margin: 0; }
+.invertir-intro-texto { margin: 0; max-width: 46ch; color: var(--text-main); }
+
+.invertir-puntos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px;
+  margin: var(--space-block) 0;
+  max-width: 760px;
+}
+.invertir-icono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px; height: 32px;
+  background: var(--gold-subtle);
+}
+.invertir-icono svg {
+  width: 18px; height: 18px;
+  fill: none; stroke: var(--ink); stroke-width: 1.4;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.invertir-punto-titulo { margin: var(--space-close) 0 6px; color: var(--text-main); }
+.invertir-punto-texto { margin: 0; color: var(--text-light); }
+
+/* Oportunidades: una tarjeta por activo, foto a la izquierda y texto a la derecha. */
+.invertir-oportunidades { padding: 0 0 var(--space-footer); }
+.invertir-tarjeta {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--space-block);
+  align-items: end;
+  margin-top: var(--space-close);
+}
+.invertir-tarjeta-foto { display: block; aspect-ratio: 4 / 3; overflow: hidden; }
+.invertir-tarjeta-foto img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+.invertir-tarjeta-foto:hover img { transform: scale(1.02); }
+.invertir-tarjeta-texto { display: flex; flex-direction: column; align-items: flex-start; }
+.invertir-tarjeta-texto .section-title { margin: var(--space-close) 0 0; }
+.invertir-tarjeta-texto .section-desc { margin: var(--space-close) 0 0; }
+.invertir-tarjeta-texto .ficha-cifras { margin-top: 40px; }
+.invertir-tarjeta-texto .portada-enlace { margin-top: var(--space-block); }
+
+@media (max-width: 1023px) {
+  .invertir-intro-rejilla,
+  .invertir-tarjeta { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* Celular: el texto va sobre un cielo prolongado y la foto completa debajo. */
+@media (max-width: 767px) {
+  .invertir-hero-texto { position: relative; padding: 248px var(--gutter) 32px; }
+  .invertir-hero-foto {
+    aspect-ratio: auto;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 8%);
+            mask-image: linear-gradient(to bottom, transparent 0, #000 8%);
+  }
+  .invertir-hero::after { height: 22%; }
+  .invertir-puntos { grid-template-columns: 1fr; gap: 32px; }
+  .invertir-oportunidades { padding-bottom: calc(var(--space-block) * 1.5); }
+}
+
+/* ==========================================================================
    SISTEMA TIPOGRÁFICO — una sola familia, una sola escala, dos pesos.
    --------------------------------------------------------------------------
    Familia: Acumin Pro (Adobe Fonts), a través de --font-sans.
@@ -4426,7 +4556,8 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 .wizard-step-pane h3,
 .catalog-inversion-titulo,
 .propiedad-bloque-numero,
-.ficha-cifra-valor {
+.ficha-cifra-valor,
+.invertir-intro-texto {
   font-family: var(--font-sans);
   font-size: var(--t-3);
   font-weight: 500;
@@ -4465,6 +4596,8 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 .ficha-lista li,
 .capital-subtitulo,
 .capital-lista li,
+.invertir-bajada,
+.invertir-punto-titulo,
 .catalog-inversion-metricas,
 .catalog-inversion-metricas span {
   font-size: var(--t-body);
@@ -4473,7 +4606,8 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 }
 .catalog-inversion-metricas strong { font-weight: 500; }
 .ficha-subtitulo,
-.capital-subtitulo { font-weight: 500; }
+.capital-subtitulo,
+.invertir-punto-titulo { font-weight: 500; }
 
 /* Pie y notas · 14 / 400 */
 .site-footer p,
@@ -4482,6 +4616,7 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 .site-footer .footer-bottom div,
 .ficha-nota,
 .capital-nota,
+.invertir-punto-texto,
 .t-pie {
   font-size: var(--t-small);
   font-weight: 400;
@@ -4497,6 +4632,7 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 .propiedad-bloque-ubicacion,
 .catalog-inversion-tag,
 .ficha-etiqueta,
+.invertir-etiqueta,
 .ficha-cifra-etiqueta,
 .site-footer .footer-col h5,
 .wizard-section label,
@@ -4600,3 +4736,13 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   color: var(--ink);
   border-color: #FFF;
 }
+
+/* Excepción de "display" (referencia de YOPE): título sobre la foto de Invertir. */
+.invertir-titulo {
+  font-family: var(--font-sans);
+  font-size: var(--t-hero);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+@media (max-width: 767px) { .invertir-titulo { font-size: var(--t-1); } }
