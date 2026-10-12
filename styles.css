@@ -4063,6 +4063,13 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   transform: scale(1.03);
 }
 
+/* Catálogo: 64 px bajo el encabezado y 128 px entre una casa y otra (YOPE, 2026-10-12:
+   antes eran 128 y 256 y se sentía mucho blanco). */
+.catalogo-casas-grid .propiedad-bloque {
+  padding-top: var(--space-block);
+  padding-bottom: var(--space-block);
+}
+
 /* La última casa del catálogo es lo último antes del pie: lleva el aire del pie. */
 .catalogo-casas-grid .propiedad-bloque:last-child {
   padding-bottom: var(--space-footer);
@@ -4071,6 +4078,12 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 @media (max-width: 1023px) {
   .propiedad-bloque {
     padding: var(--space-block) var(--gutter);
+  }
+
+  /* Celular y tableta: 48 px bajo el encabezado y 96 px entre casas. */
+  .catalogo-casas-grid .propiedad-bloque {
+    padding-top: calc(var(--space-block) * 0.75);
+    padding-bottom: calc(var(--space-block) * 0.75);
   }
 
   .catalogo-casas-grid .propiedad-bloque:last-child {
