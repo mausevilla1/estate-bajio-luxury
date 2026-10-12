@@ -280,6 +280,7 @@ const LUXURY_PROPERTIES = [
       "Sala y comedor con conexión visual al exterior"
     ],
     fotoTarjeta: "assets/propiedades/casa-olivos/fotos/01.webp",
+    fotoTarjetaPos: "35% center",   // la fachada es horizontal: portón y cochera dentro de la tarjeta
     resumen: "Residencia en Club de Golf Malanquín con vistas a Los Picachos. Dos niveles con techos a doble altura de vigas, cantera, patio interior empedrado y cocina con isla.",
     heroImage: "assets/propiedades/casa-olivos/fotos/01.webp",
     gallery: [
@@ -328,7 +329,7 @@ const LUXURY_PROPERTIES = [
       }
     ],
     flujo: [
-      { src: "assets/propiedades/casa-olivos/fotos/01.webp", prop: "3:4", alto: "a" },
+      { src: "assets/propiedades/casa-olivos/fotos/01.webp", prop: "4:3", alto: "a" },
       { src: "assets/propiedades/casa-olivos/fotos/02.webp", prop: "4:3", alto: "b" },
       { src: "assets/propiedades/casa-olivos/fotos/03.webp", prop: "3:4", alto: "c" },
       { src: "assets/propiedades/casa-olivos/fotos/04.webp", prop: "3:4", alto: "a" },
