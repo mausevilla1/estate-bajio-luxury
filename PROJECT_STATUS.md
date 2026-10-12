@@ -88,12 +88,26 @@ Para hacerla:
 Sin pie de página (se quitó por decisión de YOPE).
 
 ### `invertir.html` — Invertir
-**La pulen YOPE y Claude** (no Mau). Foto de YOPE con mucho cielo (`assets/propiedades/hotel/invertir/cielo-*.webp`). La introducción va sobre el
-cielo en cuatro tiempos: apertura (título de 48 px, excepción de display), **qué buscamos** (siete tipos de
-oportunidad), **el filtro** (siete pasos numerados) y **cómo trabajamos con usted** (perfil de inversionista y
-sala de inversión, "Solicitar información" y "Ver oportunidades"). La casona aparece al final con un difuminado
-a blanco y sigue la tarjeta de Casa Julieta. El fondo de la sección es el azul liso de la foto (`#0859A9`): si
-el texto necesita más alto (celular), el cielo crece hacia arriba sin costura.
+**La pulen YOPE y Claude** (no Mau). Foto de YOPE con mucho cielo (`assets/propiedades/hotel/invertir/cielo-*.webp`).
+La introducción va sobre el cielo en composición **"Manifiesto"**: todo centrado y monumental.
+- **Apertura:** título de 64 px.
+- **Qué buscamos:** una sola frase de 40 px con los siete tipos.
+- **El filtro:** línea de tiempo de lado a lado con siete puntos.
+- **Cómo trabajamos con usted:** dos columnas con una línea entre ellas, "Solicitar información" y "Ver oportunidades".
+
+Los 40 y 64 px son excepciones de display del cielo. La casona aparece al final con un difuminado a blanco y
+sigue la tarjeta de Casa Julieta. El fondo es el azul liso de la foto (`#0859A9`): si el texto necesita más alto
+(celular), el cielo crece hacia arriba sin costura.
+
+**Movimiento** (`invertir.js`, sin bibliotecas, sólo en esta página):
+- El título sube renglón por renglón.
+- Los tipos aparecen uno tras otro.
+- La frase del filtro se enciende palabra por palabra.
+- La línea de tiempo se dibuja de corrido.
+- La casona se mueve un 6 % más lenta que la página.
+
+Los estados de partida van bajo `html.mov`, que pone un script en `<head>`. Si `invertir.js` no corre en 3 s,
+se quita. Con "reducir movimiento" no se pone.
 
 **Invertir y la landing de Praetora Studio son dos caras del mismo mercado, y no deben repetirse:** Invertir
 le habla a quien tiene el capital; la landing, a quien tiene el proyecto (que se estructura y se presenta a

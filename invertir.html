@@ -16,6 +16,9 @@
 
   <link rel="stylesheet" href="https://use.typekit.net/eyy5hrp.css">
   <link rel="stylesheet" href="styles.css">
+  <!-- Movimiento del cielo: marca la página antes del primer cuadro. Si invertir.js no corre
+       en 3 s, se quita y todo queda a la vista; con "reducir movimiento" nunca se pone. -->
+  <script>try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches){var d=document.documentElement;d.classList.add('mov');setTimeout(function(){if(!window.__movInvertir)d.classList.remove('mov');},3000);}}catch(e){}</script>
 </head>
 <body class="catalog-page invertir-page">
 
@@ -61,7 +64,7 @@
       <div class="container invertir-cielo-contenido">
         <header class="invertir-tiempo invertir-apertura">
           <span class="invertir-etiqueta">Invertir</span>
-          <h1 id="invertir-titulo" class="invertir-titulo">Oportunidades seleccionadas<br> y analizadas</h1>
+          <h1 id="invertir-titulo" class="invertir-titulo"><span class="mov-linea"><span>Oportunidades seleccionadas</span></span> <span class="mov-linea"><span>y analizadas</span></span></h1>
           <p class="invertir-bajada">Buscamos, analizamos y filtramos oportunidades inmobiliarias en San Miguel de Allende. No presentamos inventario para llenar un catálogo.</p>
         </header>
 
@@ -189,5 +192,6 @@
   <!-- Scripts -->
   <script src="data.js"></script>
   <script src="app.js"></script>
+  <script src="invertir.js"></script>
 </body>
 </html>
