@@ -21,7 +21,7 @@ Abre <http://localhost:8080>.
 ## Archivos
 
 ```
-├── index.html          # Portada: hero con las cuatro puertas, vitrina, Casa Julieta, Praetora Studio, consignación
+├── index.html          # Portada: hero con las tres puertas, vitrina, Casa Julieta, Praetora Studio, consignación
 ├── catalogo.html       # Propiedades: un bloque editorial por casa
 ├── propiedad.html      # Ficha de cada propiedad (?id=prop-1 … / activo-1)
 ├── styles.css          # Tokens, componentes y, al final, el SISTEMA TIPOGRÁFICO

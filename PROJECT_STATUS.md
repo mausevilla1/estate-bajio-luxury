@@ -39,30 +39,31 @@ git checkout -b mau/<tema> origin/praetora/branding   # trabajar siempre desde e
 
 ---
 
-## 3. Estructura: las cuatro puertas
+## 3. Estructura: las tres puertas
 
-El menú de la portada (sobre la foto del hero) y el encabezado del catálogo nombran igual las cuatro
-entradas. Los **enganches** ya existen; las secciones marcadas ⬜ son donde entra el trabajo nuevo.
+Decisión de YOPE (2026-10-12): **Propiedades · Invertir · Praetora Studio**. El menú de la portada (sobre la
+foto del hero) y el encabezado del catálogo y de Invertir nombran igual las tres entradas. Los **enganches** ya existen; las secciones marcadas ⬜ son donde entra el trabajo nuevo.
 
 | Puerta | Para quién | Enlace hoy | Estado |
 |---|---|---|---|
 | **Propiedades** | Quien compra o vende casa | `catalogo.html` · vender: formulario `#consignacion` de la portada | ✅ catálogo y fichas; ⬜ el formulario de vender necesita revisión de textos |
 | **Invertir** | Inversionistas | `invertir.html` | ✅ página propia: la introducción va sobre el cielo de la foto de Casa Julieta y abajo están las oportunidades (Casa Julieta → su ficha). La seguimos puliendo YOPE y Claude |
-| **Desarrollar / buscar capital** | Desarrolladores, inmobiliarias y dueños de terrenos o proyectos | `index.html#capital` (provisional) | ⬜ **una sola landing con Praetora Studio. La hace Mau** |
-| **Praetora Studio** | (la misma landing) | `index.html#desarrolladores` (provisional) | ⬜ **la misma landing de Mau** |
+| **Praetora Studio** | Desarrolladores, inmobiliarias y dueños de terrenos o proyectos (servicios y búsqueda de capital) | `index.html#desarrolladores` (provisional) | ⬜ **landing de Mau: aquí entra su push** |
 
-### Asignado a Mau: la landing de Desarrollar / buscar capital + Praetora Studio
+### Asignado a Mau: la landing de Praetora Studio
 
-Decisión de YOPE (2026-10-12): **Desarrollar / buscar capital y Praetora Studio son una sola landing, y la hace
-Mau** con la estructura que ya tiene para ella. Lo que hay hoy en la portada es provisional y se reemplaza:
+Decisión de YOPE (2026-10-12): **Praetora Studio es la landing de Mau, y ahí entra su push.** Reúne lo que antes
+era "Desarrollar / buscar capital" (esa puerta salió del menú) y los servicios para desarrolladores e
+inmobiliarias. Mau la hace con la estructura que ya tiene. Lo que hay hoy en la portada es provisional y se
+reemplaza:
 
 - `#capital` — "¿Tiene un terreno, un inmueble o un proyecto?" (qué recibimos, cómo funciona, "Presentar un proyecto").
 - `#desarrolladores` — "Servicios para desarrolladores e inmobiliarias" (showroom digital, CRM).
 
 Para hacerla:
 - Mau decide con YOPE si va como **página propia** (por ejemplo `desarrollar.html`, con el encabezado de
-  `invertir.html` y `catalogo.html`) o como sección de la portada. Después, las **dos entradas del menú** (portada y
-  catálogo) se apuntan a ella o se juntan en una.
+  `invertir.html` y `catalogo.html`) o como sección de la portada. Después, "Praetora Studio" en los tres menús
+  (portada, catálogo e Invertir) se apunta a ella.
 - Su **showroom de preventas** cabe aquí, como demostración para desarrolladores.
 - Sigue el sistema de diseño (§5) y las reglas de contenido (§7). **No repite a Invertir:** Invertir le habla a quien
   tiene el capital; esta landing, a quien tiene el proyecto o necesita comercializarlo.
@@ -75,12 +76,12 @@ Para hacerla:
 
 ### `index.html` — portada (en este orden)
 1. **Hero** — foto de San Miguel con efecto de profundidad; logotipo PRAETORA / GRUPO / INMOBILIARIO y
-   las cuatro puertas. Posiciones medidas sobre el borrador de YOPE: **no se "limpian" ni se realinean**.
+   las tres puertas. Posiciones medidas sobre el borrador de YOPE: **no se "limpian" ni se realinean**.
 2. **Vitrina** (`#vitrina`) — las tres casas (sólo nombre) y el enlace "Catálogo completo".
 3. **Casa Julieta** (`#activo-inversion`) — foto de la terraza a la izquierda y texto en vino `#3E101A` a la derecha,
    con posiciones medidas del borrador. Celular: pendiente de diseño.
-4. **Desarrollar / buscar capital** (`#capital`) — provisional: la reemplaza la landing de Mau (§3).
-5. **Praetora Studio** (`#desarrolladores`) — provisional: la misma landing de Mau (§3).
+4. **Buscar capital** (`#capital`) — provisional, sin entrada en el menú: lo reemplaza la landing de Mau (§3).
+5. **Praetora Studio** (`#desarrolladores`) — provisional: lo reemplaza la landing de Mau (§3).
 6. **Consignación / vender** (`#consignacion`) — formulario de 4 pasos.
 7. Asistente flotante (chat).
 
@@ -94,12 +95,12 @@ sala de inversión, "Solicitar información" y "Ver oportunidades"). La casona a
 a blanco y sigue la tarjeta de Casa Julieta. El fondo de la sección es el azul liso de la foto (`#0859A9`): si
 el texto necesita más alto (celular), el cielo crece hacia arriba sin costura.
 
-**Invertir y la landing de Desarrollar / Studio son dos caras del mismo mercado, y no deben repetirse:** Invertir
+**Invertir y la landing de Praetora Studio son dos caras del mismo mercado, y no deben repetirse:** Invertir
 le habla a quien tiene el capital; la landing, a quien tiene el proyecto (que se estructura y se presenta a
 inversionistas compatibles) o necesita comercializarlo.
 
 ### `catalogo.html` — Propiedades
-Encabezado con las cuatro puertas (Praetora Studio es el botón negro) y un bloque editorial por casa,
+Encabezado con las tres puertas (Praetora Studio es el botón negro) y un bloque editorial por casa,
 generado por `app.js` (`renderPropiedadBloque`). Casa Julieta **no** va aquí: pertenece a Invertir.
 
 ### `propiedad.html?id=…` — ficha
@@ -181,7 +182,7 @@ si se agrega contenido, hay que repartirlo, no alargar el panel.
 
 ## 8. Pendientes
 
-- [ ] **Mau:** landing única de **Desarrollar / buscar capital + Praetora Studio** (con su showroom de preventas). Ver §3.
+- [ ] **Mau:** landing de **Praetora Studio** (servicios para desarrolladores e inmobiliarias y búsqueda de capital, con su showroom de preventas). Ver §3.
 - [ ] **Fotos de Casa Granada:** YOPE las va a volver a editar.
 - [ ] **Textos de Casa Granada:** la descripción menciona vigas de madera, cantera y jacuzzi, que no se ven en
   ninguna foto. Se revisa cuando lleguen las fotos nuevas. Mientras tanto quedan fuera de sus características.
