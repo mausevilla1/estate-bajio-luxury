@@ -4133,6 +4133,59 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
   }
 }
 
+/* Catálogo en celular: "Desliza" (YOPE la eligió entre cuatro, 2026-10-12).
+   Las cinco fotos van primero, en una tira que se pasa con el dedo y deja asomar la
+   siguiente; debajo, el nombre, tres renglones de descripción, los datos y el enlace. */
+@media (max-width: 767px) {
+  .catalogo-casas-grid .propiedad-bloque:first-child {
+    padding-top: 16px;
+  }
+
+  .catalogo-casas-grid .propiedad-bloque-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .catalogo-casas-grid .propiedad-bloque-visual {
+    order: -1;
+    flex-direction: row;
+    gap: 8px;
+    margin: 0 calc(-1 * var(--gutter));
+    padding: 0 var(--gutter);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 var(--gutter);
+    scrollbar-width: none;
+  }
+
+  .catalogo-casas-grid .propiedad-bloque-visual::-webkit-scrollbar {
+    display: none;
+  }
+
+  .catalogo-casas-grid .propiedad-bloque-miniaturas {
+    display: contents;
+  }
+
+  .catalogo-casas-grid .propiedad-bloque-foto-principal,
+  .catalogo-casas-grid .propiedad-bloque-miniatura {
+    flex: 0 0 84%;
+    aspect-ratio: 4 / 5;
+    scroll-snap-align: start;
+  }
+
+  .catalogo-casas-grid .propiedad-bloque-parrafo {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .catalogo-casas-grid .propiedad-bloque-datos {
+    margin: 28px 0;
+  }
+}
+
 /* ==========================================================================
    PORTADA - BLOQUE ACTIVO DE INVERSIÓN (Casa Julieta, Centro Histórico)
    Editorial diferenciado sobre blanco con tokens de :root
