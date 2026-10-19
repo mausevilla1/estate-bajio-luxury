@@ -14,6 +14,16 @@ function esc(s) {
   return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+/* Recorridos 3D por casa (clave = slug de data.js). Mientras la URL esté vacía,
+   el botón no aparece: nunca se muestra un botón que no lleve a ningún lado.
+   Casa Córdoba: va la versión más reciente del recorrido en cuanto tenga URL pública. */
+const RECORRIDOS_3D = {
+  'casa-cordoba': 'https://praetora-casa-cordoba.cordoba-publicacion-v19.workers.dev/?mode=appearance'
+};
+function urlRecorrido3D(p) {
+  return (p && p.slug && RECORRIDOS_3D[p.slug]) || '';
+}
+
 /* Dato no publicado por el anuncio.
    Se muestra la raya, nunca "null" ni un cero inventado. */
 function m2(v) {
@@ -1827,6 +1837,7 @@ function praetoraRevelarNuevos(contenedor) {
     return '<section class="ficha-panel ficha-panel-texto ficha-panel-contacto">' +
       '<div class="ficha-acciones">' +
         '<a class="btn-gold" href="https://wa.me/524420000000?text=' + msg + '" target="_blank" rel="noopener">' + btnTexto + '</a>' +
+        (urlRecorrido3D(p) ? '<a class="btn-gold" href="' + esc(urlRecorrido3D(p)) + '" target="_blank" rel="noopener">Recorrido 3D</a>' : '') +
         volver +
       '</div>' +
       '</section>';
@@ -2090,6 +2101,7 @@ function renderPropiedadBloque(prop) {
           (datosHtml ? '<div class="propiedad-bloque-datos">' + datosHtml + '</div>' : '') +
           '<div class="propiedad-bloque-accion">' +
             '<a href="propiedad.html?id=' + esc(prop.id) + '" class="portada-enlace">Ver propiedad</a>' +
+            (urlRecorrido3D(prop) ? '<a href="' + esc(urlRecorrido3D(prop)) + '" class="portada-enlace" target="_blank" rel="noopener">Recorrido 3D</a>' : '') +
           '</div>' +
         '</div>' +
         '<div class="propiedad-bloque-visual">' +
