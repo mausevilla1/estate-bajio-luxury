@@ -3096,6 +3096,231 @@ body.ficha-page {
 .ficha-volver:hover,
 .ficha-volver:focus-visible { color: var(--text-main); }
 
+/* --- Distribución con maqueta 3D: la lámina ---------------------------------
+   Como la lámina de un arquitecto. A la izquierda la leyenda: el número y el
+   nombre de cada espacio, una columna por planta. A la derecha la maqueta de una
+   planta (2:1, sin fondo) con el número de cada espacio encima; arriba la planta
+   y el mobiliario, abajo la cartela con la casa y la planta. La maqueta toma todo
+   el ancho que deja la leyenda sin pasarse del alto del flujo. Leyenda y lámina
+   arrancan a la misma altura y el conjunto va centrado en el alto. */
+.ficha-distribucion {
+  --maqueta-ancho: max(560px, min(calc((100vh - 69px - 90px) * 2), calc(100vw - 2 * var(--gutter) - 504px)));
+  display: grid;
+  grid-template-columns: 440px auto;
+  grid-template-areas: "texto maqueta";
+  column-gap: var(--space-block);
+  align-items: start;
+  align-content: safe center;
+  width: max-content;
+  margin-left: calc(var(--space-block) - 20px);
+}
+.ficha-distribucion-texto { grid-area: texto; }
+
+/* La leyenda: una columna por planta; la planta que no se ve, en gris. */
+.ficha-distribucion-leyenda {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 32px;
+  align-items: start;
+}
+.ficha-distribucion-leyenda .ficha-nivel + .ficha-nivel { margin-top: 0; }   /* van lado a lado */
+.ficha-distribucion .ficha-subtitulo { transition: color 0.3s ease; }
+.ficha-distribucion .ficha-nivel:not(.is-planta) .ficha-subtitulo { color: var(--text-light); }
+.ficha-leyenda li { display: flex; gap: 10px; align-items: baseline; transition: color 0.3s ease; }
+.ficha-leyenda li:focus-visible { outline: 1px solid var(--text-main); outline-offset: 2px; }
+.ficha-leyenda-num {
+  flex: 0 0 auto;
+  min-width: 20px;
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-light);
+  transition: color 0.3s ease;
+}
+.ficha-distribucion.is-foco .ficha-leyenda li { color: var(--text-light); }
+.ficha-distribucion.is-foco .ficha-leyenda li.is-activo,
+.ficha-leyenda li.is-activo .ficha-leyenda-num { color: var(--text-main); }
+
+.ficha-maqueta {
+  grid-area: maqueta;
+  margin: 0;
+  width: var(--maqueta-ancho);
+}
+
+/* Arriba: la planta a la izquierda, el mobiliario a la derecha. */
+.ficha-maqueta-cabeza {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-close) 24px;
+  padding-bottom: 8px;
+}
+.ficha-maqueta-grupo { display: flex; gap: 24px; }
+.ficha-maqueta-boton {
+  padding: 0 0 4px;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  font-family: var(--font-sans);
+  font-size: var(--t-label);
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.ficha-maqueta-boton:hover { color: var(--text-main); }
+.ficha-maqueta-boton[aria-pressed="true"] { color: var(--text-main); border-bottom-color: currentColor; }
+.ficha-maqueta-boton:focus-visible { outline: 1px solid var(--text-main); outline-offset: 4px; }
+
+/* El lienzo: las plantas apiladas; en cada una, la vista sin muebles abajo y la
+   amueblada encima (aparece con un fundido, así los muebles "entran"), dos capas
+   de foco con la máscara del cuarto y los números. Sin fondo: la maqueta va sobre
+   el blanco de la página. */
+.ficha-maqueta-lienzo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+}
+.ficha-maqueta-planta {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+.ficha-maqueta-planta[data-activa] { opacity: 1; pointer-events: auto; }
+.ficha-maqueta-planta img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+.ficha-maqueta-base { transition: opacity 0.8s ease, filter 0.45s ease; }
+.ficha-maqueta-base[data-vista="amueblada"] { opacity: 0; }
+.ficha-maqueta-base[data-vista="amueblada"][data-activa] { opacity: 1; }
+.ficha-maqueta.is-foco .ficha-maqueta-base { filter: opacity(0.32) saturate(0.4); }
+.ficha-maqueta-foco {
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  pointer-events: none;
+}
+.ficha-maqueta-foco[data-activa] { opacity: 1; }
+
+/* Los números: un punto blanco discreto por espacio, en su centro, sin borde (sólo
+   una línea de sombra para que se lea sobre los muros claros). El del cuarto
+   encendido, en negro. */
+.ficha-maqueta-marcas { position: absolute; inset: 0; }
+.ficha-maqueta-marca {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 0.5px rgba(17, 17, 17, 0.28);
+  color: var(--text-main);
+  font-size: 8px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  cursor: default;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
+}
+.ficha-maqueta-marca.is-activo { background: var(--text-main); color: var(--bg-primary); box-shadow: none; }
+.ficha-maqueta.is-foco .ficha-maqueta-marca:not(.is-activo) { opacity: 0.25; }
+
+/* El número y el nombre del cuarto junto al cursor. */
+.ficha-maqueta-rotulo {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  transform: translate(16px, -50%);
+  padding: 6px 10px;
+  background: var(--text-main);
+  color: var(--bg-primary);
+  font-size: var(--t-label);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.ficha-maqueta-rotulo b { font-weight: 500; opacity: 0.55; margin-right: 10px; }
+.ficha-maqueta-rotulo.a-la-izquierda { transform: translate(calc(-100% - 16px), -50%); }
+.ficha-maqueta-rotulo[data-activa] { opacity: 1; }
+
+/* Abajo, la cartela: la casa y la planta; a la derecha, de dónde sale la maqueta. */
+.ficha-maqueta-cartela {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 24px;
+  margin-top: var(--space-close);
+  padding-top: var(--space-close);
+  border-top: 1px solid var(--border-subtle);
+  font-size: var(--t-label);
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-light);
+}
+.ficha-maqueta-cartela b { font-weight: 500; color: var(--text-main); }
+
+@media (max-width: 1023px) {
+  .ficha-distribucion {
+    grid-template-columns: 100%;
+    grid-template-areas: "etiqueta" "maqueta" "leyenda";
+    width: 100%;
+    margin-left: 0;
+  }
+  /* En celular la etiqueta va arriba, luego la lámina y al final la leyenda. */
+  .ficha-distribucion-texto { display: contents; }
+  .ficha-distribucion-texto > .ficha-etiqueta { grid-area: etiqueta; }
+  .ficha-distribucion-leyenda { grid-area: leyenda; }
+  /* La lámina se queda arriba mientras se recorre la leyenda: el toque en un
+     espacio siempre se ve encendido. */
+  .ficha-maqueta {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    width: 100%;
+    margin-bottom: 40px;
+    padding: var(--space-close) 0;
+    background: var(--bg-primary);
+  }
+  .ficha-distribucion-leyenda { grid-template-columns: 100%; row-gap: 40px; }
+  .ficha-leyenda { columns: 2; column-gap: 16px; }
+  .ficha-leyenda li { break-inside: avoid; padding-bottom: 6px; }
+  .ficha-leyenda li + li { margin-top: 0; }
+  .ficha-maqueta-marca { width: 14px; height: 14px; margin: -7px 0 0 -7px; font-size: 7px; line-height: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ficha-maqueta-planta,
+  .ficha-maqueta-base,
+  .ficha-maqueta-foco,
+  .ficha-maqueta-marca,
+  .ficha-maqueta-rotulo { transition: none; }
+}
+
 /* --- Aparición: observador propio con root en el contenedor -------------- */
 [data-anim-ficha="on"] .ficha-panel {
   opacity: 0;

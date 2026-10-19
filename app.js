@@ -1405,6 +1405,7 @@ function praetoraRevelarNuevos(contenedor) {
 
   function panelDistribucion(p) {
     if (!p.planos || !p.planos.length) return '';
+    if (p.maqueta) return panelDistribucionMaqueta(p);
     return '<section class="ficha-panel ficha-panel-texto">' +
       '<span class="ficha-etiqueta">Distribución</span>' +
       p.planos.map(function (pl) {
@@ -1414,6 +1415,364 @@ function praetoraRevelarNuevos(contenedor) {
           '</div>';
       }).join('') +
       '</section>';
+  }
+
+  /* 2 · Distribución con maqueta 3D, en lámina (p.maqueta: la carpeta de sus imágenes).
+     Como la lámina de un arquitecto: a la izquierda la leyenda, el número y el
+     nombre de cada espacio, una columna por planta; a la derecha la maqueta de una
+     planta con el número de cada espacio encima, sin muebles o amueblada, y abajo
+     la cartela con la casa y la planta. El cursor sobre un espacio (en la leyenda,
+     en su número o en la maqueta) enciende ese cuarto.
+     Imágenes: <carpeta>/<planta>-<vista>-<ancho>.webp. Máscaras, rejilla y centros
+     de los cuartos: <carpeta>/cuartos.js. */
+  var VISTAS_MAQUETA = [
+    { clave: 'sin-muebles', nombre: 'Sin muebles' },
+    { clave: 'amueblada', nombre: 'Amueblada' }
+  ];
+
+  function plantaDe(pl) { return String(pl.base || '').split('/').pop(); }
+
+  // El nombre como lo escribe cuartos.js: minúsculas, sin acentos, "01" → "1".
+  function claveEspacio(t) {
+    return String(t).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .replace(/\b0(\d)\b/g, '$1').replace(/\s+/g, ' ').trim();
+  }
+
+  function dosCifras(n) { return (n < 10 ? '0' : '') + n; }
+
+  function panelDistribucionMaqueta(p) {
+    // El número corre por todas las plantas, como en la leyenda de una lámina.
+    var n = 0;
+    var niveles = p.planos.map(function (pl, i) {
+      var planta = esc(plantaDe(pl));
+      return '<div class="ficha-nivel' + (i === 0 ? ' is-planta' : '') + '" data-planta="' + planta + '">' +
+        '<h2 class="ficha-subtitulo">' + esc(pl.nivel) + '</h2>' +
+        '<ol class="ficha-lista ficha-leyenda">' + espaciosDe(pl).map(function (t) {
+          var num = dosCifras(++n);
+          return '<li tabindex="0" data-planta="' + planta + '" data-clave="' + esc(claveEspacio(t)) + '" data-num="' + num + '">' +
+            '<span class="ficha-leyenda-num" aria-hidden="true">' + num + '</span>' +
+            '<span class="ficha-leyenda-nombre">' + esc(t) + '</span></li>';
+        }).join('') + '</ol>' +
+        '</div>';
+    }).join('');
+
+    var capas = p.planos.map(function (pl, i) {
+      var raiz = p.maqueta + '/' + plantaDe(pl) + '-';
+      return '<div class="ficha-maqueta-planta" data-planta="' + esc(plantaDe(pl)) + '"' + (i === 0 ? ' data-activa' : '') + '>' +
+        VISTAS_MAQUETA.map(function (v, j) {
+          return '<img class="ficha-maqueta-base" data-vista="' + v.clave + '"' + (j === 0 ? ' data-activa' : '') +
+            ' src="' + esc(raiz + v.clave) + '-1600.webp" srcset="' + esc(raiz + v.clave) + '-1600.webp 1600w, ' +
+            esc(raiz + v.clave) + '-2400.webp 2400w" sizes="(min-width: 1024px) 62vw, 100vw"' +
+            ' alt="Maqueta de ' + esc(pl.nivel.toLowerCase()) + ' de ' + esc(p.title) + ', ' + v.nombre.toLowerCase() + '"' +
+            ' loading="lazy" decoding="async">';
+        }).join('') +
+        '<img class="ficha-maqueta-foco" alt="" aria-hidden="true">' +
+        '<img class="ficha-maqueta-foco" alt="" aria-hidden="true">' +
+        '<div class="ficha-maqueta-marcas" aria-hidden="true"></div>' +
+        '</div>';
+    }).join('');
+
+    function boton(dato, valor, texto, activo) {
+      return '<button type="button" class="ficha-maqueta-boton" data-' + dato + '="' + esc(valor) + '" aria-pressed="' + activo + '">' + esc(texto) + '</button>';
+    }
+    var botonesPlanta = p.planos.length > 1
+      ? '<div class="ficha-maqueta-grupo" role="group" aria-label="Planta">' +
+          p.planos.map(function (pl, i) { return boton('planta', plantaDe(pl), pl.nivel, i === 0); }).join('') +
+        '</div>'
+      : '<div></div>';
+
+    return '<section class="ficha-panel ficha-distribucion">' +
+      '<div class="ficha-distribucion-texto">' +
+        '<span class="ficha-etiqueta">Distribución</span>' +
+        '<div class="ficha-distribucion-leyenda">' + niveles + '</div>' +
+      '</div>' +
+      '<figure class="ficha-maqueta">' +
+        '<div class="ficha-maqueta-cabeza">' + botonesPlanta +
+          '<div class="ficha-maqueta-grupo" role="group" aria-label="Mobiliario">' +
+            VISTAS_MAQUETA.map(function (v, j) { return boton('vista', v.clave, v.nombre, j === 0); }).join('') +
+          '</div>' +
+        '</div>' +
+        '<div class="ficha-maqueta-lienzo">' + capas +
+          '<span class="ficha-maqueta-rotulo" aria-hidden="true"></span>' +
+        '</div>' +
+        '<figcaption class="ficha-maqueta-cartela">' +
+          '<span><b translate="no">' + esc(p.title) + '</b> · <span class="ficha-maqueta-nivel">' + esc(p.planos[0].nivel) + '</span></span>' +
+          '<span>Maqueta a partir de los planos · muebles ilustrativos</span>' +
+        '</figcaption>' +
+      '</figure>' +
+      '</section>';
+  }
+
+  /* La lámina en marcha: planta y vista con fundido, el cuarto encendido y sus números.
+     Encender = desvanecer la maqueta hacia el blanco y poner encima la misma imagen
+     recortada con la máscara del cuarto. Dos capas de foco se turnan para que pasar de
+     un cuarto a otro también sea un fundido. Las máscaras llegan en un <script> (y no
+     por fetch) para que la ficha funcione abierta con doble clic. */
+  function iniciarMaqueta(p) {
+    var fig = cont.querySelector('.ficha-maqueta');
+    if (!fig) return;
+    var panel = fig.parentNode;
+    var lienzo = fig.querySelector('.ficha-maqueta-lienzo');
+    var rotulo = fig.querySelector('.ficha-maqueta-rotulo');
+    var renglones = panel.querySelectorAll('li[data-clave]');
+    var datos = null, rejillas = {};
+    var planta = plantaDe(p.planos[0]), vista = VISTAS_MAQUETA[0].clave, encendido = null;
+
+    window.MAQUETAS = window.MAQUETAS || {};
+    var s = document.createElement('script');
+    s.src = p.maqueta + '/cuartos.js';
+    s.onload = function () { datos = window.MAQUETAS[p.maqueta] || null; ponerMarcas(); };
+    document.head.appendChild(s);
+
+    function capa(k) { return lienzo.querySelector('.ficha-maqueta-planta[data-planta="' + k + '"]'); }
+    function cuartosDe(k) {
+      var pl = datos && datos[k || planta];
+      return (pl && pl[vista] && pl[vista].cuartos) || [];
+    }
+    function cuarto(clave) {
+      var lista = cuartosDe();
+      for (var i = 0; i < lista.length; i++) if (lista[i].clave === clave) return lista[i];
+      return null;
+    }
+
+    // Rejilla corrida: "a12.30b5" = 12 celdas del cuarto 1, 30 vacías, 5 del 2…
+    function rejilla() {
+      var clave = planta + '|' + vista;
+      if (rejillas[clave]) return rejillas[clave];
+      var pl = datos && datos[planta], r = pl && pl[vista] && pl[vista].rejilla;
+      if (!r) return null;
+      var celdas = new Uint8Array(r.columnas * r.filas), i = 0;
+      r.datos.split(',').forEach(function (fila) {
+        fila.replace(/([.a-z])(\d*)/g, function (_, c, n) {
+          var v = c === '.' ? 0 : c.charCodeAt(0) - 96;
+          for (var k = n ? +n : 1; k > 0; k--) celdas[i++] = v;
+          return '';
+        });
+      });
+      return (rejillas[clave] = { columnas: r.columnas, filas: r.filas, celdas: celdas });
+    }
+    function cuartoEn(fx, fy) {
+      var r = rejilla();
+      if (!r || fx < 0 || fy < 0 || fx >= 1 || fy >= 1) return null;
+      var v = r.celdas[Math.floor(fy * r.filas) * r.columnas + Math.floor(fx * r.columnas)];
+      return v ? cuartosDe()[v - 1] : null;
+    }
+
+    // El renglón de la leyenda de un cuarto en una planta (sólo los de la lista se encienden).
+    function renglon(clave, k) {
+      for (var i = 0; i < renglones.length; i++) {
+        if (renglones[i].getAttribute('data-clave') === clave && renglones[i].getAttribute('data-planta') === (k || planta)) return renglones[i];
+      }
+      return null;
+    }
+
+    /* Los números sobre la maqueta: uno por pieza visible de cada cuarto, en su centro.
+       Si dos quedan encimados (baños chicos juntos), se separan lo justo. */
+    function ponerMarcas() {
+      if (!datos) return;
+      var ancho = lienzo.clientWidth, alto = lienzo.clientHeight;
+      if (!ancho || !alto) return;
+      var d = window.matchMedia('(min-width: 1024px)').matches ? 18 : 16;   // diámetro + aire
+      p.planos.forEach(function (pl) {
+        var k = plantaDe(pl), caja = capa(k).querySelector('.ficha-maqueta-marcas'), marcas = [];
+        cuartosDe(k).forEach(function (c) {
+          var li = renglon(c.clave, k);
+          if (!li) return;
+          (c.centros || []).forEach(function (q) {
+            marcas.push({ clave: c.clave, num: li.getAttribute('data-num'), x: q[0] / 100 * ancho, y: q[1] / 100 * alto });
+          });
+        });
+        for (var vuelta = 0; vuelta < 40; vuelta++) {
+          var movio = false;
+          for (var i = 0; i < marcas.length; i++) {
+            for (var j = i + 1; j < marcas.length; j++) {
+              var a = marcas[i], b = marcas[j], dx = b.x - a.x, dy = b.y - a.y, dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist >= d) continue;
+              if (dist < 0.01) { dx = 1; dy = 0; dist = 1; }
+              var empuje = (d - dist) / 2;
+              a.x -= dx / dist * empuje; a.y -= dy / dist * empuje;
+              b.x += dx / dist * empuje; b.y += dy / dist * empuje;
+              movio = true;
+            }
+          }
+          if (!movio) break;
+        }
+        caja.innerHTML = marcas.map(function (m) {
+          var x = Math.min(ancho - d / 2, Math.max(d / 2, m.x)), y = Math.min(alto - d / 2, Math.max(d / 2, m.y));
+          return '<span class="ficha-maqueta-marca' + (encendido === m.clave && k === planta ? ' is-activo' : '') +
+            '" data-clave="' + esc(m.clave) + '" style="left:' + (x / ancho * 100).toFixed(2) + '%;top:' +
+            (y / alto * 100).toFixed(2) + '%">' + m.num + '</span>';
+        }).join('');
+      });
+    }
+    var esperaMarcas = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(esperaMarcas);
+      esperaMarcas = setTimeout(ponerMarcas, 150);
+    });
+
+    function encender(clave) {
+      var c = clave ? cuarto(clave) : null;
+      if (c && !renglon(clave)) c = null;             // sólo los espacios de la lista
+      var nueva = c ? clave : null;
+      if (nueva === encendido) return;
+      encendido = nueva;
+      var actual = capa(planta);
+      var focos = actual.querySelectorAll('.ficha-maqueta-foco');
+      var turno = actual.getAttribute('data-turno') === '1' ? 0 : 1;
+      if (c) {
+        var base = actual.querySelector('.ficha-maqueta-base[data-vista="' + vista + '"]');
+        var foco = focos[turno];
+        if (foco.getAttribute('srcset') !== base.getAttribute('srcset')) {
+          foco.setAttribute('sizes', base.getAttribute('sizes'));
+          foco.setAttribute('srcset', base.getAttribute('srcset'));
+          foco.src = base.getAttribute('src');
+        }
+        foco.style.webkitMaskImage = foco.style.maskImage = 'url(' + c.mascara + ')';
+        foco.setAttribute('data-activa', '');
+        focos[1 - turno].removeAttribute('data-activa');
+        actual.setAttribute('data-turno', String(turno));
+      } else {
+        Array.prototype.forEach.call(focos, function (f) { f.removeAttribute('data-activa'); });
+      }
+      fig.classList.toggle('is-foco', !!c);
+      panel.classList.toggle('is-foco', !!c);
+      Array.prototype.forEach.call(renglones, function (li) {
+        li.classList.toggle('is-activo', !!nueva && li.getAttribute('data-clave') === nueva &&
+          li.getAttribute('data-planta') === planta);
+      });
+      Array.prototype.forEach.call(lienzo.querySelectorAll('.ficha-maqueta-marca'), function (m) {
+        m.classList.toggle('is-activo', !!nueva && m.getAttribute('data-clave') === nueva &&
+          m.parentNode.parentNode.getAttribute('data-planta') === planta);
+      });
+    }
+
+    function marcar(dato, valor) {
+      Array.prototype.forEach.call(fig.querySelectorAll('.ficha-maqueta-boton[data-' + dato + ']'), function (b) {
+        b.setAttribute('aria-pressed', b.getAttribute('data-' + dato) === valor ? 'true' : 'false');
+      });
+    }
+
+    function verPlanta(k) {
+      if (k === planta || !capa(k)) return;
+      encender(null);
+      capa(planta).removeAttribute('data-activa');
+      planta = k;
+      capa(planta).setAttribute('data-activa', '');
+      marcar('planta', k);
+      Array.prototype.forEach.call(panel.querySelectorAll('.ficha-nivel'), function (n) {
+        n.classList.toggle('is-planta', n.getAttribute('data-planta') === k);
+      });
+      var nivel = p.planos.filter(function (pl) { return plantaDe(pl) === k; })[0];
+      fig.querySelector('.ficha-maqueta-nivel').textContent = nivel ? nivel.nivel : '';
+    }
+
+    function verVista(v) {
+      if (v === vista) return;
+      var antes = encendido;
+      encender(null);
+      vista = v;
+      Array.prototype.forEach.call(lienzo.querySelectorAll('.ficha-maqueta-base'), function (img) {
+        if (img.getAttribute('data-vista') === v) img.setAttribute('data-activa', '');
+        else img.removeAttribute('data-activa');
+      });
+      marcar('vista', v);
+      ponerMarcas();                                   // con muebles, el centro visible cambia un poco
+      if (antes) encender(antes);
+    }
+
+    fig.querySelector('.ficha-maqueta-cabeza').addEventListener('click', function (e) {
+      var b = e.target.closest('.ficha-maqueta-boton');
+      if (!b) return;
+      if (b.hasAttribute('data-planta')) verPlanta(b.getAttribute('data-planta'));
+      else verVista(b.getAttribute('data-vista'));
+    });
+
+    // La leyenda: el cursor o el foco (teclado) enciende; con el dedo, un toque
+    // enciende y otro apaga. Sólo el mouse cuenta para "pasar por encima": el
+    // celular simula un mouseenter al tocar y apagaría lo que el toque prende.
+    var puntero = 'mouse';
+    panel.addEventListener('pointerdown', function (e) { puntero = e.pointerType; });
+    Array.prototype.forEach.call(renglones, function (li) {
+      // Al tocar, el foco llega antes que el clic y ya lo prende: el clic decide con
+      // lo que había antes del toque.
+      var estaba = false;
+      function prender() { verPlanta(li.getAttribute('data-planta')); encender(li.getAttribute('data-clave')); }
+      li.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') prender(); });
+      li.addEventListener('pointerdown', function () { estaba = li.classList.contains('is-activo'); });
+      li.addEventListener('focus', prender);
+      li.addEventListener('blur', function () { encender(null); });
+      li.addEventListener('click', function () {
+        if (puntero !== 'mouse' && estaba) encender(null);
+        else prender();
+      });
+    });
+    Array.prototype.forEach.call(panel.querySelectorAll('.ficha-nivel'), function (n) {
+      n.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') verPlanta(n.getAttribute('data-planta')); });
+    });
+    panel.querySelector('.ficha-distribucion-leyenda').addEventListener('pointerleave', function (e) {
+      if (e.pointerType === 'mouse') encender(null);
+    });
+    // Si falta una imagen, el lienzo se queda en blanco (nunca el ícono roto).
+    Array.prototype.forEach.call(lienzo.querySelectorAll('.ficha-maqueta-base'), function (img) {
+      img.addEventListener('error', function () { img.style.visibility = 'hidden'; });
+    });
+    // Cuando cargan las imágenes, el lienzo ya tiene su tamaño: ahí van los números.
+    var base0 = capa(planta).querySelector('.ficha-maqueta-base');
+    if (base0.complete) ponerMarcas(); else base0.addEventListener('load', ponerMarcas);
+
+    // La maqueta: el cuarto bajo el cursor (o el de su número), con número y nombre al lado.
+    function apuntar(e) {
+      var r = lienzo.getBoundingClientRect();
+      var fx = (e.clientX - r.left) / r.width, fy = (e.clientY - r.top) / r.height;
+      var marca = e.target.closest && e.target.closest('.ficha-maqueta-marca');
+      var clave = marca ? marca.getAttribute('data-clave') : null;
+      if (!clave) { var c = cuartoEn(fx, fy); clave = c ? c.clave : null; }
+      if (e.type === 'click' && puntero !== 'mouse' && clave && clave === encendido) clave = null;   // otro toque apaga
+      encender(clave);
+      var li = encendido && renglon(encendido);
+      if (li) {
+        rotulo.innerHTML = '<b>' + li.getAttribute('data-num') + '</b>' + esc(li.querySelector('.ficha-leyenda-nombre').textContent);
+        rotulo.style.left = (fx * 100) + '%';
+        rotulo.style.top = (Math.min(0.95, Math.max(0.05, fy)) * 100) + '%';
+        rotulo.setAttribute('data-activa', '');
+        rotulo.classList.toggle('a-la-izquierda', fx > 0.72);
+      } else {
+        rotulo.removeAttribute('data-activa');
+      }
+    }
+    lienzo.addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse') apuntar(e); });
+    lienzo.addEventListener('pointerleave', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      encender(null);
+      rotulo.removeAttribute('data-activa');
+    });
+    lienzo.addEventListener('click', apuntar);
+
+    /* Escritorio: si el recorrido se detiene con la lámina un poco corrida, la página se
+       acomoda sola, con suavidad, a la orilla (como se presenta). Sólo cuando quedó
+       cerca: si la persona se va hacia otro panel, no se la regresa. */
+    var esperaAcomodo = null, acomodando = false, reposo = null;   // reposo: dónde se detuvo la última vez
+    function acomodar() {
+      if (esVertical() || acomodando) return;
+      var orilla = parseFloat(getComputedStyle(cont).paddingLeft) || 0;
+      var delta = panel.getBoundingClientRect().left - orilla;
+      var seAleja = reposo !== null && Math.abs(delta) > Math.abs(reposo);
+      var limite = window.innerWidth * (seAleja ? 0.05 : 0.22);
+      if (Math.abs(delta) < 2 || Math.abs(delta) > limite) { reposo = delta; return; }
+      reposo = 0;
+      acomodando = true;
+      cont.scrollTo({
+        left: cont.scrollLeft + delta,
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+      });
+      setTimeout(function () { acomodando = false; }, 800);
+    }
+    cont.addEventListener('scroll', function () {
+      if (acomodando) return;
+      clearTimeout(esperaAcomodo);
+      esperaAcomodo = setTimeout(acomodar, 300);
+    }, { passive: true });
   }
 
   /* 3 · La casa: el texto y sus características. En un activo de inversión, las
@@ -1578,6 +1937,7 @@ function praetoraRevelarNuevos(contenedor) {
     paneles = cont.querySelectorAll('.ficha-panel');
     blindarFotos();
     observarPaneles();
+    iniciarMaqueta(p);
 
     cont.addEventListener('wheel', onRueda, { passive: false });
     var aInfo = document.querySelector('.ficha-barra-info');

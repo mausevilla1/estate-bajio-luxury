@@ -81,6 +81,8 @@ const LUXURY_PROPERTIES = [
       "Cocina abierta, sala de medios, terraza con asador y jardín amplio"
     ],
     projectedYield: "Consultar",
+    // Maqueta 3D de la distribución: sus imágenes y cuartos.js (app.js, panelDistribucionMaqueta).
+    maqueta: "assets/propiedades/casa-cordoba/maqueta",
     planos: [
       {
         nivel: "Planta baja",
@@ -161,6 +163,7 @@ const LUXURY_PROPERTIES = [
       "assets/propiedades/casa-granada/fotos/54.webp",
       "assets/propiedades/casa-granada/fotos/11.webp"
     ],
+    maqueta: "assets/propiedades/casa-granada/maqueta",
         planos: [
       {
         nivel: "Planta baja",
@@ -295,6 +298,7 @@ const LUXURY_PROPERTIES = [
       "assets/propiedades/casa-olivos/fotos/09.webp",
       "assets/propiedades/casa-olivos/fotos/10.webp"
     ],
+    maqueta: "assets/propiedades/casa-olivos/maqueta",
     planos: [
       {
         nivel: "Planta baja",
