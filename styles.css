@@ -4999,3 +4999,6 @@ html.mov .en-vista .invertir-acciones {
   letter-spacing: -0.01em;
 }
 @media (max-width: 767px) { .invertir-titulo { font-size: var(--t-1); } }
+
+/* Acciones del bloque de propiedad: "Ver propiedad" y, si existe, "Recorrido 3D". */
+.propiedad-bloque-accion { gap: 28px; flex-wrap: wrap; }
