@@ -18,7 +18,7 @@ function esc(s) {
    el botón no aparece: nunca se muestra un botón que no lleve a ningún lado.
    Casa Córdoba: va la versión más reciente del recorrido en cuanto tenga URL pública. */
 const RECORRIDOS_3D = {
-  'casa-cordoba': 'https://praetora-casa-cordoba.cordoba-publicacion-v19.workers.dev/?mode=appearance'
+  'casa-cordoba': 'https://recorridos.praetora.mx/?mode=appearance'
 };
 function urlRecorrido3D(p) {
   return (p && p.slug && RECORRIDOS_3D[p.slug]) || '';
