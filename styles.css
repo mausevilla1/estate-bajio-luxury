@@ -144,21 +144,13 @@ body {
   flex-direction: column;
 }
 
-.brand-logo .logo-title {
-  font-family: var(--font-serif);
-  font-size: 1.65rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  color: var(--text-main);
-  text-transform: uppercase;
-}
-
-.brand-logo .logo-subtitle {
-  font-size: var(--t-label);
-  letter-spacing: 0.2em;
-  color: var(--text-light);
-  text-transform: uppercase;
-  font-weight: 500;
+/* El nombre PRAETORA de assets/marca, sin isotipo. Con 19.5 px de alto sus mayúsculas
+   miden lo que las del logotipo de texto anterior (26.4 px): las mayúsculas ocupan el
+   96 % del alto del SVG. */
+.brand-logo img {
+  display: block;
+  height: 19.5px;
+  width: auto;
 }
 
 .nav-links {
@@ -2845,8 +2837,21 @@ body.ficha-page {
 .ficha-barra-enlace:hover,
 .ficha-barra-enlace:focus-visible { opacity: 0.5; }
 
-/* La marca conserva su tracking; el resto del sistema va sin tracking. */
-.ficha-barra-marca { letter-spacing: 0.14em; }
+/* La marca es el nombre PRAETORA de assets/marca. Con 18.5 px de alto sus mayúsculas
+   miden lo que las de INFO a 25 px. Ocupa la misma caja de 25 px que INFO, así la barra
+   se queda en 49 px. Baja 3.88 px para que su base (98 % de su alto) caiga en la de INFO,
+   a 22 px de su caja. */
+.ficha-barra-marca {
+  height: 25px;
+  align-self: flex-start;
+}
+
+.ficha-barra-marca img {
+  display: block;
+  height: 18.5px;
+  width: auto;
+  margin-top: 3.88px;
+}
 
 /* --- El contenedor -------------------------------------------------------
    overflow en los dos ejes como la referencia: el contenido nunca es más
@@ -3390,6 +3395,11 @@ body.catalog-page .site-header .nav-container {
 body.home .site-header nav,
 body.catalog-page .site-header nav { width: auto; margin-bottom: 0; }
 
+/* Los 40 px bajo el logo son de la columna vertical: en la barra horizontal
+   dejaban el menú más abajo que el logotipo. */
+body.home .site-header .brand-logo,
+body.catalog-page .site-header .brand-logo { margin-bottom: 0; }
+
 body.home .site-header .nav-links,
 body.catalog-page .site-header .nav-links {
   display: flex;
@@ -3637,53 +3647,23 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 
 /* Tres entradas (Propiedades · Invertir · Praetora Studio), en las posiciones del borrador de YOPE. */
 
-/* Logotipo central-derecho escalonado */
+/* El nombre PRAETORA de assets/marca, en blanco. Su tinta cae donde caía la de la palabra
+   PRAETORA de texto, medida en la captura de 1440 px: de x 719 a 1340, con las mayúsculas
+   desde y 76 (el SVG empieza 1.6 px antes, por el remate de la O). La foto del frente lo
+   tapa igual que tapaba al texto. */
 .portada-hero-logo-marca {
   position: absolute;
-  left: 49.00%;
-  top: 12.26%;
-  font-family: "acumin-pro", sans-serif;
-  font-size: 9.4cqw;
-  font-weight: 200;
-  line-height: 1;
+  left: 49.93%;
+  top: 12.18%;
+  width: 43.19cqw;
   margin: 0;
-  margin-top: -0.18em;
-  color: #FFF;
-  text-transform: uppercase;
-  white-space: nowrap;
-  letter-spacing: -0.048em;
+  line-height: 0;
 }
 
-.portada-hero-logo-grupo {
-  position: absolute;
-  left: 52.90%;
-  top: 35.97%;
-  font-family: "acumin-pro", sans-serif;
-  font-size: 5.0cqw;
-  font-weight: 200;
-  line-height: 1;
-  margin: 0;
-  margin-top: -0.18em;
-  color: #FFF;
-  text-transform: uppercase;
-  white-space: nowrap;
-  letter-spacing: -0.042em;
-}
-
-.portada-hero-logo-inmob {
-  position: absolute;
-  left: 60.50%;
-  top: 50.12%;
-  font-family: "acumin-pro", sans-serif;
-  font-size: 5.0cqw;
-  font-weight: 200;
-  line-height: 1;
-  margin: 0;
-  margin-top: -0.18em;
-  color: #FFF;
-  text-transform: uppercase;
-  white-space: nowrap;
-  letter-spacing: -0.016em;
+.portada-hero-logo-marca img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 /* ==========================================================================
@@ -3991,11 +3971,14 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
     object-position: 48% center;
   }
 
+  /* El nombre va donde iba la palabra PRAETORA de texto (medida en la captura de 390 px):
+     la tinta de x 29 a 256 y la base a 60 px del borde. Abajo queda el aire que ocupaba
+     "Grupo Inmobiliario". */
   .portada-hero-logo {
     position: absolute;
     inset: auto;
     left: var(--gutter);
-    bottom: 24px;
+    bottom: 59.4px;
     z-index: 4;
     display: block;
     text-align: left;
@@ -4004,28 +3987,8 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
 
   .portada-hero-logo-marca {
     position: static;
-    font-size: 44px;
-    font-weight: 200;
-    letter-spacing: 0.04em;
-    line-height: 1;
-    margin: 0 0 6px 0;
-    margin-top: 0;
-  }
-
-  .portada-hero-logo-grupo,
-  .portada-hero-logo-inmob {
-    position: static;
-    display: inline;
-    font-size: 14px;
-    font-weight: 200;
-    letter-spacing: 0.2em;
-    line-height: 1.4;
-    margin: 0;
-    margin-top: 0;
-  }
-
-  .portada-hero-logo-grupo::after {
-    content: ' ';
+    width: 228px;
+    margin-left: 5px;
   }
 
   .portada-hero-nav {
@@ -4680,8 +4643,6 @@ body.invertir-page .site-header {
   z-index: 5;
   background: transparent;
 }
-body.invertir-page .site-header .logo-title,
-body.invertir-page .site-header .logo-subtitle,
 body.invertir-page .site-header .nav-link.active,
 body.invertir-page .site-header .nav-link:hover { color: #FFFFFF; }
 body.invertir-page .site-header .nav-link { color: rgba(255, 255, 255, 0.75); }
@@ -5227,3 +5188,31 @@ html.mov .en-vista .invertir-acciones {
 
 /* Acciones del bloque de propiedad: "Ver propiedad" y, si existe, "Recorrido 3D". */
 .propiedad-bloque-accion { gap: 28px; flex-wrap: wrap; }
+
+/* --- Celular: arreglos de la revisión del 19-oct --------------------------
+   Medidos en 390 y 360 px. */
+@media (max-width: 767px) {
+  /* Portada: el menú del hero tocaba el logo (su orilla de abajo caía justo en
+     la de arriba del logo) y sus enlaces medían 17 px de alto. Ahora queda aire
+     y cada enlace mide 25 px para el dedo, con el mismo ritmo entre renglones. */
+  .portada-hero-nav { bottom: 116px; gap: 4px; }
+  .portada-hero-nav-link { padding: 4px 0; }
+
+  /* Portada, formulario de valuación: los dos botones no cabían lado a lado y
+     «Continuar» se cortaba. Van uno sobre otro, a todo lo ancho, el de avanzar
+     primero; «Anterior» no ocupa lugar mientras está escondido (paso 1). */
+  .wizard-actions { flex-direction: column-reverse; align-items: stretch; gap: 12px; }
+  .wizard-actions > button { justify-content: center; text-align: center; white-space: normal; line-height: 1.5; }
+  #wizard-prev-btn[style*="hidden"] { display: none; }
+
+  /* Portada: «Agendar presentación con director de alianzas» se parte en tres
+     renglones y llevaba la altura de línea igual a la letra: se encimaban. */
+  .b2b-cta-box .btn-gold { line-height: 1.5; text-align: center; }
+}
+
+@media (max-width: 1023px) {
+  /* Ficha: «Consultar esta casa» y «Recorrido 3D» del mismo ancho, a todo lo ancho. */
+  .ficha-acciones .btn-gold { align-self: stretch; justify-content: center; text-align: center; }
+  /* Ficha, lámina: los botones de planta y mobiliario medían 23 px de alto. */
+  .ficha-maqueta-boton { padding: 8px 0 6px; }
+}

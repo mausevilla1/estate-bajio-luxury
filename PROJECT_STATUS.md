@@ -30,6 +30,27 @@ git checkout -b mau/<tema> origin/praetora/branding   # trabajar siempre desde e
 ## 2. Identidad
 
 - **Nombre:** PRAETORA Grupo Inmobiliario.
+- **Logotipo (2026-10-13):** en `assets/marca/`, en SVG con el texto en curvas, sacado de `Branding praetora.ai`
+  de YOPE. Hay cinco versiones:
+  - `praetora-nombre`: sólo el nombre.
+  - `praetora-vertical`.
+  - `praetora-horizontal`.
+  - `praetora-horizontal-corto`: sin "Grupo Inmobiliario".
+  - `praetora-simbolo`: el isotipo.
+
+  Cada una va en verde `#15363D` y en `-blanco` para fondos oscuros. **No se redibuja ni se recolorea**: se usa
+  el archivo tal cual. Todo el logotipo es verde.
+
+  En el sitio va **sólo el nombre** (`praetora-nombre`), en el lugar del logotipo de texto (2026-10-14):
+
+  | Dónde | Versión | Tamaño |
+  |---|---|---|
+  | Portada, sobre la foto | `praetora-nombre-blanco` | Su tinta cae donde la de la palabra PRAETORA del borrador: 49.93 % · 12.18 %, 43.19 cqw de ancho. Celular: 228 px, base a 60 px del borde |
+  | Encabezado de catálogo | `praetora-nombre` | 19.5 px de alto: letras del tamaño del logotipo de texto |
+  | Encabezado de Invertir | `praetora-nombre-blanco` | 19.5 px de alto |
+  | Barra de la ficha | `praetora-nombre` | 18.5 px: sus letras miden lo que INFO |
+
+  **El isotipo no va en el sitio** hasta que YOPE diga dónde. Tampoco hay favicon, porque sería el isotipo.
 - **Mercado actual:** San Miguel de Allende (Club de Golf Malanquín y Centro Histórico). Otras
   ciudades, incluida León, entran más adelante.
 - **Trato:** el sitio habla de **usted** en todos los textos.
@@ -75,8 +96,8 @@ Para hacerla:
 ## 4. Páginas
 
 ### `index.html` — portada (en este orden)
-1. **Hero** — foto de San Miguel con efecto de profundidad; logotipo PRAETORA / GRUPO / INMOBILIARIO y
-   las tres puertas. Posiciones medidas sobre el borrador de YOPE: **no se "limpian" ni se realinean**.
+1. **Hero** — foto de San Miguel con efecto de profundidad; logotipo en blanco (§2) y las tres puertas.
+   Posiciones medidas sobre el borrador de YOPE: **no se "limpian" ni se realinean**.
 2. **Vitrina** (`#vitrina`) — las tres casas (sólo nombre) y el enlace "Catálogo completo".
 3. **Casa Julieta** (`#activo-inversion`) — foto de la terraza a la izquierda y texto en vino `#3E101A` a la derecha,
    con posiciones medidas del borrador. Celular: pendiente de diseño.
