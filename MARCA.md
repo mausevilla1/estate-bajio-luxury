@@ -46,6 +46,7 @@ Todas las versiones van en **`assets/marca/`** en SVG, con el texto convertido a
   - en la barra de la ficha, en verde.
 
   Ese cambio ya está hecho en la copia de Luis, pero todavía no está en GitHub: hoy el sitio en GitHub muestra el nombre en texto.
+- **El símbolo solo es el favicon** (decisión de YOPE del 19-oct): `favicon.svg`, verde en pestañas claras y blanco en oscuras, más `favicon.ico` y `apple-touch-icon.png` (blanco sobre verde) para el celular.
 - El nombre y «Praetora Studio» llevan `translate="no"` en el HTML: el sitio lo traduce el navegador y la marca no se traduce.
 
 ---
@@ -169,7 +170,6 @@ Regla de YOPE: *«No podemos manejar diferentes tamaños de letras y diferentes 
 ## 8. Pendientes de marca (no inventar)
 
 - Si el verde `#15363D` entra como color de marca más allá del logotipo.
-- Dónde va el símbolo solo en el sitio. Por eso todavía no hay favicon.
 - El claim o tagline.
 - El origen y el significado del nombre.
 - Las palabras que sí son de PRAETORA.
