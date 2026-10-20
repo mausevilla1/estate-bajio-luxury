@@ -50,7 +50,10 @@ git checkout -b mau/<tema> origin/praetora/branding   # trabajar siempre desde e
   | Encabezado de Invertir | `praetora-nombre-blanco` | 19.5 px de alto |
   | Barra de la ficha | `praetora-nombre` | 18.5 px: sus letras miden lo que INFO |
 
-  **El isotipo no va en el sitio** hasta que YOPE diga dónde. Tampoco hay favicon, porque sería el isotipo.
+  **El isotipo es el favicon** (decisión de YOPE, 19-oct): `favicon.svg`, verde en pestañas claras y blanco en
+  oscuras; `favicon.ico` para navegadores sin SVG; `apple-touch-icon.png`, blanco sobre verde, para el celular.
+  Al compartir un enlace, cada página lleva su imagen de 1200 × 630 (`assets/compartir/`), y cada casa tiene su
+  página propia (`<slug>.html`) que escribe `herramientas/paginas-compartir.mjs` a partir de `propiedad.html`.
 - **Mercado actual:** San Miguel de Allende (Club de Golf Malanquín y Centro Histórico). Otras
   ciudades, incluida León, entran más adelante.
 - **Trato:** el sitio habla de **usted** en todos los textos.
