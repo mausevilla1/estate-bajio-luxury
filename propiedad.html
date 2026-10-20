@@ -4,18 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- El título y la descripción los reescribe app.js con los datos de la casa.
-       OJO: la vista previa con foto en WhatsApp NO la da esto — las etiquetas og
-       inyectadas por JS no las lee el robot. Eso necesita HTML estático por
-       propiedad (el build.js de la arquitectura objetivo). -->
+  <!-- Plantilla de la ficha. El título lo reescribe app.js con los datos de la casa,
+       pero WhatsApp, Facebook y Google no ejecutan JavaScript: por eso cada casa tiene
+       su página (<slug>.html) con su título, su texto y su imagen para compartir.
+       Las escribe herramientas/paginas-compartir.mjs a partir de este archivo: si se
+       cambia algo aquí, se vuelve a correr. Aquí quedan las etiquetas generales. -->
   <title>Ficha de propiedad | PRAETORA</title>
   <meta name="description" content="Ficha individual de residencia — PRAETORA Grupo Inmobiliario.">
   <meta name="robots" content="index, follow">
 
   <meta property="og:type" content="article">
   <meta property="og:title" content="PRAETORA Grupo Inmobiliario">
-  <meta property="og:description" content="Ficha individual de residencia.">
+  <meta property="og:description" content="Residencias de autor en San Miguel de Allende.">
+  <meta property="og:image" content="https://praetora.mx/assets/compartir/catalogo.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Casa Córdoba, Casa Granada y Casa Olivos, en el Club de Golf Malanquín">
+  <meta property="og:site_name" content="PRAETORA">
+  <meta property="og:locale" content="es_MX">
+  <meta name="twitter:card" content="summary_large_image">
 
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="https://use.typekit.net/eyy5hrp.css">
   <link rel="stylesheet" href="styles.css">
 </head>

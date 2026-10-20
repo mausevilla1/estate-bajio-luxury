@@ -24,6 +24,14 @@ function urlRecorrido3D(p) {
   return (p && p.slug && RECORRIDOS_3D[p.slug]) || '';
 }
 
+/* La ficha de cada casa tiene su propia página (<slug>.html, la escribe
+   herramientas/paginas-compartir.mjs), con su título, su texto y su imagen para
+   compartir: WhatsApp y Google no ejecutan JavaScript, así que propiedad.html?id=
+   se vería igual para todas. Sin slug, la ficha genérica. */
+function urlFicha(p) {
+  return p && p.slug ? p.slug + '.html' : 'propiedad.html?id=' + encodeURIComponent(p ? p.id : '');
+}
+
 /* Dato no publicado por el anuncio.
    Se muestra la raya, nunca "null" ni un cero inventado. */
 function m2(v) {
@@ -1919,7 +1927,9 @@ function praetoraRevelarNuevos(contenedor) {
     cont = document.getElementById('ficha-flujo');
     if (!cont) return;                       // no es propiedad.html
 
-    var clave = new URLSearchParams(window.location.search).get('id');
+    // La casa: la de ?id= o, en su página propia (<slug>.html), la de data-propiedad.
+    var clave = new URLSearchParams(window.location.search).get('id') ||
+      document.body.getAttribute('data-propiedad');
     var p = null;
     if (typeof LUXURY_PROPERTIES !== 'undefined') {
       p = LUXURY_PROPERTIES.find(function (x) { return x.id === clave || x.slug === clave; });
@@ -1936,6 +1946,13 @@ function praetoraRevelarNuevos(contenedor) {
     if (!p) { cont.innerHTML = noEncontrada(); return; }
 
     document.title = p.title + ' — ' + p.subzone + ' | PRAETORA';
+    // Abierta como propiedad.html?id=, la barra pasa a la dirección propia de la casa:
+    // así, si alguien copia el enlace, se comparte con su foto y su nombre.
+    if (/^https?:$/.test(location.protocol) && p.slug && /\/propiedad(\.html)?$/.test(location.pathname)) {
+      try {
+        history.replaceState(null, '', p.slug + (/\.html$/.test(location.pathname) ? '.html' : '') + location.hash);
+      } catch (e) { /* sin replaceState, se queda la dirección de siempre */ }
+    }
     var meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute('content', p.description);
 
@@ -2020,7 +2037,7 @@ function pintarVitrina() {
     var foto = p.fotoTarjeta || p.heroImage || '';
     var estiloPos = p.fotoTarjetaPos ? ' style="object-position: ' + esc(p.fotoTarjetaPos) + ';"' : '';
 
-    return '<a class="portada-vitrina-tarjeta" href="propiedad.html?id=' + esc(p.id) + '">' +
+    return '<a class="portada-vitrina-tarjeta" href="' + esc(urlFicha(p)) + '">' +
       '<div class="portada-vitrina-foto">' +
         '<img src="' + esc(foto) + '" alt="' + esc(p.title) + '" loading="lazy"' + estiloPos + '>' +
       '</div>' +
@@ -2075,7 +2092,7 @@ function renderPropiedadBloque(prop) {
   if (miniaturas.length > 0) {
     miniaturasHtml = '<div class="propiedad-bloque-miniaturas">' +
       miniaturas.map(function (m, idx) {
-        return '<a href="propiedad.html?id=' + esc(prop.id) + '" class="propiedad-bloque-miniatura" aria-label="Ver foto ' + (idx + 1) + ' de ' + esc(prop.title) + '">' +
+        return '<a href="' + esc(urlFicha(prop)) + '" class="propiedad-bloque-miniatura" aria-label="Ver foto ' + (idx + 1) + ' de ' + esc(prop.title) + '">' +
           '<img src="' + esc(m) + '" alt="' + esc(prop.title) + ' - Vista ' + (idx + 1) + '" loading="lazy">' +
         '</a>';
       }).join('') +
@@ -2100,12 +2117,12 @@ function renderPropiedadBloque(prop) {
           (prop.resumen ? '<p class="propiedad-bloque-parrafo">' + esc(prop.resumen) + '</p>' : '') +
           (datosHtml ? '<div class="propiedad-bloque-datos">' + datosHtml + '</div>' : '') +
           '<div class="propiedad-bloque-accion">' +
-            '<a href="propiedad.html?id=' + esc(prop.id) + '" class="portada-enlace">Ver propiedad</a>' +
+            '<a href="' + esc(urlFicha(prop)) + '" class="portada-enlace">Ver propiedad</a>' +
             (urlRecorrido3D(prop) ? '<a href="' + esc(urlRecorrido3D(prop)) + '" class="portada-enlace" target="_blank" rel="noopener">Recorrido 3D</a>' : '') +
           '</div>' +
         '</div>' +
         '<div class="propiedad-bloque-visual">' +
-          '<a href="propiedad.html?id=' + esc(prop.id) + '" class="propiedad-bloque-foto-principal" aria-label="Ver ' + esc(prop.title) + '">' +
+          '<a href="' + esc(urlFicha(prop)) + '" class="propiedad-bloque-foto-principal" aria-label="Ver ' + esc(prop.title) + '">' +
             '<img src="' + esc(prop.heroImage) + '" alt="' + esc(prop.title) + '" loading="lazy">' +
           '</a>' +
           miniaturasHtml +

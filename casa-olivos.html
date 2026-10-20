@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!-- Página de Casa Olivos: la escribe herramientas/paginas-compartir.mjs a partir de propiedad.html. No se edita a mano. -->
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Plantilla de la ficha. El título lo reescribe app.js con los datos de la casa,
+       pero WhatsApp, Facebook y Google no ejecutan JavaScript: por eso cada casa tiene
+       su página (<slug>.html) con su título, su texto y su imagen para compartir.
+       Las escribe herramientas/paginas-compartir.mjs a partir de este archivo: si se
+       cambia algo aquí, se vuelve a correr. Aquí quedan las etiquetas generales. -->
+  <title>Casa Olivos — Club de Golf Malanquín | PRAETORA</title>
+  <meta name="description" content="Residencia contemporánea · 3 recámaras · 3.5 baños · 300 m² de construcción · $14,500,000 MXN">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://praetora.mx/casa-olivos">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://praetora.mx/casa-olivos">
+  <meta property="og:title" content="Casa Olivos · Club de Golf Malanquín">
+  <meta property="og:description" content="Residencia contemporánea · 3 recámaras · 3.5 baños · 300 m² de construcción · $14,500,000 MXN">
+  <meta property="og:image" content="https://praetora.mx/assets/compartir/casa-olivos.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Casa Olivos, Club de Golf Malanquín">
+  <meta property="og:site_name" content="PRAETORA">
+  <meta property="og:locale" content="es_MX">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="https://use.typekit.net/eyy5hrp.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="ficha-page" data-propiedad="prop-3">
+
+  <!-- Sin encabezado arriba, como MANNA: la marca vive en la barra de abajo.
+       tabindex para que las flechas del teclado desplacen el flujo. -->
+  <main id="ficha-flujo" class="ficha-flujo" tabindex="0" aria-label="Recorrido de la propiedad">
+    <noscript>
+      <div class="ficha-panel ficha-panel-texto">
+        <p class="ficha-dato-valor">
+          Esta ficha se arma con JavaScript. Actívalo para verla, o vuelve al
+          <a href="catalogo.html">catálogo</a>.
+        </p>
+      </div>
+    </noscript>
+  </main>
+
+  <!-- Barra inferior: marca a la izquierda, INFO a la derecha. Igual que MANNA. -->
+  <footer class="ficha-barra">
+    <a href="catalogo.html" class="ficha-barra-enlace ficha-barra-marca" translate="no"><img
+       src="assets/marca/praetora-nombre.svg" width="652" height="81" alt="PRAETORA"></a>
+    <a href="#ficha-info" class="ficha-barra-enlace ficha-barra-info">INFO</a>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
