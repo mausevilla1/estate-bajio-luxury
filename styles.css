@@ -1,46 +1,74 @@
 /* ==========================================================================
-   ESTATE BAJÍO - PRIVATE COLLECTION & PRE-SALE VAULT
-   Design System: Quiet Luxury (Travertine, Alabaster & Champagne Gold)
+   PRAETORA GRUPO INMOBILIARIO
+   Sistema visual: acromático. Blanco, negro y grises. Sin color de acento.
+   Referencia de lenguaje visual: rafstudio.co (medido, no copiado).
+   Las fuentes se cargan con <link> en el <head>, no con @import: un @import
+   dentro del CSS bloquea el render.
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-
 :root {
-  /* Color Palette: Quiet Luxury */
-  --bg-primary: #F8F6F1;
-  --bg-secondary: #EFECE4;
-  --bg-card: rgba(255, 255, 255, 0.85);
-  --bg-card-hover: rgba(255, 255, 255, 0.95);
-  --bg-glass: rgba(255, 255, 255, 0.65);
-  --bg-dark-accent: #191714;
-  
-  --text-main: #201D19;
-  --text-muted: #6B655B;
-  --text-light: #989083;
-  --text-inverse: #FBF9F5;
+  /* Paleta acromática. Un solo sistema: blanco, negro, tres grises. */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F7F7F7;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #FFFFFF;
+  --bg-glass: #FFFFFF;
+  --bg-dark-accent: #111111;
+  --ink: #111111;
 
-  --gold-primary: #B8934A;
-  --gold-light: #D8BD80;
-  --gold-subtle: rgba(184, 147, 74, 0.15);
-  --gold-glow: rgba(216, 189, 128, 0.4);
-  --gold-gradient: linear-gradient(135deg, #B8934A 0%, #D8BD80 50%, #A68037 100%);
-  
-  --border-subtle: rgba(184, 147, 74, 0.22);
-  --border-glass: rgba(255, 255, 255, 0.8);
-  
-  --shadow-sm: 0 4px 12px rgba(100, 85, 65, 0.04);
-  --shadow-md: 0 12px 30px rgba(100, 85, 65, 0.08);
-  --shadow-lg: 0 25px 60px rgba(100, 85, 65, 0.12);
-  --shadow-glass: 0 20px 40px -10px rgba(120, 100, 75, 0.12);
+  --text-main: #111111;
+  --text-muted: #222222;
+  --text-light: #AAAAAA;
+  --text-inverse: #FFFFFF;
 
-  /* Typography */
-  --font-serif: 'Cormorant Garamond', Georgia, serif;
-  --font-sans: 'Outfit', -apple-system, sans-serif;
-  --font-mono: 'Space Grotesk', monospace;
+  /* NO HAY COLOR DE ACENTO.
+     Los tokens --gold-* conservan el nombre a propósito: están usados en ~40
+     lugares de index.html, catalogo.html y app.js. Renombrarlos tocaría archivos
+     que Mau también edita. El nombre queda; el valor ya es neutro.
+     Cuando se limpien los nombres, se hace en su propio PR. */
+  --gold-primary: #111111;
+  --gold-light: #AAAAAA;
+  --gold-subtle: #F2F2F2;
+  --gold-glow: transparent;
+  --gold-gradient: #111111;
 
-  /* Transitions */
-  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-spring: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --border-subtle: #E6E6E6;
+  --border-glass: #E6E6E6;
+
+  /* Sin sombras. La separación la hacen las líneas de 1px y el espacio. */
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-glass: none;
+  --shadow-modal: 0 24px 60px rgba(0, 0, 0, 0.14);
+
+  /* Tipografía: Inter 400/500. Los tres nombres de token se conservan por la
+     misma razón que los --gold-*: están usados en el html y el js. */
+  --font-serif: "acumin-pro", -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-sans: "acumin-pro", -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-mono: "acumin-pro", -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+
+  /* Ritmo: margen lateral fijo de 24px en todos los anchos, como la referencia. */
+  --gutter: 24px;
+  --space-close: 12px;
+  --space-block: 64px;
+  --space-section: 128px;
+  --space-footer: 192px;
+
+  /* Escala tipográfica. 32 es el tope de la referencia; 48 es la extensión
+     para el hero de portada, que ellos no tienen porque son estudio, no marca. */
+  --t-hero: 48px;
+  --t-1: 32px;
+  --t-2: 28px;
+  --t-3: 24px;
+  --t-4: 20px;
+  --t-5: 18px;
+  --t-body: 16px;
+  --t-small: 14px;
+  --t-label: 12px;
+
+  --transition-smooth: all 0.25s ease;
+  --transition-spring: all 0.25s ease;
 }
 
 /* Reset & Global */
@@ -68,30 +96,24 @@ body {
 
 /* Ambient Canvas Background */
 #ambient-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.7;
+  display: none; /* canvas de halo ambiental: fuera del sistema acromático */
 }
 
 /* Layout Utilities */
 .container {
-  max-width: 1380px;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--gutter);
   position: relative;
   z-index: 1;
 }
 
 .section-padding {
-  padding: 7rem 0;
+  padding: var(--space-section) 0;
 }
 
 /* Header & Navigation */
+/* Header & Navigation (Base horizontal para < 1024px) */
 .site-header {
   position: fixed;
   top: 0;
@@ -99,13 +121,13 @@ body {
   width: 100%;
   z-index: 100;
   transition: var(--transition-smooth);
-  padding: 1.5rem 0;
+  padding: 1.2rem 0;
+  background: var(--bg-primary);
 }
 
 .site-header.scrolled {
-  padding: 0.9rem 0;
-  background: rgba(248, 246, 241, 0.88);
-  backdrop-filter: blur(16px);
+  padding: 0.8rem 0;
+  background: rgba(248, 246, 241, 0.95);
   border-bottom: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-sm);
 }
@@ -122,21 +144,13 @@ body {
   flex-direction: column;
 }
 
-.brand-logo .logo-title {
-  font-family: var(--font-serif);
-  font-size: 1.65rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  color: var(--text-main);
-  text-transform: uppercase;
-}
-
-.brand-logo .logo-subtitle {
-  font-size: 0.65rem;
-  letter-spacing: 0.35em;
-  color: var(--gold-primary);
-  text-transform: uppercase;
-  font-weight: 500;
+/* El nombre PRAETORA de assets/marca, sin isotipo. Con 19.5 px de alto sus mayúsculas
+   miden lo que las del logotipo de texto anterior (26.4 px): las mayúsculas ocupan el
+   96 % del alto del SVG. */
+.brand-logo img {
+  display: block;
+  height: 19.5px;
+  width: auto;
 }
 
 .nav-links {
@@ -147,7 +161,7 @@ body {
 }
 
 .nav-link {
-  color: var(--text-muted);
+  color: var(--text-light);
   text-decoration: none;
   font-size: 0.88rem;
   font-weight: 500;
@@ -158,6 +172,11 @@ body {
   padding: 0.4rem 0;
 }
 
+.nav-link.active,
+.nav-link:hover {
+  color: var(--text-main);
+}
+
 .nav-link::after {
   content: '';
   position: absolute;
@@ -165,17 +184,107 @@ body {
   left: 50%;
   width: 0;
   height: 1px;
-  background: var(--gold-primary);
+  background: var(--text-main);
   transition: var(--transition-smooth);
   transform: translateX(-50%);
 }
 
-.nav-link:hover {
-  color: var(--text-main);
-}
-
+.nav-link.active::after,
 .nav-link:hover::after {
   width: 100%;
+}
+
+/* Riel Vertical Fijo en Desktop (>= 1024px) */
+@media (min-width: 1024px) {
+  body:not(.catalog-page) {
+    margin-left: 220px;
+  }
+
+  .site-header {
+    width: 220px;
+    height: 100vh;
+    height: 100dvh;
+    background: var(--bg-primary);
+    border-right: 1px solid var(--border-subtle);
+    border-bottom: none;
+    padding: 24px;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  /* Quita el comportamiento de .site-header.scrolled: en riel vertical no aplica */
+  .site-header.scrolled {
+    padding: 24px;
+    background: var(--bg-primary);
+    border-bottom: none;
+    border-right: 1px solid var(--border-subtle);
+    box-shadow: none;
+  }
+
+  .nav-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    max-width: 100%;
+    flex: 1;
+  }
+
+  .brand-logo {
+    margin-bottom: 40px;
+  }
+
+  .site-header nav {
+    width: 100%;
+    margin-bottom: auto;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 21px; /* margen inferior de 21px entre ellos */
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-link {
+    display: block;
+    color: var(--text-light);
+    padding: 0;
+  }
+
+  .nav-link.active,
+  .nav-link:hover {
+    color: var(--text-main);
+  }
+
+  .nav-link::after {
+    display: none;
+  }
+
+  .site-header .btn-gold {
+    margin-top: auto;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
 }
 
 /* Premium Buttons */
@@ -184,14 +293,14 @@ body {
   color: #FFFFFF;
   border: none;
   padding: 0.85rem 1.8rem;
-  border-radius: 40px;
+  border-radius: 0;
   font-family: var(--font-sans);
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 6px 20px rgba(184, 147, 74, 0.3);
+  box-shadow: none;
   transition: var(--transition-smooth);
   display: inline-flex;
   align-items: center;
@@ -208,13 +317,13 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: transparent;
   transition: 0.6s ease;
 }
 
 .btn-gold:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(184, 147, 74, 0.45);
+  box-shadow: none;
 }
 
 .btn-gold:hover::before {
@@ -226,7 +335,7 @@ body {
   color: var(--text-main);
   border: 1px solid var(--gold-primary);
   padding: 0.8rem 1.8rem;
-  border-radius: 40px;
+  border-radius: 0;
   font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 0.1em;
@@ -252,7 +361,7 @@ body {
   align-items: center;
   position: relative;
   padding-top: 7rem;
-  background: radial-gradient(circle at 80% 20%, rgba(216, 189, 128, 0.12) 0%, transparent 60%);
+  background: var(--bg-primary);
 }
 
 .hero-grid {
@@ -269,7 +378,7 @@ body {
   padding: 0.45rem 1.1rem;
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid var(--border-subtle);
-  border-radius: 30px;
+  border-radius: 0;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.18em;
@@ -280,18 +389,21 @@ body {
 }
 
 .hero-title {
-  font-family: var(--font-serif);
-  font-size: 4.2rem;
-  font-weight: 400;
-  line-height: 1.08;
+  font-family: var(--font-sans);
+  font-size: clamp(34px, 4.4vw, var(--t-hero));
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  text-wrap: balance;
   letter-spacing: -0.01em;
   color: var(--text-main);
   margin-bottom: 1.8rem;
 }
 
 .hero-title span.highlight {
-  font-style: italic;
-  color: var(--gold-primary);
+  /* Sin cursivas: la referencia no usa ninguna. La jerarquía la hace el gris. */
+  font-style: normal;
+  color: var(--text-light);
   display: block;
 }
 
@@ -307,10 +419,9 @@ body {
 /* Floating Glass Quick Search */
 .hero-search-glass {
   background: var(--bg-card);
-  backdrop-filter: blur(24px);
   border: 1px solid var(--border-glass);
   box-shadow: var(--shadow-glass);
-  border-radius: 20px;
+  border-radius: 0;
   padding: 1.4rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr auto;
@@ -322,7 +433,7 @@ body {
   display: flex;
   flex-direction: column;
   padding: 0 0.8rem;
-  border-right: 1px solid rgba(184, 147, 74, 0.15);
+  border-right: 1px solid var(--border-subtle);
 }
 
 .search-field:last-of-type {
@@ -357,11 +468,11 @@ body {
 
 .hero-main-card {
   position: relative;
-  border-radius: 24px;
+  border-radius: 0;
   overflow: hidden;
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--border-glass);
-  aspect-ratio: 4 / 4.8;
+  aspect-ratio: 3 / 4; /* retrato del sistema */
 }
 
 .hero-main-card img {
@@ -380,9 +491,8 @@ body {
   bottom: 2rem;
   left: -2rem;
   background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(20px);
   border: 1px solid var(--border-subtle);
-  border-radius: 18px;
+  border-radius: 0;
   padding: 1.2rem 1.6rem;
   box-shadow: var(--shadow-md);
   display: flex;
@@ -394,7 +504,7 @@ body {
 .floating-stat-icon {
   width: 46px;
   height: 46px;
-  border-radius: 12px;
+  border-radius: 0;
   background: var(--gold-subtle);
   display: flex;
   align-items: center;
@@ -424,28 +534,33 @@ body {
 }
 
 .section-tag {
-  font-size: 0.75rem;
-  letter-spacing: 0.25em;
+  font-size: 12px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--gold-primary);
-  font-weight: 600;
+  color: var(--text-light);
+  font-weight: 500;
   display: block;
   margin-bottom: 0.8rem;
 }
 
 .section-title {
-  font-family: var(--font-serif);
-  font-size: 3rem;
-  font-weight: 400;
+  font-family: var(--font-sans);
+  font-size: var(--t-1);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  text-wrap: balance;
   color: var(--text-main);
   line-height: 1.15;
   margin-bottom: 1rem;
 }
 
 .section-desc {
-  font-size: 1.05rem;
+  font-size: var(--t-5);
+  line-height: 1.5;
   color: var(--text-muted);
-  font-weight: 300;
+  font-weight: 400;
+  max-width: 65ch;
 }
 
 /* Catalog Filter System */
@@ -461,7 +576,7 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   padding: 0.6rem 1.4rem;
-  border-radius: 30px;
+  border-radius: 0;
   font-size: 0.82rem;
   font-weight: 500;
   letter-spacing: 0.06em;
@@ -475,37 +590,38 @@ body {
   background: var(--gold-gradient);
   color: #FFFFFF;
   border-color: transparent;
-  box-shadow: 0 4px 15px rgba(184, 147, 74, 0.3);
+  box-shadow: none;
 }
 
 /* 3D Property Cards Grid */
 .properties-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-  gap: 2.5rem;
+  gap: 64px 24px; /* 64px vertical y 24px horizontal */
+  position: relative; /* contexto para la retícula de "+" */
 }
 
 .property-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 20px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+  box-shadow: none;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   display: flex;
   flex-direction: column;
 }
 
 .property-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--gold-light);
+  transform: translateY(-4px);
+  box-shadow: none;
+  border-color: transparent;
 }
 
 .property-thumb-wrap {
   position: relative;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9; /* formato de trabajo */
   overflow: hidden;
 }
 
@@ -530,9 +646,8 @@ body {
 
 .badge-tag {
   background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(8px);
   padding: 0.3rem 0.8rem;
-  border-radius: 20px;
+  border-radius: 0;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -545,7 +660,7 @@ body {
 }
 
 .property-details {
-  padding: 1.8rem;
+  padding: 1.5rem 0 0 0; /* pegado sin marco, flush con la imagen */
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -639,7 +754,7 @@ body {
 .presale-render-showcase {
   position: relative;
   background: #FFFFFF;
-  border-radius: 24px;
+  border-radius: 0;
   padding: 1.2rem;
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--border-glass);
@@ -647,9 +762,9 @@ body {
 
 .presale-canvas-view {
   position: relative;
-  border-radius: 18px;
+  border-radius: 0;
   overflow: hidden;
-  aspect-ratio: 16 / 11;
+  aspect-ratio: 16 / 9; /* formato de trabajo */
 }
 
 .presale-canvas-view img {
@@ -679,7 +794,7 @@ body {
   background: var(--bg-primary);
   border: 1px solid var(--border-subtle);
   padding: 0.8rem 0.6rem;
-  border-radius: 14px;
+  border-radius: 0;
   cursor: pointer;
   text-align: center;
   transition: var(--transition-smooth);
@@ -714,7 +829,7 @@ body {
   justify-content: space-between;
   background: rgba(255, 255, 255, 0.8);
   padding: 0.8rem 1.4rem;
-  border-radius: 14px;
+  border-radius: 0;
   border: 1px solid var(--border-subtle);
   margin-bottom: 1.5rem;
 }
@@ -722,8 +837,8 @@ body {
 .progress-bar-wrap {
   width: 140px;
   height: 6px;
-  background: rgba(184, 147, 74, 0.2);
-  border-radius: 10px;
+  background: #E6E6E6;
+  border-radius: 0;
   overflow: hidden;
 }
 
@@ -743,7 +858,7 @@ body {
 .roi-card {
   background: #FFFFFF;
   padding: 1.2rem;
-  border-radius: 16px;
+  border-radius: 0;
   border: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-sm);
 }
@@ -802,8 +917,8 @@ body {
 .b2b-feature-icon {
   width: 38px;
   height: 38px;
-  border-radius: 10px;
-  background: rgba(216, 189, 128, 0.15);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -824,10 +939,9 @@ body {
 
 .b2b-cta-box {
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(216, 189, 128, 0.25);
-  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 0;
   padding: 2.5rem;
-  backdrop-filter: blur(16px);
   text-align: center;
 }
 
@@ -841,10 +955,9 @@ body {
 .wizard-card {
   background: var(--bg-card);
   border: 1px solid var(--border-glass);
-  border-radius: 28px;
+  border-radius: 0;
   padding: 3rem;
   box-shadow: var(--shadow-lg);
-  backdrop-filter: blur(24px);
   max-width: 900px;
   margin: 0 auto;
 }
@@ -890,7 +1003,7 @@ body {
   background: var(--gold-gradient);
   border-color: transparent;
   color: #FFFFFF;
-  box-shadow: 0 4px 15px rgba(184, 147, 74, 0.35);
+  box-shadow: none;
 }
 
 .step-indicator-item.completed {
@@ -938,7 +1051,7 @@ body {
 .form-group textarea {
   background: #FFFFFF;
   border: 1px solid var(--border-subtle);
-  border-radius: 12px;
+  border-radius: 0;
   padding: 0.85rem 1.2rem;
   font-family: var(--font-sans);
   font-size: 0.95rem;
@@ -951,7 +1064,7 @@ body {
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: var(--gold-primary);
-  box-shadow: 0 0 0 3px rgba(184, 147, 74, 0.15);
+  box-shadow: 0 0 0 2px #111111;
 }
 
 .wizard-actions {
@@ -975,10 +1088,9 @@ body {
 
 .ai-concierge-btn {
   background: var(--bg-card);
-  backdrop-filter: blur(20px);
   border: 1px solid var(--border-glass);
   box-shadow: var(--shadow-lg);
-  border-radius: 40px;
+  border-radius: 0;
   padding: 0.8rem 1.6rem;
   display: flex;
   align-items: center;
@@ -990,7 +1102,7 @@ body {
 .ai-concierge-btn:hover {
   transform: translateY(-4px) scale(1.02);
   border-color: var(--gold-light);
-  box-shadow: 0 16px 35px rgba(184, 147, 74, 0.25);
+  box-shadow: none;
 }
 
 .ai-avatar-ring {
@@ -1013,8 +1125,8 @@ body {
   height: 580px;
   background: #FFFFFF;
   border: 1px solid var(--border-subtle);
-  border-radius: 24px;
-  box-shadow: 0 30px 70px rgba(100, 80, 60, 0.2);
+  border-radius: 0;
+  box-shadow: none;
   z-index: 950;
   display: none;
   flex-direction: column;
@@ -1047,7 +1159,7 @@ body {
 .chat-bubble {
   max-width: 82%;
   padding: 0.9rem 1.2rem;
-  border-radius: 18px;
+  border-radius: 0;
   font-size: 0.88rem;
   line-height: 1.5;
 }
@@ -1077,7 +1189,7 @@ body {
 .ai-chat-input-wrap input {
   flex-grow: 1;
   border: 1px solid var(--border-subtle);
-  border-radius: 30px;
+  border-radius: 0;
   padding: 0.6rem 1.2rem;
   font-family: var(--font-sans);
   font-size: 0.88rem;
@@ -1092,7 +1204,6 @@ body {
   width: 100vw;
   height: 100vh;
   background: rgba(32, 29, 25, 0.6);
-  backdrop-filter: blur(8px);
   z-index: 1000;
   display: none;
   align-items: center;
@@ -1106,13 +1217,13 @@ body {
 
 .property-modal-content {
   background: #FFFFFF;
-  border-radius: 24px;
+  border-radius: 0;
   max-width: 1000px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-modal);
   animation: zoomIn 0.3s ease;
 }
 
@@ -1211,13 +1322,18 @@ body {
 .catalog-header-section {
   padding-top: 8.5rem;
   padding-bottom: 3rem;
-  background: radial-gradient(circle at 50% 0%, rgba(216, 189, 128, 0.15) 0%, transparent 70%);
+  background: var(--bg-primary);
 }
 
 .catalog-hero-box {
   text-align: center;
   max-width: 850px;
   margin: 0 auto 2.5rem auto;
+}
+
+.catalog-hero-box .section-title {
+  font-size: var(--t-hero);
+  line-height: 1.15;
 }
 
 .catalog-main-search {
@@ -1229,10 +1345,9 @@ body {
 .catalog-main-search input {
   width: 100%;
   padding: 1.1rem 1.6rem 1.1rem 3.4rem;
-  border-radius: 40px;
+  border-radius: 0;
   border: 1px solid var(--border-subtle);
   background: var(--bg-card);
-  backdrop-filter: blur(20px);
   font-family: var(--font-sans);
   font-size: 1.05rem;
   color: var(--text-main);
@@ -1243,7 +1358,7 @@ body {
 
 .catalog-main-search input:focus {
   border-color: var(--gold-primary);
-  box-shadow: 0 0 0 4px rgba(184, 147, 74, 0.15);
+  box-shadow: 0 0 0 2px #111111;
 }
 
 .catalog-search-icon {
@@ -1257,12 +1372,14 @@ body {
 
 /* Multi-Dimensional Filter Bar */
 .filter-master-bar {
-  background: var(--bg-card);
-  backdrop-filter: blur(24px);
-  border: 1px solid var(--border-glass);
-  border-radius: 24px;
-  padding: 1.6rem 2rem;
-  box-shadow: var(--shadow-glass);
+  background: transparent;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+  padding: 1.6rem 0;
+  box-shadow: none;
   margin-bottom: 3rem;
   display: flex;
   flex-direction: column;
@@ -1281,15 +1398,19 @@ body {
 
 .filter-pills-group {
   display: flex;
-  gap: 0.6rem;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .filter-pill {
-  background: var(--bg-primary);
+  background: transparent;
   border: 1px solid var(--border-subtle);
-  padding: 0.5rem 1.2rem;
-  border-radius: 25px;
+  border-radius: 0;
+  padding: 0 20px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0.8rem;
   font-weight: 500;
   color: var(--text-muted);
@@ -1297,73 +1418,105 @@ body {
   transition: var(--transition-smooth);
 }
 
-.filter-pill.active,
 .filter-pill:hover {
-  background: var(--gold-gradient);
-  color: #FFFFFF;
-  border-color: transparent;
-  box-shadow: var(--shadow-sm);
+  background: transparent;
+  border-color: var(--text-main);
+  color: var(--text-main);
+}
+
+.filter-pill.active {
+  background: transparent;
+  border: 1px solid var(--text-main);
+  color: var(--text-main);
+  box-shadow: none;
 }
 
 .filter-controls-right {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 /* Currency Switcher */
 .currency-toggle-group {
   display: flex;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-subtle);
-  border-radius: 30px;
-  padding: 0.25rem;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .currency-btn {
-  border: none;
   background: transparent;
-  padding: 0.4rem 0.9rem;
-  border-radius: 20px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 0;
+  padding: 0 16px;
+  height: 40px;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--text-muted);
   cursor: pointer;
   transition: var(--transition-smooth);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.currency-btn:hover {
+  background: transparent;
+  border-color: var(--text-main);
+  color: var(--text-main);
 }
 
 .currency-btn.active {
-  background: var(--text-main);
-  color: #FFFFFF;
+  background: transparent;
+  border: 1px solid var(--text-main);
+  color: var(--text-main);
+  box-shadow: none;
 }
 
 /* View Mode Switcher */
 .view-mode-group {
   display: flex;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-subtle);
-  border-radius: 30px;
-  padding: 0.25rem;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .view-btn {
-  border: none;
   background: transparent;
-  padding: 0.4rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
+  border: 1px solid var(--border-subtle);
+  padding: 0 20px;
+  height: 40px;
+  border-radius: 0;
+  font-size: 0.82rem;
+  font-weight: 500;
   color: var(--text-muted);
   cursor: pointer;
   transition: var(--transition-smooth);
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.4rem;
+}
+
+.view-btn:hover {
+  background: transparent;
+  border-color: var(--text-main);
+  color: var(--text-main);
 }
 
 .view-btn.active {
-  background: var(--gold-gradient);
-  color: #FFFFFF;
+  background: transparent;
+  border: 1px solid var(--text-main);
+  color: var(--text-main);
+  box-shadow: none;
 }
 
 /* Secondary Filter Row */
@@ -1382,22 +1535,39 @@ body {
   align-items: center;
 }
 
+.amenity-label {
+  font-size: 12px;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  margin-right: 0.4rem;
+}
+
 .amenity-tag {
   background: transparent;
-  border: 1px dashed var(--border-subtle);
-  padding: 0.4rem 0.9rem;
-  border-radius: 20px;
+  border: 1px solid var(--border-subtle);
+  padding: 0 16px;
+  height: 36px;
+  border-radius: 0;
   font-size: 0.75rem;
   color: var(--text-muted);
   cursor: pointer;
   transition: var(--transition-smooth);
+  display: inline-flex;
+  align-items: center;
+}
+
+.amenity-tag:hover {
+  border-color: var(--text-main);
+  color: var(--text-main);
 }
 
 .amenity-tag.active {
-  background: var(--gold-subtle);
-  border-color: var(--gold-primary);
-  color: var(--gold-primary);
-  font-weight: 600;
+  background: transparent;
+  border: 1px solid var(--text-main);
+  color: var(--text-main);
+  font-weight: 500;
 }
 
 .sort-select-wrap {
@@ -1407,18 +1577,19 @@ body {
 }
 
 .sort-select-wrap label {
-  font-size: 0.75rem;
-  color: var(--text-muted);
+  font-size: 12px;
+  color: var(--text-light);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .sort-select-wrap select {
   background: var(--bg-primary);
   border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  padding: 0.5rem 1rem;
+  border-radius: 0;
+  padding: 0 1rem;
+  height: 40px;
   font-family: var(--font-sans);
   font-size: 0.82rem;
   color: var(--text-main);
@@ -1435,15 +1606,18 @@ body {
   padding: 0 0.5rem;
 }
 
-.results-count {
-  font-family: var(--font-mono);
-  font-size: 0.9rem;
-  color: var(--text-muted);
+.results-count,
+.stats-cert {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-light);
+  font-weight: 500;
 }
 
 .results-count span {
   color: var(--text-main);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 /* Lookbook Editorial View Layout */
@@ -1456,7 +1630,7 @@ body {
 .lookbook-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
-  border-radius: 24px;
+  border-radius: 0;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   display: grid;
@@ -1555,13 +1729,31 @@ body {
   align-items: center;
 }
 
+.lookbook-actions .btn-gold {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  padding: 0 20px;
+  height: 40px;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.lookbook-actions .btn-gold:hover {
+  background: transparent;
+  border-color: var(--text-main);
+  color: var(--text-main);
+}
+
 /* Comparison Button on Cards */
 .btn-compare-card {
   background: transparent;
   border: 1px solid var(--border-subtle);
-  padding: 0.5rem 0.9rem;
-  border-radius: 20px;
+  padding: 0 20px;
+  height: 40px;
+  border-radius: 0;
   font-size: 0.75rem;
+  font-weight: 500;
   color: var(--text-muted);
   cursor: pointer;
   transition: var(--transition-smooth);
@@ -1570,10 +1762,17 @@ body {
   gap: 0.4rem;
 }
 
-.btn-compare-card.active {
-  background: var(--text-main);
-  color: #FFFFFF;
+.btn-compare-card:hover {
+  background: transparent;
   border-color: var(--text-main);
+  color: var(--text-main);
+}
+
+.btn-compare-card.active {
+  background: transparent;
+  border: 1px solid var(--text-main);
+  color: var(--text-main);
+  box-shadow: none;
 }
 
 /* Floating Comparison Dock */
@@ -1582,18 +1781,35 @@ body {
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%) translateY(120px);
-  background: rgba(32, 29, 25, 0.95);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--gold-primary);
-  border-radius: 50px;
+  max-width: calc(100vw - 48px);
+  box-sizing: border-box;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 0;
   padding: 0.8rem 2rem;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--shadow-lg);
   z-index: 850;
   display: flex;
   align-items: center;
   gap: 1.8rem;
   transition: var(--transition-spring);
-  color: #FFFFFF;
+  color: var(--text-main);
+}
+
+.comparison-floating-dock .btn-gold {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  padding: 0 20px;
+  height: 40px;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.comparison-floating-dock .btn-gold:hover {
+  background: transparent;
+  border-color: var(--text-main);
+  color: var(--text-main);
 }
 
 .comparison-floating-dock.visible {
@@ -1631,7 +1847,7 @@ body {
 .comp-col {
   background: var(--bg-primary);
   border: 1px solid var(--border-subtle);
-  border-radius: 16px;
+  border-radius: 0;
   padding: 1.4rem;
   display: flex;
   flex-direction: column;
@@ -1651,7 +1867,7 @@ body {
 .chat-property-snippet {
   background: #FFFFFF;
   border: 1px solid var(--border-subtle);
-  border-radius: 14px;
+  border-radius: 0;
   overflow: hidden;
   margin-top: 0.8rem;
   box-shadow: var(--shadow-sm);
@@ -1691,10 +1907,10 @@ body {
 }
 
 .quick-action-pill {
-  background: rgba(184, 147, 74, 0.1);
+  background: #F2F2F2;
   border: 1px solid var(--border-subtle);
   padding: 0.35rem 0.8rem;
-  border-radius: 15px;
+  border-radius: 0;
   font-size: 0.72rem;
   color: var(--text-main);
   cursor: pointer;
@@ -1751,6 +1967,13 @@ body {
 }
 
 @media (max-width: 768px) {
+  .site-header {
+    padding: 0.9rem 0;
+  }
+  .site-header .btn-gold {
+    padding: 0.55rem 0.85rem;
+    font-size: 0.72rem;
+  }
   .nav-links {
     display: none;
   }
@@ -1775,4 +1998,3221 @@ body {
     flex-direction: column;
     align-items: flex-start;
   }
+}
+
+
+/* ==========================================================================
+   ACCESIBILIDAD
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid #111111;
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   CORRECCIONES
+   ========================================================================== */
+
+/* El botón "Explorar" del buscador salía cortado: las tres columnas 1fr del
+   grid tienen min-width:auto y aplastaban la columna del botón.
+   Defecto ya documentado en la auditoría del 2026-08-21. */
+.hero-search-glass > .search-field {
+  min-width: 0;
+}
+
+.hero-search-glass .btn-gold {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+
+/* ==========================================================================
+   MOVIMIENTO
+   El atributo data-anim lo pone el JS. Si el JS no corre o el navegador no
+   soporta IntersectionObserver, nada se oculta y la página se lee completa.
+   ========================================================================== */
+
+[data-anim="on"] .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+[data-anim="on"] .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Las fotos entran con un acercamiento mínimo, no con desplazamiento. */
+[data-anim="on"] .reveal-media {
+  opacity: 0;
+  transform: scale(1.03);
+  transition: opacity 0.9s ease, transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-anim="on"] .reveal-media.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Las fotos del sistema: a sangre, sin esquina, sin sombra. */
+.hero-main-card,
+.property-thumb-wrap,
+.presale-canvas-view,
+.lookbook-media-wrap {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.hero-main-card img,
+.property-thumb-wrap img,
+.presale-canvas-view img,
+.lookbook-media-wrap img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hueco de foto pendiente: se ve como hueco, no como error. */
+.media-slot {
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-light);
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-anim="on"] .reveal,
+  [data-anim="on"] .reveal-media {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ==========================================================================
+   ALINEACIÓN DE LA CUADRÍCULA DE PROPIEDADES
+   Los títulos ocupan una o dos líneas según el nombre, lo que descuadraba
+   las métricas y el precio entre tarjetas vecinas. Con el detalle en columna
+   y el pie empujado al fondo, las tarjetas de una misma fila alinean su
+   precio y su botón a la misma altura, sin importar el largo del título.
+   ========================================================================== */
+.property-details {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.property-metrics {
+  margin-top: auto;
+}
+
+.property-footer {
+  margin-top: auto;
+}
+
+/* ==========================================================================
+   PORTADA DE CATÁLOGO (spacelab.co.uk/work - editorial 2-column layout)
+   ========================================================================== */
+
+.catalog-page {
+  margin-left: 0 !important;
+}
+
+.catalog-layout {
+  position: relative;
+  padding-top: 48px;
+  padding-bottom: 128px;
+}
+
+/* Columna Izquierda (Sticky) */
+.catalog-left-col {
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+}
+
+.col-spacer-96 {
+  height: 96px;
+}
+
+.col-divider-32 {
+  border-top: 1px solid var(--border-subtle);
+  margin: 32px 0;
+}
+
+.catalog-nav .nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.catalog-nav .nav-link {
+  font-size: 16px;
+  color: var(--text-light);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  transition: color 0.25s ease;
+  padding: 0;
+  display: inline-block;
+}
+
+.catalog-nav .nav-link:hover,
+.catalog-nav .nav-link:focus-visible {
+  color: var(--text-main);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.catalog-nav .nav-link.active {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.catalog-nav .nav-link::after {
+  display: none;
+}
+
+/* Buscador en Columna Izquierda */
+.catalog-left-col .catalog-main-search {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 0 24px 0;
+  position: relative;
+}
+
+.catalog-left-col .catalog-main-search input {
+  width: 100%;
+  padding: 12px 14px 12px 38px;
+  border-radius: 0;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text-main);
+  box-shadow: none;
+  outline: none;
+  box-sizing: border-box;
+  transition: var(--transition-smooth);
+}
+
+.catalog-left-col .catalog-main-search input:focus {
+  border-color: var(--text-main);
+}
+
+.catalog-left-col .catalog-main-search .catalog-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+/* Acordeón de Filtros en Columna Izquierda */
+.catalog-filters-accordion {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.filter-accordion-group {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.filter-accordion-btn {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: var(--transition-smooth);
+}
+
+.filter-accordion-btn:hover .filter-acc-label {
+  color: var(--text-main);
+}
+
+.filter-accordion-btn .filter-acc-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-light);
+  font-weight: 500;
+  transition: var(--transition-smooth);
+}
+
+.filter-accordion-btn .filter-acc-val {
+  font-size: 14px;
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.filter-accordion-panel {
+  display: none;
+  padding-bottom: 20px;
+}
+
+.filter-accordion-group.is-open .filter-accordion-panel {
+  display: block;
+}
+
+.filter-accordion-group.is-open .filter-accordion-btn .filter-acc-label {
+  color: var(--text-main);
+}
+
+
+/* Columna Derecha & Hero Statement */
+.catalog-page .catalog-hero-box {
+  text-align: left;
+  max-width: 100%;
+  margin: 0 0 2.5rem 0;
+}
+
+.catalog-page .catalog-hero-statement {
+  font-family: var(--font-sans);
+  font-size: clamp(34px, 4vw, 52px);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-main);
+  max-width: 22ch;
+  text-wrap: balance;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+}
+
+.catalog-page .catalog-stats-bar {
+  margin-bottom: 2.5rem;
+  padding: 0;
+}
+
+/* 1 · FUERA BADGES Y ELEMENTOS SOBRANTES */
+.catalog-page .property-badges,
+.catalog-page .property-metrics,
+.catalog-page .price-usd {
+  display: none !important;
+}
+
+.catalog-page .property-thumb-wrap {
+  aspect-ratio: 3 / 2;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.catalog-page .property-thumb-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Layout Desktop (>= 1024px) */
+@media (min-width: 1024px) {
+  .catalog-layout {
+    display: grid;
+    grid-template-columns: 35% 1fr;
+    column-gap: 42px;
+    align-items: start;
+  }
+
+  .catalog-left-col {
+    position: sticky;
+    top: 24px;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .catalog-left-col::-webkit-scrollbar {
+    display: none;
+  }
+
+  .catalog-page .properties-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 42px;
+    row-gap: 84px;
+  }
+
+  /* Comparador discreto al fondo de la columna izquierda */
+  .catalog-left-col .comparison-floating-dock {
+    position: static;
+    transform: none;
+    margin-top: 32px;
+    padding: 16px 0;
+    background: transparent;
+    border: none;
+    border-top: 1px solid var(--border-subtle);
+    border-radius: 0;
+    box-shadow: none;
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    max-width: 100%;
+    color: var(--text-main);
+  }
+
+  .catalog-left-col .comparison-floating-dock.visible {
+    display: flex;
+  }
+
+  .catalog-left-col .comparison-floating-dock .btn-gold {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* 2 · CUADRÍCULA SPACELAB: FOTOS DESNUDAS 3:2 */
+  .catalog-page .property-card {
+    position: relative;
+    overflow: visible !important;
+    display: block;
+    aspect-ratio: 3 / 2;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    transform: none !important;
+  }
+
+  /* Fuera el texto de debajo de la foto en la cuadrícula (en reposo) */
+  .catalog-page .property-card .property-location,
+  .catalog-page .property-card .property-name,
+  .catalog-page .property-card .price-mxn {
+    display: none;
+  }
+
+  /* 3 · EL PANEL DE ROLLOVER */
+  .catalog-page .property-card .property-details {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    padding: 21px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .catalog-page .property-card:hover .property-details,
+  .catalog-page .property-card:focus-within .property-details {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Contenido común del panel */
+  .catalog-page .property-card:hover .property-name,
+  .catalog-page .property-card:focus-within .property-name {
+    order: 1;
+    font-family: var(--font-sans);
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1.15;
+    margin: 0;
+    padding: 0;
+    display: block;
+  }
+
+  /* Panel minimalista: quitar zona y botón comparar */
+  .catalog-page .property-card .property-location,
+  .catalog-page .property-card:hover .property-location,
+  .catalog-page .property-card:focus-within .property-location {
+    display: none !important;
+  }
+
+  .catalog-page .property-card .btn-compare-card,
+  .catalog-page .property-card:hover .btn-compare-card,
+  .catalog-page .property-card:focus-within .btn-compare-card {
+    display: none !important;
+  }
+
+  /* ABAJO: footer con 'Ver →' a la izquierda y precio a la derecha */
+  .catalog-page .property-card .property-footer {
+    order: 2;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+  }
+
+  /* El contenedor del botón se posiciona a la izquierda */
+  .catalog-page .property-card .property-footer > div:last-child {
+    order: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Botón 'Ver →' minimalista */
+  .catalog-page .property-card .btn-outline-gold {
+    display: inline-flex !important;
+    background: transparent !important;
+    border: none !important;
+    font-family: var(--font-sans) !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+    line-height: 1.2 !important;
+  }
+
+  .catalog-page .property-card .btn-outline-gold:hover {
+    opacity: 0.8;
+  }
+
+  /* Precio a la derecha */
+  .catalog-page .property-card .property-price {
+    order: 2;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+  }
+
+  .catalog-page .property-card .price-mxn,
+  .catalog-page .property-card:hover .price-mxn,
+  .catalog-page .property-card:focus-within .price-mxn {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    font-family: var(--font-sans) !important;
+    line-height: 1.2 !important;
+    display: block;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* --- CICLO MONOCROMÁTICO EN HOVER --- */
+  /* Tono A (3n+1): fondo #111111, texto blanco, precio #AAAAAA */
+  .catalog-page .property-card:nth-child(3n+1):hover .property-details,
+  .catalog-page .property-card:nth-child(3n+1):focus-within .property-details {
+    background: #111111;
+    color: #FFFFFF;
+  }
+  .catalog-page .property-card:nth-child(3n+1):hover .property-name,
+  .catalog-page .property-card:nth-child(3n+1):focus-within .property-name,
+  .catalog-page .property-card:nth-child(3n+1):hover .btn-outline-gold,
+  .catalog-page .property-card:nth-child(3n+1):focus-within .btn-outline-gold {
+    color: #FFFFFF !important;
+  }
+  .catalog-page .property-card:nth-child(3n+1):hover .price-mxn,
+  .catalog-page .property-card:nth-child(3n+1):focus-within .price-mxn {
+    color: #AAAAAA !important;
+  }
+
+  /* Tono B (3n+2): fondo #F4F4F4, texto #111111, precio #6E6E6E */
+  .catalog-page .property-card:nth-child(3n+2):hover .property-details,
+  .catalog-page .property-card:nth-child(3n+2):focus-within .property-details {
+    background: #F4F4F4;
+    color: #111111;
+  }
+  .catalog-page .property-card:nth-child(3n+2):hover .property-name,
+  .catalog-page .property-card:nth-child(3n+2):focus-within .property-name,
+  .catalog-page .property-card:nth-child(3n+2):hover .btn-outline-gold,
+  .catalog-page .property-card:nth-child(3n+2):focus-within .btn-outline-gold {
+    color: #111111 !important;
+  }
+  .catalog-page .property-card:nth-child(3n+2):hover .price-mxn,
+  .catalog-page .property-card:nth-child(3n+2):focus-within .price-mxn {
+    color: #6E6E6E !important;
+  }
+
+  /* Tono C (3n+3): fondo #6E6E6E, texto blanco, precio #E6E6E6 */
+  .catalog-page .property-card:nth-child(3n+3):hover .property-details,
+  .catalog-page .property-card:nth-child(3n+3):focus-within .property-details {
+    background: #6E6E6E;
+    color: #FFFFFF;
+  }
+  .catalog-page .property-card:nth-child(3n+3):hover .property-name,
+  .catalog-page .property-card:nth-child(3n+3):focus-within .property-name,
+  .catalog-page .property-card:nth-child(3n+3):hover .btn-outline-gold,
+  .catalog-page .property-card:nth-child(3n+3):focus-within .btn-outline-gold {
+    color: #FFFFFF !important;
+  }
+  .catalog-page .property-card:nth-child(3n+3):hover .price-mxn,
+  .catalog-page .property-card:nth-child(3n+3):focus-within .price-mxn {
+    color: #E6E6E6 !important;
+  }
+}
+
+/* Layout Móvil / Tablet (< 1024px) */
+@media (max-width: 1023px) {
+  .catalog-layout {
+    display: flex;
+    flex-direction: column;
+    padding-top: 24px;
+    gap: 48px;
+  }
+
+  .catalog-left-col {
+    position: static;
+    width: 100%;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .catalog-left-col .col-spacer-96 {
+    height: 32px;
+  }
+
+  .catalog-nav .nav-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px 18px;
+  }
+
+  .catalog-nav .nav-link {
+    font-size: 14px;
+  }
+
+  .catalog-page .properties-grid {
+    grid-template-columns: 1fr;
+    gap: 48px 0;
+  }
+
+  /* 5 · MÓVIL (< 1024px): Rollover desactivado, texto visible debajo de la foto */
+  .catalog-page .property-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: auto;
+    transform: none !important;
+  }
+
+  .catalog-page .property-card .property-details {
+    position: static !important;
+    inset: auto !important;
+    z-index: auto !important;
+    background: transparent !important;
+    padding: 1.2rem 0 0 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transition: none !important;
+  }
+
+  .catalog-page .property-card .property-location {
+    order: 1 !important;
+    font-size: 12px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    color: var(--text-light) !important;
+    font-weight: 500 !important;
+    margin: 0 0 6px 0 !important;
+    display: block !important;
+    line-height: 1.3 !important;
+  }
+
+  .catalog-page .property-card .property-name {
+    order: 2 !important;
+    font-family: var(--font-sans) !important;
+    font-size: 20px !important;
+    font-weight: 500 !important;
+    line-height: 1.25 !important;
+    color: var(--text-main) !important;
+    margin: 0 0 8px 0 !important;
+    display: block !important;
+  }
+
+  .catalog-page .property-card .property-footer {
+    order: 3 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin: 0 !important;
+  }
+
+  .catalog-page .property-card .property-footer > div:last-child .btn-outline-gold {
+    display: none !important;
+  }
+
+  .catalog-page .property-card .property-price {
+    display: block !important;
+    margin: 0 !important;
+  }
+
+  .catalog-page .property-card .price-mxn {
+    font-size: 16px !important;
+    color: var(--text-light) !important;
+    font-family: var(--font-sans) !important;
+    font-weight: 400 !important;
+    display: block !important;
+  }
+
+  /* .btn-compare-card vuelve a ser visible siempre (opacity 1) */
+  .catalog-page .property-card .btn-compare-card {
+    position: static !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    z-index: auto !important;
+    background: transparent !important;
+    border: 1px solid var(--text-main) !important;
+    color: var(--text-main) !important;
+    font-size: 12px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    padding: 0 14px !important;
+    height: 36px !important;
+    border-radius: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .catalog-page .property-card .btn-compare-card.active {
+    background: var(--text-main) !important;
+    color: var(--bg-primary) !important;
+  }
+
+  .catalog-page .comparison-floating-dock {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(120px);
+    width: calc(100vw - 48px);
+    max-width: 420px;
+    z-index: 850;
+    box-sizing: border-box;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-subtle);
+    padding: 0.8rem 1.2rem;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .catalog-page .comparison-floating-dock.visible {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* ==========================================================================
+   CURSOR PERSONALIZADO DISCRETO (FLECHA + ARO)
+   ========================================================================== */
+html.cursor-custom,
+html.cursor-custom * {
+  cursor: none !important;
+}
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  display: none;
+  transform: translate3d(-100px, -100px, 0);
+  will-change: transform;
+}
+
+html.cursor-custom .custom-cursor {
+  display: block;
+}
+
+.custom-cursor .cursor-arrow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 26px;
+  width: auto;
+  transform: translate(-50%, -50%);
+  transform-origin: center center;
+  display: block;
+  pointer-events: none;
+}
+
+.custom-cursor .cursor-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--text-main);
+  background: transparent;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.2s ease;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.custom-cursor.is-hovering .cursor-ring {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+
+
+
+/* ==========================================================================
+   FICHA INDIVIDUAL — FLUJO DE ILUSTRACIÓN
+   --------------------------------------------------------------------------
+   Sistema copiado de mannaarchitects.com, medido a 1440x900:
+
+     · TRES alturas, no una.  size_a 675px (75vh) · size_b 540px (60vh)
+       · size_c 450px (50vh). Las fotos NO son todas del mismo tamaño.
+     · Alineadas ARRIBA, nunca centradas. El borde superior es común y el
+       inferior queda disparejo: eso es lo que produce el ritmo.
+     · El ancho sale del alto por la proporción de la foto. Proporciones
+       reales que usan: 0.67, 0.75, 1.33, 1.54, 1.78.
+     · El pie va pegado bajo la imagen, 14/18px, y se sale de la caja. Por eso
+       los pies quedan a distintas alturas.
+     · Separación entre fotos: 20px.
+     · La rueda del mouse NO se intercepta. Un contenedor que sólo puede
+       desplazarse en horizontal ya recibe la rueda vertical del navegador.
+
+   Escritorio horizontal, celular vertical, un solo DOM.
+   A PRUEBA DE FALLOS: los paneles sólo se ocultan bajo
+   [data-anim-ficha="on"], y ese atributo lo pone el JS.
+   ========================================================================== */
+
+body.ficha-page {
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+.ficha-barra {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 12px var(--gutter);
+  background: var(--bg-primary);
+  z-index: 20;
+}
+
+.ficha-barra-enlace {
+  font-size: 25px;
+  line-height: 1;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--text-main);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+.ficha-barra-enlace:hover,
+.ficha-barra-enlace:focus-visible { opacity: 0.5; }
+
+/* La marca es el nombre PRAETORA de assets/marca. Con 18.5 px de alto sus mayúsculas
+   miden lo que las de INFO a 25 px. Ocupa la misma caja de 25 px que INFO, así la barra
+   se queda en 49 px. Baja 3.88 px para que su base (98 % de su alto) caiga en la de INFO,
+   a 22 px de su caja. */
+.ficha-barra-marca {
+  height: 25px;
+  align-self: flex-start;
+}
+
+.ficha-barra-marca img {
+  display: block;
+  height: 18.5px;
+  width: auto;
+  margin-top: 3.88px;
+}
+
+/* --- El contenedor -------------------------------------------------------
+   overflow en los dos ejes como la referencia: el contenido nunca es más
+   alto que la caja, así que sólo hay desplazamiento horizontal — y el
+   navegador manda ahí la rueda vertical sin que nadie intercepte nada. */
+.ficha-flujo {
+  position: fixed;
+  top: 0; bottom: 49px; left: 0; right: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;           /* alto definido: lo necesitan los % de abajo */
+  gap: 20px;
+  padding: 20px var(--gutter) 0;
+  overflow: auto;
+  overscroll-behavior-x: contain;
+  outline: none;
+}
+
+.ficha-flujo::-webkit-scrollbar { height: 1px; }
+.ficha-flujo::-webkit-scrollbar-track { background: transparent; }
+.ficha-flujo::-webkit-scrollbar-thumb { background: var(--border-subtle); }
+
+/* --- Paneles de foto ----------------------------------------------------- */
+.ficha-panel {
+  flex: 0 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;   /* ALINEADAS ARRIBA — la clave del ritmo */
+  align-items: flex-start;
+  width: min-content;
+}
+
+/* Las tres alturas. Porcentaje del contenedor, no del viewport, para que el
+   pie siempre quepa debajo sin sacar barra vertical. */
+.ficha-panel[data-alto="a"] .ficha-marco { height: 78%; }
+.ficha-panel[data-alto="b"] .ficha-marco { height: 62%; }
+.ficha-panel[data-alto="c"] .ficha-marco { height: 52%; }
+
+/* El ancho lo da la proporción. El archivo ya llega recortado a esa forma
+   desde Unsplash, así que object-fit no recorta nada: sólo evita el salto
+   de maquetación mientras carga. */
+.ficha-marco {
+  width: auto;
+  background: var(--gold-subtle);
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+.ficha-panel[data-prop="2:3"]  .ficha-marco { aspect-ratio: 2 / 3; }
+.ficha-panel[data-prop="3:4"]  .ficha-marco { aspect-ratio: 3 / 4; }
+.ficha-panel[data-prop="4:3"]  .ficha-marco { aspect-ratio: 4 / 3; }
+.ficha-panel[data-prop="3:2"]  .ficha-marco { aspect-ratio: 3 / 2; }
+.ficha-panel[data-prop="16:9"] .ficha-marco { aspect-ratio: 16 / 9; }
+.ficha-panel[data-prop="9:16"] .ficha-marco { aspect-ratio: 9 / 16; }
+
+.ficha-marco img,
+.ficha-marco video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* "Ver planos": el enlace de navegación del sitio, hecho botón (muestra los planos). */
+.ficha-ver-planos {
+  margin-top: var(--space-block);
+  padding: 0 0 6px;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  cursor: pointer;
+}
+.ficha-ver-planos:focus-visible { outline: 1px solid var(--text-main); outline-offset: 4px; }
+
+/* --- Paneles de plano ----------------------------------------------------
+   Dibujo de línea sobre blanco, sin marco. El alto es el de las fotos "b" y el
+   ancho sale de la proporción de la planta (--plano-prop = largo / ancho). */
+.ficha-plano[hidden] { display: none; }   /* .ficha-panel les pone display:flex */
+
+.ficha-plano-marco {
+  position: relative;
+  height: 78%;
+  aspect-ratio: var(--plano-prop);
+  flex: 0 0 auto;
+}
+.ficha-plano-marco picture,
+.ficha-plano-marco img { display: block; width: 100%; height: 100%; }
+
+/* El nombre ocupa lo que mide; si es más ancho que su local (--w), se parte. */
+.ficha-plano-local {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: max-content;
+  max-width: calc(var(--w) - 12px);
+  transform: translate(-50%, -50%);
+  font-size: var(--t-label);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--text-main);
+  pointer-events: none;
+}
+
+.ficha-plano-nivel {
+  margin-top: var(--space-close);
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-light);
+}
+
+@media (min-width: 1024px) {
+  .ficha-plano-local[data-oculta*="h"] { display: none; }
+}
+@media (max-width: 1023px) {
+  .ficha-plano-marco { height: auto; width: 100%; aspect-ratio: 1 / var(--plano-prop); }
+  .ficha-plano-local { left: var(--xm); top: var(--ym); max-width: calc(var(--wm) - 8px); }
+  .ficha-plano-local[data-oculta*="m"] { display: none; }
+}
+
+/* Hueco a propósito: lo que se ve si la foto no carga. Nunca el ícono roto. */
+.ficha-marco.media-slot {
+  background: var(--gold-subtle);
+  border: 1px solid var(--border-subtle);
+}
+
+
+/* --- Paneles de texto ---------------------------------------------------- */
+.ficha-panel-texto {
+  width: min(460px, 78vw);
+  align-self: flex-start;
+  padding-top: 4vh;
+}
+
+.ficha-etiqueta {
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  display: block;
+  margin-bottom: var(--space-close);
+}
+.ficha-titulo {
+  font-size: var(--t-1);
+  line-height: 1.2;
+  font-weight: 500;
+  color: var(--text-main);
+  margin: 0 0 var(--space-close) 0;
+}
+.ficha-precio {
+  font-size: var(--t-4);
+  line-height: 1.3;
+  font-weight: 500;
+  color: var(--text-main);
+}
+.ficha-parrafo {
+  font-size: var(--t-5);
+  line-height: 1.4;
+  color: var(--text-muted);
+  max-width: 65ch;
+  margin: var(--space-close) 0 0 0;
+}
+
+/* Ficha de datos: etiqueta #222, valor #AAA, línea de 1px */
+.ficha-datos { width: 100%; }
+.ficha-dato {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: var(--space-close) 0;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: var(--t-body);
+  line-height: 1.5;
+}
+.ficha-dato-etiqueta { color: var(--text-muted); }
+.ficha-dato-valor { color: var(--text-light); text-align: right; }
+/* Un valor largo va debajo de su etiqueta, alineado a la izquierda. */
+.ficha-dato-largo { flex-direction: column; gap: 4px; }
+.ficha-dato-largo .ficha-dato-valor { text-align: left; }
+
+/* --- Ficha técnica: lo que sigue a las fotos ------------------------------
+   Cinco paneles de texto: ficha, distribución, la casa, el entorno y contacto
+   (app.js, panelFicha … panelContacto). Los tamaños de letra viven en el
+   SISTEMA TIPOGRÁFICO; aquí sólo medidas y color. */
+
+/* 64 px de aire antes de cada panel de texto (el flujo pone 20). */
+.ficha-panel-texto { margin-left: calc(var(--space-block) - 20px); }
+
+/* Cifras clave: el número grande y su nombre debajo, en rejilla. */
+.ficha-cifras {
+  display: grid;
+  grid-template-columns: repeat(var(--cifras-col, 3), minmax(0, 1fr));
+  gap: 32px 24px;
+  margin-top: var(--space-block);
+}
+.ficha-cifra { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+/* El panel alinea a la izquierda sin estirar: estos bloques ocupan todo su ancho. */
+.ficha-cifras,
+.ficha-nivel,
+.ficha-lista { width: 100%; }
+.ficha-cifra-valor { color: var(--text-main); white-space: nowrap; }
+.ficha-cifra-etiqueta { color: var(--text-light); }
+.ficha-cifras + .ficha-datos { margin-top: var(--space-block); }
+
+/* Subtítulo de bloque (planta, características) y nombre del entorno. */
+.ficha-subtitulo { color: var(--text-main); margin: 0 0 var(--space-close); }
+.ficha-parrafo + .ficha-subtitulo { margin-top: var(--space-block); }
+.ficha-nivel + .ficha-nivel { margin-top: 40px; }
+.ficha-nombre { color: var(--text-main); margin: 0; }
+.ficha-nombre + .ficha-cifras { margin-top: 40px; }
+
+/* Listas sin viñetas: una columna (características) o dos (espacios). */
+.ficha-lista { list-style: none; margin: 0; padding: 0; color: var(--text-muted); }
+.ficha-lista li + li { margin-top: 6px; }
+/* En dos columnas se lee de arriba abajo: primero toda la izquierda. */
+.ficha-lista-doble { columns: 2; column-gap: 24px; }
+.ficha-lista-doble li { break-inside: avoid; padding-bottom: 6px; }
+.ficha-lista-doble li + li { margin-top: 0; }
+.ficha-cifras + .ficha-lista { margin-top: 40px; }
+
+/* Notas: avisos y ubicación, en gris. */
+.ficha-nota { color: var(--text-light); margin: var(--space-close) 0 0; max-width: 65ch; }
+.ficha-lista + .ficha-nota { margin-top: var(--space-block); }
+
+/* Celular angosto: "Construcción" no cabe en tres columnas; van de a dos. */
+@media (max-width: 480px) {
+  .ficha-cifras { grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); }
+}
+
+/* Contacto: sólo la acción y el regreso, sin ancho fijo. */
+.ficha-panel-contacto { width: auto; }
+.ficha-panel-contacto .ficha-acciones { margin-top: 0; }
+
+.ficha-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-close);
+  margin-top: var(--space-block);
+}
+.ficha-acciones a { align-self: flex-start; }
+
+.ficha-volver {
+  font-size: var(--t-small);
+  color: var(--text-light);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.ficha-volver:hover,
+.ficha-volver:focus-visible { color: var(--text-main); }
+
+/* --- Distribución con maqueta 3D: la lámina ---------------------------------
+   Como la lámina de un arquitecto. A la izquierda la leyenda: el número y el
+   nombre de cada espacio, una columna por planta. A la derecha la maqueta de una
+   planta (2:1, sin fondo) con el número de cada espacio encima; arriba la planta
+   y el mobiliario, abajo la cartela con la casa y la planta. La maqueta toma todo
+   el ancho que deja la leyenda sin pasarse del alto del flujo. Leyenda y lámina
+   arrancan a la misma altura y el conjunto va centrado en el alto. */
+.ficha-distribucion {
+  --maqueta-ancho: max(560px, min(calc((100vh - 69px - 90px) * 2), calc(100vw - 2 * var(--gutter) - 504px)));
+  display: grid;
+  grid-template-columns: 440px auto;
+  grid-template-areas: "texto maqueta";
+  column-gap: var(--space-block);
+  align-items: start;
+  align-content: safe center;
+  width: max-content;
+  margin-left: calc(var(--space-block) - 20px);
+}
+.ficha-distribucion-texto { grid-area: texto; }
+
+/* La leyenda: una columna por planta; la planta que no se ve, en gris. */
+.ficha-distribucion-leyenda {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 32px;
+  align-items: start;
+}
+.ficha-distribucion-leyenda .ficha-nivel + .ficha-nivel { margin-top: 0; }   /* van lado a lado */
+.ficha-distribucion .ficha-subtitulo { transition: color 0.3s ease; }
+.ficha-distribucion .ficha-nivel:not(.is-planta) .ficha-subtitulo { color: var(--text-light); }
+.ficha-leyenda li { display: flex; gap: 10px; align-items: baseline; transition: color 0.3s ease; }
+.ficha-leyenda li:focus-visible { outline: 1px solid var(--text-main); outline-offset: 2px; }
+.ficha-leyenda-num {
+  flex: 0 0 auto;
+  min-width: 20px;
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-light);
+  transition: color 0.3s ease;
+}
+.ficha-distribucion.is-foco .ficha-leyenda li { color: var(--text-light); }
+.ficha-distribucion.is-foco .ficha-leyenda li.is-activo,
+.ficha-leyenda li.is-activo .ficha-leyenda-num { color: var(--text-main); }
+
+.ficha-maqueta {
+  grid-area: maqueta;
+  margin: 0;
+  width: var(--maqueta-ancho);
+}
+
+/* Arriba: la planta a la izquierda, el mobiliario a la derecha. */
+.ficha-maqueta-cabeza {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-close) 24px;
+  padding-bottom: 8px;
+}
+.ficha-maqueta-grupo { display: flex; gap: 24px; }
+.ficha-maqueta-boton {
+  padding: 0 0 4px;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  font-family: var(--font-sans);
+  font-size: var(--t-label);
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.ficha-maqueta-boton:hover { color: var(--text-main); }
+.ficha-maqueta-boton[aria-pressed="true"] { color: var(--text-main); border-bottom-color: currentColor; }
+.ficha-maqueta-boton:focus-visible { outline: 1px solid var(--text-main); outline-offset: 4px; }
+
+/* El lienzo: las plantas apiladas; en cada una, la vista sin muebles abajo y la
+   amueblada encima (aparece con un fundido, así los muebles "entran"), dos capas
+   de foco con la máscara del cuarto y los números. Sin fondo: la maqueta va sobre
+   el blanco de la página. */
+.ficha-maqueta-lienzo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+}
+.ficha-maqueta-planta {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+.ficha-maqueta-planta[data-activa] { opacity: 1; pointer-events: auto; }
+.ficha-maqueta-planta img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+.ficha-maqueta-base { transition: opacity 0.8s ease, filter 0.45s ease; }
+.ficha-maqueta-base[data-vista="amueblada"] { opacity: 0; }
+.ficha-maqueta-base[data-vista="amueblada"][data-activa] { opacity: 1; }
+.ficha-maqueta.is-foco .ficha-maqueta-base { filter: opacity(0.32) saturate(0.4); }
+.ficha-maqueta-foco {
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  pointer-events: none;
+}
+.ficha-maqueta-foco[data-activa] { opacity: 1; }
+
+/* Los números: un punto blanco discreto por espacio, en su centro, sin borde (sólo
+   una línea de sombra para que se lea sobre los muros claros). El del cuarto
+   encendido, en negro. */
+.ficha-maqueta-marcas { position: absolute; inset: 0; }
+.ficha-maqueta-marca {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 0.5px rgba(17, 17, 17, 0.28);
+  color: var(--text-main);
+  font-size: 8px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  cursor: default;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
+}
+.ficha-maqueta-marca.is-activo { background: var(--text-main); color: var(--bg-primary); box-shadow: none; }
+.ficha-maqueta.is-foco .ficha-maqueta-marca:not(.is-activo) { opacity: 0.25; }
+
+/* El número y el nombre del cuarto junto al cursor. */
+.ficha-maqueta-rotulo {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  transform: translate(16px, -50%);
+  padding: 6px 10px;
+  background: var(--text-main);
+  color: var(--bg-primary);
+  font-size: var(--t-label);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.ficha-maqueta-rotulo b { font-weight: 500; opacity: 0.55; margin-right: 10px; }
+.ficha-maqueta-rotulo.a-la-izquierda { transform: translate(calc(-100% - 16px), -50%); }
+.ficha-maqueta-rotulo[data-activa] { opacity: 1; }
+
+/* Abajo, la cartela: la casa y la planta; a la derecha, de dónde sale la maqueta. */
+.ficha-maqueta-cartela {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 24px;
+  margin-top: var(--space-close);
+  padding-top: var(--space-close);
+  border-top: 1px solid var(--border-subtle);
+  font-size: var(--t-label);
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-light);
+}
+.ficha-maqueta-cartela b { font-weight: 500; color: var(--text-main); }
+
+@media (max-width: 1023px) {
+  .ficha-distribucion {
+    grid-template-columns: 100%;
+    grid-template-areas: "etiqueta" "maqueta" "leyenda";
+    width: 100%;
+    margin-left: 0;
+  }
+  /* En celular la etiqueta va arriba, luego la lámina y al final la leyenda. */
+  .ficha-distribucion-texto { display: contents; }
+  .ficha-distribucion-texto > .ficha-etiqueta { grid-area: etiqueta; }
+  .ficha-distribucion-leyenda { grid-area: leyenda; }
+  /* La lámina se queda arriba mientras se recorre la leyenda: el toque en un
+     espacio siempre se ve encendido. */
+  .ficha-maqueta {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    width: 100%;
+    margin-bottom: 40px;
+    padding: var(--space-close) 0;
+    background: var(--bg-primary);
+  }
+  .ficha-distribucion-leyenda { grid-template-columns: 100%; row-gap: 40px; }
+  .ficha-leyenda { columns: 2; column-gap: 16px; }
+  .ficha-leyenda li { break-inside: avoid; padding-bottom: 6px; }
+  .ficha-leyenda li + li { margin-top: 0; }
+  .ficha-maqueta-marca { width: 14px; height: 14px; margin: -7px 0 0 -7px; font-size: 7px; line-height: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ficha-maqueta-planta,
+  .ficha-maqueta-base,
+  .ficha-maqueta-foco,
+  .ficha-maqueta-marca,
+  .ficha-maqueta-rotulo { transition: none; }
+}
+
+/* --- Aparición: observador propio con root en el contenedor -------------- */
+[data-anim-ficha="on"] .ficha-panel {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+[data-anim-ficha="on"] .ficha-panel.is-visible { opacity: 1; transform: none; }
+
+/* --- Celular: el mismo DOM, leído de arriba abajo ----------------------- */
+@media (max-width: 1023px) {
+  body.ficha-page { overflow: auto; }
+
+  .ficha-flujo {
+    position: static;
+    display: block;
+    height: auto;
+    overflow: visible;
+    padding: var(--space-block) var(--gutter) calc(var(--space-footer) + 49px);
+  }
+
+  .ficha-panel { width: 100%; height: auto; margin-bottom: var(--space-block); }
+  .ficha-panel-texto { width: 100%; padding-top: 0; }
+  .ficha-panel-texto { margin-left: 0; }
+  .ficha-lista-doble { column-gap: 16px; }
+
+  /* En vertical el alto lo manda el ancho de la pantalla: la proporción de
+     cada foto se conserva y las alturas siguen siendo distintas entre sí. */
+  .ficha-panel[data-alto="a"] .ficha-marco,
+  .ficha-panel[data-alto="b"] .ficha-marco,
+  .ficha-panel[data-alto="c"] .ficha-marco { height: auto; width: 100%; }
+
+  .ficha-titulo { font-size: var(--t-2); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-anim-ficha="on"] .ficha-panel { opacity: 1; transform: none; transition: none; }
+}
+
+
+/* --- La navegación va DEBAJO del hero ------------------------------------
+   El <header> se movió en el HTML: ya no flota sobre la foto. Deja de ser
+   columna fija de 220px y pasa a ser una barra normal bajo la imagen.
+   La columna vertical sigue viva en las demás páginas. */
+body.home { margin-left: 0; }
+
+body.home .site-header,
+body.catalog-page .site-header {
+  position: static;
+  width: 100%;
+  height: auto;
+  border-right: none;
+  /* Sin línea divisoria: el aire separa el encabezado de lo que sigue. */
+  border-bottom: none;
+  padding: var(--space-close) 0;
+  background: var(--bg-primary);
+}
+
+body.home .site-header .nav-container,
+body.catalog-page .site-header .nav-container {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-block);
+  padding: 0 var(--gutter);
+}
+
+body.home .site-header nav,
+body.catalog-page .site-header nav { width: auto; margin-bottom: 0; }
+
+/* Los 40 px bajo el logo son de la columna vertical: en la barra horizontal
+   dejaban el menú más abajo que el logotipo. */
+body.home .site-header .brand-logo,
+body.catalog-page .site-header .brand-logo { margin-bottom: 0; }
+
+body.home .site-header .nav-links,
+body.catalog-page .site-header .nav-links {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-block);
+  margin: 0;
+  padding: 0;
+}
+
+/* En barra horizontal los enlaces se partían en dos renglones
+   ("CATÁLOGO / COMPLETO"). Cada uno va en una sola línea. */
+body.home .site-header .nav-link,
+body.catalog-page .site-header .nav-link { white-space: nowrap; }
+
+body.home .site-header .btn-gold,
+body.catalog-page .site-header .btn-gold { margin-top: 0; width: auto; }
+
+/* Con el encabezado fuera del flujo fijo, .scrolled ya no aplica en la portada ni catálogo. */
+body.home .site-header.scrolled,
+body.catalog-page .site-header.scrolled { box-shadow: none; }
+
+/* Entre 1024 y 1279 px no caben logo, tres enlaces y botón con 64 px de aire:
+   el aire se reduce para que el botón no se salga de la pantalla. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  body.home .site-header .nav-container,
+  body.catalog-page .site-header .nav-container { gap: 24px; }
+  body.home .site-header .nav-links,
+  body.catalog-page .site-header .nav-links { gap: 32px; }
+}
+/* ==========================================================================
+   CATÁLOGO - CABECERA EDITORIAL & FRANJA DE INVERSIÓN
+   ========================================================================== */
+.catalogo-cabecera {
+  padding: var(--space-section) var(--gutter) var(--space-block);
+  background: var(--bg-primary);
+}
+
+.catalogo-cabecera-interior {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.catalogo-cabecera .catalog-hero-box {
+  margin-bottom: var(--space-close);
+}
+
+.catalogo-cabecera .catalog-context-line {
+  font-size: var(--t-small);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.catalog-page .catalog-inversion-strip {
+  margin-top: 0;
+  padding: var(--space-section) var(--gutter);
+  background: var(--bg-primary);
+}
+
+.catalog-page .catalog-inversion-interior {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1023px) {
+  /* La foto completa, sin recorte: el letrero quemado no se puede partir. */
+  .hero-portada {
+    height: auto;
+    min-height: 0;
+    background: var(--bg-primary);
+  }
+
+  .hero-foto { height: auto; aspect-ratio: 16 / 9; }
+
+  .hero-cta {
+    position: static;
+    transform: none;
+    display: block;
+    margin: var(--space-block) var(--gutter);
+    text-align: center;
+    border-color: var(--text-main);
+    color: var(--text-main);
+  }
+  .hero-cta:hover,
+  .hero-cta:focus-visible { background: var(--text-main); color: var(--text-inverse); }
+
+  body.home .site-header .nav-container,
+  body.catalog-page .site-header .nav-container { flex-wrap: wrap; gap: var(--space-close); }
+  body.home .site-header .nav-links,
+  body.catalog-page .site-header .nav-links { flex-wrap: wrap; gap: var(--space-close) 24px; }
+
+  .catalogo-cabecera {
+    padding: var(--space-block) var(--gutter) var(--space-close);
+  }
+
+  .catalog-page .catalog-inversion-strip {
+    padding: var(--space-block) var(--gutter);
+  }
+}
+
+/* --- Concierge IA: sólo el círculo ---------------------------------------
+   El botón traía el círculo más dos renglones de texto y ocupaba media
+   esquina. Se queda el círculo negro con el símbolo; el texto sale.
+   Se hace por CSS para no tocar el markup, que también usa catalogo.html. */
+.ai-concierge-btn {
+  padding: 0;
+  border: none;
+  background: transparent;
+  gap: 0;
+}
+
+.ai-concierge-btn > div:not(.ai-avatar-ring) { display: none; }
+
+.ai-avatar-ring {
+  width: 52px;
+  height: 52px;
+  font-size: 1.15rem;
+  background: var(--text-main);
+  color: var(--text-inverse);
+}
+
+.ai-concierge-trigger { bottom: var(--gutter); right: var(--gutter); }
+
+
+/* Defecto previo, no del hero: los campos del wizard de consignación se
+   desbordan 35px a 390px de ancho y hacen que la página se deslice de lado en
+   el celular. Los `select` traen un ancho intrínseco que el grid no comprime.
+   Guarda mínima; no cambia nada del comportamiento. */
+.wizard-section .form-group,
+.wizard-section .form-group select,
+.wizard-section .form-group input,
+.wizard-section .form-group textarea {
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+
+/* ==========================================================================
+   PORTADA
+   --------------------------------------------------------------------------
+   Referencia: squarespace.com (Refero). Se adopta su ESTRUCTURA — medio a
+   sangre arriba, tira de tarjetas encima, carrusel contenido abajo — pero NO
+   su tipografía ni su fondo:
+     · Ellos: 64–72px con tracking negativo, hero negro alternando con blanco.
+     · Nosotros: tope de 32px sin tracking, todo blanco. Decisión de YOPE.
+   El sitio queda con una sola voz tipográfica: la misma del catálogo y la ficha.
+   ========================================================================== */
+
+/* --- Hero multicapa con efecto de profundidad ---------------------------
+   Tres capas: fondo (1), textos en vector (2), edificio recortado (3), nav (4).
+   Proporción exacta del lienzo original: 13200 / 5600.
+   ------------------------------------------------------------------------ */
+.portada-hero {
+  height: auto;
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.portada-hero-escena {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 13200 / 5600;
+  container-type: inline-size;
+  overflow: hidden;
+}
+
+.portada-hero-fondo,
+.portada-hero-frente,
+.portada-hero-frente img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.portada-hero-fondo {
+  z-index: 1;
+}
+
+.portada-hero-logo {
+  z-index: 2;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.portada-hero-frente {
+  z-index: 3;
+  pointer-events: none;
+}
+
+.portada-hero-nav {
+  z-index: 4;
+  position: absolute;
+  left: 3.2%;
+  top: 0;
+  bottom: 0;
+  width: 30%;
+  pointer-events: none;
+}
+
+/* Navegación izquierda */
+.portada-hero-nav-link {
+  position: absolute;
+  left: 0;
+  font-family: "acumin-pro", sans-serif;
+  font-weight: 300;
+  text-transform: uppercase;
+  font-size: 2.43cqw;
+  line-height: 1;
+  color: #FFF;
+  /* El subrayado existe siempre pero transparente: al pasar el cursor sólo
+     cambia de color, así aparece suave en lugar de saltar. */
+  text-decoration: underline;
+  text-decoration-thickness: max(1px, 0.06em);
+  text-underline-offset: 0.28em;
+  text-decoration-color: transparent;
+  pointer-events: auto;
+  transition: text-decoration-color 0.2s ease;
+  white-space: nowrap;
+  letter-spacing: -0.034em;
+  margin-top: -0.18em;
+}
+
+.portada-hero-nav-link:hover,
+.portada-hero-nav-link:focus-visible {
+  text-decoration-color: currentColor;
+}
+
+.portada-hero-nav-link:nth-child(1) {
+  top: 12.62%;
+}
+
+.portada-hero-nav-link:nth-child(2) {
+  top: 27.48%;
+}
+
+.portada-hero-nav-link:nth-child(3) {
+  top: 42.57%;
+}
+
+/* Tres entradas (Propiedades · Invertir · Praetora Studio), en las posiciones del borrador de YOPE. */
+
+/* El nombre PRAETORA de assets/marca, en blanco. Su tinta cae donde caía la de la palabra
+   PRAETORA de texto, medida en la captura de 1440 px: de x 719 a 1340, con las mayúsculas
+   desde y 76 (el SVG empieza 1.6 px antes, por el remate de la O). La foto del frente lo
+   tapa igual que tapaba al texto. */
+.portada-hero-logo-marca {
+  position: absolute;
+  left: 49.93%;
+  top: 12.18%;
+  width: 43.19cqw;
+  margin: 0;
+  line-height: 0;
+}
+
+.portada-hero-logo-marca img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ==========================================================================
+   PORTADA - VITRINA DE PROPIEDADES DESTACADAS
+   3 tarjetas verticales (4:5) ordenadas por priceMXN descendente.
+   ========================================================================== */
+.portada-vitrina {
+  /* Abajo sin relleno: el aire hasta Casa Julieta lo da .portada-inversion. */
+  padding: var(--space-footer) var(--gutter) 0;
+  background: var(--bg-primary);
+}
+
+.portada-vitrina-interior {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+
+.portada-vitrina-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-block);
+}
+
+.portada-vitrina-tarjeta {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.portada-vitrina-foto {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.portada-vitrina-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.portada-vitrina-tarjeta:hover .portada-vitrina-foto img,
+.portada-vitrina-tarjeta:focus-visible .portada-vitrina-foto img {
+  transform: scale(1.03);
+}
+
+.portada-vitrina-nombre {
+  font-size: var(--t-4);
+  font-weight: 500;
+  color: var(--text-main);
+  margin: var(--space-close) 0 0 0;
+}
+
+.portada-vitrina-pie {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-block);
+}
+
+.portada-enlace {
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-main);
+  text-decoration: none;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--text-main);
+  transition: opacity 0.2s ease;
+}
+
+.portada-enlace:hover,
+.portada-enlace:focus-visible { opacity: 0.45; }
+
+/* --- El enclave (Club de Golf Malanquín) ----------------------------------
+   Bloque tipográfico editorial sobre blanco.
+   Espaciado con tokens de :root: --space-section (128px), --space-block (64px),
+   --gutter (24px). Patrón de ficha PRAETORA: etiqueta #222, valor #AAA, 16px.
+   -------------------------------------------------------------------------- */
+.portada-enclave {
+  padding: var(--space-section) var(--gutter);
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.portada-enclave-interior {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.enclave-mosaico {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 224px;
+  gap: var(--space-close);
+  grid-template-areas:
+    "club  club  video aerea"
+    "club  club  video vacia1"
+    "vacia2 tenis video hoyos";
+}
+
+.enclave-mosaico-club {
+  grid-area: club;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: var(--space-block);
+  background: transparent;
+}
+
+.enclave-mosaico-club-etiqueta {
+  font-size: var(--t-label);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-light);
+}
+
+.enclave-mosaico-club h2,
+.enclave-mosaico-club-nombre {
+  font-size: var(--t-1);
+  font-weight: 500;
+  color: var(--text-main);
+  line-height: 1.15;
+  letter-spacing: normal;
+  margin: var(--space-close) 0 var(--space-block) 0;
+}
+
+.enclave-mosaico-club-ubicacion {
+  display: flex;
+  flex-direction: column;
+}
+
+.enclave-mosaico-club-linea {
+  font-size: var(--t-body);
+  color: var(--text-muted);
+  line-height: 2.2;
+}
+.enclave-mosaico-video-wrap { grid-area: video; }
+.enclave-mosaico-aerea { grid-area: aerea; }
+.enclave-mosaico-hoyos { grid-area: hoyos; }
+.enclave-mosaico-tenis { grid-area: tenis; }
+.enclave-mosaico-vacia1 { grid-area: vacia1; }
+.enclave-mosaico-vacia2 { grid-area: vacia2; }
+
+.enclave-mosaico-item:not(.enclave-mosaico-vacia) {
+  overflow: hidden;
+  position: relative;
+  border-radius: 0;
+}
+
+.enclave-mosaico-item img,
+.enclave-mosaico-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.enclave-mosaico-item img {
+  transition: transform 0.5s ease;
+}
+
+.enclave-mosaico-item:not(.enclave-mosaico-vacia):hover img {
+  transform: scale(1.03);
+}
+
+.enclave-mosaico-video-fija {
+  display: none;
+}
+
+/* Rótulos en celdas con medio */
+.enclave-mosaico-rotulo {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 28px var(--space-close) var(--space-close) var(--space-close);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.35) 100%);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  color: #FFFFFF;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.enclave-mosaico-rotulo .enclave-mosaico-num {
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+}
+
+.enclave-mosaico-rotulo .enclave-mosaico-txt {
+  font-size: var(--t-small);
+  letter-spacing: 0.08em;
+}
+
+/* Rótulos y datos en celdas de información (06 y 07) */
+.enclave-mosaico-vacia {
+  position: relative;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.enclave-mosaico-rotulo-vacia {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--text-light);
+}
+
+.enclave-mosaico-rotulo-vacia .enclave-mosaico-num {
+  font-size: var(--t-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-light);
+}
+
+.enclave-mosaico-rotulo-vacia .enclave-mosaico-txt {
+  font-size: var(--t-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-light);
+}
+
+.enclave-mosaico-datos {
+  margin-top: var(--space-block);
+}
+
+.enclave-mosaico-linea {
+  font-size: var(--t-body);
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 2.2;
+  letter-spacing: 0.02em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enclave-mosaico-item .enclave-mosaico-video,
+  .enclave-mosaico-video { display: none !important; }
+  .enclave-mosaico-video-fija { display: block !important; width: 100%; height: 100%; object-fit: cover; }
+  .enclave-mosaico-item img { transition: none; }
+  .enclave-mosaico-item:hover img { transform: none; }
+}
+
+
+
+@media (max-width: 1023px) {
+  .portada-enclave {
+    padding: var(--space-block) var(--gutter);
+  }
+
+  .enclave-mosaico {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 224px;
+    grid-template-areas:
+      "club  club"
+      "club  club"
+      "video aerea"
+      "video tenis"
+      "hoyos hoyos"
+      "vacia1 vacia2";
+  }
+
+  .enclave-mosaico-vacia .enclave-mosaico-datos {
+    margin-top: 24px;
+  }
+  .portada-vitrina {
+    padding: calc(var(--space-block) * 1.5) var(--gutter) 0;
+  }
+
+  .portada-vitrina-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .portada-hero-escena {
+    aspect-ratio: auto;
+    height: 70svh;
+    min-height: 480px;
+  }
+
+  .portada-hero-escena::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(17,17,17,.65) 0%, rgba(17,17,17,0) 55%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .portada-hero-fondo {
+    object-position: 48% center;
+  }
+
+  /* El nombre va donde iba la palabra PRAETORA de texto (medida en la captura de 390 px):
+     la tinta de x 29 a 256 y la base a 60 px del borde. Abajo queda el aire que ocupaba
+     "Grupo Inmobiliario". */
+  .portada-hero-logo {
+    position: absolute;
+    inset: auto;
+    left: var(--gutter);
+    bottom: 59.4px;
+    z-index: 4;
+    display: block;
+    text-align: left;
+    pointer-events: none;
+  }
+
+  .portada-hero-logo-marca {
+    position: static;
+    width: 228px;
+    margin-left: 5px;
+  }
+
+  .portada-hero-nav {
+    position: absolute;
+    left: var(--gutter);
+    top: auto;
+    bottom: 100px;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 4;
+  }
+
+  .portada-hero-nav-link {
+    position: static;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    line-height: 1.3;
+    margin-top: 0;
+    white-space: nowrap;
+  }
+
+  .portada-hero-nav-link:nth-child(1),
+  .portada-hero-nav-link:nth-child(2),
+  .portada-hero-nav-link:nth-child(3) {
+    top: auto;
+    left: auto;
+    letter-spacing: 0.12em;
+    line-height: 1.3;
+  }
+}
+
+@media (max-width: 640px) {
+  .portada-vitrina-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .enclave-mosaico {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+    grid-template-areas:
+      "club"
+      "video"
+      "aerea"
+      "hoyos"
+      "tenis"
+      "vacia1"
+      "vacia2";
+    gap: var(--space-block);
+  }
+
+  .enclave-mosaico-club {
+    height: auto;
+    padding-right: 0;
+  }
+
+  .enclave-mosaico-club h2,
+  .enclave-mosaico-club-nombre {
+    font-size: var(--t-2);
+  }
+
+  .enclave-mosaico-aerea,
+  .enclave-mosaico-hoyos,
+  .enclave-mosaico-tenis {
+    height: 220px;
+  }
+
+  .enclave-mosaico-video-wrap {
+    aspect-ratio: 9 / 16;
+    height: auto;
+  }
+
+  .enclave-mosaico-vacia {
+    display: block;
+    height: auto;
+    padding-top: var(--space-close);
+  }
+
+  .enclave-mosaico-vacia .enclave-mosaico-datos {
+    margin-top: 20px;
+  }
+
+  .enclave-mosaico-vacia .enclave-mosaico-linea {
+    line-height: 2.4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portada-vitrina-foto img { transition: none; }
+  .portada-vitrina-tarjeta:hover .portada-vitrina-foto img,
+  .portada-vitrina-tarjeta:focus-visible .portada-vitrina-foto img { transform: none; }
+}
+
+/* ==========================================================================
+   BLOQUE EDITORIAL DE PROPIEDAD
+   Retícula asimétrica 1fr 2fr en escritorio, apilada en móvil.
+   Usado en Catálogo (y antes en Portada).
+   ========================================================================== */
+.propiedad-bloque {
+  padding: var(--space-section) var(--gutter);
+  background: var(--bg-primary);
+}
+
+.propiedad-bloque:not(:has(.propiedad-bloque-grid > *)) {
+  display: none;
+}
+
+.propiedad-bloque-interior {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.propiedad-bloque-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--space-block);
+  align-items: start;
+}
+
+/* Columna izquierda: Información editorial */
+.propiedad-bloque-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.propiedad-bloque-tag {
+  display: block;
+  font-size: var(--t-label);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-light);
+  margin-bottom: var(--space-close);
+}
+
+.propiedad-bloque-titulo {
+  font-size: var(--t-1);
+  font-weight: 500;
+  color: var(--text-main);
+  line-height: 1.2;
+  letter-spacing: normal;
+  margin: 0 0 var(--space-close) 0;
+}
+
+.propiedad-bloque-ubicacion {
+  font-size: var(--t-label);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: var(--space-close);
+}
+
+.propiedad-bloque-ubicacion svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.propiedad-bloque-parrafo {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  max-width: 420px;
+  margin: 0;
+}
+
+.propiedad-bloque-datos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: var(--space-block) 0;
+}
+
+.propiedad-bloque-dato {
+  border-left: 1px solid var(--border-subtle);
+  padding-left: 16px;
+}
+
+.propiedad-bloque-dato:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+
+.propiedad-bloque-numero {
+  font-size: var(--t-3);
+  font-weight: 500;
+  color: var(--text-main);
+  line-height: 1.1;
+}
+
+.propiedad-bloque-rotulo {
+  font-size: var(--t-label);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+.propiedad-bloque-accion {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Columna derecha: Visual principal y miniaturas */
+.propiedad-bloque-visual {
+  display: flex;
+  flex-direction: column;
+}
+
+.propiedad-bloque-foto-principal {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.propiedad-bloque-foto-principal img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.propiedad-bloque-foto-principal:hover img,
+.propiedad-bloque-foto-principal:focus-visible img {
+  transform: scale(1.03);
+}
+
+.propiedad-bloque-miniaturas {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-close);
+  margin-top: var(--space-close);
+}
+
+.propiedad-bloque-miniatura {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.propiedad-bloque-miniatura img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.propiedad-bloque-miniatura:hover img,
+.propiedad-bloque-miniatura:focus-visible img {
+  transform: scale(1.03);
+}
+
+/* Catálogo: 64 px bajo el encabezado y 128 px entre una casa y otra (YOPE, 2026-10-12:
+   antes eran 128 y 256 y se sentía mucho blanco). */
+.catalogo-casas-grid .propiedad-bloque {
+  padding-top: var(--space-block);
+  padding-bottom: var(--space-block);
+}
+
+/* La última casa del catálogo es lo último antes del pie: lleva el aire del pie. */
+.catalogo-casas-grid .propiedad-bloque:last-child {
+  padding-bottom: var(--space-footer);
+}
+
+@media (max-width: 1023px) {
+  .propiedad-bloque {
+    padding: var(--space-block) var(--gutter);
+  }
+
+  /* Celular y tableta: 48 px bajo el encabezado y 96 px entre casas. */
+  .catalogo-casas-grid .propiedad-bloque {
+    padding-top: calc(var(--space-block) * 0.75);
+    padding-bottom: calc(var(--space-block) * 0.75);
+  }
+
+  .catalogo-casas-grid .propiedad-bloque:last-child {
+    padding-bottom: calc(var(--space-block) * 1.5);
+  }
+
+  .propiedad-bloque-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-block);
+  }
+}
+
+@media (max-width: 640px) {
+  .propiedad-bloque-datos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .propiedad-bloque-dato {
+    border-left: 1px solid var(--border-subtle);
+    padding-left: 16px;
+  }
+
+  .propiedad-bloque-dato:nth-child(odd) {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .propiedad-bloque-dato:nth-child(n+3) {
+    margin-top: var(--space-close);
+  }
+
+  .propiedad-bloque-miniaturas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .propiedad-bloque-foto-principal img,
+  .propiedad-bloque-miniatura img {
+    transition: none;
+  }
+  .propiedad-bloque-foto-principal:hover img,
+  .propiedad-bloque-foto-principal:focus-visible img,
+  .propiedad-bloque-miniatura:hover img,
+  .propiedad-bloque-miniatura:focus-visible img {
+    transform: none;
+  }
+}
+
+/* Catálogo en celular: "Desliza" (YOPE la eligió entre cuatro, 2026-10-12).
+   Las cinco fotos van primero, en una tira que se pasa con el dedo y deja asomar la
+   siguiente; debajo, el nombre, tres renglones de descripción, los datos y el enlace. */
+@media (max-width: 767px) {
+  .catalogo-casas-grid .propiedad-bloque:first-child {
+    padding-top: 16px;
+  }
+
+  .catalogo-casas-grid .propiedad-bloque-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .catalogo-casas-grid .propiedad-bloque-visual {
+    order: -1;
+    flex-direction: row;
+    gap: 8px;
+    margin: 0 calc(-1 * var(--gutter));
+    padding: 0 var(--gutter);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 var(--gutter);
+    scrollbar-width: none;
+  }
+
+  .catalogo-casas-grid .propiedad-bloque-visual::-webkit-scrollbar {
+    display: none;
+  }
+
+  .catalogo-casas-grid .propiedad-bloque-miniaturas {
+    display: contents;
+  }
+
+  .catalogo-casas-grid .propiedad-bloque-foto-principal,
+  .catalogo-casas-grid .propiedad-bloque-miniatura {
+    flex: 0 0 84%;
+    aspect-ratio: 4 / 5;
+    scroll-snap-align: start;
+  }
+
+  .catalogo-casas-grid .propiedad-bloque-parrafo {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .catalogo-casas-grid .propiedad-bloque-datos {
+    margin: 28px 0;
+  }
+}
+
+/* ==========================================================================
+   PORTADA - BLOQUE ACTIVO DE INVERSIÓN (Casa Julieta, Centro Histórico)
+   Editorial diferenciado sobre blanco con tokens de :root
+   ========================================================================== */
+.portada-inversion {
+  background: #FFFFFF;
+  color: #111111;
+  /* Debajo de las casas debe haber el mismo aire que arriba (192 px, medido del nombre de
+     las casas a la foto). Ahí dentro va "Catálogo completo": 64 px de las casas al enlace,
+     26 px de enlace y este relleno, 192 - 64 - 26 = 102 px. La foto va a todo el ancho. */
+  padding: calc(var(--space-footer) - var(--space-block) - var(--enlace-alto)) 0 var(--space-section);
+  position: relative;
+  z-index: 10;
+}
+
+.portada-inversion-interior {
+  max-width: none;
+  margin: 0 auto;
+}
+
+/* Casa Julieta — diseño de YOPE: foto de la terraza en la mitad izquierda y texto en la
+   mitad derecha, sobre blanco. El recuadro tiene la proporción EXACTA del borrador
+   (6000 x 2045), así las posiciones en % y los tamaños en cqw caen donde YOPE las puso
+   (scratch/julieta-referencia-borrador.jpg). Sólo la mitad con foto se carga como imagen.
+   Color del texto: el vino oscuro que YOPE eligió en su borrador (#3E101A). */
+.julieta-escena {
+  --julieta-fuente: var(--font-sans);   /* una sola familia en todo el sitio */
+  --julieta-tinta: #3E101A;
+  position: relative;
+  aspect-ratio: 6000 / 2045;
+  container-type: inline-size;
+  background: var(--bg-primary);
+}
+
+.julieta-foto {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.julieta-texto {
+  font-family: var(--julieta-fuente);
+  color: var(--julieta-tinta);
+}
+
+.julieta-etiqueta,
+.julieta-titulo,
+.julieta-parrafo,
+.julieta-cta {
+  position: absolute;
+  left: 58.2%;
+  margin: 0;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.julieta-etiqueta { top: 8.53%; font-size: 2.45cqw; font-weight: 300; }
+.julieta-titulo   { top: 20.58%; left: 57.76%; font-size: 6.55cqw; font-weight: 200; letter-spacing: normal; }
+
+.julieta-parrafo {
+  top: 47%;
+  font-size: 1.84cqw;
+  font-weight: 300;
+  line-height: 1.225;
+}
+
+/* CTA: "ver ficha" con flecha larga y subrayado permanente, como en el borrador. */
+.julieta-cta {
+  top: 86.7%;
+  display: inline-flex;
+  align-items: center;
+  gap: 1.6cqw;
+  padding-bottom: 0.45cqw;
+  border-bottom: 1px solid currentColor;
+  font-size: 1.88cqw;
+  font-weight: 300;
+  color: var(--julieta-tinta);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.julieta-cta:focus-visible { outline: 1px solid var(--julieta-tinta); outline-offset: 4px; }
+
+/* Celular — PENDIENTE de diseño. Por ahora: la foto arriba a todo el ancho y el texto
+   debajo, en el mismo orden y color. */
+@media (max-width: 767px) {
+  /* Celular: 96 px de las casas a la foto, igual que arriba: 32 al enlace + 26 de enlace + 38. */
+  .portada-inversion { padding: calc(var(--space-block) * 1.5 - var(--space-block) / 2 - var(--enlace-alto)) var(--gutter) var(--space-block); }
+  .portada-vitrina-pie { margin-top: calc(var(--space-block) / 2); }
+
+  .julieta-escena { aspect-ratio: auto; container-type: normal; }
+  .julieta-foto {
+    position: static;
+    width: calc(100% + 2 * var(--gutter));
+    max-width: none;
+    margin-left: calc(-1 * var(--gutter));
+    aspect-ratio: 3000 / 2045;
+    height: auto;
+  }
+  .julieta-texto { padding-top: var(--space-block); }
+
+  .julieta-etiqueta, .julieta-titulo,
+  .julieta-parrafo, .julieta-cta { position: static; white-space: normal; }
+
+  .julieta-etiqueta { display: block; font-size: var(--t-4); }
+  .julieta-titulo { font-size: 48px; line-height: 1.05; margin-top: 4px; }
+  .julieta-parrafo { margin-top: var(--space-close); font-size: var(--t-5); line-height: 1.5; }
+  .julieta-parrafo br { display: none; }
+  .julieta-cta {
+    margin-top: calc(var(--space-block) / 2);
+    font-size: var(--t-4);
+    gap: 16px;
+    padding-bottom: 6px;
+  }
+}
+
+/* ==========================================================================
+   CATÁLOGO - FRANJA EDITORIAL ACTIVO DE INVERSIÓN
+   ========================================================================== */
+.catalog-inversion-strip {
+  margin-top: var(--space-block);
+  padding-top: var(--space-block);
+}
+
+.catalog-inversion-interior {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 32px;
+  background: #FAFAFA;
+  padding: 24px;
+  align-items: center;
+}
+
+.catalog-inversion-thumb {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--gold-subtle);
+}
+
+.catalog-inversion-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.catalog-inversion-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 8px;
+}
+
+.catalog-inversion-titulo {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 400;
+  margin: 0 0 10px 0;
+  color: #111111;
+}
+
+.catalog-inversion-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0 0 16px 0;
+}
+
+.catalog-inversion-metricas {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.catalog-inversion-metricas strong {
+  color: #222222;
+}
+
+@media (max-width: 900px) {
+  .catalog-inversion-interior {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Texto sólo para lectores de pantalla y buscadores: no ocupa espacio en pantalla. */
+.oculto-visual {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   DESARROLLAR / BUSCAR CAPITAL (portada, #capital) — provisional hasta el diseño
+   de YOPE. Va entre Casa Julieta, que ya deja 128 px abajo, y Praetora Studio.
+   ========================================================================== */
+.capital-seccion {
+  background: var(--bg-primary);
+  padding: 0 0 var(--space-section);
+}
+
+.capital-columnas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 360px));
+  gap: var(--space-block);
+  margin-top: var(--space-block);
+}
+
+.capital-subtitulo { color: var(--text-main); margin: 0 0 var(--space-close); }
+
+.capital-lista { list-style: none; margin: 0; padding: 0; color: var(--text-muted); }
+.capital-lista li + li { margin-top: 6px; }
+
+/* Pasos numerados 01 … 05, el número en la letra de etiqueta. */
+.capital-pasos { counter-reset: paso; }
+.capital-pasos li { counter-increment: paso; display: flex; align-items: baseline; gap: 16px; }
+.capital-pasos li::before {
+  content: counter(paso, decimal-leading-zero);
+  flex: none;
+  min-width: 20px;
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--text-light);
+}
+
+.capital-cierre {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-close);
+  margin-top: var(--space-block);
+}
+.capital-nota { color: var(--text-light); max-width: 65ch; margin: 0; }
+
+@media (max-width: 767px) {
+  .capital-seccion { padding-bottom: calc(var(--space-block) * 1.5); }
+  .capital-columnas { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* ==========================================================================
+   INVERTIR (invertir.html) — la foto de YOPE con mucho cielo: la introducción va
+   sobre el cielo, en cuatro tiempos, y la casona aparece al final con un
+   difuminado a blanco. Abajo, las oportunidades.
+   ========================================================================== */
+
+/* Encabezado transparente sobre el cielo, en blanco. */
+body.invertir-page .site-header {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 5;
+  background: transparent;
+}
+body.invertir-page .site-header .nav-link.active,
+body.invertir-page .site-header .nav-link:hover { color: #FFFFFF; }
+body.invertir-page .site-header .nav-link { color: rgba(255, 255, 255, 0.75); }
+body.invertir-page .site-header .nav-link::after { background: #FFFFFF; }
+
+/* Las medidas de la foto salen del ancho de la página (cqw): la foto mide
+   100cqw × 158.35cqw (2528 × 4003) y la casona ocupa su 42 % de abajo. */
+.invertir-principal { container-type: inline-size; }
+
+.invertir-cielo {
+  --foto-alto: calc(100cqw * 4003 / 2528);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: var(--foto-alto);
+  padding-bottom: calc(var(--foto-alto) * 0.42);
+  background: #0859A9;               /* el azul liso de lo alto de la foto */
+  color: #FFFFFF;
+  overflow: hidden;
+}
+.invertir-cielo-foto {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  width: 100%;
+  height: auto;
+  display: block;
+  /* El borde de arriba se funde con el fondo, por si el cielo creció. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 5%);
+          mask-image: linear-gradient(to bottom, transparent 0, #000 5%);
+}
+/* Difuminado de la calle al blanco de la página. */
+.invertir-cielo::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: calc(var(--foto-alto) * 0.16);
+  background: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.94) 80%,
+    #FFFFFF 100%);
+  pointer-events: none;
+}
+
+.invertir-cielo-contenido {
+  position: relative;
+  width: 100%;              /* en la columna flex, margin:auto la encogería al ancho del texto */
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-section);
+  padding-top: calc(var(--space-section) + 72px);
+}
+
+/* Etiquetas: 12 px en mayúsculas; en el cielo, blanco translúcido. */
+.invertir-etiqueta { display: block; color: var(--text-light); margin: 0; }
+.invertir-cielo .invertir-etiqueta { color: rgba(255, 255, 255, 0.7); margin-bottom: 20px; }
+
+/* 1 · Apertura */
+.invertir-apertura { max-width: 820px; }
+.invertir-titulo { margin: 0; color: #FFFFFF; }
+.invertir-bajada { margin: 20px 0 0; max-width: 52ch; color: rgba(255, 255, 255, 0.85); }
+
+/* 2 · Qué buscamos: ocho tipos en cuatro columnas, con línea fina arriba. */
+.invertir-tipos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0 24px;
+}
+.invertir-tipos li {
+  padding: 14px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+/* 3 · El filtro: siete pasos en una línea, numerados. */
+.invertir-frase { margin: 0 0 40px; max-width: 34ch; color: #FFFFFF; }
+.invertir-pasos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: paso;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0 16px;
+}
+.invertir-pasos li {
+  counter-increment: paso;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.6);
+}
+.invertir-pasos li::before {
+  content: counter(paso, decimal-leading-zero);
+  display: block;
+  margin-bottom: 8px;
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* 4 · Cómo trabajamos con usted */
+.invertir-puntos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px;
+  max-width: 820px;
+}
+.invertir-punto-titulo { margin: 0 0 6px; color: #FFFFFF; }
+.invertir-punto-texto { margin: 0; color: rgba(255, 255, 255, 0.75); }
+
+.invertir-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px 40px;
+  margin-top: var(--space-block);
+}
+/* Sobre el cielo el botón va invertido y el enlace en blanco. */
+.invertir-cielo .btn-gold { background: #FFFFFF; color: var(--ink); border-color: #FFFFFF; }
+.invertir-cielo .portada-enlace,
+.invertir-cielo .portada-enlace:hover,
+.invertir-cielo .portada-enlace:focus-visible { color: #FFFFFF; }
+
+/* --- Movimiento del cielo (invertir.js) -----------------------------------
+   Curva única: llega rápido y se asienta lento. Los estados de partida sólo
+   aplican con html.mov (lo pone <head>); sin JS o con "reducir movimiento"
+   todo está a la vista. */
+.invertir-cielo { --curva: cubic-bezier(0.16, 1, 0.3, 1); }
+.mov-linea { display: block; overflow: clip; padding-bottom: 0.06em; margin-bottom: -0.06em; }
+.mov-linea > span { display: block; }
+
+/* Las líneas finas de tipos y pasos se dibujan con un fondo de 1 px. */
+.invertir-tipos li,
+.invertir-pasos li {
+  border-top: 0;
+  background: linear-gradient(var(--linea-cielo), var(--linea-cielo)) left top / 100% 1px no-repeat;
+}
+.invertir-tipos li { --linea-cielo: rgba(255, 255, 255, 0.28); }
+.invertir-pasos li { --linea-cielo: rgba(255, 255, 255, 0.6); }
+
+html.mov .invertir-apertura .mov-linea > span { transform: translateY(105%); }
+html.mov .invertir-apertura .invertir-etiqueta,
+html.mov .invertir-apertura .invertir-bajada,
+html.mov .invertir-cielo .invertir-tiempo > .invertir-etiqueta,
+html.mov .invertir-tipos li,
+html.mov .invertir-pasos li,
+html.mov .invertir-punto,
+html.mov .invertir-acciones { opacity: 0; transform: translateY(16px); }
+html.mov .invertir-tipos li,
+html.mov .invertir-pasos li { background-size: 0% 1px; }
+html.mov .mov-palabra { opacity: 0.18; }
+
+/* Entradas */
+html.mov .en-vista .mov-linea > span {
+  transform: none;
+  transition: transform 1.3s var(--curva);
+}
+html.mov .en-vista .mov-linea + .mov-linea > span { transition-delay: 0.12s; }
+html.mov .invertir-apertura.en-vista .invertir-etiqueta,
+html.mov .invertir-tiempo.en-vista > .invertir-etiqueta {
+  opacity: 1; transform: none;
+  transition: opacity 1s var(--curva), transform 1.2s var(--curva);
+}
+html.mov .invertir-apertura.en-vista .invertir-bajada {
+  opacity: 1; transform: none;
+  transition: opacity 1.2s var(--curva) 0.45s, transform 1.4s var(--curva) 0.45s;
+}
+
+/* Qué buscamos: línea y luego texto, uno tras otro. */
+html.mov .en-vista .invertir-tipos li {
+  opacity: 1; transform: none; background-size: 100% 1px;
+  transition:
+    background-size 1s var(--curva) calc(0.15s + var(--i, 0) * 0.09s),
+    opacity 1s var(--curva) calc(0.35s + var(--i, 0) * 0.09s),
+    transform 1.2s var(--curva) calc(0.35s + var(--i, 0) * 0.09s);
+}
+
+/* El filtro: la frase se enciende palabra por palabra… */
+html.mov .en-vista .mov-palabra {
+  opacity: 1;
+  transition: opacity 0.6s ease calc(0.2s + var(--i, 0) * 0.045s);
+}
+/* …y la línea de los pasos avanza de corrido: cada tramo empieza cuando
+   termina el anterior, y el paso aparece cuando la línea llega a él. */
+html.mov .en-vista .invertir-pasos li {
+  opacity: 1; transform: none; background-size: 100% 1px;
+  transition:
+    background-size 0.26s linear calc(0.95s + var(--i, 0) * 0.26s),
+    opacity 0.9s var(--curva) calc(1.08s + var(--i, 0) * 0.26s),
+    transform 1.1s var(--curva) calc(1.08s + var(--i, 0) * 0.26s);
+}
+
+/* Cómo trabajamos: los dos bloques y luego los botones. */
+html.mov .en-vista .invertir-punto {
+  opacity: 1; transform: none;
+  transition: opacity 1s var(--curva) calc(0.15s + var(--i, 0) * 0.14s), transform 1.2s var(--curva) calc(0.15s + var(--i, 0) * 0.14s);
+}
+html.mov .en-vista .invertir-acciones {
+  opacity: 1; transform: none;
+  transition: opacity 1s var(--curva) 0.5s, transform 1.2s var(--curva) 0.5s;
+}
+
+.invertir-cielo-foto { will-change: transform; }
+
+/* --- Composición del cielo: MANIFIESTO (elegida por YOPE, 2026-10-12) -------
+   Todo centrado y monumental. "Qué buscamos" es una sola frase grande; el filtro,
+   una línea de tiempo de lado a lado con siete puntos; "Cómo trabajamos", dos
+   columnas con una línea entre ellas. Los 40 y 64 px son excepciones de
+   "display" del cielo de Invertir, como el título. */
+.invertir-cielo .invertir-cielo-contenido {
+  align-items: center;
+  text-align: center;
+  gap: 160px;
+}
+.invertir-cielo .invertir-tiempo { width: 100%; max-width: 1120px; }
+.invertir-cielo .invertir-apertura { display: flex; flex-direction: column; align-items: center; max-width: 1000px; }
+.invertir-cielo .invertir-titulo { font-size: 64px; line-height: 1.05; letter-spacing: -0.015em; }
+.invertir-cielo .invertir-bajada { margin-left: auto; margin-right: auto; }
+
+/* Qué buscamos: una oración; las comas, la "y" y el punto en blanco tenue. */
+.invertir-cielo .invertir-tipos { display: block; }
+.invertir-cielo .invertir-tipos li {
+  display: inline-block;
+  padding: 0;
+  margin: 0 0.1em;
+  background: none;
+  font-size: 40px;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+.invertir-cielo .invertir-tipos li:not(:first-child) { text-transform: lowercase; }
+.invertir-cielo .invertir-tipos li:not(:last-child):not(:nth-last-child(2))::after { content: ","; color: rgba(255, 255, 255, 0.4); }
+.invertir-cielo .invertir-tipos li:last-child::before { content: "y "; color: rgba(255, 255, 255, 0.4); }
+.invertir-cielo .invertir-tipos li:last-child::after { content: "."; color: rgba(255, 255, 255, 0.4); }
+
+/* El filtro: la frase al centro y la línea de tiempo con siete puntos. */
+.invertir-cielo .invertir-frase { margin: 0 auto; max-width: 30ch; font-size: var(--t-1); }
+.invertir-cielo .invertir-pasos { gap: 0; margin-top: 72px; }
+.invertir-cielo .invertir-pasos li {
+  position: relative;
+  padding: 36px 8px 0;
+  background-position: left 5px;
+}
+.invertir-cielo .invertir-pasos li::after {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  margin-left: -4.5px;
+  border-radius: 50%;
+  background: #FFFFFF;
+}
+
+/* Cómo trabajamos: dos columnas centradas con una línea fina entre ellas. */
+.invertir-cielo .invertir-puntos { margin: 0 auto; gap: 0; }
+.invertir-cielo .invertir-punto { padding: 0 48px; }
+.invertir-cielo .invertir-punto + .invertir-punto { border-left: 1px solid rgba(255, 255, 255, 0.28); }
+.invertir-cielo .invertir-acciones { justify-content: center; }
+
+@media (max-width: 767px) {
+  .invertir-cielo .invertir-cielo-contenido { gap: 96px; }
+  .invertir-cielo .invertir-titulo { font-size: 40px; }
+  .invertir-cielo .invertir-tipos li { font-size: 26px; }
+  .invertir-cielo .invertir-frase { font-size: var(--t-3); }
+  .invertir-cielo .invertir-pasos { grid-template-columns: 1fr; text-align: left; margin-top: 40px; }
+  .invertir-cielo .invertir-pasos li { padding: 10px 0; }
+  .invertir-cielo .invertir-pasos li::after { display: none; }
+  .invertir-cielo .invertir-puntos { gap: 28px; }
+  .invertir-cielo .invertir-punto { padding: 0; }
+  .invertir-cielo .invertir-punto + .invertir-punto { border-left: 0; }
+}
+
+/* Oportunidades: una tarjeta por activo, foto a la izquierda y texto a la derecha. */
+.invertir-oportunidades { padding: var(--space-block) 0 var(--space-footer); }
+.invertir-tarjeta {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--space-block);
+  align-items: end;
+  margin-top: var(--space-close);
+}
+.invertir-tarjeta-foto { display: block; aspect-ratio: 4 / 3; overflow: hidden; }
+.invertir-tarjeta-foto img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+.invertir-tarjeta-foto:hover img { transform: scale(1.02); }
+.invertir-tarjeta-texto { display: flex; flex-direction: column; align-items: flex-start; }
+.invertir-tarjeta-texto .section-title { margin: var(--space-close) 0 0; }
+.invertir-tarjeta-texto .section-desc { margin: var(--space-close) 0 0; }
+.invertir-tarjeta-texto .ficha-cifras { margin-top: 40px; }
+.invertir-tarjeta-texto .portada-enlace { margin-top: var(--space-block); }
+
+@media (max-width: 1023px) {
+  .invertir-tipos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .invertir-pasos { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 16px; }
+  .invertir-tarjeta { grid-template-columns: 1fr; gap: 40px; }
+}
+
+@media (max-width: 767px) {
+  .invertir-cielo-contenido { gap: var(--space-block); padding-top: 248px; }
+  .invertir-tipos { grid-template-columns: 1fr; }
+  .invertir-tipos li { padding: 10px 0; }
+  .invertir-pasos { grid-template-columns: 1fr; gap: 0; }
+  .invertir-pasos li { display: flex; align-items: baseline; gap: 16px; padding: 10px 0; --linea-cielo: rgba(255, 255, 255, 0.28); }
+  .invertir-pasos li::before { margin: 0; min-width: 20px; }
+  .invertir-puntos { grid-template-columns: 1fr; gap: 28px; }
+  .invertir-oportunidades { padding-bottom: calc(var(--space-block) * 1.5); }
+}
+
+/* ==========================================================================
+   SISTEMA TIPOGRÁFICO — una sola familia, una sola escala, dos pesos.
+   --------------------------------------------------------------------------
+   Familia: Acumin Pro (Adobe Fonts), a través de --font-sans.
+   Escala del documento de marca: 32 · 24 · 20 · 18 · 16 · 14 · 12 px. Pesos 400 y 500.
+   Mayúsculas sólo a 12 px (etiquetas, menú y botones).
+   UN estilo de ENLACE de navegación (18 px, flecha, subrayado fino) para todo lo que
+   lleva a otra página, y UN estilo de BOTÓN de acción (contactar, solicitar, continuar).
+   Excepciones de "display", por diseño de YOPE (no entran en este bloque):
+     · el logotipo PRAETORA / GRUPO / INMOBILIARIO del hero y su navegación;
+     · el texto de Casa Julieta (etiqueta, título y párrafo).
+   Este bloque va al final de la hoja a propósito: manda sobre las reglas viejas.
+   ========================================================================== */
+:root {
+  /* Alto del enlace de navegación (renglón de 18 px x 1.3 + 6 px de aire + 1 px de línea).
+     Lo usa el cálculo del aire entre las casas y Casa Julieta. */
+  --enlace-alto: calc(var(--t-5) * 1.3 + 7px);
+  --flecha-derecha: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 12'%3E%3Cpath d='M0 6h42M36.5 1 42 6l-5.5 5' fill='none' stroke='black' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --flecha-izquierda: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 12'%3E%3Cpath d='M44 6H2M7.5 1 2 6l5.5 5' fill='none' stroke='black' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+/* Título · 32 / 500 */
+.section-title,
+.propiedad-bloque-titulo,
+.ficha-titulo,
+.t-titulo {
+  font-family: var(--font-sans);
+  font-size: var(--t-1);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: normal;
+}
+
+/* Título secundario y dato numérico · 24 / 500 */
+.b2b-cta-box h3,
+.wizard-step-pane h3,
+.catalog-inversion-titulo,
+.propiedad-bloque-numero,
+.ficha-cifra-valor,
+.invertir-frase {
+  font-family: var(--font-sans);
+  font-size: var(--t-3);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: normal;
+}
+
+/* Subtítulo y nombre de propiedad · 20 / 500 */
+.portada-vitrina-nombre,
+.ficha-precio,
+.ficha-nombre,
+.b2b-feature-text h4 {
+  font-size: var(--t-4);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: normal;
+}
+
+/* Texto destacado · 18 / 400 */
+.section-desc,
+.propiedad-bloque-parrafo,
+.catalog-inversion-desc,
+.ficha-parrafo,
+.invertir-bajada,
+.invertir-tipos li,
+.b2b-cta-box p,
+.wizard-step-pane > p {
+  font-size: var(--t-5);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* Texto · 16 / 400 */
+.b2b-feature-text p,
+.ficha-dato-etiqueta,
+.ficha-dato-valor,
+.ficha-subtitulo,
+.ficha-lista li,
+.capital-subtitulo,
+.capital-lista li,
+.invertir-pasos li,
+.invertir-punto-titulo,
+.catalog-inversion-metricas,
+.catalog-inversion-metricas span {
+  font-size: var(--t-body);
+  font-weight: 400;
+  line-height: 1.5;
+}
+.catalog-inversion-metricas strong { font-weight: 500; }
+.ficha-subtitulo,
+.capital-subtitulo,
+.invertir-punto-titulo { font-weight: 500; }
+
+/* Pie y notas · 14 / 400 */
+.site-footer p,
+.site-footer .footer-col li a,
+.site-footer .footer-bottom,
+.site-footer .footer-bottom div,
+.ficha-nota,
+.capital-nota,
+.invertir-punto-texto,
+.t-pie {
+  font-size: var(--t-small);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+/* Etiqueta y menú · 12 / 500 · MAYÚSCULAS */
+.section-tag,
+.propiedad-bloque-tag,
+.propiedad-bloque-rotulo,
+.propiedad-bloque-ubicacion,
+.catalog-inversion-tag,
+.ficha-etiqueta,
+.invertir-etiqueta,
+.ficha-cifra-etiqueta,
+.site-footer .footer-col h5,
+.wizard-section label,
+.site-header .nav-link,
+.t-etiqueta {
+  font-family: var(--font-sans);
+  font-size: var(--t-label);
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ENLACE de navegación — lleva a otra página: texto, flecha y subrayado fino.
+   Catálogo completo · Ver ficha · Ver propiedad · Volver al catálogo. */
+.portada-enlace,
+.julieta-cta,
+.ficha-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid currentColor;
+  font-family: var(--font-sans);
+  font-size: var(--t-5);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: normal;
+  text-transform: none;
+  text-decoration: none;
+  color: var(--text-main);
+  opacity: 1;
+}
+
+.portada-enlace::after,
+.julieta-cta::after,
+.ficha-volver::before {
+  content: "";
+  flex: none;
+  width: 44px;
+  height: 12px;
+  background: currentColor;
+  -webkit-mask: var(--flecha-derecha) center / contain no-repeat;
+          mask: var(--flecha-derecha) center / contain no-repeat;
+  transition: transform 0.2s ease;
+}
+
+.ficha-volver::before {
+  -webkit-mask-image: var(--flecha-izquierda);
+          mask-image: var(--flecha-izquierda);
+}
+
+.portada-enlace:hover::after,
+.portada-enlace:focus-visible::after,
+.julieta-cta:hover::after,
+.julieta-cta:focus-visible::after { transform: translateX(4px); }
+
+.ficha-volver:hover::before,
+.ficha-volver:focus-visible::before { transform: translateX(-4px); }
+
+.portada-enlace:hover,
+.portada-enlace:focus-visible,
+.ficha-volver:hover,
+.ficha-volver:focus-visible { opacity: 1; color: var(--text-main); }
+
+/* Casa Julieta conserva el vino de su diseño también en el enlace. */
+.julieta-cta { color: var(--julieta-tinta); }
+
+/* BOTÓN de acción — contactar, solicitar, continuar: 12 px mayúsculas sobre negro. */
+.btn-gold,
+.btn-outline-gold {
+  font-family: var(--font-sans);
+  font-size: var(--t-label);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 16px 28px;
+  border-radius: 0;
+  box-shadow: none;
+  transform: none;
+}
+
+.btn-gold { background: var(--ink); color: #FFF; border: 1px solid var(--ink); }
+.btn-gold:hover,
+.btn-gold:focus-visible { transform: none; opacity: 0.85; }
+
+.btn-outline-gold { background: transparent; color: var(--text-main); border: 1px solid var(--ink); }
+.btn-outline-gold:hover,
+.btn-outline-gold:focus-visible { transform: none; background: var(--bg-secondary); border-color: var(--ink); }
+
+/* El botón del encabezado tenía su propio tamaño y espaciado: también sigue el sistema. */
+.site-header .btn-gold {
+  font-size: var(--t-label);
+  letter-spacing: 0.12em;
+}
+
+/* Sobre fondo oscuro el botón va invertido: blanco con letra negra. */
+.b2b-section .btn-gold {
+  background: #FFF;
+  color: var(--ink);
+  border-color: #FFF;
+}
+
+/* Excepción de "display" (referencia de YOPE): título sobre la foto de Invertir. */
+.invertir-titulo {
+  font-family: var(--font-sans);
+  font-size: var(--t-hero);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+@media (max-width: 767px) { .invertir-titulo { font-size: var(--t-1); } }
+
+/* Acciones del bloque de propiedad: "Ver propiedad" y, si existe, "Recorrido 3D". */
+.propiedad-bloque-accion { gap: 28px; flex-wrap: wrap; }
+
+/* --- Celular: arreglos de la revisión del 19-oct --------------------------
+   Medidos en 390 y 360 px. */
+@media (max-width: 767px) {
+  /* Portada: el menú del hero tocaba el logo (su orilla de abajo caía justo en
+     la de arriba del logo) y sus enlaces medían 17 px de alto. Ahora queda aire
+     y cada enlace mide 25 px para el dedo, con el mismo ritmo entre renglones. */
+  .portada-hero-nav { bottom: 116px; gap: 4px; }
+  .portada-hero-nav-link { padding: 4px 0; }
+
+  /* Portada, formulario de valuación: los dos botones no cabían lado a lado y
+     «Continuar» se cortaba. Van uno sobre otro, a todo lo ancho, el de avanzar
+     primero; «Anterior» no ocupa lugar mientras está escondido (paso 1). */
+  .wizard-actions { flex-direction: column-reverse; align-items: stretch; gap: 12px; }
+  .wizard-actions > button { justify-content: center; text-align: center; white-space: normal; line-height: 1.5; }
+  #wizard-prev-btn[style*="hidden"] { display: none; }
+
+  /* Portada: «Agendar presentación con director de alianzas» se parte en tres
+     renglones y llevaba la altura de línea igual a la letra: se encimaban. */
+  .b2b-cta-box .btn-gold { line-height: 1.5; text-align: center; }
+}
+
+@media (max-width: 1023px) {
+  /* Ficha: «Consultar esta casa» y «Recorrido 3D» del mismo ancho, a todo lo ancho. */
+  .ficha-acciones .btn-gold { align-self: stretch; justify-content: center; text-align: center; }
+  /* Ficha, lámina: los botones de planta y mobiliario medían 23 px de alto. */
+  .ficha-maqueta-boton { padding: 8px 0 6px; }
 }
