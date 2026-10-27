@@ -1022,6 +1022,177 @@ function initHeaderScroll() {
     }
 
     document.addEventListener('keydown', onTecla);
+
+    if (esVertical()) armarFichaVertical();
+
+    // La pista «Ficha técnica →» de la barra se apaga cuando la ficha ya está a la vista.
+    var marcar = function () { marcarEnInfo(); };
+    cont.addEventListener('scroll', marcar, { passive: true });
+    window.addEventListener('scroll', marcar, { passive: true });
+    window.addEventListener('resize', marcar);
+    marcarEnInfo();
+
+    // Cruzar de compu a cel (o al revés) cambia el acomodo entero: se vuelve a armar.
+    // Se espera medio segundo y se compara: un cambio de un instante (girar el cel,
+    // una captura) no recarga la página.
+    var mq = window.matchMedia('(min-width: 1024px)');
+    var armadoVertical = esVertical();
+    var espera = null;
+    var cambio = function () {
+      clearTimeout(espera);
+      espera = setTimeout(function () {
+        if (esVertical() !== armadoVertical) location.reload();
+      }, 500);
+    };
+    if (mq.addEventListener) mq.addEventListener('change', cambio);
+    else if (mq.addListener) mq.addListener(cambio);
+  }
+
+  function marcarEnInfo() {
+    var destino = document.getElementById('ficha-info');
+    if (!destino) return;
+    var r = destino.getBoundingClientRect();
+    var enInfo = esVertical()
+      ? r.top < window.innerHeight * 0.75 && r.bottom > 0
+      : r.left < window.innerWidth * 0.7;
+    document.body.classList.toggle('ficha-en-info', enInfo);
+  }
+
+  /* --------------------------------------------------------------------------
+     Ficha en cel y tableta (Luis, 27-oct): las fotos arriba, en un carril que
+     se desliza; abajo, la ficha técnica a la vista, y lo demás en tarjetas que
+     también se deslizan hacia el lado (Ficha técnica · Planos · La casa ·
+     El entorno · Contacto), con pestañas que siguen al dedo.
+     -------------------------------------------------------------------------- */
+  function armarFichaVertical() {
+    var suave = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    var hijos = Array.prototype.slice.call(cont.children);
+    var fotos = hijos.filter(function (e) { return e.matches('figure.ficha-panel:not(.ficha-plano)'); });
+    var planos = hijos.filter(function (e) { return e.classList.contains('ficha-plano'); });
+    var info = document.getElementById('ficha-info');
+    var textos = hijos.filter(function (e) { return e.classList.contains('ficha-panel-texto') && e !== info; });
+    if (!fotos.length || !info) return;
+
+    function nuevo(tag, clase, attrs) {
+      var el = document.createElement(tag);
+      if (clase) el.className = clase;
+      Object.keys(attrs || {}).forEach(function (k) { el.setAttribute(k, attrs[k]); });
+      return el;
+    }
+    function nombreDe(panel) {
+      if (panel.classList.contains('ficha-panel-contacto')) return 'Contacto';
+      var etq = panel.querySelector('.ficha-etiqueta');
+      var t = etq ? etq.textContent.trim() : '';
+      return t ? t.charAt(0).toUpperCase() + t.slice(1).toLowerCase() : 'Más';
+    }
+
+    document.body.classList.add('ficha-cel');
+
+    // 1 · Las fotos: un carril a todo lo ancho, con su contador.
+    var zonaFotos = nuevo('div', 'ficha-cel-fotos');
+    var carril = nuevo('div', 'ficha-cel-carril', { 'aria-label': 'Fotos de la casa' });
+    var cuenta = nuevo('div', 'ficha-cel-cuenta', { 'aria-hidden': 'true' });
+    fotos.forEach(function (f) { carril.appendChild(f); });
+    zonaFotos.appendChild(carril);
+    zonaFotos.appendChild(cuenta);
+    var dos = function (n) { return (n < 10 ? '0' : '') + n; };
+    var pintarCuenta = function () {
+      var n = Math.min(fotos.length, Math.round(carril.scrollLeft / Math.max(1, carril.clientWidth)) + 1);
+      cuenta.textContent = dos(n) + ' / ' + dos(fotos.length);
+    };
+    carril.addEventListener('scroll', pintarCuenta, { passive: true });
+
+    // 2 · Las tarjetas: la ficha técnica primero; los planos van con la distribución.
+    var grupos = [{ nombre: 'Ficha técnica', paneles: [info] }];
+    textos.forEach(function (t) {
+      var g = { nombre: nombreDe(t), paneles: [t] };
+      if (/distribuci/i.test(g.nombre)) {
+        g.nombre = 'Planos';
+        planos.forEach(function (pl) { pl.hidden = false; g.paneles.push(pl); });
+        planos = [];
+      }
+      grupos.push(g);
+    });
+    if (planos.length) {
+      planos.forEach(function (pl) { pl.hidden = false; });
+      grupos.splice(1, 0, { nombre: 'Planos', paneles: planos });
+    }
+
+    var pestanas = nuevo('div', 'ficha-cel-pestanas', { role: 'tablist', 'aria-label': 'Información de la casa' });
+    var pista = nuevo('p', 'ficha-cel-pista');
+    pista.innerHTML = 'Deslice para ver más <span aria-hidden="true"></span>';
+    var carrilInfo = nuevo('div', 'ficha-cel-info');
+    var tarjetas = grupos.map(function (g, i) {
+      var id = 'ficha-cel-tarjeta-' + i;
+      var tarjeta = nuevo('section', 'ficha-cel-tarjeta', { id: id, role: 'tabpanel', 'aria-label': g.nombre });
+      g.paneles.forEach(function (pn) { tarjeta.appendChild(pn); });
+      var boton = nuevo('button', 'ficha-cel-pestana', { type: 'button', role: 'tab', 'aria-controls': id, 'aria-selected': i === 0 ? 'true' : 'false' });
+      boton.textContent = g.nombre;
+      boton.addEventListener('click', function () { irA(i); });
+      pestanas.appendChild(boton);
+      carrilInfo.appendChild(tarjeta);
+      return tarjeta;
+    });
+
+    // Todo lo movido queda a la vista (el revelado por scroll no aplica en los carriles).
+    Array.prototype.forEach.call(cont.querySelectorAll('.ficha-panel'), function (el) { el.classList.add('is-visible'); });
+
+    cont.innerHTML = '';
+    cont.appendChild(zonaFotos);
+    cont.appendChild(pestanas);
+    cont.appendChild(pista);
+    cont.appendChild(carrilInfo);
+    pintarCuenta();
+
+    // El carril de tarjetas toma el alto de la tarjeta que se ve: sin huecos debajo.
+    var activa = 0;
+    function ajustarAlto() {
+      var t = tarjetas[activa];
+      if (t) carrilInfo.style.height = t.scrollHeight + 'px';
+    }
+    function marcarPestana(i) {
+      if (i === activa) return;
+      activa = i;
+      Array.prototype.forEach.call(pestanas.children, function (b, j) {
+        b.setAttribute('aria-selected', j === i ? 'true' : 'false');
+      });
+      var b = pestanas.children[i];
+      if (b && b.scrollIntoView) b.scrollIntoView({ block: 'nearest', inline: 'center', behavior: suave });
+      if (i > 0) pista.classList.add('is-vista');
+      ajustarAlto();
+    }
+    function irA(i) {
+      carrilInfo.scrollTo({ left: tarjetas[i].offsetLeft, behavior: suave });
+      marcarPestana(i);
+    }
+    carrilInfo.addEventListener('scroll', function () {
+      var i = Math.round(carrilInfo.scrollLeft / Math.max(1, carrilInfo.clientWidth));
+      marcarPestana(Math.max(0, Math.min(tarjetas.length - 1, i)));
+    }, { passive: true });
+    if ('ResizeObserver' in window) {
+      var ro = new ResizeObserver(ajustarAlto);
+      tarjetas.forEach(function (t) { ro.observe(t); });
+    }
+    window.addEventListener('load', ajustarAlto);
+    ajustarAlto();
+
+    // «Ver planos» lleva a su tarjeta (aquí los planos ya están a la vista).
+    var verPlanos = info.querySelector('.ficha-ver-planos');
+    if (verPlanos) {
+      var otro = verPlanos.cloneNode(true);
+      otro.textContent = 'Ver planos';
+      otro.removeAttribute('aria-expanded');
+      verPlanos.parentNode.replaceChild(otro, verPlanos);
+      var iPlanos = grupos.map(function (g) { return g.nombre; }).indexOf('Planos');
+      if (iPlanos > 0) otro.addEventListener('click', function () { irA(iPlanos); });
+      else otro.remove();
+    }
+
+    // INFO, en el cel, baja a la ficha técnica.
+    var aInfo = document.querySelector('.ficha-barra-info');
+    if (aInfo) {
+      aInfo.addEventListener('click', function () { irA(0); });
+    }
   }
 
   if (document.readyState === 'loading') {
