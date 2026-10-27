@@ -1296,9 +1296,7 @@ function praetoraRevelarNuevos(contenedor) {
       columnas = 2;
       filas = fila('Tipología', p.type) +
         fila('Ubicación', p.subzone) +
-        fila('Inquilino en planta baja', p.inquilino) +
-        fila('Renta mensual del local', p.rentaMensualMXN ? pesos(p.rentaMensualMXN) : null) +
-        fila('Reseñas', p.booking);
+        fila('Inquilino en planta baja', p.inquilino);
     } else {
       cifras = cifra(m2(p.m2Construccion), 'Construcción') +
         cifra(m2(p.m2Terreno), 'Terreno') +

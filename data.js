@@ -413,8 +413,6 @@ const ACTIVOS_INVERSION = [
     llaves: 6,
     llavesDetalle: "4 Junior Suites, 1 Deluxe y 1 Presidencial. Tres con balcón y vista a la Parroquia.",
     inquilino: "Birkenstock",
-    rentaMensualMXN: 95000,
-    booking: "9.7 / 10 en Booking sobre 60 reseñas",
     caminando: "3 minutos a pie de la Parroquia y el Jardín Allende",
     roofNota: "Terraza con vistas a la Parroquia y a Las Monjas. Potencial adicional sujeto a las autorizaciones del INAH y municipales aplicables.",
     status: "Consultar",
