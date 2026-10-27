@@ -380,6 +380,9 @@ const ENTORNOS = {
   malanquin: {
     nombre: "Club de Golf Malanquín",
     ubicacion: "Km 3, carretera San Miguel de Allende – Celaya",
+    // Video vertical del club (19 s); la ficha le pone encima la información (Luis, 27-oct).
+    video: "assets/enclave/club-malanquin.mp4",
+    poster: "assets/enclave/club-malanquin-poster.webp",
     cifras: [
       { valor: "18", etiqueta: "Hoyos" },
       { valor: "72", etiqueta: "Par" },

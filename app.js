@@ -836,6 +836,25 @@ function initHeaderScroll() {
   function panelEntorno(p) {
     var en = (p.entorno && typeof ENTORNOS !== 'undefined') ? ENTORNOS[p.entorno] : null;
     if (!en) return '';
+    // Con video (Luis, 27-oct): la información del club va encima de su video vertical.
+    // El video se carga y corre solo cuando está a la vista (iniciarVideoEntorno).
+    if (en.video) {
+      return '<section class="ficha-panel ficha-panel-texto ficha-entorno">' +
+        '<span class="ficha-etiqueta">El entorno</span>' +
+        '<figure class="ficha-entorno-video">' +
+          '<video data-src="' + esc(en.video) + '"' + (en.poster ? ' poster="' + esc(en.poster) + '"' : '') +
+            ' muted loop playsinline preload="none" aria-label="Video del ' + esc(en.nombre) + '"></video>' +
+          '<figcaption class="ficha-entorno-texto">' +
+            '<h2 class="ficha-nombre">' + esc(en.nombre) + '</h2>' +
+            '<div class="ficha-cifras" style="--cifras-col:' + en.cifras.length + '">' +
+              en.cifras.map(function (c) { return cifra(c.valor, c.etiqueta); }).join('') +
+            '</div>' +
+            lista(en.amenidades) +
+            '<p class="ficha-nota">' + esc(en.ubicacion) + '</p>' +
+          '</figcaption>' +
+        '</figure>' +
+        '</section>';
+    }
     return '<section class="ficha-panel ficha-panel-texto">' +
       '<span class="ficha-etiqueta">El entorno</span>' +
       '<h2 class="ficha-nombre">' + esc(en.nombre) + '</h2>' +
@@ -1024,6 +1043,7 @@ function initHeaderScroll() {
     document.addEventListener('keydown', onTecla);
 
     if (esVertical()) armarFichaVertical();
+    iniciarVideoEntorno();
 
     // La pista «Ficha técnica →» de la barra se apaga cuando la ficha ya está a la vista.
     var marcar = function () { marcarEnInfo(); };
@@ -1046,6 +1066,25 @@ function initHeaderScroll() {
     };
     if (mq.addEventListener) mq.addEventListener('change', cambio);
     else if (mq.addListener) mq.addListener(cambio);
+  }
+
+  /* El video del entorno baja y corre solo cuando se ve, y se pausa al salir.
+     Con «reducir movimiento» queda quieto en su póster, con controles. */
+  function iniciarVideoEntorno() {
+    var v = cont.querySelector('.ficha-entorno-video video');
+    if (!v) return;
+    var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function cargar() {
+      if (!v.getAttribute('src')) { v.src = v.getAttribute('data-src'); v.load(); }
+    }
+    if (quieto) { v.controls = true; v.preload = 'none'; cargar(); return; }
+    if (!('IntersectionObserver' in window)) { cargar(); v.play().catch(function () {}); return; }
+    new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (en) {
+        if (en.isIntersecting) { cargar(); v.play().catch(function () {}); }
+        else if (v.getAttribute('src')) v.pause();
+      });
+    }, { threshold: 0.25 }).observe(v);
   }
 
   function marcarEnInfo() {
