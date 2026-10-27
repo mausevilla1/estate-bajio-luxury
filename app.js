@@ -1037,6 +1037,9 @@ function initHeaderScroll() {
    --------------------------------------------------------------------------
    3 tarjetas verticales (4:5) ordenadas por priceMXN descendente.
    ========================================================================== */
+// Precio completo en pesos, como en la ficha: $24,400,000 MXN.
+function precioMXN(n) { return '$' + Number(n).toLocaleString('es-MX') + ' MXN'; }
+
 function pintarVitrina() {
   var grid = document.getElementById('portada-vitrina-grid');
   if (!grid) return;
@@ -1048,7 +1051,7 @@ function pintarVitrina() {
     return pB - pA;
   });
 
-  // La tarjeta sólo lleva el nombre: la ubicación y el precio viven en la ficha.
+  // La tarjeta lleva nombre, precio y cifras (Luis, 27-oct: «las casas sí con su precio»).
   grid.innerHTML = propiedades.map(function (p) {
     var foto = p.fotoTarjeta || p.heroImage || '';
     var estiloPos = p.fotoTarjetaPos ? ' style="object-position: ' + esc(p.fotoTarjetaPos) + ';"' : '';
@@ -1058,6 +1061,8 @@ function pintarVitrina() {
         '<img src="' + esc(foto) + '" alt="' + esc(p.title) + '" loading="lazy"' + estiloPos + '>' +
       '</div>' +
       '<h3 class="portada-vitrina-nombre" translate="no">' + esc(p.title) + '</h3>' +
+      (p.priceMXN != null ? '<p class="v1-precio">' + precioMXN(p.priceMXN) + '</p>' : '') +
+      '<p class="v1-cifras">' + [p.bedrooms != null ? p.bedrooms + ' rec.' : '', p.bathrooms != null ? p.bathrooms + ' baños' : '', p.m2Construccion ? p.m2Construccion + ' m²' : ''].filter(Boolean).join(' · ') + '</p>' +
     '</a>';
   }).join('');
 }
@@ -1126,6 +1131,7 @@ function renderPropiedadBloque(prop) {
         '<div class="propiedad-bloque-info">' +
           '<span class="propiedad-bloque-tag">' + esc(etiqueta) + '</span>' +
           '<h2 class="propiedad-bloque-titulo" translate="no">' + esc(prop.title) + '</h2>' +
+          (prop.priceMXN != null ? '<p class="v1-precio v1-precio-bloque">' + precioMXN(prop.priceMXN) + '</p>' : '') +
           '<div class="propiedad-bloque-ubicacion">' +
             pinSvg +
             '<span>' + esc(ubicacionTexto) + '</span>' +

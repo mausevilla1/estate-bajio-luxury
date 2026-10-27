@@ -3,219 +3,119 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- SEO Primary Meta Tags -->
-  <title>PRAETORA | Residencias de Autor en San Miguel de Allende</title>
-  <meta name="title" content="PRAETORA | Residencias de Autor en San Miguel de Allende">
-  <meta name="description" content="Colección privada de residencias de autor en Club de Golf Malanquín, San Miguel de Allende. Arquitectura contemporánea, acabados de alta gama y vistas a Los Picachos.">
-  <meta name="keywords" content="inmobiliaria de lujo san miguel de allende, casas en venta malanquin san miguel, club de golf malanquin residencias, bienes raices high ticket san miguel de allende, arquitectura de autor san miguel">
-  <meta name="robots" content="index, follow">
+  <title>PRAETORA | Grupo Inmobiliario</title>
+  <meta name="description" content="PRAETORA Grupo Inmobiliario: comprar, vender e invertir en CDMX, León, Guanajuato y San Miguel de Allende.">
   <link rel="canonical" href="https://praetora.mx/">
-
-  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://praetora.mx/">
-  <meta property="og:title" content="PRAETORA | Residencias de Autor en San Miguel de Allende">
-  <meta property="og:description" content="Colección de residencias de autor en Club de Golf Malanquín, San Miguel de Allende. Inversión patrimonial de alta gama.">
+  <meta property="og:title" content="PRAETORA | Grupo Inmobiliario">
+  <meta property="og:description" content="Comprar, vender e invertir en CDMX, León, Guanajuato y San Miguel de Allende.">
   <meta property="og:image" content="https://praetora.mx/assets/compartir/portada.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="La Parroquia de San Miguel Arcángel al atardecer, con el logotipo de PRAETORA">
   <meta property="og:site_name" content="PRAETORA">
   <meta property="og:locale" content="es_MX">
-  <meta name="twitter:card" content="summary_large_image">
-
-  <!-- Schema.org JSON-LD Structured Data for High-Ticket Real Estate -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "RealEstateAgent",
-        "@id": "https://praetora.mx/#agency",
-        "name": "PRAETORA Grupo Inmobiliario",
-        "url": "https://praetora.mx",
-        "description": "Firma boutique especializada en comercialización de residencias de autor en San Miguel de Allende.",
-        "priceRange": "$$$$$",
-        "telephone": "+524420000000",
-        "areaServed": [
-          { "@type": "AdministrativeArea", "name": "San Miguel de Allende" },
-          { "@type": "AdministrativeArea", "name": "Guanajuato" }
-        ],
-        "knowsAbout": [
-          "Luxury Real Estate Acquisition",
-          "Architectural Master Plan Pre-sales",
-          "HNWI Wealth Preservation & Escrow",
-          "Private Golf & Equestrian Estates"
-        ]
-      }
-    ]
-  }
-  </script>
-
-  <!-- Stylesheet -->
   <link rel="icon" href="favicon.ico" sizes="48x48">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="https://use.typekit.net/eyy5hrp.css">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="home">
+<body class="entrada-page">
 
   <!-- ==========================================================================
-       HERO — medio a sangre con el nombre encima y degradado a negro
-       El medio es intercambiable: hoy <img>, mañana <video> en el mismo hueco.
-       Degradado 0%->70% transparente a --ink en 100%.
+       ENTRADA: la pantalla antes de la landing (Luis, 27-oct).
+       Paso 1: qué busca. Comprar o vender pregunta la ciudad; Invertir y
+       Desarrolladores entran directo, sin preguntar.
        ========================================================================== -->
-  <section class="portada-hero">
-    <div class="portada-hero-escena">
-      <img class="portada-hero-fondo"
-           src="hero-1600.webp"
-           srcset="hero-1024.webp 1024w, hero-1600.webp 1600w, hero-2560.webp 2560w"
-           sizes="100vw" fetchpriority="high"
-           alt="Parroquia de San Miguel Arcángel al atardecer, San Miguel de Allende">
-      <div class="portada-hero-logo" translate="no">
-        <h1 class="portada-hero-logo-marca">
-          <img src="assets/marca/praetora-nombre-blanco.svg" width="652" height="81" alt="PRAETORA">
-        </h1>
-      </div>
-      <picture class="portada-hero-frente">
-        <source media="(min-width: 768px)"
-                srcset="hero-frente-1024.webp 1024w, hero-frente-1600.webp 1600w,
-                        hero-frente-2560.webp 2560w"
-                sizes="100vw">
-        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-             alt="" aria-hidden="true">
-      </picture>
-      <nav class="portada-hero-nav" aria-label="Navegación principal">
-        <a href="catalogo.html" class="portada-hero-nav-link">Propiedades</a>
-        <a href="invertir.html" class="portada-hero-nav-link">Invertir</a>
-        <a href="https://servicios.praetora.mx/es" class="portada-hero-nav-link">Servicios para<br>desarrolladores</a>
-      </nav>
-    </div>
-  </section>
+  <main class="entrada">
+    <img class="entrada-fondo" src="assets/propiedades/casa-cordoba/fotos/21.jpeg"
+         alt="" aria-hidden="true" fetchpriority="high">
 
-  <!-- ==========================================================================
-       VITRINA DE PROPIEDADES DESTACADAS
-       3 tarjetas verticales (4:5) ordenadas por priceMXN descendente.
-       ========================================================================== -->
-  <section class="portada-vitrina" id="vitrina" aria-label="Propiedades destacadas">
-    <div class="portada-vitrina-interior">
-      <div class="portada-vitrina-grid" id="portada-vitrina-grid">
-        <!-- lo dibuja app.js -->
-      </div>
+    <header class="entrada-cabeza">
+      <img class="entrada-logo" src="assets/marca/praetora-nombre-blanco.svg" width="652" height="81"
+           alt="PRAETORA" translate="no">
+      <span class="entrada-ciudades">Grupo Inmobiliario · CDMX · León · Guanajuato · San Miguel de Allende</span>
+    </header>
 
-      <div class="portada-vitrina-pie">
-        <a href="catalogo.html" class="portada-enlace">Catálogo completo</a>
-      </div>
-    </div>
-  </section>
+    <!-- Paso 1 -->
+    <section class="entrada-paso" id="paso-que" aria-labelledby="titulo-que">
+      <h1 class="entrada-pregunta" id="titulo-que">¿Qué le trae a PRAETORA?</h1>
+      <ol class="entrada-opciones">
+        <li>
+          <button type="button" class="entrada-opcion" data-ir="ciudad">
+            <span class="entrada-num">01</span>
+            <span class="entrada-nombre">Comprar o vender</span>
+            <span class="entrada-detalle">Casas en venta y la venta de su propiedad</span>
+          </button>
+        </li>
+        <li>
+          <a class="entrada-opcion" href="invertir.html">
+            <span class="entrada-num">02</span>
+            <span class="entrada-nombre">Invertir</span>
+            <span class="entrada-detalle">Oportunidades revisadas con siete filtros</span>
+          </a>
+        </li>
+        <li>
+          <a class="entrada-opcion" href="https://servicios.praetora.mx/es">
+            <span class="entrada-num">03</span>
+            <span class="entrada-nombre">Desarrolladores <span class="entrada-sale">↗&#xFE0E;</span></span>
+            <span class="entrada-detalle">Showroom digital y comercialización para su preventa</span>
+          </a>
+        </li>
+      </ol>
+    </section>
 
-  <!-- ==========================================================================
-       ACTIVO DE INVERSIÓN — Casa Julieta (Centro Histórico)
-       Bloque editorial diferenciado: activo de hospitalidad y renta comercial.
-       ========================================================================== -->
-  <section class="portada-inversion" id="activo-inversion" aria-labelledby="inversion-titulo">
-    <div class="portada-inversion-interior">
-      <!-- Foto de YOPE con los textos en vector encima, en las posiciones de su borrador.
-           Las medidas están en % del recuadro, que toma la proporción exacta de la foto. -->
-      <div class="julieta-escena">
-        <img class="julieta-foto"
-             src="assets/propiedades/hotel/portada/terraza-1280.webp"
-             srcset="assets/propiedades/hotel/portada/terraza-800.webp 800w, assets/propiedades/hotel/portada/terraza-1280.webp 1280w, assets/propiedades/hotel/portada/terraza-1920.webp 1920w"
-             sizes="(max-width: 767px) 100vw, 50vw"
-             alt="Terraza de Casa Julieta con sombrillas de flecos y la Parroquia de San Miguel Arcángel al fondo"
-             loading="lazy">
-        <div class="julieta-texto">
-          <span class="julieta-etiqueta">Activo de inversión</span>
-          <h2 id="inversion-titulo" class="julieta-titulo" translate="no">Casa Julieta</h2>
-          <p class="julieta-parrafo">Casona histórica del siglo XIX en el corazón<br> de San Miguel de Allende, ubicada en la<br> esquina de Umarán y Zacateros a tres<br> minutos a pie de la Parroquia y el<br> Jardín Allende.</p>
-          <a class="julieta-cta" href="casa-julieta.html">Ver ficha</a>
-        </div>
-      </div>
-    </div>
-  </section>
+    <!-- Paso 2: solo para comprar o vender -->
+    <section class="entrada-paso" id="paso-ciudad" aria-labelledby="titulo-ciudad" hidden>
+      <button type="button" class="entrada-volver" data-ir="que">← Volver</button>
+      <h1 class="entrada-pregunta" id="titulo-ciudad" tabindex="-1">¿En qué ciudad?</h1>
+      <p class="entrada-sub">Dónde quiere comprar, o dónde está la casa que quiere vender.</p>
+      <ol class="entrada-opciones entrada-opciones-ciudad">
+        <li><button type="button" class="entrada-opcion" data-ciudad="Ciudad de México"><span class="entrada-nombre">CDMX</span><span class="entrada-detalle">Próximamente</span></button></li>
+        <li><button type="button" class="entrada-opcion" data-ciudad="León"><span class="entrada-nombre">León</span><span class="entrada-detalle">Próximamente</span></button></li>
+        <li><button type="button" class="entrada-opcion" data-ciudad="Guanajuato"><span class="entrada-nombre">Guanajuato</span><span class="entrada-detalle">Próximamente</span></button></li>
+        <li><a class="entrada-opcion" href="san-miguel.html"><span class="entrada-nombre">San Miguel de Allende</span><span class="entrada-detalle">3 casas en venta</span></a></li>
+      </ol>
+    </section>
 
-  <!-- ==========================================================================
-       DESARROLLAR / BUSCAR CAPITAL — terrenos, inmuebles y proyectos que buscan
-       inversionistas o coinversión. Contenido de la estructura de negocio; versión
-       provisional hasta que llegue el diseño de YOPE.
-       ========================================================================== -->
-  <section class="capital-seccion" id="capital" aria-labelledby="capital-titulo">
-    <div class="container">
-      <span class="section-tag">Desarrollar / buscar capital</span>
-      <h2 id="capital-titulo" class="section-title">¿Tiene un terreno, un inmueble o un proyecto?</h2>
-      <p class="section-desc">Conectamos proyectos inmobiliarios con inversionistas y estructuras de capital. Revisamos su proyecto en lo inmobiliario, lo financiero y lo legal, lo estructuramos y lo presentamos a inversionistas con un perfil compatible.</p>
+    <!-- Paso 3: ciudad sin casas publicadas todavía -->
+    <section class="entrada-paso" id="paso-pronto" aria-labelledby="titulo-pronto" hidden>
+      <button type="button" class="entrada-volver" data-ir="ciudad">← Elegir otra ciudad</button>
+      <h1 class="entrada-pregunta" id="titulo-pronto" tabindex="-1">Todavía no publicamos casas en <span data-texto="ciudad"></span>.</h1>
+      <p class="entrada-sub">Cuéntenos qué busca o qué quiere vender, y le escribimos.</p>
+      <a class="entrada-whatsapp" id="entrada-whatsapp" href="https://wa.me/524420000000" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+    </section>
 
-      <div class="capital-columnas">
-        <div>
-          <h3 class="capital-subtitulo">Qué recibimos</h3>
-          <ul class="capital-lista">
-            <li>Terrenos</li>
-            <li>Edificios e inmuebles</li>
-            <li>Proyectos y desarrollos</li>
-            <li>Proyectos que buscan socio</li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="capital-subtitulo">Cómo funciona</h3>
-          <ol class="capital-lista capital-pasos">
-            <li>Recepción del proyecto</li>
-            <li>Análisis de mercado, financiero y legal</li>
-            <li>Comité interno</li>
-            <li>Estructuración</li>
-            <li>Conexión con inversionistas</li>
-          </ol>
-        </div>
-      </div>
+    <footer class="entrada-pie">
+      <span translate="no">Radar PRAETORA</span>
+      <span>Noticias del mercado, por ciudad · próximamente</span>
+    </footer>
+  </main>
 
-      <div class="capital-cierre">
-        <a class="btn-gold" href="https://wa.me/524420000000?text=Deseo%20presentar%20un%20proyecto%20a%20PRAETORA." target="_blank" rel="noopener">Presentar un proyecto</a>
-        <p class="capital-nota">Para empezar: ubicación y superficie, situación legal y documental, capital requerido, estrategia propuesta y el material disponible.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Praetora Studio: servicios para desarrolladores e inmobiliarias (antes "Lleve sus preventas con nosotros") -->
-  <section id="desarrolladores" class="section-padding b2b-section">
-    <div class="container b2b-grid">
-      <div class="b2b-content">
-        <span class="section-tag" style="color: var(--gold-light);" translate="no">Praetora Studio</span>
-        <h2 class="section-title">Servicios para desarrolladores e inmobiliarias</h2>
-        <p class="section-desc">
-          Transformamos sus renders y planos en un showroom digital para comercializar su proyecto.
-        </p>
-
-        <ul class="b2b-features-list">
-          <li class="b2b-feature-item">
-            <div class="b2b-feature-text">
-              <h4>Digital Twin & Scrollytelling Arquitectónico</h4>
-              <p>Visualización interactiva por niveles, amenidades 360° y cotizador en tiempo real.</p>
-            </div>
-          </li>
-          <li class="b2b-feature-item">
-            <div class="b2b-feature-text">
-              <h4>Dashboard de Absorción & CRM Especializado</h4>
-              <p>Métricas de intención de compra, leads precalificados y control de inventario dinámico.</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-
-      <div class="b2b-cta-box">
-        <h3 style="color: #FFFFFF; margin-bottom: 1rem;">¿Desarrolla un Proyecto High-Ticket?</h3>
-        <p style="color: rgba(255,255,255,0.7); margin-bottom: 2rem;">
-          Integre su preventa a nuestra plataforma con showroom digital en menos de 7 días.
-        </p>
-        <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="alert('Un Director de Alianzas se pondrá en contacto para evaluar su Master Plan.')">
-          Agendar Presentación con Director de Alianzas
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Scripts -->
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+  <script>
+    (function () {
+      var pasos = { que: 'paso-que', ciudad: 'paso-ciudad', pronto: 'paso-pronto' };
+      function mostrar(paso) {
+        Object.keys(pasos).forEach(function (k) {
+          document.getElementById(pasos[k]).hidden = k !== paso;
+        });
+        var titulo = document.querySelector('#' + pasos[paso] + ' .entrada-pregunta');
+        if (paso !== 'que' && titulo) titulo.focus();
+        history.replaceState(null, '', paso === 'que' ? location.pathname : '#' + paso);
+      }
+      document.addEventListener('click', function (e) {
+        var ir = e.target.closest('[data-ir]');
+        if (ir) { mostrar(ir.getAttribute('data-ir')); return; }
+        var ciudad = e.target.closest('[data-ciudad]');
+        if (ciudad) {
+          var nombre = ciudad.getAttribute('data-ciudad');
+          document.querySelector('[data-texto="ciudad"]').textContent = nombre;
+          document.getElementById('entrada-whatsapp').href = 'https://wa.me/524420000000?text=' +
+            encodeURIComponent('Hola, vengo de praetora.mx. Busco comprar o vender en ' + nombre + '.');
+          mostrar('pronto');
+        }
+      });
+      if (location.hash === '#ciudad') mostrar('ciudad');
+    })();
+  </script>
 </body>
 </html>
