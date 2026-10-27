@@ -1043,6 +1043,7 @@ function initHeaderScroll() {
     document.addEventListener('keydown', onTecla);
 
     if (esVertical()) armarFichaVertical();
+    else ponerGanchos(p);
     iniciarVideoEntorno();
 
     // La pista «Ficha técnica →» de la barra se apaga cuando la ficha ya está a la vista.
@@ -1066,6 +1067,75 @@ function initHeaderScroll() {
     };
     if (mq.addEventListener) mq.addEventListener('change', cambio);
     else if (mq.addListener) mq.addListener(cambio);
+  }
+
+  /* --------------------------------------------------------------------------
+     Ganchos (Luis, 27-oct): en compu, mientras el cliente avanza a la derecha,
+     debajo de las fotos se va escribiendo la casa, una línea por foto: los m²,
+     «se entrega sin muebles…» en las del Club y sus características. Solo datos
+     de data.js; la descripción no (trae adjetivos y cosas sin verificar).
+     -------------------------------------------------------------------------- */
+  function ganchosDe(p) {
+    var g = [];
+    var m = [];
+    if (p.m2Construccion) m.push(Number(p.m2Construccion).toLocaleString('es-MX') + ' m² de construcción');
+    if (p.m2Terreno) m.push(Number(p.m2Terreno).toLocaleString('es-MX') + ' m² de terreno');
+    if (m.length) g.push(m.join(' · '));
+    if (esActivoDeInversion(p)) {
+      String(p.llavesDetalle || '').split(/\.\s*/).filter(Boolean).forEach(function (s) { g.push(s); });
+      if (p.caminando) g.push(p.caminando);
+    } else {
+      if (p.entorno === 'malanquin') g.push('Se entrega sin muebles y con cocina equipada');
+      (p.caracteristicas || []).forEach(function (c) { g.push(c); });
+    }
+    return g;
+  }
+
+  function ponerGanchos(p) {
+    var ganchos = ganchosDe(p);
+    if (!ganchos.length) return;
+    var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var fotos = cont.querySelectorAll('figure.ficha-panel:not(.ficha-plano)');
+    var dos = function (n) { return (n < 10 ? '0' : '') + n; };
+    var puestos = [];
+    Array.prototype.forEach.call(fotos, function (f, i) {
+      if (i >= ganchos.length) return;
+      var cap = document.createElement('figcaption');
+      cap.className = 'ficha-gancho';
+      cap.innerHTML = '<span class="ficha-gancho-num" aria-hidden="true">' + dos(i + 1) + '</span>' +
+        '<span class="oculto-visual">' + esc(ganchos[i]) + '</span>' +
+        '<span class="ficha-gancho-texto" aria-hidden="true"></span>';
+      cap.setAttribute('data-texto', ganchos[i]);
+      f.appendChild(cap);
+      puestos.push(cap);
+    });
+
+    function escribir(cap) {
+      if (cap.getAttribute('data-escrito')) return;
+      cap.setAttribute('data-escrito', '1');
+      var texto = cap.getAttribute('data-texto');
+      var destino = cap.querySelector('.ficha-gancho-texto');
+      if (quieto) { destino.textContent = texto; return; }
+      var n = 0;
+      destino.classList.add('escribiendo');
+      var t = setInterval(function () {
+        n += 1;
+        destino.textContent = texto.slice(0, n);
+        if (n >= texto.length) { clearInterval(t); setTimeout(function () { destino.classList.remove('escribiendo'); }, 900); }
+      }, 24);
+    }
+
+    if (quieto || !('IntersectionObserver' in window)) { puestos.forEach(escribir); return; }
+    var obs = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var cap = en.target.querySelector('.ficha-gancho');
+        if (cap) setTimeout(function () { escribir(cap); }, 350);
+        obs.unobserve(en.target);
+      });
+    }, { root: cont, threshold: 0.6 });
+    // El lector de pantalla y Google leen la línea completa del span oculto desde el inicio.
+    puestos.forEach(function (cap) { obs.observe(cap.parentNode); });
   }
 
   /* El video del entorno baja y corre solo cuando se ve, y se pausa al salir.
