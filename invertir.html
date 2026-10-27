@@ -4,19 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Invertir · Oportunidades seleccionadas y analizadas | PRAETORA</title>
-  <meta name="description" content="Oportunidades de inversión inmobiliaria revisadas por el equipo inmobiliario, legal y financiero de PRAETORA antes de presentarse.">
+  <title>Invertir · Oportunidades que pasan siete filtros | PRAETORA</title>
+  <meta name="description" content="PRAETORA busca, analiza y filtra oportunidades inmobiliarias en CDMX, León, Guanajuato y San Miguel de Allende. Su equipo inmobiliario, legal y financiero pasa cada una por siete filtros antes de presentarla.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://praetora.mx/invertir">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://praetora.mx/invertir">
   <meta property="og:title" content="Invertir · PRAETORA Grupo Inmobiliario">
-  <meta property="og:description" content="Oportunidades de inversión inmobiliaria seleccionadas y analizadas.">
+  <meta property="og:description" content="Lo que llega a usted ya pasó los siete filtros. Oportunidades inmobiliarias en CDMX, León, Guanajuato y San Miguel de Allende.">
+  <!-- La imagen para compartir es el cuadro final de la introducción (compartir/invertir.jpg,
+       1200 × 630); al integrar a la V1 reemplaza assets/compartir/invertir.jpg. -->
   <meta property="og:image" content="https://praetora.mx/assets/compartir/invertir.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Terraza de Casa Julieta con vista a la Parroquia de San Miguel de Allende">
+  <meta property="og:image:alt" content="Oportunidades de CDMX, León, Guanajuato y San Miguel de Allende cruzan siete filtros; a usted llega una de cada ciudad">
   <meta property="og:site_name" content="PRAETORA">
   <meta property="og:locale" content="es_MX">
   <meta name="twitter:card" content="summary_large_image">
@@ -25,20 +27,33 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="https://use.typekit.net/eyy5hrp.css">
+  <!-- Encabezado, pie, botones y enlaces: los mismos de la V1. -->
   <link rel="stylesheet" href="styles.css">
-  <!-- Movimiento del cielo: marca la página antes del primer cuadro. Si invertir.js no corre
-       en 3 s, se quita y todo queda a la vista; con "reducir movimiento" nunca se pone. -->
-  <script>try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches){var d=document.documentElement;d.classList.add('mov');setTimeout(function(){if(!window.__movInvertir)d.classList.remove('mov');},3000);}}catch(e){}</script>
+  <link rel="stylesheet" href="invertir.css">
+  <!-- La introducción se anima solo si hay JS, no se pidió «reducir movimiento» y la URL no trae ?t=.
+       Si invertir.js no arranca en 3 s, se quita la clase y todo queda a la vista en su estado final. -->
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.classList.add('js');
+      try {
+        var t = new URLSearchParams(location.search).has('t');
+        if (!t && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          d.classList.add('mov');
+          setTimeout(function () { if (!window.__filtroIniciado) d.classList.remove('mov'); }, 3000);
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
-<body class="catalog-page invertir-page">
+<body class="catalog-page invertir-page filtro-page">
 
-  <!-- Site Header (Navegación horizontal estandarizada) -->
+  <!-- Encabezado de la V1 -->
   <header class="site-header">
     <div class="container nav-container">
       <a href="index.html" class="brand-logo" translate="no">
         <img src="assets/marca/praetora-nombre-blanco.svg" width="652" height="81" alt="PRAETORA">
       </a>
-
       <nav>
         <ul class="nav-links">
           <li><a href="index.html#ciudad" class="nav-link">Comprar / Vender</a></li>
@@ -46,51 +61,56 @@
           <li><a href="https://servicios.praetora.mx/es" class="nav-link">Desarrolladores <span aria-hidden="true">↗︎</span></a></li>
         </ul>
       </nav>
-
-      <!-- Contacto: el único botón del encabezado (WhatsApp). Desarrolladores pasa al menú. -->
-      <a href="https://wa.me/524420000000?text=Hola%2C%20vengo%20de%20praetora.mx" class="btn-gold" target="_blank" rel="noopener">
-        Contacto
-      </a>
+      <a href="https://wa.me/525564738881?text=Hola%2C%20vengo%20de%20praetora.mx" class="btn-gold" target="_blank" rel="noopener">Contacto</a>
     </div>
   </header>
 
-  <!-- ==========================================================================
-       INVERTIR — referencia de YOPE: foto arriba con el título sobre el cielo y
-       difuminado a blanco; abajo, introducción en dos columnas y las oportunidades.
-       Textos tomados de la estructura de negocio (vertical "Inversionistas").
-       ========================================================================== -->
-  <main class="invertir-principal">
-    <!-- El cielo de Casa Julieta (foto de YOPE). La introducción va sobre el cielo en
-         cuatro tiempos y la casona aparece al final. El azul liso de lo alto de la foto
-         (#0859A9) es el fondo de la sección: si el texto necesita más alto, el cielo crece
-         hacia arriba sin costura. Textos de la estructura de negocio (vertical "Inversionistas"). -->
-    <section class="invertir-cielo" aria-labelledby="invertir-titulo">
-      <!-- V1 (C-17): sin la foto del cielo. Se ocultaba con CSS y se descargaba sin verse;
-           el fondo de arriba es la terraza de Casa Julieta (styles.css, «V1 · INVERTIR»). -->
-      <div class="container invertir-cielo-contenido">
-        <header class="invertir-tiempo invertir-apertura">
-          <span class="invertir-etiqueta">Invertir</span>
-          <h1 id="invertir-titulo" class="invertir-titulo"><span class="mov-linea"><span>Oportunidades seleccionadas</span></span> <span class="mov-linea"><span>y analizadas</span></span></h1>
-          <p class="invertir-bajada">Solo le presentamos las oportunidades que pasan siete filtros. La decisión siempre es suya.</p>
-        </header>
+  <main>
+    <!-- =====================================================================
+         EL FILTRO — la introducción. Las oportunidades salen de las cuatro
+         ciudades, cruzan las siete compuertas y en cada una se apagan las que
+         no pasan. Quedan muy pocas y llegan a «Usted»; el titular entra antes,
+         a los 3.5 s. Todo se dibuja en función del tiempo t (invertir.js):
+         ?t=7 congela el cuadro final; a los 7 s la animación se detiene.
+         ===================================================================== -->
+    <section class="filtro" aria-labelledby="filtro-titulo">
+      <div class="filtro-fondo" aria-hidden="true">
+        <div class="ff ff-luz-a"></div>
+        <div class="ff ff-luz-b"></div>
+        <div class="ff ff-bruma ff-bruma-1"></div>
+        <div class="ff ff-bruma ff-bruma-2"></div>
+        <div class="ff ff-bruma ff-bruma-3"></div>
+        <div class="ff ff-bruma ff-bruma-4"></div>
+        <div class="ff ff-bruma ff-bruma-5"></div>
+        <div class="ff ff-haz"></div>
+        <div class="ff ff-usted"></div>
+        <div class="ff ff-sombra"></div>
+        <div class="ff ff-telon"></div>
+      </div>
 
-        <section class="invertir-tiempo" aria-labelledby="invertir-buscamos">
-          <h2 id="invertir-buscamos" class="invertir-etiqueta">Qué buscamos</h2>
-          <ul class="invertir-tipos">
-            <li>Propiedades con renta</li>
-            <li>Coinversiones</li>
-            <li>Terrenos</li>
-            <li>Proyectos en desarrollo</li>
-            <li>Inmuebles subvaluados</li>
-            <li>Reposicionamiento</li>
-            <li>Oportunidades fuera de mercado</li>
-          </ul>
-        </section>
+      <canvas class="filtro-lienzo" aria-hidden="true"></canvas>
 
-        <section class="invertir-tiempo" aria-labelledby="invertir-filtro">
-          <h2 id="invertir-filtro" class="invertir-etiqueta">El filtro</h2>
-          <p class="invertir-frase">Antes de presentarle una oportunidad, nuestro equipo inmobiliario, legal y financiero la pasa por siete filtros.</p>
-          <ol class="invertir-pasos">
+      <!-- Rótulos del diagrama: invertir.js los coloca sobre el lienzo. -->
+      <div class="filtro-capa" aria-hidden="true">
+        <span class="fc fc-cab">Oportunidades</span>
+        <span class="fc fc-ciudad">CDMX</span>
+        <span class="fc fc-ciudad">León</span>
+        <span class="fc fc-ciudad">Guanajuato</span>
+        <span class="fc fc-ciudad">San Miguel de Allende</span>
+        <span class="fc fc-filtro"><b>01</b><span>Precio de entrada</span></span>
+        <span class="fc fc-filtro"><b>02</b><span>Mercado y valor</span></span>
+        <span class="fc fc-filtro"><b>03</b><span>Costos</span></span>
+        <span class="fc fc-filtro"><b>04</b><span>Situación jurídica</span></span>
+        <span class="fc fc-filtro"><b>05</b><span>Riesgos</span></span>
+        <span class="fc fc-filtro"><b>06</b><span>Flujo y rentabilidad</span></span>
+        <span class="fc fc-filtro"><b>07</b><span>Estrategia de salida</span></span>
+        <span class="fc fc-usted">Usted</span>
+      </div>
+
+      <div class="container filtro-contenido">
+        <div class="filtro-diagrama">
+          <p class="f-oculto">Buscamos oportunidades inmobiliarias en CDMX, León, Guanajuato y San Miguel de Allende. Antes de presentarle una, nuestro equipo la pasa por siete filtros:</p>
+          <ol class="f-oculto">
             <li>Precio de entrada</li>
             <li>Mercado y valor</li>
             <li>Costos</li>
@@ -99,57 +119,124 @@
             <li>Flujo y rentabilidad</li>
             <li>Estrategia de salida</li>
           </ol>
-        </section>
+        </div>
 
-        <section class="invertir-tiempo" aria-labelledby="invertir-como">
-          <h2 id="invertir-como" class="invertir-etiqueta">Cómo trabajamos con usted</h2>
-          <div class="invertir-puntos">
-            <div class="invertir-punto">
-              <h3 class="invertir-punto-titulo">Perfil de inversionista</h3>
-              <p class="invertir-punto-texto">Capital, horizonte y objetivo: le mostramos lo compatible.</p>
-            </div>
-            <div class="invertir-punto">
-              <h3 class="invertir-punto-titulo">Sala de inversión</h3>
-              <p class="invertir-punto-texto">Resumen, escenarios y riesgos. La documentación, bajo solicitud.</p>
+        <div class="filtro-texto">
+          <h1 id="filtro-titulo" class="filtro-titulo">
+            <span class="f-linea"><span>Lo que llega a usted</span></span>
+            <span class="f-linea"><span>ya pasó los siete filtros.</span></span>
+          </h1>
+          <div class="filtro-lado">
+            <p class="filtro-bajada">Los aplica nuestro equipo inmobiliario, legal y financiero.</p>
+            <div class="filtro-acciones">
+              <a class="btn-gold" href="https://wa.me/525564738881?text=Hola%2C%20quiero%20informaci%C3%B3n%20para%20invertir%20con%20PRAETORA." target="_blank" rel="noopener">Solicitar información</a>
+              <a class="portada-enlace" href="#oportunidades">Ver oportunidades</a>
             </div>
           </div>
-          <div class="invertir-acciones">
-            <a class="btn-gold" href="https://wa.me/524420000000?text=Deseo%20informaci%C3%B3n%20sobre%20oportunidades%20de%20inversi%C3%B3n%20con%20PRAETORA." target="_blank" rel="noopener">Solicitar información</a>
-            <a class="portada-enlace" href="#oportunidades">Ver oportunidades</a>
-          </div>
-        </section>
+        </div>
       </div>
     </section>
 
-    <section class="invertir-oportunidades" id="oportunidades" aria-labelledby="oportunidades-titulo">
-      <div class="container">
-        <h2 id="oportunidades-titulo" class="invertir-etiqueta">Oportunidades</h2>
-        <article class="invertir-tarjeta">
-          <a class="invertir-tarjeta-foto" href="casa-julieta.html" tabindex="-1" aria-hidden="true">
-            <img src="assets/propiedades/hotel/invertir/cielo-1600.webp" style="object-position: center 88%;"
-                 srcset="assets/propiedades/hotel/invertir/cielo-900.webp 900w, assets/propiedades/hotel/invertir/cielo-1600.webp 1600w, assets/propiedades/hotel/invertir/cielo-2400.webp 2400w"
-                 sizes="(max-width: 767px) 100vw, 58vw"
-                 alt="" loading="lazy">
-          </a>
-          <div class="invertir-tarjeta-texto">
-            <span class="invertir-etiqueta">Activo de inversión · Centro Histórico</span>
-            <h3 class="section-title" translate="no">Casa Julieta</h3>
-            <p class="section-desc">Casona histórica del siglo XIX en la esquina de Umarán y Zacateros, a tres minutos a pie de la Parroquia y el Jardín Allende. Hotel boutique de 6 suites y local comercial en planta baja arrendado a Birkenstock.</p>
-            <div class="ficha-cifras" style="--cifras-col:3">
-              <div class="ficha-cifra"><span class="ficha-cifra-valor">530 m²</span><span class="ficha-cifra-etiqueta">Construcción</span></div>
-              <div class="ficha-cifra"><span class="ficha-cifra-valor">6</span><span class="ficha-cifra-etiqueta">Suites</span></div>
-              <div class="ficha-cifra"><span class="ficha-cifra-valor">XIX</span><span class="ficha-cifra-etiqueta">Siglo</span></div>
+    <!-- =====================================================================
+         DEBAJO: tres bloques con su rótulo a la izquierda y el cierre. Cada
+         dato va una sola vez. El punto azul es una oportunidad que pasa; el
+         hueco, lo que no.
+         ===================================================================== -->
+    <section class="f-bloque" aria-labelledby="buscamos-t">
+      <div class="container f-fila">
+        <h2 id="buscamos-t" class="f-rotulo">Qué buscamos</h2>
+        <ul class="f-tipos">
+          <li>Propiedades con renta</li>
+          <li>Coinversiones</li>
+          <li>Terrenos</li>
+          <li>Proyectos en desarrollo</li>
+          <li>Inmuebles subvaluados</li>
+          <li>Reposicionamiento</li>
+          <li>Oportunidades fuera de mercado</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="f-bloque" aria-labelledby="como-t">
+      <div class="container f-fila">
+        <h2 id="como-t" class="f-rotulo">Cómo trabajamos con usted</h2>
+        <ol class="f-pasos">
+          <li class="f-paso">
+            <h3 class="f-paso-titulo">Su perfil</h3>
+            <p class="f-claves"><span class="f-claves-in"><span>Capital</span><span>Horizonte</span><span>Liquidez</span><span>Objetivo</span></span></p>
+            <p class="f-paso-texto">Con eso le mostramos lo compatible.</p>
+          </li>
+          <li class="f-paso">
+            <h3 class="f-paso-titulo">Sala de inversión</h3>
+            <p class="f-claves"><span class="f-claves-in"><span>Resumen ejecutivo</span><span>Escenarios</span><span>Riesgos</span></span></p>
+            <p class="f-paso-texto">La documentación se comparte bajo solicitud.</p>
+          </li>
+        </ol>
+        <p class="f-accion"><a class="portada-enlace" href="https://wa.me/525564738881?text=Hola%2C%20quiero%20compartir%20mi%20perfil%20de%20inversi%C3%B3n%3A%20capital%2C%20horizonte%2C%20liquidez%20y%20objetivo." target="_blank" rel="noopener">Compartir mi perfil</a></p>
+      </div>
+    </section>
+
+    <section class="f-bloque" id="oportunidades" aria-labelledby="oport-t">
+      <div class="container f-fila">
+        <h2 id="oport-t" class="f-rotulo">Oportunidades por ciudad</h2>
+        <div class="f-ciudades">
+          <article class="f-ciudad f-ciudad--publicada" aria-labelledby="ciudad-sma">
+            <div class="f-ciudad-cab">
+              <h3 id="ciudad-sma" class="f-ciudad-nombre">San Miguel de Allende</h3>
+              <span class="f-estado">Publicada</span>
             </div>
-            <a class="portada-enlace" href="casa-julieta.html">Ver ficha</a>
+            <a class="f-oportunidad" href="casa-julieta.html">
+              <span class="f-oportunidad-foto">
+                <img src="assets/propiedades/hotel/portada/terraza-1280.webp"
+                     srcset="assets/propiedades/hotel/portada/terraza-800.webp 800w, assets/propiedades/hotel/portada/terraza-1280.webp 1280w, assets/propiedades/hotel/portada/terraza-1920.webp 1920w"
+                     sizes="(max-width: 759px) calc(100vw - 48px), 46vw"
+                     width="1280" height="853" loading="lazy"
+                     alt="Terraza de Casa Julieta, en el Centro Histórico de San Miguel de Allende">
+              </span>
+              <span class="f-oportunidad-texto">
+                <span class="f-oportunidad-zona">Centro Histórico</span>
+                <span class="f-oportunidad-nombre" translate="no">Casa Julieta</span>
+                <span class="f-oportunidad-desc">Casona del siglo XIX. Hotel boutique de 6 suites con local comercial.</span>
+                <span class="f-oportunidad-dato">530 m²</span>
+                <span class="portada-enlace">Ver ficha</span>
+              </span>
+            </a>
+            <p class="f-oportunidad-accion"><a class="portada-enlace" href="https://wa.me/525564738881?text=Hola%2C%20me%20interesa%20recibir%20la%20documentaci%C3%B3n%20de%20Casa%20Julieta." target="_blank" rel="noopener">Solicitar documentación</a></p>
+          </article>
+          <div class="f-ciudad">
+            <div class="f-ciudad-cab"><h3 class="f-ciudad-nombre">CDMX</h3><span class="f-estado">Próximamente</span><a class="f-avisar" href="https://wa.me/525564738881?text=Hola%2C%20quiero%20saber%20de%20oportunidades%20de%20inversi%C3%B3n%20en%20CDMX." target="_blank" rel="noopener" aria-label="Avíseme cuando haya oportunidades en CDMX">Avíseme</a></div>
           </div>
-        </article>
+          <div class="f-ciudad">
+            <div class="f-ciudad-cab"><h3 class="f-ciudad-nombre">León</h3><span class="f-estado">Próximamente</span><a class="f-avisar" href="https://wa.me/525564738881?text=Hola%2C%20quiero%20saber%20de%20oportunidades%20de%20inversi%C3%B3n%20en%20Le%C3%B3n." target="_blank" rel="noopener" aria-label="Avíseme cuando haya oportunidades en León">Avíseme</a></div>
+          </div>
+          <div class="f-ciudad">
+            <div class="f-ciudad-cab"><h3 class="f-ciudad-nombre">Guanajuato</h3><span class="f-estado">Próximamente</span><a class="f-avisar" href="https://wa.me/525564738881?text=Hola%2C%20quiero%20saber%20de%20oportunidades%20de%20inversi%C3%B3n%20en%20Guanajuato." target="_blank" rel="noopener" aria-label="Avíseme cuando haya oportunidades en Guanajuato">Avíseme</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- La acción: la misma luz de «Usted» al final de la página. Lo que no
+         hacemos va aquí, junto al botón: la tranquilidad, donde se decide.
+         Punto lleno: lo que sí; punto hueco: lo que no. -->
+    <section class="f-cierre" aria-labelledby="cierre-t">
+      <div class="container f-cierre-in">
+        <div class="f-cierre-texto">
+          <h2 id="cierre-t" class="f-cierre-titulo"><span class="f-cierre-punto" aria-hidden="true"></span>Cuéntenos su perfil.</h2>
+          <ul class="f-cierre-no" aria-label="Lo que no hacemos">
+            <li>No prometemos rendimientos.</li>
+            <li>No decidimos por usted.</li>
+          </ul>
+        </div>
+        <div class="f-cierre-accion">
+          <a class="btn-gold" href="https://wa.me/525564738881?text=Hola%2C%20quiero%20informaci%C3%B3n%20para%20invertir%20con%20PRAETORA." target="_blank" rel="noopener">Solicitar información</a>
+          <span class="f-cierre-nota">Por WhatsApp</span>
+        </div>
       </div>
     </section>
   </main>
 
-  <!-- ==========================================================================
-       DESARROLLADORES Y RADAR: aparte de Comprar / Vender e Invertir (Luis, 27-oct).
-       ========================================================================== -->
+  <!-- Franja de la V1: Desarrolladores y Radar -->
   <section class="v1-franja" aria-label="Desarrolladores y Radar PRAETORA">
     <div class="container v1-franja-grid">
       <a class="v1-franja-tarjeta" href="https://servicios.praetora.mx/es">
@@ -167,7 +254,7 @@
     </div>
   </section>
 
-  <!-- Pie (V1): las puertas en el orden de Luis y el contacto. -->
+  <!-- Pie de la V1 -->
   <footer class="v1-pie">
     <div class="container v1-pie-grid">
       <div class="v1-pie-marca">
@@ -180,8 +267,11 @@
         <a href="https://servicios.praetora.mx/es">Desarrolladores ↗︎</a>
         <span translate="no">Radar PRAETORA <em>· próximamente</em></span>
       </nav>
-      <div class="v1-pie-col">
-        <a href="https://wa.me/524420000000?text=Hola%2C%20vengo%20de%20praetora.mx" target="_blank" rel="noopener">WhatsApp</a>
+      <div class="v1-pie-col v1-pie-contacto" id="contacto">
+        <a href="https://wa.me/525564738881?text=Hola%2C%20vengo%20de%20praetora.mx" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="tel:+525564738881">55 6473 8881</a>
+        <span>Oficina en Gran Jardín, León, Gto.</span>
+        <!-- Correo: pendiente de confirmar (el dominio ya reenvía correo). -->
       </div>
     </div>
     <div class="container v1-pie-legal">
@@ -190,9 +280,6 @@
     </div>
   </footer>
 
-  <!-- Scripts -->
-  <script src="data.js"></script>
-  <script src="app.js"></script>
   <script src="invertir.js"></script>
 </body>
 </html>

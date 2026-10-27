@@ -3404,3 +3404,14 @@ body.ficha-en-info .ficha-barra-flecha { opacity: 0; }
   }
 }
 @keyframes ficha-cursor { 50% { opacity: 0; } }
+
+/* ==========================================================================
+   V1 · CONTACTO (27-oct, Luis): la oficina en Gran Jardín (León) y el
+   55 6473 8881 (teléfono y WhatsApp) en el pie de cada página y en la entrada.
+   El correo queda pendiente hasta confirmar la dirección.
+   ========================================================================== */
+.v1-pie-contacto span { color: var(--text-light); }
+.entrada-contacto a { color: inherit; text-decoration: none; display: inline-block; padding: 12px 0; margin: -12px 0; }
+.entrada-contacto a:hover, .entrada-contacto a:focus-visible { color: #FFFFFF; }
+.entrada-contacto { margin-left: auto; }
+@media (max-width: 767px) { .entrada-contacto { margin-left: 0; } }

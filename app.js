@@ -884,7 +884,7 @@ function initHeaderScroll() {
       : '<a class="ficha-volver" href="catalogo.html">Volver al catálogo</a>';
     return '<section class="ficha-panel ficha-panel-texto ficha-panel-contacto">' +
       '<div class="ficha-acciones">' +
-        '<a class="btn-gold" href="https://wa.me/524420000000?text=' + msg + '" target="_blank" rel="noopener">' + btnTexto + '</a>' +
+        '<a class="btn-gold" href="https://wa.me/525564738881?text=' + msg + '" target="_blank" rel="noopener">' + btnTexto + '</a>' +
         (urlRecorrido3D(p) ? '<a class="btn-gold" href="' + esc(urlRecorrido3D(p)) + '" target="_blank" rel="noopener">Recorrido 3D</a>' : '') +
         volver +
       '</div>' +
