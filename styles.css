@@ -3937,3 +3937,6 @@ body.ficha-en-info .ficha-barra-flecha { opacity: 0; }
 @media (min-width: 768px) and (max-width: 1199px) {
   #paso-que .entrada-detalle { min-height: 4.5em; }
 }
+
+/* El paso 1 se oculta al elegir: #paso-que { display: flex } le ganaba a [hidden] y las ciudades quedaban abajo. */
+#paso-que[hidden] { display: none; }

@@ -45,8 +45,8 @@
   color: var(--f-blanco);
   background:
     radial-gradient(60% 75% at 4% 108%, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 70%),
-    radial-gradient(140% 110% at 50% 42%, rgba(17, 17, 17, 0) 52%, rgba(17, 17, 17, 0.42) 100%),
-    linear-gradient(180deg, rgba(17, 17, 17, 0.18) 0%, rgba(17, 17, 17, 0) 22%, rgba(17, 17, 17, 0) 62%, rgba(17, 17, 17, 0.3) 100%),
+    radial-gradient(140% 110% at 50% 42%, rgba(9, 27, 31, 0) 52%, rgba(9, 27, 31, 0.42) 100%),
+    linear-gradient(180deg, rgba(9, 27, 31, 0.18) 0%, rgba(9, 27, 31, 0) 22%, rgba(9, 27, 31, 0) 62%, rgba(9, 27, 31, 0.3) 100%),
     var(--f-azul);
 }
 
@@ -111,10 +111,10 @@
 .filtro.es-vertical .ff-usted { width: 460px; height: 460px; margin: -230px 0 0 -230px; }
 .ff-sombra {
   inset: 0;
-  background: radial-gradient(120% 90% at 46% 40%, rgba(17, 17, 17, 0) 60%, rgba(17, 17, 17, 0.22) 100%);
+  background: radial-gradient(120% 90% at 46% 40%, rgba(9, 27, 31, 0) 60%, rgba(9, 27, 31, 0.22) 100%);
 }
 /* Telón: la luz que se enciende al abrir. */
-.ff-telon { inset: 0; background: var(--f-tinta); opacity: 0; will-change: opacity; }
+.ff-telon { inset: 0; background: #091B1F; opacity: 0; will-change: opacity; }
 
 .filtro-lienzo {
   position: absolute;
