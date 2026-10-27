@@ -2993,3 +2993,60 @@ body.entrada-page { margin: 0; background: var(--ink); }
 .v1-precio { margin: 6px 0 0; font-size: 18px; color: var(--text-main); font-variant-numeric: tabular-nums; }
 .v1-cifras { margin: 4px 0 0; font-size: 14px; color: var(--text-muted); }
 .v1-precio-bloque { margin: 8px 0 4px; font-size: 20px; }
+
+/* ==========================================================================
+   V1 · CONSISTENCIA (27-oct): Luis vio el branding «descuadrado» por las
+   etapas. Una sola regla para lo que se repite:
+   · el azul PRAETORA (#15363D, el del logo) es el color de la acción principal;
+   · el gris de apoyo da 4.5:1 sobre blanco (#AAAAAA daba 2.3:1);
+   · títulos sobre foto en 300, títulos de contenido en 500;
+   · el encabezado: Comprar / Vender · Invertir · Desarrolladores ↗ + Contacto.
+   ========================================================================== */
+:root {
+  --azul-praetora: #15363D;
+  --text-light: #767676;
+}
+.btn-gold { background: var(--azul-praetora); border-color: var(--azul-praetora); color: #FFFFFF; }
+.invertir-cielo .btn-gold,
+body.invertir-page .site-header .btn-gold { background: #FFFFFF; border-color: #FFFFFF; color: var(--azul-praetora); }
+.site-header .btn-gold { min-height: 44px; }
+.invertir-cielo .invertir-titulo { font-weight: 300; }
+.v1-franja-titulo { font-weight: 500; }
+
+/* V1 · ENCABEZADO EN EL CEL: logo y Contacto en un renglón; los tres caminos en otro. */
+@media (max-width: 767px) {
+  .site-header .nav-container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "logo boton" "menu menu";
+    row-gap: 10px;
+    align-items: center;
+  }
+  .site-header .brand-logo { grid-area: logo; }
+  .site-header .btn-gold { grid-area: boton; padding: 0 16px; min-height: 44px; display: inline-flex; align-items: center; }
+  .site-header nav { grid-area: menu; }
+  body.catalog-page .site-header nav .nav-links,
+  body.invertir-page .site-header nav .nav-links { display: flex; gap: 16px; margin: 0; padding: 0; flex-wrap: nowrap; justify-content: space-between; }
+  .site-header .nav-link { font-size: 11px; letter-spacing: 0.06em; white-space: nowrap; padding: 12px 0; }
+}
+
+/* V1 · INVERTIR, LA FOTO SOLO ARRIBA: como fondo de toda la sección, la foto se
+   estiraba a lo alto de la página y en el cel solo se veía cielo azul. Ahora la
+   terraza de Casa Julieta con la Parroquia llena la primera pantalla y el resto
+   va sobre la tinta. */
+.invertir-cielo { background: #111111; }
+.invertir-cielo::before { content: none; }
+.invertir-cielo .invertir-cielo-contenido { padding-top: 0; }
+.invertir-cielo .invertir-apertura {
+  box-sizing: border-box;
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  min-height: 92svh;
+  justify-content: flex-end;
+  padding: calc(var(--space-section) + 72px) 24px var(--space-block);
+  background:
+    linear-gradient(180deg, rgba(17,17,17,0.55) 0%, rgba(17,17,17,0.25) 35%, rgba(17,17,17,0.55) 70%, #111111 100%),
+    url("assets/propiedades/hotel/portada/terraza-1920.webp") center 40% / cover no-repeat;
+}
