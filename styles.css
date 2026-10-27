@@ -3788,6 +3788,16 @@ body.ficha-en-info .ficha-barra-flecha { opacity: 0; }
 }
 .sm-granada-cta::after { content: "\2192"; font-size: 14px; letter-spacing: 0; }
 .sm-granada-cta:hover { opacity: 0.88; }
+.sm-granada-leyenda {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  z-index: 1;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 3px rgba(21, 54, 61, 0.6);
+}
 .sm-granada-pausa {
   position: absolute;
   left: 20px;
