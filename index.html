@@ -10,7 +10,11 @@
   <meta property="og:url" content="https://praetora.mx/">
   <meta property="og:title" content="PRAETORA | Grupo Inmobiliario">
   <meta property="og:description" content="Comprar, vender e invertir en CDMX, León, Guanajuato y San Miguel de Allende.">
-  <meta property="og:image" content="https://praetora.mx/assets/compartir/portada.jpg">
+  <meta property="og:image" content="https://praetora.mx/assets/compartir/entrada.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="PRAETORA Grupo Inmobiliario: CDMX, León, Guanajuato y San Miguel de Allende. ¿Qué le trae a PRAETORA?">
+  <meta name="twitter:card" content="summary_large_image">
   <meta property="og:site_name" content="PRAETORA">
   <meta property="og:locale" content="es_MX">
   <link rel="icon" href="favicon.ico" sizes="48x48">
@@ -18,6 +22,44 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="https://use.typekit.net/eyy5hrp.css">
   <link rel="stylesheet" href="styles.css">
+  <!-- Datos estructurados (schema.org) de PRAETORA: la misma agencia que en san-miguel.html. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    "@id": "https://praetora.mx/#agency",
+    "name": "PRAETORA Grupo Inmobiliario",
+    "url": "https://praetora.mx",
+    "logo": "https://praetora.mx/apple-touch-icon.png",
+    "image": "https://praetora.mx/assets/compartir/entrada.jpg",
+    "description": "Grupo inmobiliario: compra, venta e inversión en CDMX, León, Guanajuato y San Miguel de Allende.",
+    "telephone": "+525564738881",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "León",
+      "addressRegion": "Guanajuato",
+      "addressCountry": "MX"
+    },
+    "areaServed": [
+      {
+        "@type": "City",
+        "name": "Ciudad de México"
+      },
+      {
+        "@type": "City",
+        "name": "León"
+      },
+      {
+        "@type": "City",
+        "name": "Guanajuato"
+      },
+      {
+        "@type": "City",
+        "name": "San Miguel de Allende"
+      }
+    ]
+  }
+  </script>
 </head>
 <body class="entrada-page">
 
@@ -79,7 +121,7 @@
           <button type="button" class="entrada-opcion" data-ir="ciudad">
             <span class="entrada-num">01</span>
             <span class="entrada-nombre">Comprar o vender</span>
-            <span class="entrada-detalle">Casas en venta y la venta de su propiedad</span>
+            <span class="entrada-detalle">Casas en venta, o vender la suya</span>
           </button>
         </li>
         <li>
@@ -117,13 +159,16 @@
       <button type="button" class="entrada-volver" data-ir="ciudad">← Elegir otra ciudad</button>
       <h1 class="entrada-pregunta" id="titulo-pronto" tabindex="-1">Todavía no publicamos casas en <span data-texto="ciudad"></span>.</h1>
       <p class="entrada-sub">Cuéntenos qué busca o qué quiere vender, y le escribimos.</p>
-      <a class="entrada-whatsapp" id="entrada-whatsapp" href="https://wa.me/525564738881" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+      <div class="entrada-pronto-acciones">
+        <a class="entrada-whatsapp" id="entrada-comprar" href="https://wa.me/525564738881" target="_blank" rel="noopener">Quiero comprar</a>
+        <a class="entrada-whatsapp entrada-whatsapp--linea" id="entrada-vender" href="https://wa.me/525564738881" target="_blank" rel="noopener">Quiero vender</a>
+      </div>
     </section>
 
     <footer class="entrada-pie">
       <span translate="no">Radar PRAETORA</span>
       <span>Noticias del mercado, por ciudad · próximamente</span>
-      <span class="entrada-contacto"><a href="tel:+525564738881">55 6473 8881</a> · Oficina en Gran Jardín, León</span>
+      <span class="entrada-contacto"><a href="tel:+525564738881">55 6473 8881</a> · Oficina en Gran Jardín, León, Gto.</span>
     </footer>
   </main>
 
@@ -131,12 +176,15 @@
     (function () {
       var pasos = { que: 'paso-que', ciudad: 'paso-ciudad', pronto: 'paso-pronto' };
       var textoCiudad = document.querySelector('[data-texto="ciudad"]');
-      var whatsapp = document.getElementById('entrada-whatsapp');
+      var comprar = document.getElementById('entrada-comprar');
+      var vender = document.getElementById('entrada-vender');
 
       function ponerCiudad(nombre) {
         textoCiudad.textContent = nombre;
-        whatsapp.href = 'https://wa.me/525564738881?text=' +
-          encodeURIComponent('Hola, vengo de praetora.mx. Busco comprar o vender en ' + nombre + '.');
+        comprar.href = 'https://wa.me/525564738881?text=' +
+          encodeURIComponent('Hola, vengo de praetora.mx. Quiero comprar casa en ' + nombre + '.');
+        vender.href = 'https://wa.me/525564738881?text=' +
+          encodeURIComponent('Hola, vengo de praetora.mx. Quiero vender mi casa en ' + nombre + '.');
       }
 
       // Cada paso que avanza deja una entrada en el historial: Atrás (el gesto del cel o

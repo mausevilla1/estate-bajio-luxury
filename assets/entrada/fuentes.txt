@@ -11,4 +11,3 @@ T6 terreno      Amar Preciado      https://www.pexels.com/video/scenic-aerial-vi
 T7 rancho       Clinton Weaver     https://www.pexels.com/video/serene-sunrise-on-a-countryside-farm-37953939/
 T8 cielo        Jesus Alfonso      https://www.pexels.com/video/stunning-aerial-view-of-sunset-over-mountains-35407654/
 
-Edición, verificación y cómo rehacerlo: C:\praetora-video-entrada\salida\LEEME.md

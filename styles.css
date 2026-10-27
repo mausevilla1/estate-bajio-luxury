@@ -3359,10 +3359,10 @@ body.ficha-en-info .ficha-barra-flecha { opacity: 0; }
     max-height: 78svh;
   }
   .ficha-entorno-texto { left: 20px; right: 20px; bottom: 20px; }
-  .ficha-entorno-texto .ficha-cifras { --cifras-col: 4; gap: 12px; }
+  .ficha-entorno-texto .ficha-cifras { --cifras-col: 3; gap: 12px; }
 }
 @media (max-width: 1023px) {
-  body.ficha-cel .ficha-entorno-texto .ficha-cifras { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  body.ficha-cel .ficha-entorno-texto .ficha-cifras { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
   body.ficha-cel .ficha-entorno-texto .ficha-cifra-valor { font-size: 20px; }
 }
 
@@ -3420,7 +3420,7 @@ body.ficha-en-info .ficha-barra-flecha { opacity: 0; }
    V1 · ENTRADA CON VIDEO (27-oct, Luis): el fondo pasa de foto a un video en
    bucle de 16 s con tomas de bancos con licencia (16:9 en compu, 9:16 en cel),
    con la leyenda «Imágenes ilustrativas». El velo se midió contra los 384
-   cuadros de cada versión (C:\praetora-video-entrada\salida\LEEME.md): con el
+   cuadros de cada versión: con el
    velo de D-03 el texto chico da 5.7:1 o más en compu.
    ========================================================================== */
 /* El póster (primer cuadro) también va de fondo: se ve mientras llega el video,
@@ -3436,7 +3436,7 @@ body.ficha-en-info .ficha-barra-flecha { opacity: 0; }
    encima. El video es de fondo (aria-hidden): sin el botón queda el póster. */
 .entrada-video::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; }
 /* «Imágenes ilustrativas»: las tomas no son casas de PRAETORA. Arriba a la derecha,
-   a la altura del logotipo; en cels de menos de 375 px no cabe junto al logotipo y
+   a la altura del logotipo; en cels de menos de 390 px no cabe junto al logotipo y
    baja bajo las ciudades. */
 .entrada-ilustrativas {
   position: absolute; top: 40px; right: 48px; margin: 0;
@@ -3444,7 +3444,7 @@ body.ficha-en-info .ficha-barra-flecha { opacity: 0; }
   color: rgba(255,255,255,0.85);
 }
 @media (max-width: 767px) {
-  .entrada-ilustrativas { top: 24px; right: 20px; font-size: 11px; letter-spacing: 0.1em; }
+  .entrada-ilustrativas { top: 24px; right: 20px; font-size: 12px; letter-spacing: 0.08em; }
   /* En el cel las opciones suben por media pantalla y el alto cambia de un cel a otro:
      el velo se mide en px desde abajo (sigue al bloque de opciones) y desde arriba
      (logo y ciudades), sobre una base pareja. Medido contra los 384 cuadros del 9:16
@@ -3461,6 +3461,70 @@ body.ficha-en-info .ficha-barra-flecha { opacity: 0; }
 @media (orientation: landscape) and (min-width: 768px) and (max-height: 600px) {
   .entrada::before { background-color: rgba(17,17,17,0.20); }
 }
-@media (max-width: 374px) {
+@media (max-width: 389px) {
   .entrada-ilustrativas { position: static; }
+}
+
+/* ==========================================================================
+   V1 · REVISIÓN FINAL (27-oct): en «¿En qué ciudad?» los detalles quedan
+   alineados aunque San Miguel de Allende ocupe dos renglones; en
+   «Próximamente», «Quiero comprar» y «Quiero vender» (el segundo, de línea).
+   ========================================================================== */
+.entrada-opciones-ciudad .entrada-detalle { margin-top: auto; }
+.entrada-pronto-acciones { display: flex; flex-wrap: wrap; gap: 12px; }
+.entrada-whatsapp--linea { background: transparent; color: #FFFFFF; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.85); }
+.entrada-whatsapp--linea:hover { background: rgba(255,255,255,0.12); }
+
+/* ==========================================================================
+   V1 · REVISIÓN FINAL · El WhatsApp de la casa donde se decide (27-oct).
+   En la barra fija: nombre y precio en compu, y «Consultar» a la derecha
+   (en el cel ocupa el lugar de INFO, que solo repetía la primera pestaña).
+   En la ficha técnica: el botón junto a «Ver planos».
+   ========================================================================== */
+.ficha-barra { gap: 24px; }
+.ficha-barra-info { margin-left: auto; }
+.ficha-barra-casa {
+  align-self: center;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  white-space: nowrap;
+}
+.ficha-barra-consultar {
+  position: relative;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 18px;
+  background: var(--azul-praetora);
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+.ficha-barra-consultar::after { content: ""; position: absolute; inset: -4px 0; }
+.ficha-barra-consultar:hover { opacity: 0.85; }
+.ficha-barra-consultar:focus-visible { outline: 2px solid var(--azul-praetora); outline-offset: 3px; }
+.ficha-info-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px 32px;
+  margin-top: var(--space-block);
+}
+.ficha-info-acciones .ficha-ver-planos { margin-top: 0; }
+@media (max-width: 1023px) {
+  .ficha-barra-casa { display: none; }
+}
+@media (max-width: 767px) {
+  .ficha-barra-info { display: none; }
+  .ficha-barra-consultar { margin-left: auto; }
+  .ficha-info-acciones { margin-top: 32px; }
 }

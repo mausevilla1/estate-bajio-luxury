@@ -341,7 +341,9 @@ function initHeaderScroll() {
       (precio ? '<div class="ficha-precio">' + esc(precio) + '</div>' : '') +
       '<div class="ficha-cifras" style="--cifras-col:' + columnas + '">' + cifras + '</div>' +
       '<div class="ficha-datos">' + filas + '</div>' +
-      planosHtml +
+      '<div class="ficha-info-acciones">' + planosHtml +
+        '<a class="btn-gold ficha-info-consultar" href="' + consultaDe(p).href + '" target="_blank" rel="noopener">' + consultaDe(p).texto + '</a>' +
+      '</div>' +
       '</section>';
   }
 
@@ -824,7 +826,7 @@ function initHeaderScroll() {
       caracteristicas = String(p.llavesDetalle || '').split(/\.\s*/).filter(Boolean);
       if (p.caminando) caracteristicas.push(p.caminando);
       if (p.roofNota) notas += '<p class="ficha-nota">' + esc(p.roofNota) + '</p>';
-      notas += '<p class="ficha-nota">Superficies informadas por el propietario. Expediente y proyecciones bajo solicitud.</p>';
+      notas += '<p class="ficha-nota">Superficies informadas por el propietario. Documentación completa a solicitud.</p>';
     }
     return '<section class="ficha-panel ficha-panel-texto">' +
       '<span class="ficha-etiqueta">' + (esActivo ? 'El inmueble' : 'La casa') + '</span>' +
@@ -871,20 +873,30 @@ function initHeaderScroll() {
       '</section>';
   }
 
+  /* El WhatsApp de cada casa con su mensaje. Lo usan la ficha técnica, el panel de
+     contacto y la barra fija, para que se pueda consultar desde cualquier foto. */
+  function consultaDe(p) {
+    var esActivo = esActivoDeInversion(p);
+    var msg = esActivo
+      ? 'Hola, me interesa recibir la documentación de ' + p.title + ' (' + p.subzone + ').'
+      : 'Hola, me interesa ' + p.title + ' (' + p.subzone + ').';
+    return {
+      href: 'https://wa.me/525564738881?text=' + encodeURIComponent(msg),
+      texto: esActivo ? 'Solicitar documentación' : 'Consultar esta casa'
+    };
+  }
+
   /* 5 · Contacto: la acción y el regreso. */
   function panelContacto(p) {
     var esActivo = esActivoDeInversion(p);
-    var msg = encodeURIComponent(esActivo
-      ? 'Deseo solicitar el expediente de inversión de ' + p.title + ' (' + p.subzone + ').'
-      : 'Me interesa ' + p.title + ' (' + p.subzone + ').');
-    var btnTexto = esActivo ? 'Solicitar expediente' : 'Consultar esta casa';
+    var consulta = consultaDe(p);
     // Casa Julieta ya no está en el catálogo: regresa a la página de Invertir.
     var volver = esActivo
       ? '<a class="ficha-volver" href="invertir.html">Volver a Invertir</a>'
       : '<a class="ficha-volver" href="catalogo.html">Volver al catálogo</a>';
     return '<section class="ficha-panel ficha-panel-texto ficha-panel-contacto">' +
       '<div class="ficha-acciones">' +
-        '<a class="btn-gold" href="https://wa.me/525564738881?text=' + msg + '" target="_blank" rel="noopener">' + btnTexto + '</a>' +
+        '<a class="btn-gold" href="' + consulta.href + '" target="_blank" rel="noopener">' + consulta.texto + '</a>' +
         (urlRecorrido3D(p) ? '<a class="btn-gold" href="' + esc(urlRecorrido3D(p)) + '" target="_blank" rel="noopener">Recorrido 3D</a>' : '') +
         volver +
       '</div>' +
@@ -990,6 +1002,24 @@ function initHeaderScroll() {
     salida = esActivoDeInversion(p) ? 'invertir.html' : 'catalogo.html';
     var marca = document.querySelector('.ficha-barra-marca');
     if (marca) marca.setAttribute('href', salida);
+    // La barra fija dice qué casa es y cuánto cuesta (en compu) y lleva el WhatsApp:
+    // la primera pantalla de la ficha ya no es solo una foto (revisión final, 27-oct).
+    var barra = document.querySelector('.ficha-barra');
+    if (barra && marca && !barra.querySelector('.ficha-barra-consultar')) {
+      var cons = consultaDe(p);
+      var casa = document.createElement('span');
+      casa.className = 'ficha-barra-casa';
+      casa.textContent = p.title + ' · ' + (p.priceMXN != null ? pesos(p.priceMXN) : String(p.subzone || '').split(',')[0]);
+      marca.insertAdjacentElement('afterend', casa);
+      var consultar = document.createElement('a');
+      consultar.className = 'ficha-barra-consultar';
+      consultar.href = cons.href;
+      consultar.target = '_blank';
+      consultar.rel = 'noopener';
+      consultar.textContent = 'Consultar';
+      consultar.setAttribute('aria-label', cons.texto + ' por WhatsApp');
+      barra.appendChild(consultar);
+    }
 
     document.title = p.title + ' — ' + p.subzone + ' | PRAETORA';
     // Abierta como propiedad.html?id=, la barra pasa a la dirección propia de la casa:
@@ -1162,7 +1192,16 @@ function initHeaderScroll() {
     function cargar() {
       if (!v.getAttribute('src')) { v.src = v.getAttribute('data-src'); v.load(); }
     }
-    if (quieto) { v.controls = true; v.preload = 'none'; cargar(); return; }
+    // Con «reducir movimiento» no corre solo y se carga hasta que se ve, para no bajarlo antes.
+    if (quieto) {
+      v.controls = true;
+      v.preload = 'none';
+      if (!('IntersectionObserver' in window)) { cargar(); return; }
+      new IntersectionObserver(function (entradas, obs) {
+        if (entradas[0].isIntersecting) { cargar(); obs.disconnect(); }
+      }, { threshold: 0.25 }).observe(v);
+      return;
+    }
     if (!('IntersectionObserver' in window)) { cargar(); v.play().catch(function () {}); return; }
     new IntersectionObserver(function (entradas) {
       entradas.forEach(function (en) {
