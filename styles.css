@@ -3533,54 +3533,18 @@ body.ficha-en-info .ficha-barra-flecha { opacity: 0; }
    V1 · SAN MIGUEL, DEBAJO DE CASA JULIETA (27-oct). Luis: «se reemplaza por
    información de servicios para los desarrolladores de manera más concisa»,
    con fotos y videos, «más nuestro color, el azul petróleo» y, antes, «una mini
-   sección que tenga las ilustraciones de inversionistas».
-   · Inversionistas: la ilustración de «El filtro» (cuadro vertical, sin logo ni
-     titular) junto al texto y la puerta a Invertir.
+   sección que tenga las ilustraciones de inversionistas», «más como un
+   rectángulo donde ocupe todo, claramente separando el texto de la imagen»,
+   con las líneas avanzando y los puntos a la vista.
+   · Inversionistas: el texto arriba y, abajo, «El filtro» en vivo
+     (filtro-panel.js) en un rectángulo azul a todo lo ancho.
    · Servicios: el carril de productos de servicios.praetora.mx, en el azul del
      logo, con sus fotos y videos (showroom demo). En compu caben los cinco; en
      tableta y cel se deslizan.
    · Radar: un renglón. Sin colores nuevos: azul, blanco y los grises.
    ========================================================================== */
 .sm-inversion { background: var(--bg-primary); padding: 0 0 var(--space-section); }
-.sm-inversion-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
-  gap: var(--space-block);
-  align-items: center;
-}
-.sm-inversion-titulo {
-  margin: 0 0 20px;
-  font-size: clamp(30px, 3vw, 44px);
-  line-height: 1.12;
-  font-weight: 500;
-  color: var(--text-main);
-  text-wrap: balance;
-}
-.sm-inversion-parrafo { margin: 0 0 32px; max-width: 46ch; color: var(--text-muted); }
-.sm-inversion-lienzo {
-  position: relative;
-  width: 100%;
-  max-width: 560px;
-  justify-self: end;
-  aspect-ratio: 1080 / 1020;
-  overflow: hidden;
-  background: var(--azul-praetora);
-}
-.sm-inversion-lienzo video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.sm-servicios {
-  background: var(--azul-praetora);
-  color: #FFFFFF;
-  padding: var(--space-section) 0;
-}
-.sm-servicios .section-tag { color: rgba(255, 255, 255, 0.72); }
+.sm-inversion-cabeza,
 .sm-servicios-cabeza {
   display: grid;
   grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
@@ -3588,6 +3552,74 @@ body.ficha-en-info .ficha-barra-flecha { opacity: 0; }
   align-items: end;
   margin-bottom: var(--space-block);
 }
+.sm-inversion-titulo {
+  margin: 0;
+  font-size: clamp(30px, 3vw, 44px);
+  line-height: 1.12;
+  font-weight: 500;
+  color: var(--text-main);
+  text-wrap: balance;
+}
+.sm-inversion-parrafo { margin: 0 0 28px; max-width: 46ch; color: var(--text-muted); }
+
+/* «El filtro» en vivo: el lienzo pinta puntos y líneas; los rótulos los acomoda filtro-panel.js. */
+.sf {
+  position: relative;
+  height: clamp(440px, 36vw, 540px);
+  overflow: hidden;
+  background:
+    radial-gradient(90% 120% at 70% 50%, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0) 62%),
+    var(--azul-praetora);
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+}
+.sf-lienzo { position: absolute; left: 0; top: 0; display: block; }
+.sf-cab,
+.sf-ciudad,
+.sf-filtro,
+.sf-usted,
+.sf-leyenda { position: absolute; left: 0; top: 0; }
+.sf:not(.sf--listo) > span { visibility: hidden; }
+.sf-cab,
+.sf-ciudad,
+.sf-usted { font-size: 12px; line-height: 1.35; letter-spacing: 0.14em; text-transform: uppercase; }
+.sf-cab { color: rgba(255, 255, 255, 0.62); }
+.sf-ciudad { color: rgba(255, 255, 255, 0.92); white-space: nowrap; }
+.sf-usted { color: #FFFFFF; font-weight: 500; letter-spacing: 0.22em; }
+.sf-filtro { font-size: 13px; line-height: 1.3; color: rgba(255, 255, 255, 0.64); transition: color 0.4s ease; }
+.sf-num {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.52);
+  transition: color 0.4s ease;
+}
+.sf-filtro.is-activo { color: #FFFFFF; }
+.sf-filtro.is-activo .sf-num { color: rgba(255, 255, 255, 0.9); }
+.sf-leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  font-size: 12px;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.68);
+}
+.sf-l { display: inline-flex; align-items: center; gap: 8px; }
+.sf-l::before { content: ""; display: inline-block; }
+.sf-l--punto::before { width: 5px; height: 5px; border-radius: 50%; background: rgba(255, 255, 255, 0.9); }
+.sf-l--ceniza::before { width: 4px; height: 4px; border-radius: 50%; background: rgba(255, 255, 255, 0.36); }
+.sf-l--hilo::before { width: 18px; height: 1px; background: rgba(255, 255, 255, 0.6); }
+.sf--vertical .sf-ciudad { white-space: normal; }
+.sf--vertical .sf-num { display: inline-block; margin: 0 10px 0 0; }
+.sf--vertical .sf-leyenda { display: none; }
+
+.sm-servicios {
+  background: var(--azul-praetora);
+  color: #FFFFFF;
+  padding: var(--space-section) 0;
+}
+.sm-servicios .section-tag { color: rgba(255, 255, 255, 0.72); }
 .sm-servicios-titulo {
   margin: 0;
   font-size: clamp(30px, 3vw, 44px);
@@ -3689,9 +3721,8 @@ body.ficha-en-info .ficha-barra-flecha { opacity: 0; }
   .sm-producto { flex: 0 0 31%; scroll-snap-align: start; }
 }
 @media (max-width: 900px) {
-  .sm-inversion-grid,
+  .sm-inversion-cabeza,
   .sm-servicios-cabeza { grid-template-columns: minmax(0, 1fr); }
-  .sm-inversion-lienzo { order: -1; max-width: none; justify-self: stretch; }
 }
 @media (max-width: 767px) {
   .sm-inversion { padding-bottom: 96px; }
@@ -3699,4 +3730,7 @@ body.ficha-en-info .ficha-barra-flecha { opacity: 0; }
   .sm-producto { flex-basis: 76%; }
   .sm-servicios-acciones .portada-enlace { min-height: 44px; }
   .sm-radar-fila { padding-top: 32px; padding-bottom: 32px; }
+}
+@media (max-width: 680px) {
+  .sf { height: 600px; }
 }

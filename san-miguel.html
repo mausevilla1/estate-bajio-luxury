@@ -142,15 +142,34 @@
        (el carril de productos de servicios.praetora.mx, con sus fotos y videos) y el Radar.
        ========================================================================== -->
   <section class="sm-inversion" aria-labelledby="sm-inversion-titulo">
-    <div class="container sm-inversion-grid">
-      <div class="sm-inversion-texto">
-        <span class="section-tag">Para inversionistas</span>
-        <h2 id="sm-inversion-titulo" class="sm-inversion-titulo">Siete filtros antes de llegar a usted.</h2>
-        <p class="sm-inversion-parrafo">Antes de presentarle una oportunidad en CDMX, León, Guanajuato o San Miguel de Allende, la revisamos en siete puntos: precio de entrada, mercado, costos, situación jurídica, riesgos, flujo y estrategia de salida.</p>
-        <a class="portada-enlace" href="invertir.html">Ver cómo invertimos</a>
+    <div class="container">
+      <div class="sm-inversion-cabeza">
+        <div>
+          <span class="section-tag">Para inversionistas</span>
+          <h2 id="sm-inversion-titulo" class="sm-inversion-titulo">Siete filtros antes de llegar a usted.</h2>
+        </div>
+        <div>
+          <p class="sm-inversion-parrafo">Antes de presentarle una oportunidad en CDMX, León, Guanajuato o San Miguel de Allende, la revisamos en siete puntos: precio de entrada, mercado, costos, situación jurídica, riesgos, flujo y estrategia de salida.</p>
+          <a class="portada-enlace" href="invertir.html">Ver cómo invertimos</a>
+        </div>
       </div>
-      <div class="sm-inversion-lienzo" aria-hidden="true">
-        <video muted playsinline preload="none" poster="assets/filtro/filtro.webp" data-src="assets/filtro/filtro.mp4" data-una-vez></video>
+      <!-- «El filtro» en vivo (filtro-panel.js): puntos y líneas en el lienzo; rótulos en HTML. -->
+      <div class="sf" aria-hidden="true">
+        <canvas class="sf-lienzo"></canvas>
+        <span class="sf-cab">Oportunidades</span>
+        <span class="sf-ciudad">CDMX</span>
+        <span class="sf-ciudad">León</span>
+        <span class="sf-ciudad">Guanajuato</span>
+        <span class="sf-ciudad">San Miguel de Allende</span>
+        <span class="sf-filtro"><span class="sf-num">01</span>Precio de entrada</span>
+        <span class="sf-filtro"><span class="sf-num">02</span>Mercado y valor</span>
+        <span class="sf-filtro"><span class="sf-num">03</span>Costos</span>
+        <span class="sf-filtro"><span class="sf-num">04</span>Situación jurídica</span>
+        <span class="sf-filtro"><span class="sf-num">05</span>Riesgos</span>
+        <span class="sf-filtro"><span class="sf-num">06</span>Flujo y rentabilidad</span>
+        <span class="sf-filtro"><span class="sf-num">07</span>Estrategia de salida</span>
+        <span class="sf-usted">Usted</span>
+        <span class="sf-leyenda"><span class="sf-l sf-l--punto">Oportunidad en revisión</span><span class="sf-l sf-l--ceniza">Se queda en un filtro</span><span class="sf-l sf-l--hilo">Pasa los siete y llega a usted</span></span>
       </div>
     </div>
   </section>
@@ -253,10 +272,11 @@
   <!-- Scripts -->
   <script src="data.js"></script>
   <script src="app.js"></script>
+  <script src="filtro-panel.js"></script>
   <script>
-    /* Videos de las secciones de abajo: bajan y corren solo cuando se ven y se pausan al salir.
-       «El filtro» corre una vez y se queda en su cuadro final. Con «reducir movimiento», queda el póster.
-       El carril de productos se puede enfocar con el teclado solo cuando se desliza. */
+    /* Videos de los servicios: bajan y corren solo cuando se ven y se pausan al salir.
+       Con «reducir movimiento», queda el póster. El carril de productos se puede
+       enfocar con el teclado solo cuando se desliza. */
     (function () {
       var carril = document.querySelector('.sm-productos');
       function enfocable() {
