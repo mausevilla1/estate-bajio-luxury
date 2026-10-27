@@ -841,6 +841,25 @@ function initHeaderScroll() {
   function panelEntorno(p) {
     var en = (p.entorno && typeof ENTORNOS !== 'undefined') ? ENTORNOS[p.entorno] : null;
     if (!en) return '';
+    // Con video (Luis, 27-oct): la información del club va encima de su video vertical.
+    // El video se carga y corre solo cuando está a la vista (iniciarVideoEntorno).
+    if (en.video) {
+      return '<section class="ficha-panel ficha-panel-texto ficha-entorno">' +
+        '<span class="ficha-etiqueta">El entorno</span>' +
+        '<figure class="ficha-entorno-video">' +
+          '<video data-src="' + esc(en.video) + '"' + (en.poster ? ' poster="' + esc(en.poster) + '"' : '') +
+            ' muted loop playsinline preload="none" aria-label="Video del ' + esc(en.nombre) + '"></video>' +
+          '<figcaption class="ficha-entorno-texto">' +
+            '<h2 class="ficha-nombre">' + esc(en.nombre) + '</h2>' +
+            '<div class="ficha-cifras" style="--cifras-col:' + en.cifras.length + '">' +
+              en.cifras.map(function (c) { return cifra(c.valor, c.etiqueta); }).join('') +
+            '</div>' +
+            lista(en.amenidades) +
+            '<p class="ficha-nota">' + esc(en.ubicacion) + '</p>' +
+          '</figcaption>' +
+        '</figure>' +
+        '</section>';
+    }
     return '<section class="ficha-panel ficha-panel-texto">' +
       '<span class="ficha-etiqueta">El entorno</span>' +
       '<h2 class="ficha-nombre">' + esc(en.nombre) + '</h2>' +
@@ -1037,6 +1056,267 @@ function initHeaderScroll() {
     }
 
     document.addEventListener('keydown', onTecla);
+
+    if (esVertical()) armarFichaVertical();
+    else ponerGanchos(p);
+    iniciarVideoEntorno();
+
+    // La pista «Ficha técnica →» de la barra se apaga cuando la ficha ya está a la vista.
+    var marcar = function () { marcarEnInfo(); };
+    cont.addEventListener('scroll', marcar, { passive: true });
+    window.addEventListener('scroll', marcar, { passive: true });
+    window.addEventListener('resize', marcar);
+    marcarEnInfo();
+
+    // Cruzar de compu a cel (o al revés) cambia el acomodo entero: se vuelve a armar.
+    // Se espera medio segundo y se compara: un cambio de un instante (girar el cel,
+    // una captura) no recarga la página.
+    var mq = window.matchMedia('(min-width: 1024px)');
+    var armadoVertical = esVertical();
+    var espera = null;
+    var cambio = function () {
+      clearTimeout(espera);
+      espera = setTimeout(function () {
+        if (esVertical() !== armadoVertical) location.reload();
+      }, 500);
+    };
+    if (mq.addEventListener) mq.addEventListener('change', cambio);
+    else if (mq.addListener) mq.addListener(cambio);
+  }
+
+  /* --------------------------------------------------------------------------
+     Ganchos (Luis, 27-oct): en compu, mientras el cliente avanza a la derecha,
+     debajo de las fotos se va escribiendo la casa, una línea por foto: los m²,
+     «se entrega sin muebles…» en las del Club y sus características. Solo datos
+     de data.js; la descripción no (trae adjetivos y cosas sin verificar).
+     -------------------------------------------------------------------------- */
+  function ganchosDe(p) {
+    var g = [];
+    var m = [];
+    if (p.m2Construccion) m.push(Number(p.m2Construccion).toLocaleString('es-MX') + ' m² de construcción');
+    if (p.m2Terreno) m.push(Number(p.m2Terreno).toLocaleString('es-MX') + ' m² de terreno');
+    if (m.length) g.push(m.join(' · '));
+    if (esActivoDeInversion(p)) {
+      String(p.llavesDetalle || '').split(/\.\s*/).filter(Boolean).forEach(function (s) { g.push(s); });
+      if (p.caminando) g.push(p.caminando);
+    } else {
+      if (p.entorno === 'malanquin') g.push('Se entrega sin muebles y con cocina equipada');
+      (p.caracteristicas || []).forEach(function (c) { g.push(c); });
+    }
+    return g;
+  }
+
+  function ponerGanchos(p) {
+    var ganchos = ganchosDe(p);
+    if (!ganchos.length) return;
+    var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var fotos = cont.querySelectorAll('figure.ficha-panel:not(.ficha-plano)');
+    var dos = function (n) { return (n < 10 ? '0' : '') + n; };
+    var puestos = [];
+    Array.prototype.forEach.call(fotos, function (f, i) {
+      if (i >= ganchos.length) return;
+      var cap = document.createElement('figcaption');
+      cap.className = 'ficha-gancho';
+      cap.innerHTML = '<span class="ficha-gancho-num" aria-hidden="true">' + dos(i + 1) + '</span>' +
+        '<span class="oculto-visual">' + esc(ganchos[i]) + '</span>' +
+        '<span class="ficha-gancho-texto" aria-hidden="true"></span>';
+      cap.setAttribute('data-texto', ganchos[i]);
+      f.appendChild(cap);
+      puestos.push(cap);
+    });
+
+    function escribir(cap) {
+      if (cap.getAttribute('data-escrito')) return;
+      cap.setAttribute('data-escrito', '1');
+      var texto = cap.getAttribute('data-texto');
+      var destino = cap.querySelector('.ficha-gancho-texto');
+      if (quieto) { destino.textContent = texto; return; }
+      var n = 0;
+      destino.classList.add('escribiendo');
+      var t = setInterval(function () {
+        n += 1;
+        destino.textContent = texto.slice(0, n);
+        if (n >= texto.length) { clearInterval(t); setTimeout(function () { destino.classList.remove('escribiendo'); }, 900); }
+      }, 24);
+    }
+
+    if (quieto || !('IntersectionObserver' in window)) { puestos.forEach(escribir); return; }
+    var obs = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var cap = en.target.querySelector('.ficha-gancho');
+        if (cap) setTimeout(function () { escribir(cap); }, 350);
+        obs.unobserve(en.target);
+      });
+    }, { root: cont, threshold: 0.6 });
+    // El lector de pantalla y Google leen la línea completa del span oculto desde el inicio.
+    puestos.forEach(function (cap) { obs.observe(cap.parentNode); });
+  }
+
+  /* El video del entorno baja y corre solo cuando se ve, y se pausa al salir.
+     Con «reducir movimiento» queda quieto en su póster, con controles. */
+  function iniciarVideoEntorno() {
+    var v = cont.querySelector('.ficha-entorno-video video');
+    if (!v) return;
+    var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function cargar() {
+      if (!v.getAttribute('src')) { v.src = v.getAttribute('data-src'); v.load(); }
+    }
+    if (quieto) { v.controls = true; v.preload = 'none'; cargar(); return; }
+    if (!('IntersectionObserver' in window)) { cargar(); v.play().catch(function () {}); return; }
+    new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (en) {
+        if (en.isIntersecting) { cargar(); v.play().catch(function () {}); }
+        else if (v.getAttribute('src')) v.pause();
+      });
+    }, { threshold: 0.25 }).observe(v);
+  }
+
+  function marcarEnInfo() {
+    var destino = document.getElementById('ficha-info');
+    if (!destino) return;
+    var r = destino.getBoundingClientRect();
+    var enInfo = esVertical()
+      ? r.top < window.innerHeight * 0.75 && r.bottom > 0
+      : r.left < window.innerWidth * 0.7;
+    document.body.classList.toggle('ficha-en-info', enInfo);
+  }
+
+  /* --------------------------------------------------------------------------
+     Ficha en cel y tableta (Luis, 27-oct): las fotos arriba, en un carril que
+     se desliza; abajo, la ficha técnica a la vista, y lo demás en tarjetas que
+     también se deslizan hacia el lado (Ficha técnica · Planos · La casa ·
+     El entorno · Contacto), con pestañas que siguen al dedo.
+     -------------------------------------------------------------------------- */
+  function armarFichaVertical() {
+    var suave = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    var hijos = Array.prototype.slice.call(cont.children);
+    var fotos = hijos.filter(function (e) { return e.matches('figure.ficha-panel:not(.ficha-plano)'); });
+    var planos = hijos.filter(function (e) { return e.classList.contains('ficha-plano'); });
+    var info = document.getElementById('ficha-info');
+    var textos = hijos.filter(function (e) { return e.classList.contains('ficha-panel-texto') && e !== info; });
+    if (!fotos.length || !info) return;
+
+    function nuevo(tag, clase, attrs) {
+      var el = document.createElement(tag);
+      if (clase) el.className = clase;
+      Object.keys(attrs || {}).forEach(function (k) { el.setAttribute(k, attrs[k]); });
+      return el;
+    }
+    function nombreDe(panel) {
+      if (panel.classList.contains('ficha-panel-contacto')) return 'Contacto';
+      var etq = panel.querySelector('.ficha-etiqueta');
+      var t = etq ? etq.textContent.trim() : '';
+      return t ? t.charAt(0).toUpperCase() + t.slice(1).toLowerCase() : 'Más';
+    }
+
+    document.body.classList.add('ficha-cel');
+
+    // 1 · Las fotos: un carril a todo lo ancho, con su contador.
+    var zonaFotos = nuevo('div', 'ficha-cel-fotos');
+    var carril = nuevo('div', 'ficha-cel-carril', { 'aria-label': 'Fotos de la casa' });
+    var cuenta = nuevo('div', 'ficha-cel-cuenta', { 'aria-hidden': 'true' });
+    fotos.forEach(function (f) { carril.appendChild(f); });
+    zonaFotos.appendChild(carril);
+    zonaFotos.appendChild(cuenta);
+    var dos = function (n) { return (n < 10 ? '0' : '') + n; };
+    var pintarCuenta = function () {
+      var n = Math.min(fotos.length, Math.round(carril.scrollLeft / Math.max(1, carril.clientWidth)) + 1);
+      cuenta.textContent = dos(n) + ' / ' + dos(fotos.length);
+    };
+    carril.addEventListener('scroll', pintarCuenta, { passive: true });
+
+    // 2 · Las tarjetas: la ficha técnica primero; los planos van con la distribución.
+    var grupos = [{ nombre: 'Ficha técnica', paneles: [info] }];
+    textos.forEach(function (t) {
+      var g = { nombre: nombreDe(t), paneles: [t] };
+      if (/distribuci/i.test(g.nombre)) {
+        g.nombre = 'Planos';
+        planos.forEach(function (pl) { pl.hidden = false; g.paneles.push(pl); });
+        planos = [];
+      }
+      grupos.push(g);
+    });
+    if (planos.length) {
+      planos.forEach(function (pl) { pl.hidden = false; });
+      grupos.splice(1, 0, { nombre: 'Planos', paneles: planos });
+    }
+
+    var pestanas = nuevo('div', 'ficha-cel-pestanas', { role: 'tablist', 'aria-label': 'Información de la casa' });
+    var pista = nuevo('p', 'ficha-cel-pista');
+    pista.innerHTML = 'Deslice para ver más <span aria-hidden="true"></span>';
+    var carrilInfo = nuevo('div', 'ficha-cel-info');
+    var tarjetas = grupos.map(function (g, i) {
+      var id = 'ficha-cel-tarjeta-' + i;
+      var tarjeta = nuevo('section', 'ficha-cel-tarjeta', { id: id, role: 'tabpanel', 'aria-label': g.nombre });
+      g.paneles.forEach(function (pn) { tarjeta.appendChild(pn); });
+      var boton = nuevo('button', 'ficha-cel-pestana', { type: 'button', role: 'tab', 'aria-controls': id, 'aria-selected': i === 0 ? 'true' : 'false' });
+      boton.textContent = g.nombre;
+      boton.addEventListener('click', function () { irA(i); });
+      pestanas.appendChild(boton);
+      carrilInfo.appendChild(tarjeta);
+      return tarjeta;
+    });
+
+    // Todo lo movido queda a la vista (el revelado por scroll no aplica en los carriles).
+    Array.prototype.forEach.call(cont.querySelectorAll('.ficha-panel'), function (el) { el.classList.add('is-visible'); });
+
+    cont.innerHTML = '';
+    cont.appendChild(zonaFotos);
+    cont.appendChild(pestanas);
+    cont.appendChild(pista);
+    cont.appendChild(carrilInfo);
+    pintarCuenta();
+
+    // El carril de tarjetas toma el alto de la tarjeta que se ve: sin huecos debajo.
+    var activa = 0;
+    function ajustarAlto() {
+      var t = tarjetas[activa];
+      if (t) carrilInfo.style.height = t.scrollHeight + 'px';
+    }
+    function marcarPestana(i) {
+      if (i === activa) return;
+      activa = i;
+      Array.prototype.forEach.call(pestanas.children, function (b, j) {
+        b.setAttribute('aria-selected', j === i ? 'true' : 'false');
+      });
+      var b = pestanas.children[i];
+      if (b && b.scrollIntoView) b.scrollIntoView({ block: 'nearest', inline: 'center', behavior: suave });
+      if (i > 0) pista.classList.add('is-vista');
+      ajustarAlto();
+    }
+    function irA(i) {
+      carrilInfo.scrollTo({ left: tarjetas[i].offsetLeft, behavior: suave });
+      marcarPestana(i);
+    }
+    carrilInfo.addEventListener('scroll', function () {
+      var i = Math.round(carrilInfo.scrollLeft / Math.max(1, carrilInfo.clientWidth));
+      marcarPestana(Math.max(0, Math.min(tarjetas.length - 1, i)));
+    }, { passive: true });
+    if ('ResizeObserver' in window) {
+      var ro = new ResizeObserver(ajustarAlto);
+      tarjetas.forEach(function (t) { ro.observe(t); });
+    }
+    window.addEventListener('load', ajustarAlto);
+    ajustarAlto();
+
+    // «Ver planos» lleva a su tarjeta (aquí los planos ya están a la vista).
+    var verPlanos = info.querySelector('.ficha-ver-planos');
+    if (verPlanos) {
+      var otro = verPlanos.cloneNode(true);
+      otro.textContent = 'Ver planos';
+      otro.removeAttribute('aria-expanded');
+      verPlanos.parentNode.replaceChild(otro, verPlanos);
+      var iPlanos = grupos.map(function (g) { return g.nombre; }).indexOf('Planos');
+      if (iPlanos > 0) otro.addEventListener('click', function () { irA(iPlanos); });
+      else otro.remove();
+    }
+
+    // INFO, en el cel, baja a la ficha técnica.
+    var aInfo = document.querySelector('.ficha-barra-info');
+    if (aInfo) {
+      aInfo.addEventListener('click', function () { irA(0); });
+    }
   }
 
   if (document.readyState === 'loading') {
