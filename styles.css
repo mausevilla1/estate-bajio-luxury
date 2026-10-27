@@ -3050,3 +3050,75 @@ body.invertir-page .site-header .btn-gold { background: #FFFFFF; border-color: #
     linear-gradient(180deg, rgba(17,17,17,0.55) 0%, rgba(17,17,17,0.25) 35%, rgba(17,17,17,0.55) 70%, #111111 100%),
     url("assets/propiedades/hotel/portada/terraza-1920.webp") center 40% / cover no-repeat;
 }
+
+/* V1 · CORRECCIONES DE LA REVISIÓN (27-oct) */
+/* Arreglos mínimos de la revisión de la V1, uno por hallazgo (el id va en cada
+   comentario). Van al final para ganarle a lo de arriba sin tocarlo. */
+
+/* D-03 · Entrada: el texto blanco no llegaba a 4.5:1 donde el velo de en medio
+   caía sobre la fachada iluminada. Velo más parejo y el texto chico en blanco. */
+.entrada::before {
+  background:
+    linear-gradient(180deg, rgba(17,17,17,0.70) 0%, rgba(17,17,17,0.50) 30%, rgba(17,17,17,0.55) 55%, rgba(17,17,17,0.88) 100%);
+}
+.entrada-ciudades, .entrada-sub, .entrada-volver { color: #FFFFFF; }
+.entrada-detalle { color: rgba(255,255,255,0.9); }
+.entrada-num { color: rgba(255,255,255,0.85); }
+
+/* D-06 · F-04 · Entrada: el anillo de foco global es negro y se perdía sobre la
+   foto. Va en blanco, como el de las opciones numeradas. */
+.entrada :focus-visible { outline-color: #FFFFFF; }
+.entrada-volver:focus-visible,
+.entrada-whatsapp:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 4px; }
+
+/* D-12 · Entrada: «Escribir por WhatsApp» con la letra azul de los demás botones blancos. */
+.entrada-whatsapp { color: var(--azul-praetora); }
+
+/* D-02 · Invertir: el anillo de foco negro no se veía sobre la foto ni sobre la tinta. */
+body.invertir-page .site-header :focus-visible,
+.invertir-cielo :focus-visible { outline-color: #FFFFFF; }
+
+/* D-05 · Invertir: la terraza es clara arriba. Más velo en lo alto, y el menú y la
+   etiqueta más blancos, para llegar a 4.5:1. */
+.invertir-cielo .invertir-apertura {
+  background:
+    linear-gradient(180deg, rgba(17,17,17,0.72) 0%, rgba(17,17,17,0.45) 35%, rgba(17,17,17,0.55) 70%, #111111 100%),
+    url("assets/propiedades/hotel/portada/terraza-1920.webp") center 40% / cover no-repeat;
+}
+body.invertir-page .site-header .nav-link { color: rgba(255,255,255,0.9); }
+.invertir-cielo .invertir-apertura .invertir-etiqueta { color: #FFFFFF; }
+
+/* D-11 · Encabezado en escritorio: «Contacto» con los 28 px a los lados de los
+   demás botones (los 8 px venían del riel vertical). */
+@media (min-width: 1024px) {
+  body.catalog-page .site-header .btn-gold { padding: 0 28px; }
+}
+
+/* D-07 · Ficha: el recorrido es la primera parada del Tab y no mostraba el foco. */
+.ficha-flujo:focus-visible { outline: 2px solid #111111; outline-offset: -2px; }
+
+@media (max-width: 767px) {
+  /* D-01 · Encabezado en el cel: el logotipo se estiraba a lo ancho de su celda y
+     el dibujo quedaba corrido a la derecha del margen. */
+  .site-header .brand-logo { grid-area: logo; justify-self: start; }
+
+  /* D-04 · Menú en el cel: 12 px como la escala (iba en 11) y 44 px para el dedo.
+     Si no cabe en un renglón (360 px o menos), el último enlace baja al segundo;
+     los 20 px entre renglones evitan que las áreas de 44 px se encimen. */
+  body.catalog-page .site-header nav .nav-links,
+  body.invertir-page .site-header nav .nav-links { gap: 20px 6px; flex-wrap: wrap; justify-content: space-between; }
+  .site-header .nav-link { font-size: var(--t-label); letter-spacing: 0.02em; white-space: nowrap; padding: 14px 0; }
+
+  /* F-01 · Catálogo en el cel: la tira de fotos mide lo mismo antes y después de
+     que lleguen las fotos, y el enlace a #vender cae en su lugar. */
+  .catalogo-casas-grid .propiedad-bloque-visual { align-self: stretch; }
+
+  /* D-15 · Pie en el cel: «Radar PRAETORA · próximamente» perdía el espacio. */
+  .v1-pie-col span { column-gap: 0.3em; }
+}
+
+/* D-16 · Ficha en cel y tableta: el espacio enfocado con Tab en la leyenda quedaba
+   detrás de la lámina fija o de la barra. El margen sigue el alto de la lámina. */
+@media (max-width: 1023px) {
+  .ficha-leyenda li { scroll-margin-top: max(380px, calc(50vw + 110px)); scroll-margin-bottom: 64px; }
+}

@@ -240,6 +240,8 @@ function initHeaderScroll() {
    ========================================================================== */
 (function () {
   var cont, paneles;
+  // A dónde regresan Esc y la marca de la barra: la sección de la casa (C-15).
+  var salida = 'catalogo.html';
 
   function esVertical() {
     return !window.matchMedia('(min-width: 1024px)').matches;
@@ -346,7 +348,7 @@ function initHeaderScroll() {
   var PROPS = ['2:3', '3:4', '4:3', '3:2', '16:9', '9:16'];
   var ALTOS = ['a', 'b', 'c'];
 
-  function panelFoto(f, i) {
+  function panelFoto(f, i, alt) {
     // Tres alturas y cinco proporciones, como la referencia. Si el dato no
     // trae forma, se le asigna una rotada para que no salgan todas iguales.
     var prop = PROPS.indexOf(f.prop) >= 0 ? f.prop : PROPS[i % PROPS.length];
@@ -357,7 +359,8 @@ function initHeaderScroll() {
         (f.poster ? ' poster="' + esc(f.poster) + '"' : '') +
         ' controls preload="metadata" playsinline></video>';
     } else {
-      medioHtml = '<img src="' + esc(f.src) + '" alt="" loading="lazy">';
+      // alt: «Casa Córdoba, foto 3» (C-19); las fotos son el contenido de la ficha.
+      medioHtml = '<img src="' + esc(f.src) + '" alt="' + esc(alt || '') + '" loading="lazy">';
     }
     return '<figure class="ficha-panel" data-prop="' + prop + '" data-alto="' + alto + '">' +
       '<div class="ficha-marco">' + medioHtml + '</div>' +
@@ -459,9 +462,11 @@ function initHeaderScroll() {
      en su número o en la maqueta) enciende ese cuarto.
      Imágenes: <carpeta>/<planta>-<vista>-<ancho>.webp. Máscaras, rejilla y centros
      de los cuartos: <carpeta>/cuartos.js. */
+  // La clave arma el nombre de las imágenes; el nombre es lo que se lee. Las casas se
+  // entregan sin muebles: la otra vista no se llama «amueblada» (revisión V1, C-02).
   var VISTAS_MAQUETA = [
     { clave: 'sin-muebles', nombre: 'Sin muebles' },
-    { clave: 'amueblada', nombre: 'Amueblada' }
+    { clave: 'amueblada', nombre: 'Muebles de referencia' }
   ];
 
   function plantaDe(pl) { return String(pl.base || '').split('/').pop(); }
@@ -904,7 +909,7 @@ function initHeaderScroll() {
   }
 
   function onTecla(e) {
-    if (e.key === 'Escape') { window.location.href = 'catalogo.html'; return; }
+    if (e.key === 'Escape') { window.location.href = salida; return; }
     if (esVertical()) return;
     if (e.key === 'Home') { e.preventDefault(); cont.scrollLeft = 0; }
     if (e.key === 'End')  { e.preventDefault(); cont.scrollLeft = cont.scrollWidth; }
@@ -961,6 +966,12 @@ function initHeaderScroll() {
     if (!clave && typeof LUXURY_PROPERTIES !== 'undefined') p = LUXURY_PROPERTIES[0];
     if (!p) { cont.innerHTML = noEncontrada(); return; }
 
+    // Un activo de inversión (Casa Julieta) no está en el catálogo: Esc y la marca
+    // de la barra regresan a Invertir, como su «Volver a Invertir» (C-15).
+    salida = esActivoDeInversion(p) ? 'invertir.html' : 'catalogo.html';
+    var marca = document.querySelector('.ficha-barra-marca');
+    if (marca) marca.setAttribute('href', salida);
+
     document.title = p.title + ' — ' + p.subzone + ' | PRAETORA';
     // Abierta como propiedad.html?id=, la barra pasa a la dirección propia de la casa:
     // así, si alguien copia el enlace, se comparte con su foto y su nombre.
@@ -973,7 +984,10 @@ function initHeaderScroll() {
     if (meta) meta.setAttribute('content', p.description);
 
     var html = '';
-    construirFlujo(p).forEach(function (f, i) { html += panelFoto(f, i); });
+    var nFoto = 0;
+    construirFlujo(p).forEach(function (f, i) {
+      html += panelFoto(f, i, f.tipo === 'video' ? '' : p.title + ', foto ' + (++nFoto));
+    });
     (p.planos || []).forEach(function (pl) { html += panelPlano(pl, p); });
     html += panelFicha(p) + panelDistribucion(p) + panelCasa(p) + panelEntorno(p) + panelContacto(p);
     cont.innerHTML = html;
@@ -995,7 +1009,8 @@ function initHeaderScroll() {
         if (esVertical()) {
           destino.scrollIntoView({ behavior: suave, block: 'start' });
         } else {
-          cont.scrollTo({ left: cont.scrollWidth, behavior: suave });
+          // Al panel de la ficha, no al final: detrás de él van la maqueta y más paneles (F-02).
+          cont.scrollTo({ left: destino.offsetLeft - parseFloat(getComputedStyle(cont).paddingLeft), behavior: suave });
         }
       });
     }

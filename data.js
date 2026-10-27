@@ -418,7 +418,7 @@ const ACTIVOS_INVERSION = [
     status: "Consultar",
     amenities: [],
     heroImage: "assets/propiedades/hotel/fotos/1.jpg",
-    description: "Casona histórica del siglo XIX en el corazón de San Miguel de Allende, ubicada en la esquina de Umarán y Zacateros a tres minutos a pie de la Parroquia y el Jardín Allende. El activo combina la operación de un hotel boutique de 6 suites con alta calificación en hospitalidad, local comercial en planta baja arrendado a Birkenstock y terraza panorámica con vistas abiertas al centro virreinal.",
+    description: "Casona histórica del siglo XIX en el corazón de San Miguel de Allende, ubicada en la esquina de Umarán y Zacateros a tres minutos a pie de la Parroquia y el Jardín Allende. El activo combina la operación de un hotel boutique de 6 suites, local comercial en planta baja arrendado a Birkenstock y terraza panorámica con vistas abiertas al centro virreinal.",
     flujo: [
       // Fotos del hotel tomadas de su página en Booking (2026-10-11), en el orden de Booking.
       { src: "assets/propiedades/hotel/fotos/1.jpg", prop: "3:2", alto: "a" },

@@ -94,27 +94,70 @@
   <script>
     (function () {
       var pasos = { que: 'paso-que', ciudad: 'paso-ciudad', pronto: 'paso-pronto' };
-      function mostrar(paso) {
+      var textoCiudad = document.querySelector('[data-texto="ciudad"]');
+      var whatsapp = document.getElementById('entrada-whatsapp');
+
+      function ponerCiudad(nombre) {
+        textoCiudad.textContent = nombre;
+        whatsapp.href = 'https://wa.me/524420000000?text=' +
+          encodeURIComponent('Hola, vengo de praetora.mx. Busco comprar o vender en ' + nombre + '.');
+      }
+
+      // Cada paso que avanza deja una entrada en el historial: Atrás (el gesto del cel o
+      // el botón del navegador) regresa al paso anterior en vez de salir de PRAETORA (F-03).
+      // modo: 'empujar' al avanzar, 'reemplazar' sin entrada nueva, 'nada' con Atrás o Adelante.
+      function mostrar(paso, modo) {
         Object.keys(pasos).forEach(function (k) {
           document.getElementById(pasos[k]).hidden = k !== paso;
         });
-        var titulo = document.querySelector('#' + pasos[paso] + ' .entrada-pregunta');
-        if (paso !== 'que' && titulo) titulo.focus();
-        history.replaceState(null, '', paso === 'que' ? location.pathname : '#' + paso);
+        // El foco va al título del paso; al volver al primero, a «Comprar o vender» (F-05).
+        if (paso === 'que') document.querySelector('[data-ir="ciudad"]').focus();
+        else document.querySelector('#' + pasos[paso] + ' .entrada-pregunta').focus();
+        var estado = { paso: paso, ciudad: paso === 'pronto' ? textoCiudad.textContent : '' };
+        var url = paso === 'que' ? location.pathname + location.search : '#' + paso;
+        if (modo === 'empujar') {
+          estado.empujado = true;
+          history.pushState(estado, '', url);
+        } else if (modo === 'reemplazar') {
+          history.replaceState(estado, '', url);
+        }
       }
+
       document.addEventListener('click', function (e) {
         var ir = e.target.closest('[data-ir]');
-        if (ir) { mostrar(ir.getAttribute('data-ir')); return; }
+        if (ir) {
+          // «← Volver» y «← Elegir otra ciudad» regresan por el historial si su paso lo agregó;
+          // así no lo llenan y Atrás no repite el paso del que se acaba de salir.
+          var volver = ir.classList.contains('entrada-volver');
+          if (volver && history.state && history.state.empujado) { history.back(); return; }
+          mostrar(ir.getAttribute('data-ir'), volver ? 'reemplazar' : 'empujar');
+          return;
+        }
         var ciudad = e.target.closest('[data-ciudad]');
         if (ciudad) {
-          var nombre = ciudad.getAttribute('data-ciudad');
-          document.querySelector('[data-texto="ciudad"]').textContent = nombre;
-          document.getElementById('entrada-whatsapp').href = 'https://wa.me/524420000000?text=' +
-            encodeURIComponent('Hola, vengo de praetora.mx. Busco comprar o vender en ' + nombre + '.');
-          mostrar('pronto');
+          ponerCiudad(ciudad.getAttribute('data-ciudad'));
+          mostrar('pronto', 'empujar');
         }
       });
-      if (location.hash === '#ciudad') mostrar('ciudad');
+
+      // El paso sale del historial y, si no está ahí, de la dirección. «Próximamente» sin
+      // ciudad (al llegar directo a #pronto) muestra la pregunta de la ciudad.
+      function pasoGuardado() {
+        var s = history.state;
+        var paso = s && s.paso ? s.paso : (/^#(ciudad|pronto)$/.test(location.hash) ? 'ciudad' : 'que');
+        if (paso === 'pronto') {
+          if (s && s.ciudad) ponerCiudad(s.ciudad);
+          else if (!textoCiudad.textContent) paso = 'ciudad';
+        }
+        return paso;
+      }
+      window.addEventListener('popstate', function () { mostrar(pasoGuardado(), 'nada'); });
+
+      // Al abrir o recargar en un paso, se muestra ese paso.
+      if (/^#(ciudad|pronto)$/.test(location.hash)) {
+        var inicial = pasoGuardado();
+        mostrar(inicial, history.state && history.state.paso === inicial ? 'nada' : 'reemplazar');
+      }
     })();
   </script>
 </body>

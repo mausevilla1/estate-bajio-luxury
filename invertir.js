@@ -35,13 +35,19 @@
   indexar('.invertir-puntos > *');
 
   // La frase del filtro se parte en palabras para encenderlas una por una.
+  // Para el lector de pantalla va completa en un texto oculto: un <p> no admite
+  // aria-label, y con las palabras en aria-hidden la frase se perdía (C-18).
   var frase = cielo.querySelector('.invertir-frase');
   if (frase) {
-    var palabras = frase.textContent.trim().split(/\s+/);
-    frase.setAttribute('aria-label', frase.textContent.trim());
+    var texto = frase.textContent.trim();
+    var palabras = texto.split(/\s+/);
     frase.innerHTML = palabras.map(function (p, i) {
       return '<span class="mov-palabra" aria-hidden="true" style="--i:' + i + '">' + p + '</span>';
     }).join(' ');
+    var leida = document.createElement('span');
+    leida.className = 'oculto-visual';
+    leida.textContent = texto;
+    frase.insertBefore(leida, frase.firstChild);
   }
 
   // Cada tiempo entra cuando un cuarto de él está en pantalla; la apertura, al abrir.
