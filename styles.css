@@ -32,7 +32,7 @@
   --gold-glow: transparent;
   --gold-gradient: #111111;
 
-  --border-subtle: #E6E6E6;
+  --border-subtle: #DFE5E6;   /* las líneas, con un toque del azul (Luis, 27-oct) */
   --border-glass: #E6E6E6;
 
   /* Sin sombras. La separación la hacen las líneas de 1px y el espacio. */
@@ -2079,10 +2079,10 @@ body.catalog-page .site-header.scrolled { box-shadow: none; }
    mitad derecha, sobre blanco. El recuadro tiene la proporción EXACTA del borrador
    (6000 x 2045), así las posiciones en % y los tamaños en cqw caen donde YOPE las puso
    (scratch/julieta-referencia-borrador.jpg). Sólo la mitad con foto se carga como imagen.
-   Color del texto: el vino oscuro que YOPE eligió en su borrador (#3E101A). */
+   Color del texto: el azul PRAETORA (#15363D). Luis lo pidió el 27-oct en lugar del vino del borrador. */
 .julieta-escena {
   --julieta-fuente: var(--font-sans);   /* una sola familia en todo el sitio */
-  --julieta-tinta: #3E101A;
+  --julieta-tinta: #15363D;
   position: relative;
   aspect-ratio: 6000 / 2045;
   container-type: inline-size;
@@ -2707,7 +2707,7 @@ html.mov .en-vista .invertir-acciones {
 .ficha-volver:hover,
 .ficha-volver:focus-visible { opacity: 1; color: var(--text-main); }
 
-/* Casa Julieta conserva el vino de su diseño también en el enlace. */
+/* Casa Julieta lleva su color (el azul PRAETORA) también en el enlace. */
 .julieta-cta { color: var(--julieta-tinta); }
 
 /* BOTÓN de acción — contactar, solicitar, continuar: 12 px mayúsculas sobre negro. */
@@ -3570,6 +3570,7 @@ body.ficha-en-info .ficha-barra-flecha { opacity: 0; }
   background:
     radial-gradient(90% 120% at 70% 50%, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0) 62%),
     var(--azul-praetora);
+  box-shadow: 0 28px 56px -28px rgba(21, 54, 61, 0.55), 0 2px 8px rgba(21, 54, 61, 0.12);
   color: #FFFFFF;
   font-family: var(--font-sans);
 }
