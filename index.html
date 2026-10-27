@@ -27,13 +27,48 @@
        Desarrolladores entran directo, sin preguntar.
        ========================================================================== -->
   <main class="entrada">
-    <img class="entrada-fondo" src="assets/propiedades/casa-cordoba/fotos/21.jpeg"
-         alt="" aria-hidden="true" fetchpriority="high">
+    <!-- Fondo en video (27-oct): bucle de 16 s, sin sonido, con tomas de bancos con licencia
+         (assets/entrada/fuentes.txt). Exteriores, interiores, departamentos, terreno y rancho:
+         imágenes ilustrativas, no casas de PRAETORA.
+         · 16:9 en compu (horizontal) y 9:16 en cel (vertical): lo elige el media de cada <source>.
+         · «Reducir movimiento»: ninguna fuente coincide, no se descarga video y queda el póster.
+         · Póster: el primer cuadro. Lo pone el script de abajo según la orientación, para no bajar
+           los dos; sin JS hace de póster el fondo de .entrada (styles.css), que es la misma imagen. -->
+    <video class="entrada-fondo entrada-video" id="entrada-video"
+           autoplay muted loop playsinline preload="auto"
+           aria-hidden="true" tabindex="-1" disablepictureinpicture disableremoteplayback>
+      <source src="assets/entrada/entrada-16x9.mp4" type="video/mp4"
+              media="(orientation: landscape) and (prefers-reduced-motion: no-preference)">
+      <source src="assets/entrada/entrada-9x16.mp4" type="video/mp4"
+              media="(prefers-reduced-motion: no-preference)">
+    </video>
+    <script>
+      // Justo después del video: el póster que toca y, si el cel gira o cambia la preferencia
+      // de movimiento, la versión correcta (o solo el póster).
+      (function (v) {
+        var vertical = window.matchMedia('(orientation: portrait)');
+        var quieto = window.matchMedia('(prefers-reduced-motion: reduce)');
+        function base() { return vertical.matches ? 'assets/entrada/entrada-9x16' : 'assets/entrada/entrada-16x9'; }
+        v.poster = base() + '.webp';
+        function cambiar() {
+          v.poster = base() + '.webp';
+          v.pause();
+          while (v.firstElementChild) v.removeChild(v.firstElementChild);
+          if (quieto.matches) { v.removeAttribute('src'); v.load(); return; }
+          v.src = base() + '.mp4';
+          v.load();
+          var p = v.play();
+          if (p && p.catch) p.catch(function () {});
+        }
+        [vertical, quieto].forEach(function (m) { if (m.addEventListener) m.addEventListener('change', cambiar); });
+      })(document.getElementById('entrada-video'));
+    </script>
 
     <header class="entrada-cabeza">
       <img class="entrada-logo" src="assets/marca/praetora-nombre-blanco.svg" width="652" height="81"
            alt="PRAETORA" translate="no">
       <span class="entrada-ciudades">Grupo Inmobiliario · CDMX · León · Guanajuato · San Miguel de Allende</span>
+      <span class="entrada-ilustrativas">Imágenes ilustrativas</span>
     </header>
 
     <!-- Paso 1 -->

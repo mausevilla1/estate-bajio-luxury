@@ -1,0 +1,14 @@
+Video de fondo de la entrada de praetora.mx (27-oct-2026)
+Imágenes ilustrativas: 8 tomas de Pexels, con su licencia (https://www.pexels.com/license/):
+uso comercial sin atribución obligatoria. Se guardan los créditos.
+
+T1 exterior     Alef Morais        https://www.pexels.com/video/aerial-view-of-modern-luxury-home-at-twilight-39024336/
+T2 exterior     Abdullah | 4K      https://www.pexels.com/video/the-swimming-pool-at-or-near-villa-del-mar-18531289/
+T3 interior     Abdullah | 4K      https://www.pexels.com/video/a-living-room-with-a-large-glass-door-and-a-pool-18531414/
+T4 detalle      Nothing Ahead      https://www.pexels.com/video/palm-tree-shadow-on-modern-building-exterior-35084306/
+T5 departamentos Victor Cedini     https://www.pexels.com/video/aerial-view-of-urban-high-rise-towers-at-dusk-34436452/
+T6 terreno      Amar Preciado      https://www.pexels.com/video/scenic-aerial-view-of-guanajuato-landscapes-36628433/
+T7 rancho       Clinton Weaver     https://www.pexels.com/video/serene-sunrise-on-a-countryside-farm-37953939/
+T8 cielo        Jesus Alfonso      https://www.pexels.com/video/stunning-aerial-view-of-sunset-over-mountains-35407654/
+
+Edición, verificación y cómo rehacerlo: C:\praetora-video-entrada\salida\LEEME.md

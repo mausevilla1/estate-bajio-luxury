@@ -3415,3 +3415,52 @@ body.ficha-en-info .ficha-barra-flecha { opacity: 0; }
 .entrada-contacto a:hover, .entrada-contacto a:focus-visible { color: #FFFFFF; }
 .entrada-contacto { margin-left: auto; }
 @media (max-width: 767px) { .entrada-contacto { margin-left: 0; } }
+
+/* ==========================================================================
+   V1 · ENTRADA CON VIDEO (27-oct, Luis): el fondo pasa de foto a un video en
+   bucle de 16 s con tomas de bancos con licencia (16:9 en compu, 9:16 en cel),
+   con la leyenda «Imágenes ilustrativas». El velo se midió contra los 384
+   cuadros de cada versión (C:\praetora-video-entrada\salida\LEEME.md): con el
+   velo de D-03 el texto chico da 5.7:1 o más en compu.
+   ========================================================================== */
+/* El póster (primer cuadro) también va de fondo: se ve mientras llega el video,
+   sin JS y con «reducir movimiento». Es la misma imagen que el póster del video. */
+.entrada { background: #111111 url("assets/entrada/entrada-16x9.webp") center / cover no-repeat; }
+@media (orientation: portrait) {
+  .entrada { background-image: url("assets/entrada/entrada-9x16.webp"); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .entrada-video { display: none; }
+}
+/* iPhone en «Modo de bajo consumo»: Safari no reproduce solo y pinta un botón de play
+   encima. El video es de fondo (aria-hidden): sin el botón queda el póster. */
+.entrada-video::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; }
+/* «Imágenes ilustrativas»: las tomas no son casas de PRAETORA. Arriba a la derecha,
+   a la altura del logotipo; en cels de menos de 375 px no cabe junto al logotipo y
+   baja bajo las ciudades. */
+.entrada-ilustrativas {
+  position: absolute; top: 40px; right: 48px; margin: 0;
+  font-size: var(--t-label); line-height: 22px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+}
+@media (max-width: 767px) {
+  .entrada-ilustrativas { top: 24px; right: 20px; font-size: 11px; letter-spacing: 0.1em; }
+  /* En el cel las opciones suben por media pantalla y el alto cambia de un cel a otro:
+     el velo se mide en px desde abajo (sigue al bloque de opciones) y desde arriba
+     (logo y ciudades), sobre una base pareja. Medido contra los 384 cuadros del 9:16
+     en 360×740, 375×667, 390×844 y 412×915: el texto chico da 5:1 o más. */
+  .entrada::before {
+    background-color: rgba(17,17,17,0.30);
+    background-image:
+      linear-gradient(180deg, rgba(17,17,17,0.55) 0, rgba(17,17,17,0.35) 110px, rgba(17,17,17,0) 200px),
+      linear-gradient(0deg, rgba(17,17,17,0.86) 0, rgba(17,17,17,0.58) 230px, rgba(17,17,17,0.52) 540px, rgba(17,17,17,0.25) 680px, rgba(17,17,17,0) 800px);
+  }
+}
+/* Pantalla horizontal y baja (cel acostado de 768 px o más, ventana de 600 px de alto
+   o menos): una base pareja de 0.20 debajo del degradado sube el texto chico a 5:1. */
+@media (orientation: landscape) and (min-width: 768px) and (max-height: 600px) {
+  .entrada::before { background-color: rgba(17,17,17,0.20); }
+}
+@media (max-width: 374px) {
+  .entrada-ilustrativas { position: static; }
+}
