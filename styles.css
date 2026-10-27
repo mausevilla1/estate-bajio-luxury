@@ -3528,3 +3528,175 @@ body.ficha-en-info .ficha-barra-flecha { opacity: 0; }
   .ficha-barra-consultar { margin-left: auto; }
   .ficha-info-acciones { margin-top: 32px; }
 }
+
+/* ==========================================================================
+   V1 · SAN MIGUEL, DEBAJO DE CASA JULIETA (27-oct). Luis: «se reemplaza por
+   información de servicios para los desarrolladores de manera más concisa»,
+   con fotos y videos, «más nuestro color, el azul petróleo» y, antes, «una mini
+   sección que tenga las ilustraciones de inversionistas».
+   · Inversionistas: la ilustración de «El filtro» (cuadro vertical, sin logo ni
+     titular) junto al texto y la puerta a Invertir.
+   · Servicios: el carril de productos de servicios.praetora.mx, en el azul del
+     logo, con sus fotos y videos (showroom demo). En compu caben los cinco; en
+     tableta y cel se deslizan.
+   · Radar: un renglón. Sin colores nuevos: azul, blanco y los grises.
+   ========================================================================== */
+.sm-inversion { background: var(--bg-primary); padding: 0 0 var(--space-section); }
+.sm-inversion-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: var(--space-block);
+  align-items: center;
+}
+.sm-inversion-titulo {
+  margin: 0 0 20px;
+  font-size: clamp(30px, 3vw, 44px);
+  line-height: 1.12;
+  font-weight: 500;
+  color: var(--text-main);
+  text-wrap: balance;
+}
+.sm-inversion-parrafo { margin: 0 0 32px; max-width: 46ch; color: var(--text-muted); }
+.sm-inversion-lienzo {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  justify-self: end;
+  aspect-ratio: 1080 / 1020;
+  overflow: hidden;
+  background: var(--azul-praetora);
+}
+.sm-inversion-lienzo video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sm-servicios {
+  background: var(--azul-praetora);
+  color: #FFFFFF;
+  padding: var(--space-section) 0;
+}
+.sm-servicios .section-tag { color: rgba(255, 255, 255, 0.72); }
+.sm-servicios-cabeza {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: 24px var(--space-block);
+  align-items: end;
+  margin-bottom: var(--space-block);
+}
+.sm-servicios-titulo {
+  margin: 0;
+  font-size: clamp(30px, 3vw, 44px);
+  line-height: 1.12;
+  font-weight: 500;
+  color: #FFFFFF;
+  text-wrap: balance;
+}
+.sm-servicios-intro p { margin: 0 0 28px; max-width: 46ch; color: rgba(255, 255, 255, 0.82); }
+.sm-servicios-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 36px; }
+.sm-boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 28px;
+  background: #FFFFFF;
+  color: var(--azul-praetora);
+  font-family: var(--font-sans);
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+.sm-boton:hover { opacity: 0.86; }
+.sm-servicios .portada-enlace { color: #FFFFFF; }
+.sm-servicios a:focus-visible,
+.sm-productos:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 4px; }
+.sm-productos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 24px;
+}
+.sm-producto-medio {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+}
+.sm-producto-medio img,
+.sm-producto-medio video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.sm-producto-medio::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 32%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+  pointer-events: none;
+}
+.sm-leyenda {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 10px;
+  z-index: 1;
+  font-size: 12px;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.9);
+}
+.sm-producto-titulo {
+  margin: 20px 0 6px;
+  font-size: var(--t-5);
+  line-height: 1.3;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+.sm-producto-texto { margin: 0; font-size: 15px; line-height: 1.45; color: rgba(255, 255, 255, 0.78); }
+.sm-servicios-nota { margin: 40px 0 0; font-size: 12px; color: rgba(255, 255, 255, 0.66); }
+
+.sm-radar { background: var(--bg-primary); }
+.sm-radar-fila { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 24px; padding-top: 40px; padding-bottom: 40px; }
+.sm-radar-fila .section-tag { margin: 0; }
+.sm-radar-texto { color: var(--text-muted); }
+
+@media (max-width: 1199px) {
+  .sm-productos {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
+  }
+  .sm-producto { flex: 0 0 31%; scroll-snap-align: start; }
+}
+@media (max-width: 900px) {
+  .sm-inversion-grid,
+  .sm-servicios-cabeza { grid-template-columns: minmax(0, 1fr); }
+  .sm-inversion-lienzo { order: -1; max-width: none; justify-self: stretch; }
+}
+@media (max-width: 767px) {
+  .sm-inversion { padding-bottom: 96px; }
+  .sm-servicios { padding: 96px 0; }
+  .sm-producto { flex-basis: 76%; }
+  .sm-servicios-acciones .portada-enlace { min-height: 44px; }
+  .sm-radar-fila { padding-top: 32px; padding-bottom: 32px; }
+}
