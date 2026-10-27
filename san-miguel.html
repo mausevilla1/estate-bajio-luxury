@@ -100,6 +100,12 @@
        ========================================================================== -->
   <section class="portada-vitrina" id="vitrina" aria-label="Propiedades destacadas">
     <div class="portada-vitrina-interior">
+      <!-- Casa Granada en video, arriba de las tres casas (Luis, 27-oct). -->
+      <div class="sm-granada">
+        <video muted loop playsinline preload="none" poster="assets/granada/casa-granada.webp" data-src="assets/granada/casa-granada.mp4" aria-label="Recorrido en video por Casa Granada"></video>
+        <button class="sm-granada-pausa" type="button" aria-label="Pausar el video"><span aria-hidden="true">Ⅱ</span></button>
+        <a class="sm-granada-cta" href="catalogo.html">Ver catálogo completo</a>
+      </div>
       <div class="portada-vitrina-grid" id="portada-vitrina-grid">
         <!-- lo dibuja app.js -->
       </div>
@@ -274,9 +280,10 @@
   <script src="app.js"></script>
   <script src="filtro-panel.js"></script>
   <script>
-    /* Videos de los servicios: bajan y corren solo cuando se ven y se pausan al salir.
-       Con «reducir movimiento», queda el póster. El carril de productos se puede
-       enfocar con el teclado solo cuando se desliza. */
+    /* Videos de San Miguel (Casa Granada y los servicios): bajan y corren solo cuando se ven y se
+       pausan al salir. Si la persona pausa uno, ya no arranca solo. Con «reducir movimiento», queda
+       el póster y Casa Granada se reproduce con su botón. El carril de productos se puede enfocar con
+       el teclado solo cuando se desliza. */
     (function () {
       var carril = document.querySelector('.sm-productos');
       function enfocable() {
@@ -286,20 +293,32 @@
       }
       enfocable();
       window.addEventListener('resize', enfocable);
+      function cargar(v) { if (!v.getAttribute('src')) v.setAttribute('src', v.getAttribute('data-src')); }
+      function reproducir(v) { cargar(v); var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+
+      var granada = document.querySelector('.sm-granada');
+      if (granada) {
+        var gv = granada.querySelector('video'), boton = granada.querySelector('.sm-granada-pausa');
+        var marcar = function () {
+          boton.setAttribute('aria-label', gv.paused ? 'Reproducir el video' : 'Pausar el video');
+          boton.firstChild.textContent = gv.paused ? '\u25B7' : '\u2161';
+        };
+        boton.addEventListener('click', function () {
+          if (gv.paused) { gv.removeAttribute('data-pausa'); reproducir(gv); }
+          else { gv.setAttribute('data-pausa', '1'); gv.pause(); }
+        });
+        gv.addEventListener('play', marcar);
+        gv.addEventListener('pause', marcar);
+        marcar();
+      }
+
       var quieto = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (quieto || !('IntersectionObserver' in window)) return;
       var vigia = new IntersectionObserver(function (entradas) {
         entradas.forEach(function (e) {
-          var v = e.target, unaVez = v.hasAttribute('data-una-vez');
-          if (e.isIntersecting) {
-            if (!v.getAttribute('src')) v.setAttribute('src', v.getAttribute('data-src'));
-            if (unaVez && v.getAttribute('data-visto')) return;
-            v.setAttribute('data-visto', '1');
-            var promesa = v.play();
-            if (promesa && promesa.catch) promesa.catch(function () {});
-          } else if (!unaVez) {
-            v.pause();
-          }
+          var v = e.target;
+          if (e.isIntersecting) { if (!v.hasAttribute('data-pausa')) reproducir(v); }
+          else v.pause();
         });
       }, { threshold: 0.4 });
       Array.prototype.forEach.call(document.querySelectorAll('video[data-src]'), function (v) { vigia.observe(v); });
