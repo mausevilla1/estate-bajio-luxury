@@ -3788,11 +3788,23 @@ body.ficha-en-info .ficha-barra-flecha { opacity: 0; }
 }
 .sm-granada-cta::after { content: "\2192"; font-size: 14px; letter-spacing: 0; }
 .sm-granada-cta:hover { opacity: 0.88; }
+/* Un velo azul arriba para que la leyenda se lea sobre las paredes claras del recorrido. */
+.sm-granada::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  height: 26%;
+  background: linear-gradient(to bottom, rgba(21, 54, 61, 0.6), rgba(21, 54, 61, 0));
+  pointer-events: none;
+}
 .sm-granada-leyenda {
   position: absolute;
   top: 16px;
   left: 20px;
-  z-index: 1;
+  z-index: 2;
   font-size: 12px;
   letter-spacing: 0.08em;
   color: rgba(255, 255, 255, 0.92);
