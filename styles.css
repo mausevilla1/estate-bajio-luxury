@@ -3820,3 +3820,108 @@ body.ficha-en-info .ficha-barra-flecha { opacity: 0; }
   .sm-granada-cta { right: 12px; bottom: 12px; padding: 0 14px; }
   .sm-granada-pausa { left: 12px; bottom: 12px; }
 }
+
+/* ==========================================================================
+   V1 · ENTRADA: LAS TRES PUERTAS EN GRANDE (27-oct). Luis: «podemos poner los
+   click to action… un poco más grandes. Y le podemos dar algo de sombra oscura
+   para que el fondo no haga mucho ruido. También en vista celular… los botones
+   un poco más claros con algo de sombra abajo de las letras y organizando un
+   poco la información». En su dibujo, las tres opciones son tres columnas altas.
+   · Compu: la pregunta arriba y las tres opciones como columnas de alto completo;
+     cada una se toca entera, con su flecha, y se aclara al pasar.
+   · Cel: tres botones separados, con fondo azul oscuro translúcido y sombra en
+     las letras; el pie se ordena en dos renglones.
+   · El velo pasa del negro al azul oscuro de la marca y oscurece un poco más.
+   ========================================================================== */
+.entrada::before {
+  background:
+    linear-gradient(180deg, rgba(9, 27, 31, 0.74) 0%, rgba(9, 27, 31, 0.56) 32%, rgba(9, 27, 31, 0.6) 58%, rgba(9, 27, 31, 0.9) 100%);
+}
+#paso-que {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  padding-top: 56px;
+}
+#paso-que .entrada-pregunta { font-size: clamp(32px, 3.6vw, 52px); margin-bottom: 32px; max-width: none; }
+#paso-que .entrada-opciones { flex: 1; min-height: 320px; }
+#paso-que .entrada-opciones li { display: flex; }
+#paso-que .entrada-opcion {
+  position: relative;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 32px 88px 40px 0;
+  background: linear-gradient(0deg, rgba(9, 27, 31, 0.5) 0%, rgba(9, 27, 31, 0) 70%);
+  transition: background-color 0.25s ease;
+}
+#paso-que .entrada-opciones li + li .entrada-opcion { padding-left: 32px; }
+#paso-que .entrada-opcion:hover,
+#paso-que .entrada-opcion:focus-visible { background-color: rgba(255, 255, 255, 0.1); }
+#paso-que .entrada-num { font-size: 13px; }
+#paso-que .entrada-nombre {
+  font-size: clamp(32px, 3.4vw, 54px);
+  line-height: 1.05;
+  text-shadow: 0 2px 20px rgba(9, 27, 31, 0.6);
+}
+#paso-que .entrada-detalle { font-size: 16px; text-shadow: 0 1px 10px rgba(9, 27, 31, 0.7); }
+#paso-que .entrada-opcion::after {
+  content: "\2192";
+  position: absolute;
+  right: 32px;
+  bottom: 36px;
+  font-size: 32px;
+  line-height: 1;
+  transition: transform 0.25s ease;
+}
+#paso-que a.entrada-opcion[href^="http"]::after { content: "\2197\FE0E"; }
+#paso-que .entrada-opcion:hover::after,
+#paso-que .entrada-opcion:focus-visible::after { transform: translateX(6px); }
+#paso-que a.entrada-opcion[href^="http"]:hover::after,
+#paso-que a.entrada-opcion[href^="http"]:focus-visible::after { transform: translate(4px, -4px); }
+#paso-que .entrada-sale { display: none; }
+
+@media (max-width: 767px) {
+  .entrada::before {
+    background-color: rgba(9, 27, 31, 0.36);
+    background-image:
+      linear-gradient(180deg, rgba(9, 27, 31, 0.6) 0, rgba(9, 27, 31, 0.38) 120px, rgba(9, 27, 31, 0) 220px),
+      linear-gradient(0deg, rgba(9, 27, 31, 0.88) 0, rgba(9, 27, 31, 0.6) 240px, rgba(9, 27, 31, 0.5) 520px, rgba(9, 27, 31, 0.2) 680px, rgba(9, 27, 31, 0) 800px);
+  }
+  .entrada-ilustrativas { position: static; font-size: 12px; letter-spacing: 0.1em; color: rgba(255, 255, 255, 0.72); }
+  #paso-que { padding-top: 32px; padding-bottom: 20px; }
+  #paso-que .entrada-pregunta { font-size: 32px; margin-bottom: 20px; }
+  #paso-que .entrada-opciones { flex: 0 0 auto; min-height: 0; display: flex; flex-direction: column; gap: 10px; border-top: 0; }
+  #paso-que .entrada-opciones li + li .entrada-opcion { border-top: 1px solid rgba(255, 255, 255, 0.3); padding-left: 20px; }
+  #paso-que .entrada-opcion {
+    justify-content: center;
+    gap: 4px;
+    min-height: 88px;
+    padding: 16px 56px 16px 20px;
+    background: rgba(9, 27, 31, 0.58);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  #paso-que .entrada-num { font-size: 12px; }
+  #paso-que .entrada-nombre { font-size: 24px; text-shadow: 0 1px 12px rgba(9, 27, 31, 0.8); }
+  #paso-que .entrada-detalle { font-size: 14px; }
+  #paso-que .entrada-opcion::after { right: 20px; top: 50%; bottom: auto; font-size: 24px; transform: translateY(-50%); }
+  #paso-que .entrada-opcion:hover::after,
+  #paso-que .entrada-opcion:focus-visible::after { transform: translate(4px, -50%); }
+  #paso-que a.entrada-opcion[href^="http"]:hover::after,
+  #paso-que a.entrada-opcion[href^="http"]:focus-visible::after { transform: translate(3px, calc(-50% - 3px)); }
+  .entrada-pie { flex-direction: column; gap: 8px; }
+  .entrada-pie span:nth-child(2) { display: none; }
+  .entrada-contacto { margin-left: 0; }
+}
+
+/* Las tres columnas alineadas: el nombre en un renglón y la bajada con alto fijo de dos. */
+@media (min-width: 768px) {
+  #paso-que .entrada-opcion { padding-right: 32px; }
+  #paso-que .entrada-nombre { font-size: clamp(30px, 3vw, 48px); white-space: nowrap; }
+  #paso-que .entrada-detalle { line-height: 1.5; min-height: 3em; padding-right: 56px; }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  #paso-que .entrada-detalle { min-height: 4.5em; }
+}
