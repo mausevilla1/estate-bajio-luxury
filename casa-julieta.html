@@ -11,14 +11,14 @@
        Las escribe herramientas/paginas-compartir.mjs a partir de este archivo: si se
        cambia algo aquí, se vuelve a correr. Aquí quedan las etiquetas generales. -->
   <title>Casa Julieta — Centro Histórico, Umarán 27 / Zacateros | PRAETORA</title>
-  <meta name="description" content="Hotel boutique + renta comercial · 6 suites · 530 m² de construcción · Precio por confirmar">
+  <meta name="description" content="Hotel boutique con local comercial · 6 suites · 530 m² de construcción · Precio por confirmar">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://praetora.mx/casa-julieta">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://praetora.mx/casa-julieta">
   <meta property="og:title" content="Casa Julieta · Centro Histórico, Umarán 27 / Zacateros">
-  <meta property="og:description" content="Hotel boutique + renta comercial · 6 suites · 530 m² de construcción · Precio por confirmar">
+  <meta property="og:description" content="Hotel boutique con local comercial · 6 suites · 530 m² de construcción · Precio por confirmar">
   <meta property="og:image" content="https://praetora.mx/assets/compartir/casa-julieta.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -41,8 +41,8 @@
     <noscript>
       <div class="ficha-panel ficha-panel-texto">
         <p class="ficha-dato-valor">
-          Esta ficha se arma con JavaScript. Actívalo para verla, o vuelve al
-          <a href="catalogo.html">catálogo</a>.
+          Esta ficha se arma con JavaScript. Actívelo para verla, o vuelva al
+          <a href="index.html">inicio</a>.
         </p>
       </div>
     </noscript>
@@ -52,7 +52,12 @@
   <footer class="ficha-barra">
     <a href="catalogo.html" class="ficha-barra-enlace ficha-barra-marca" translate="no"><img
        src="assets/marca/praetora-nombre.svg" width="652" height="81" alt="PRAETORA"></a>
-    <a href="#ficha-info" class="ficha-barra-enlace ficha-barra-info">INFO</a>
+    <!-- Muchos no veían INFO: la pista «Ficha técnica →» apunta a él (Luis, 27-oct). -->
+    <a href="#ficha-info" class="ficha-barra-enlace ficha-barra-info" aria-label="Ficha técnica: ir a INFO">
+      <span class="ficha-barra-pista" aria-hidden="true">Ficha técnica</span>
+      <span class="ficha-barra-flecha" aria-hidden="true"></span>
+      <span class="ficha-barra-info-texto">INFO</span>
+    </a>
   </footer>
 
   <script src="data.js"></script>

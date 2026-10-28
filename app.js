@@ -240,6 +240,8 @@ function initHeaderScroll() {
    ========================================================================== */
 (function () {
   var cont, paneles;
+  // A dónde regresan Esc y la marca de la barra: la sección de la casa (C-15).
+  var salida = 'catalogo.html';
 
   function esVertical() {
     return !window.matchMedia('(min-width: 1024px)').matches;
@@ -339,14 +341,16 @@ function initHeaderScroll() {
       (precio ? '<div class="ficha-precio">' + esc(precio) + '</div>' : '') +
       '<div class="ficha-cifras" style="--cifras-col:' + columnas + '">' + cifras + '</div>' +
       '<div class="ficha-datos">' + filas + '</div>' +
-      planosHtml +
+      '<div class="ficha-info-acciones">' + planosHtml +
+        '<a class="btn-gold ficha-info-consultar" href="' + consultaDe(p).href + '" target="_blank" rel="noopener">' + consultaDe(p).texto + '</a>' +
+      '</div>' +
       '</section>';
   }
 
   var PROPS = ['2:3', '3:4', '4:3', '3:2', '16:9', '9:16'];
   var ALTOS = ['a', 'b', 'c'];
 
-  function panelFoto(f, i) {
+  function panelFoto(f, i, alt) {
     // Tres alturas y cinco proporciones, como la referencia. Si el dato no
     // trae forma, se le asigna una rotada para que no salgan todas iguales.
     var prop = PROPS.indexOf(f.prop) >= 0 ? f.prop : PROPS[i % PROPS.length];
@@ -357,7 +361,8 @@ function initHeaderScroll() {
         (f.poster ? ' poster="' + esc(f.poster) + '"' : '') +
         ' controls preload="metadata" playsinline></video>';
     } else {
-      medioHtml = '<img src="' + esc(f.src) + '" alt="" loading="lazy">';
+      // alt: «Casa Córdoba, foto 3» (C-19); las fotos son el contenido de la ficha.
+      medioHtml = '<img src="' + esc(f.src) + '" alt="' + esc(alt || '') + '" loading="lazy">';
     }
     return '<figure class="ficha-panel" data-prop="' + prop + '" data-alto="' + alto + '">' +
       '<div class="ficha-marco">' + medioHtml + '</div>' +
@@ -459,9 +464,11 @@ function initHeaderScroll() {
      en su número o en la maqueta) enciende ese cuarto.
      Imágenes: <carpeta>/<planta>-<vista>-<ancho>.webp. Máscaras, rejilla y centros
      de los cuartos: <carpeta>/cuartos.js. */
+  // La clave arma el nombre de las imágenes; el nombre es lo que se lee. Las casas se
+  // entregan sin muebles: la otra vista no se llama «amueblada» (revisión V1, C-02).
   var VISTAS_MAQUETA = [
     { clave: 'sin-muebles', nombre: 'Sin muebles' },
-    { clave: 'amueblada', nombre: 'Amueblada' }
+    { clave: 'amueblada', nombre: 'Muebles de referencia' }
   ];
 
   function plantaDe(pl) { return String(pl.base || '').split('/').pop(); }
@@ -819,7 +826,7 @@ function initHeaderScroll() {
       caracteristicas = String(p.llavesDetalle || '').split(/\.\s*/).filter(Boolean);
       if (p.caminando) caracteristicas.push(p.caminando);
       if (p.roofNota) notas += '<p class="ficha-nota">' + esc(p.roofNota) + '</p>';
-      notas += '<p class="ficha-nota">Superficies informadas por el propietario. Expediente y proyecciones bajo solicitud.</p>';
+      notas += '<p class="ficha-nota">Superficies informadas por el propietario. Documentación completa a solicitud.</p>';
     }
     return '<section class="ficha-panel ficha-panel-texto">' +
       '<span class="ficha-etiqueta">' + (esActivo ? 'El inmueble' : 'La casa') + '</span>' +
@@ -836,6 +843,25 @@ function initHeaderScroll() {
   function panelEntorno(p) {
     var en = (p.entorno && typeof ENTORNOS !== 'undefined') ? ENTORNOS[p.entorno] : null;
     if (!en) return '';
+    // Con video (Luis, 27-oct): la información del club va encima de su video vertical.
+    // El video se carga y corre solo cuando está a la vista (iniciarVideoEntorno).
+    if (en.video) {
+      return '<section class="ficha-panel ficha-panel-texto ficha-entorno">' +
+        '<span class="ficha-etiqueta">El entorno</span>' +
+        '<figure class="ficha-entorno-video">' +
+          '<video data-src="' + esc(en.video) + '"' + (en.poster ? ' poster="' + esc(en.poster) + '"' : '') +
+            ' muted loop playsinline preload="none" aria-label="Video del ' + esc(en.nombre) + '"></video>' +
+          '<figcaption class="ficha-entorno-texto">' +
+            '<h2 class="ficha-nombre">' + esc(en.nombre) + '</h2>' +
+            '<div class="ficha-cifras" style="--cifras-col:' + en.cifras.length + '">' +
+              en.cifras.map(function (c) { return cifra(c.valor, c.etiqueta); }).join('') +
+            '</div>' +
+            lista(en.amenidades) +
+            '<p class="ficha-nota">' + esc(en.ubicacion) + '</p>' +
+          '</figcaption>' +
+        '</figure>' +
+        '</section>';
+    }
     return '<section class="ficha-panel ficha-panel-texto">' +
       '<span class="ficha-etiqueta">El entorno</span>' +
       '<h2 class="ficha-nombre">' + esc(en.nombre) + '</h2>' +
@@ -847,20 +873,30 @@ function initHeaderScroll() {
       '</section>';
   }
 
+  /* El WhatsApp de cada casa con su mensaje. Lo usan la ficha técnica, el panel de
+     contacto y la barra fija, para que se pueda consultar desde cualquier foto. */
+  function consultaDe(p) {
+    var esActivo = esActivoDeInversion(p);
+    var msg = esActivo
+      ? 'Hola, me interesa recibir la documentación de ' + p.title + ' (' + p.subzone + ').'
+      : 'Hola, me interesa ' + p.title + ' (' + p.subzone + ').';
+    return {
+      href: 'https://wa.me/525564738881?text=' + encodeURIComponent(msg),
+      texto: esActivo ? 'Solicitar documentación' : 'Consultar esta casa'
+    };
+  }
+
   /* 5 · Contacto: la acción y el regreso. */
   function panelContacto(p) {
     var esActivo = esActivoDeInversion(p);
-    var msg = encodeURIComponent(esActivo
-      ? 'Deseo solicitar el expediente de inversión de ' + p.title + ' (' + p.subzone + ').'
-      : 'Me interesa ' + p.title + ' (' + p.subzone + ').');
-    var btnTexto = esActivo ? 'Solicitar expediente' : 'Consultar esta casa';
+    var consulta = consultaDe(p);
     // Casa Julieta ya no está en el catálogo: regresa a la página de Invertir.
     var volver = esActivo
       ? '<a class="ficha-volver" href="invertir.html">Volver a Invertir</a>'
       : '<a class="ficha-volver" href="catalogo.html">Volver al catálogo</a>';
     return '<section class="ficha-panel ficha-panel-texto ficha-panel-contacto">' +
       '<div class="ficha-acciones">' +
-        '<a class="btn-gold" href="https://wa.me/524420000000?text=' + msg + '" target="_blank" rel="noopener">' + btnTexto + '</a>' +
+        '<a class="btn-gold" href="' + consulta.href + '" target="_blank" rel="noopener">' + consulta.texto + '</a>' +
         (urlRecorrido3D(p) ? '<a class="btn-gold" href="' + esc(urlRecorrido3D(p)) + '" target="_blank" rel="noopener">Recorrido 3D</a>' : '') +
         volver +
       '</div>' +
@@ -904,7 +940,7 @@ function initHeaderScroll() {
   }
 
   function onTecla(e) {
-    if (e.key === 'Escape') { window.location.href = 'catalogo.html'; return; }
+    if (e.key === 'Escape') { window.location.href = salida; return; }
     if (esVertical()) return;
     if (e.key === 'Home') { e.preventDefault(); cont.scrollLeft = 0; }
     if (e.key === 'End')  { e.preventDefault(); cont.scrollLeft = cont.scrollWidth; }
@@ -961,6 +997,30 @@ function initHeaderScroll() {
     if (!clave && typeof LUXURY_PROPERTIES !== 'undefined') p = LUXURY_PROPERTIES[0];
     if (!p) { cont.innerHTML = noEncontrada(); return; }
 
+    // Un activo de inversión (Casa Julieta) no está en el catálogo: Esc y la marca
+    // de la barra regresan a Invertir, como su «Volver a Invertir» (C-15).
+    salida = esActivoDeInversion(p) ? 'invertir.html' : 'catalogo.html';
+    var marca = document.querySelector('.ficha-barra-marca');
+    if (marca) marca.setAttribute('href', salida);
+    // La barra fija dice qué casa es y cuánto cuesta (en compu) y lleva el WhatsApp:
+    // la primera pantalla de la ficha ya no es solo una foto (revisión final, 27-oct).
+    var barra = document.querySelector('.ficha-barra');
+    if (barra && marca && !barra.querySelector('.ficha-barra-consultar')) {
+      var cons = consultaDe(p);
+      var casa = document.createElement('span');
+      casa.className = 'ficha-barra-casa';
+      casa.textContent = p.title + ' · ' + (p.priceMXN != null ? pesos(p.priceMXN) : String(p.subzone || '').split(',')[0]);
+      marca.insertAdjacentElement('afterend', casa);
+      var consultar = document.createElement('a');
+      consultar.className = 'ficha-barra-consultar';
+      consultar.href = cons.href;
+      consultar.target = '_blank';
+      consultar.rel = 'noopener';
+      consultar.textContent = 'Consultar';
+      consultar.setAttribute('aria-label', cons.texto + ' por WhatsApp');
+      barra.appendChild(consultar);
+    }
+
     document.title = p.title + ' — ' + p.subzone + ' | PRAETORA';
     // Abierta como propiedad.html?id=, la barra pasa a la dirección propia de la casa:
     // así, si alguien copia el enlace, se comparte con su foto y su nombre.
@@ -973,7 +1033,10 @@ function initHeaderScroll() {
     if (meta) meta.setAttribute('content', p.description);
 
     var html = '';
-    construirFlujo(p).forEach(function (f, i) { html += panelFoto(f, i); });
+    var nFoto = 0;
+    construirFlujo(p).forEach(function (f, i) {
+      html += panelFoto(f, i, f.tipo === 'video' ? '' : p.title + ', foto ' + (++nFoto));
+    });
     (p.planos || []).forEach(function (pl) { html += panelPlano(pl, p); });
     html += panelFicha(p) + panelDistribucion(p) + panelCasa(p) + panelEntorno(p) + panelContacto(p);
     cont.innerHTML = html;
@@ -995,7 +1058,8 @@ function initHeaderScroll() {
         if (esVertical()) {
           destino.scrollIntoView({ behavior: suave, block: 'start' });
         } else {
-          cont.scrollTo({ left: cont.scrollWidth, behavior: suave });
+          // Al panel de la ficha, no al final: detrás de él van la maqueta y más paneles (F-02).
+          cont.scrollTo({ left: destino.offsetLeft - parseFloat(getComputedStyle(cont).paddingLeft), behavior: suave });
         }
       });
     }
@@ -1022,6 +1086,276 @@ function initHeaderScroll() {
     }
 
     document.addEventListener('keydown', onTecla);
+
+    if (esVertical()) armarFichaVertical();
+    else ponerGanchos(p);
+    iniciarVideoEntorno();
+
+    // La pista «Ficha técnica →» de la barra se apaga cuando la ficha ya está a la vista.
+    var marcar = function () { marcarEnInfo(); };
+    cont.addEventListener('scroll', marcar, { passive: true });
+    window.addEventListener('scroll', marcar, { passive: true });
+    window.addEventListener('resize', marcar);
+    marcarEnInfo();
+
+    // Cruzar de compu a cel (o al revés) cambia el acomodo entero: se vuelve a armar.
+    // Se espera medio segundo y se compara: un cambio de un instante (girar el cel,
+    // una captura) no recarga la página.
+    var mq = window.matchMedia('(min-width: 1024px)');
+    var armadoVertical = esVertical();
+    var espera = null;
+    var cambio = function () {
+      clearTimeout(espera);
+      espera = setTimeout(function () {
+        if (esVertical() !== armadoVertical) location.reload();
+      }, 500);
+    };
+    if (mq.addEventListener) mq.addEventListener('change', cambio);
+    else if (mq.addListener) mq.addListener(cambio);
+  }
+
+  /* --------------------------------------------------------------------------
+     Ganchos (Luis, 27-oct): en compu, mientras el cliente avanza a la derecha,
+     debajo de las fotos se va escribiendo la casa, una línea por foto: los m²,
+     «se entrega sin muebles…» en las del Club y sus características. Solo datos
+     de data.js; la descripción no (trae adjetivos y cosas sin verificar).
+     -------------------------------------------------------------------------- */
+  function ganchosDe(p) {
+    var g = [];
+    var m = [];
+    if (p.m2Construccion) m.push(Number(p.m2Construccion).toLocaleString('es-MX') + ' m² de construcción');
+    if (p.m2Terreno) m.push(Number(p.m2Terreno).toLocaleString('es-MX') + ' m² de terreno');
+    if (m.length) g.push(m.join(' · '));
+    if (esActivoDeInversion(p)) {
+      String(p.llavesDetalle || '').split(/\.\s*/).filter(Boolean).forEach(function (s) { g.push(s); });
+      if (p.caminando) g.push(p.caminando);
+    } else {
+      if (p.entorno === 'malanquin') g.push('Se entrega sin muebles y con cocina equipada');
+      (p.caracteristicas || []).forEach(function (c) { g.push(c); });
+    }
+    return g;
+  }
+
+  function ponerGanchos(p) {
+    var ganchos = ganchosDe(p);
+    if (!ganchos.length) return;
+    var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var fotos = cont.querySelectorAll('figure.ficha-panel:not(.ficha-plano)');
+    var dos = function (n) { return (n < 10 ? '0' : '') + n; };
+    var puestos = [];
+    Array.prototype.forEach.call(fotos, function (f, i) {
+      if (i >= ganchos.length) return;
+      var cap = document.createElement('figcaption');
+      cap.className = 'ficha-gancho';
+      cap.innerHTML = '<span class="ficha-gancho-num" aria-hidden="true">' + dos(i + 1) + '</span>' +
+        '<span class="oculto-visual">' + esc(ganchos[i]) + '</span>' +
+        '<span class="ficha-gancho-texto" aria-hidden="true"></span>';
+      cap.setAttribute('data-texto', ganchos[i]);
+      f.appendChild(cap);
+      puestos.push(cap);
+    });
+
+    function escribir(cap) {
+      if (cap.getAttribute('data-escrito')) return;
+      cap.setAttribute('data-escrito', '1');
+      var texto = cap.getAttribute('data-texto');
+      var destino = cap.querySelector('.ficha-gancho-texto');
+      if (quieto) { destino.textContent = texto; return; }
+      var n = 0;
+      destino.classList.add('escribiendo');
+      var t = setInterval(function () {
+        n += 1;
+        destino.textContent = texto.slice(0, n);
+        if (n >= texto.length) { clearInterval(t); setTimeout(function () { destino.classList.remove('escribiendo'); }, 900); }
+      }, 24);
+    }
+
+    if (quieto || !('IntersectionObserver' in window)) { puestos.forEach(escribir); return; }
+    var obs = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var cap = en.target.querySelector('.ficha-gancho');
+        if (cap) setTimeout(function () { escribir(cap); }, 350);
+        obs.unobserve(en.target);
+      });
+    }, { root: cont, threshold: 0.6 });
+    // El lector de pantalla y Google leen la línea completa del span oculto desde el inicio.
+    puestos.forEach(function (cap) { obs.observe(cap.parentNode); });
+  }
+
+  /* El video del entorno baja y corre solo cuando se ve, y se pausa al salir.
+     Con «reducir movimiento» queda quieto en su póster, con controles. */
+  function iniciarVideoEntorno() {
+    var v = cont.querySelector('.ficha-entorno-video video');
+    if (!v) return;
+    var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function cargar() {
+      if (!v.getAttribute('src')) { v.src = v.getAttribute('data-src'); v.load(); }
+    }
+    // Con «reducir movimiento» no corre solo y se carga hasta que se ve, para no bajarlo antes.
+    if (quieto) {
+      v.controls = true;
+      v.preload = 'none';
+      if (!('IntersectionObserver' in window)) { cargar(); return; }
+      new IntersectionObserver(function (entradas, obs) {
+        if (entradas[0].isIntersecting) { cargar(); obs.disconnect(); }
+      }, { threshold: 0.25 }).observe(v);
+      return;
+    }
+    if (!('IntersectionObserver' in window)) { cargar(); v.play().catch(function () {}); return; }
+    new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (en) {
+        if (en.isIntersecting) { cargar(); v.play().catch(function () {}); }
+        else if (v.getAttribute('src')) v.pause();
+      });
+    }, { threshold: 0.25 }).observe(v);
+  }
+
+  function marcarEnInfo() {
+    var destino = document.getElementById('ficha-info');
+    if (!destino) return;
+    var r = destino.getBoundingClientRect();
+    var enInfo = esVertical()
+      ? r.top < window.innerHeight * 0.75 && r.bottom > 0
+      : r.left < window.innerWidth * 0.7;
+    document.body.classList.toggle('ficha-en-info', enInfo);
+  }
+
+  /* --------------------------------------------------------------------------
+     Ficha en cel y tableta (Luis, 27-oct): las fotos arriba, en un carril que
+     se desliza; abajo, la ficha técnica a la vista, y lo demás en tarjetas que
+     también se deslizan hacia el lado (Ficha técnica · Planos · La casa ·
+     El entorno · Contacto), con pestañas que siguen al dedo.
+     -------------------------------------------------------------------------- */
+  function armarFichaVertical() {
+    var suave = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    var hijos = Array.prototype.slice.call(cont.children);
+    var fotos = hijos.filter(function (e) { return e.matches('figure.ficha-panel:not(.ficha-plano)'); });
+    var planos = hijos.filter(function (e) { return e.classList.contains('ficha-plano'); });
+    var info = document.getElementById('ficha-info');
+    var textos = hijos.filter(function (e) { return e.classList.contains('ficha-panel-texto') && e !== info; });
+    if (!fotos.length || !info) return;
+
+    function nuevo(tag, clase, attrs) {
+      var el = document.createElement(tag);
+      if (clase) el.className = clase;
+      Object.keys(attrs || {}).forEach(function (k) { el.setAttribute(k, attrs[k]); });
+      return el;
+    }
+    function nombreDe(panel) {
+      if (panel.classList.contains('ficha-panel-contacto')) return 'Contacto';
+      var etq = panel.querySelector('.ficha-etiqueta');
+      var t = etq ? etq.textContent.trim() : '';
+      return t ? t.charAt(0).toUpperCase() + t.slice(1).toLowerCase() : 'Más';
+    }
+
+    document.body.classList.add('ficha-cel');
+
+    // 1 · Las fotos: un carril a todo lo ancho, con su contador.
+    var zonaFotos = nuevo('div', 'ficha-cel-fotos');
+    var carril = nuevo('div', 'ficha-cel-carril', { 'aria-label': 'Fotos de la casa' });
+    var cuenta = nuevo('div', 'ficha-cel-cuenta', { 'aria-hidden': 'true' });
+    fotos.forEach(function (f) { carril.appendChild(f); });
+    zonaFotos.appendChild(carril);
+    zonaFotos.appendChild(cuenta);
+    var dos = function (n) { return (n < 10 ? '0' : '') + n; };
+    var pintarCuenta = function () {
+      var n = Math.min(fotos.length, Math.round(carril.scrollLeft / Math.max(1, carril.clientWidth)) + 1);
+      cuenta.textContent = dos(n) + ' / ' + dos(fotos.length);
+    };
+    carril.addEventListener('scroll', pintarCuenta, { passive: true });
+
+    // 2 · Las tarjetas: la ficha técnica primero; los planos van con la distribución.
+    var grupos = [{ nombre: 'Ficha técnica', paneles: [info] }];
+    textos.forEach(function (t) {
+      var g = { nombre: nombreDe(t), paneles: [t] };
+      if (/distribuci/i.test(g.nombre)) {
+        g.nombre = 'Planos';
+        planos.forEach(function (pl) { pl.hidden = false; g.paneles.push(pl); });
+        planos = [];
+      }
+      grupos.push(g);
+    });
+    if (planos.length) {
+      planos.forEach(function (pl) { pl.hidden = false; });
+      grupos.splice(1, 0, { nombre: 'Planos', paneles: planos });
+    }
+
+    var pestanas = nuevo('div', 'ficha-cel-pestanas', { role: 'tablist', 'aria-label': 'Información de la casa' });
+    var pista = nuevo('p', 'ficha-cel-pista');
+    pista.innerHTML = 'Deslice para ver más <span aria-hidden="true"></span>';
+    var carrilInfo = nuevo('div', 'ficha-cel-info');
+    var tarjetas = grupos.map(function (g, i) {
+      var id = 'ficha-cel-tarjeta-' + i;
+      var tarjeta = nuevo('section', 'ficha-cel-tarjeta', { id: id, role: 'tabpanel', 'aria-label': g.nombre });
+      g.paneles.forEach(function (pn) { tarjeta.appendChild(pn); });
+      var boton = nuevo('button', 'ficha-cel-pestana', { type: 'button', role: 'tab', 'aria-controls': id, 'aria-selected': i === 0 ? 'true' : 'false' });
+      boton.textContent = g.nombre;
+      boton.addEventListener('click', function () { irA(i); });
+      pestanas.appendChild(boton);
+      carrilInfo.appendChild(tarjeta);
+      return tarjeta;
+    });
+
+    // Todo lo movido queda a la vista (el revelado por scroll no aplica en los carriles).
+    Array.prototype.forEach.call(cont.querySelectorAll('.ficha-panel'), function (el) { el.classList.add('is-visible'); });
+
+    cont.innerHTML = '';
+    cont.appendChild(zonaFotos);
+    cont.appendChild(pestanas);
+    cont.appendChild(pista);
+    cont.appendChild(carrilInfo);
+    pintarCuenta();
+
+    // El carril de tarjetas toma el alto de la tarjeta que se ve: sin huecos debajo.
+    var activa = 0;
+    function ajustarAlto() {
+      var t = tarjetas[activa];
+      if (t) carrilInfo.style.height = t.scrollHeight + 'px';
+    }
+    function marcarPestana(i) {
+      if (i === activa) return;
+      activa = i;
+      Array.prototype.forEach.call(pestanas.children, function (b, j) {
+        b.setAttribute('aria-selected', j === i ? 'true' : 'false');
+      });
+      var b = pestanas.children[i];
+      if (b && b.scrollIntoView) b.scrollIntoView({ block: 'nearest', inline: 'center', behavior: suave });
+      if (i > 0) pista.classList.add('is-vista');
+      ajustarAlto();
+    }
+    function irA(i) {
+      carrilInfo.scrollTo({ left: tarjetas[i].offsetLeft, behavior: suave });
+      marcarPestana(i);
+    }
+    carrilInfo.addEventListener('scroll', function () {
+      var i = Math.round(carrilInfo.scrollLeft / Math.max(1, carrilInfo.clientWidth));
+      marcarPestana(Math.max(0, Math.min(tarjetas.length - 1, i)));
+    }, { passive: true });
+    if ('ResizeObserver' in window) {
+      var ro = new ResizeObserver(ajustarAlto);
+      tarjetas.forEach(function (t) { ro.observe(t); });
+    }
+    window.addEventListener('load', ajustarAlto);
+    ajustarAlto();
+
+    // «Ver planos» lleva a su tarjeta (aquí los planos ya están a la vista).
+    var verPlanos = info.querySelector('.ficha-ver-planos');
+    if (verPlanos) {
+      var otro = verPlanos.cloneNode(true);
+      otro.textContent = 'Ver planos';
+      otro.removeAttribute('aria-expanded');
+      verPlanos.parentNode.replaceChild(otro, verPlanos);
+      var iPlanos = grupos.map(function (g) { return g.nombre; }).indexOf('Planos');
+      if (iPlanos > 0) otro.addEventListener('click', function () { irA(iPlanos); });
+      else otro.remove();
+    }
+
+    // INFO, en el cel, baja a la ficha técnica.
+    var aInfo = document.querySelector('.ficha-barra-info');
+    if (aInfo) {
+      aInfo.addEventListener('click', function () { irA(0); });
+    }
   }
 
   if (document.readyState === 'loading') {
@@ -1037,6 +1371,9 @@ function initHeaderScroll() {
    --------------------------------------------------------------------------
    3 tarjetas verticales (4:5) ordenadas por priceMXN descendente.
    ========================================================================== */
+// Precio completo en pesos, como en la ficha: $24,400,000 MXN.
+function precioMXN(n) { return '$' + Number(n).toLocaleString('es-MX') + ' MXN'; }
+
 function pintarVitrina() {
   var grid = document.getElementById('portada-vitrina-grid');
   if (!grid) return;
@@ -1048,7 +1385,7 @@ function pintarVitrina() {
     return pB - pA;
   });
 
-  // La tarjeta sólo lleva el nombre: la ubicación y el precio viven en la ficha.
+  // La tarjeta lleva nombre, precio y cifras (Luis, 27-oct: «las casas sí con su precio»).
   grid.innerHTML = propiedades.map(function (p) {
     var foto = p.fotoTarjeta || p.heroImage || '';
     var estiloPos = p.fotoTarjetaPos ? ' style="object-position: ' + esc(p.fotoTarjetaPos) + ';"' : '';
@@ -1058,6 +1395,8 @@ function pintarVitrina() {
         '<img src="' + esc(foto) + '" alt="' + esc(p.title) + '" loading="lazy"' + estiloPos + '>' +
       '</div>' +
       '<h3 class="portada-vitrina-nombre" translate="no">' + esc(p.title) + '</h3>' +
+      (p.priceMXN != null ? '<p class="v1-precio">' + precioMXN(p.priceMXN) + '</p>' : '') +
+      '<p class="v1-cifras">' + [p.bedrooms != null ? p.bedrooms + ' rec.' : '', p.bathrooms != null ? p.bathrooms + ' baños' : '', p.m2Construccion ? p.m2Construccion + ' m²' : ''].filter(Boolean).join(' · ') + '</p>' +
     '</a>';
   }).join('');
 }
@@ -1126,6 +1465,7 @@ function renderPropiedadBloque(prop) {
         '<div class="propiedad-bloque-info">' +
           '<span class="propiedad-bloque-tag">' + esc(etiqueta) + '</span>' +
           '<h2 class="propiedad-bloque-titulo" translate="no">' + esc(prop.title) + '</h2>' +
+          (prop.priceMXN != null ? '<p class="v1-precio v1-precio-bloque">' + precioMXN(prop.priceMXN) + '</p>' : '') +
           '<div class="propiedad-bloque-ubicacion">' +
             pinSvg +
             '<span>' + esc(ubicacionTexto) + '</span>' +
