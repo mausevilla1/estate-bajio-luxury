@@ -1,6 +1,6 @@
 # PRAETORA Grupo Inmobiliario — Estado del proyecto
 
-**Actualizado:** 11 de octubre de 2026 · **Rama de trabajo:** `praetora/branding` · **Pull Request:** #1
+**Actualizado:** 27 de octubre de 2026 · **Rama de trabajo:** `praetora/branding` · **Pull Request:** #1
 
 Este archivo es la fuente de verdad del sitio para todo colaborador y todo agente (Claude Code, Antigravity).
 Reemplaza la versión de agosto ("Estate Bajío — Quiet Luxury"), que ya no aplica: el nombre, la
@@ -70,7 +70,7 @@ foto del hero) y el encabezado del catálogo y de Invertir nombran igual las tre
 
 | Puerta | Para quién | Enlace hoy | Estado |
 |---|---|---|---|
-| **Propiedades** | Quien compra o vende casa | `catalogo.html` · vender: formulario `#consignacion` de la portada | ✅ catálogo y fichas; ⬜ el formulario de vender necesita revisión de textos |
+| **Propiedades** | Quien compra o vende casa | `catalogo.html` | ✅ catálogo y fichas; ⬜ vender: el formulario de la portada se retiró el 27-oct (YOPE) hasta tener diseño y a dónde mandar los datos |
 | **Invertir** | Inversionistas | `invertir.html` | ✅ página propia: la introducción va sobre el cielo de la foto de Casa Julieta y abajo están las oportunidades (Casa Julieta → su ficha). La seguimos puliendo YOPE y Claude |
 | **Praetora Studio** | Desarrolladores, inmobiliarias y dueños de terrenos o proyectos (servicios y búsqueda de capital) | `index.html#desarrolladores` (provisional) | ⬜ **landing de Mau: aquí entra su push** |
 
@@ -106,8 +106,10 @@ Para hacerla:
    con posiciones medidas del borrador. Celular: pendiente de diseño.
 4. **Buscar capital** (`#capital`) — provisional, sin entrada en el menú: lo reemplaza la landing de Mau (§3).
 5. **Praetora Studio** (`#desarrolladores`) — provisional: lo reemplaza la landing de Mau (§3).
-6. **Consignación / vender** (`#consignacion`) — formulario de 4 pasos.
-7. Asistente flotante (chat).
+
+Se retiraron el 27-oct, por decisión de YOPE: el formulario de vender (`#consignacion`, con un estimador de precio
+fijo y un `alert()`) y el asistente flotante (chat), que inventaba datos ("asesor patrimonial", Querétaro,
+plusvalías). No se vuelven a poner sin diseño nuevo.
 
 Sin pie de página (se quitó por decisión de YOPE).
 
@@ -215,6 +217,8 @@ si se agrega contenido, hay que repartirlo, no alargar el panel.
 - El sitio **capta** prospectos y contactos. El seguimiento vive en el CRM, aparte del sitio.
 - Las tres casas del Club de Golf se entregan **sin muebles** y **con cocina equipada**: ningún texto debe
   sugerir mobiliario incluido.
+- Casa Julieta va **sin cifras de operación** (renta del local ni calificación de Booking): se dan en el expediente
+  (YOPE, 27-oct).
 
 ---
 
@@ -225,11 +229,10 @@ si se agrega contenido, hay que repartirlo, no alargar el panel.
 - [ ] **Textos de Casa Granada:** la descripción menciona vigas de madera, cantera y jacuzzi, que no se ven en
   ninguna foto. Se revisa cuando lleguen las fotos nuevas. Mientras tanto quedan fuera de sus características.
 - [ ] **Número real de WhatsApp.** "Consultar esta casa" usa `+52 442 000 0000` de ejemplo.
-- [ ] **A dónde envían los formularios.** Hoy sólo muestran un aviso.
-- [ ] Limpiar el texto heredado que choca con §7:
-  - El chat ("asesor patrimonial", plusvalías y "Querétaro").
-  - "Blindaje" en el formulario.
-  - "Verificado 100 %" en el catálogo.
+- [x] Limpiar el texto heredado que choca con §7 (27-oct): salieron el chat, el formulario de vender con "Blindaje"
+  y el código del catálogo viejo con "Verificado 100 %", junto con el resto del prototipo de agosto que ya no se usaba
+  (filtros, comparador, modal, visor de preventas). Queda `alert()` en "Agendar presentación" de `#desarrolladores`.
+- [ ] Retirar `#capital` y `#desarrolladores` de la portada (lo decide YOPE).
 - [ ] Casa Julieta en celular (diseño de YOPE).
 - [ ] Renta: ¿entra al sitio? (pregunta abierta).
 - [ ] Aviso de privacidad: el sitio recaba datos y necesita un enlace visible.
