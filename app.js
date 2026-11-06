@@ -8,10 +8,9 @@ function esc(s) {
 
 /* Recorridos 3D por casa (clave = slug de data.js). Mientras la URL esté vacía,
    el botón no aparece: nunca se muestra un botón que no lleve a ningún lado.
-   Casa Córdoba: va la versión más reciente del recorrido en cuanto tenga URL pública. */
-const RECORRIDOS_3D = {
-  'casa-cordoba': 'https://recorridos.praetora.mx/?mode=appearance'
-};
+   Luis, 4-nov: por ahora el sitio no lleva recorrido (Casa Córdoba lo tenía en
+   https://recorridos.praetora.mx/?mode=appearance). */
+const RECORRIDOS_3D = {};
 function urlRecorrido3D(p) {
   return (p && p.slug && RECORRIDOS_3D[p.slug]) || '';
 }

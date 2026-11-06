@@ -3940,3 +3940,23 @@ body.ficha-en-info .ficha-barra-flecha { opacity: 0; }
 
 /* El paso 1 se oculta al elegir: #paso-que { display: flex } le ganaba a [hidden] y las ciudades quedaban abajo. */
 #paso-que[hidden] { display: none; }
+
+/* Catálogo: la foto de la landing arriba (Luis, 5-nov). Sin negro: el fondo y el velo
+   del cel van en el azul del logo, no en --ink. */
+.catalogo-hero { background: var(--azul-praetora); }
+.catalogo-hero .portada-hero-logo-marca { margin: 0; }
+/* Más delgada que en la landing (Luis, 5-nov). La escena guarda su proporción para que
+   el nombre y el recorte de la Parroquia sigan encimados igual; la franja solo recorta
+   arriba y abajo: de 42 vw de alto pasa a 28 vw, con la cruz y el nombre adentro. */
+@media (min-width: 768px) {
+  .catalogo-hero { height: 28vw; }
+  .catalogo-hero .portada-hero-escena { margin-top: -1.5vw; }
+}
+@media (max-width: 767px) {
+  .catalogo-hero .portada-hero-escena { height: 46svh; min-height: 340px; }
+  .catalogo-hero .portada-hero-escena::after {
+    background: linear-gradient(to top, rgba(21, 54, 61, 0.65) 0%, rgba(21, 54, 61, 0) 55%);
+  }
+  /* En la landing, el logo subía para dejar sitio a los enlaces; aquí no hay enlaces. */
+  .catalogo-hero .portada-hero-logo { bottom: 40px; }
+}

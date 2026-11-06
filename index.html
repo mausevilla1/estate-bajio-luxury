@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PRAETORA | Grupo Inmobiliario</title>
-  <meta name="description" content="PRAETORA Grupo Inmobiliario: comprar, vender e invertir en CDMX, León, Guanajuato y San Miguel de Allende.">
+  <meta name="description" content="PRAETORA Grupo Inmobiliario: comprar, vender e invertir en CDMX y San Miguel de Allende.">
   <link rel="canonical" href="https://praetora.mx/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://praetora.mx/">
   <meta property="og:title" content="PRAETORA | Grupo Inmobiliario">
-  <meta property="og:description" content="Comprar, vender e invertir en CDMX, León, Guanajuato y San Miguel de Allende.">
+  <meta property="og:description" content="Comprar, vender e invertir en CDMX y San Miguel de Allende.">
   <meta property="og:image" content="https://praetora.mx/assets/compartir/entrada.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="PRAETORA Grupo Inmobiliario: CDMX, León, Guanajuato y San Miguel de Allende. ¿Qué le trae a PRAETORA?">
+  <meta property="og:image:alt" content="PRAETORA Grupo Inmobiliario: CDMX y San Miguel de Allende. ¿Qué le trae a PRAETORA?">
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:site_name" content="PRAETORA">
   <meta property="og:locale" content="es_MX">
@@ -22,7 +22,7 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="https://use.typekit.net/eyy5hrp.css">
   <link rel="stylesheet" href="styles.css">
-  <!-- Datos estructurados (schema.org) de PRAETORA: la misma agencia que en san-miguel.html. -->
+  <!-- Datos estructurados (schema.org) de PRAETORA. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -32,7 +32,7 @@
     "url": "https://praetora.mx",
     "logo": "https://praetora.mx/apple-touch-icon.png",
     "image": "https://praetora.mx/assets/compartir/entrada.jpg",
-    "description": "Grupo inmobiliario: compra, venta e inversión en CDMX, León, Guanajuato y San Miguel de Allende.",
+    "description": "Grupo inmobiliario: compra, venta e inversión en CDMX y San Miguel de Allende.",
     "telephone": "+525564738881",
     "address": {
       "@type": "PostalAddress",
@@ -47,14 +47,6 @@
       },
       {
         "@type": "City",
-        "name": "León"
-      },
-      {
-        "@type": "City",
-        "name": "Guanajuato"
-      },
-      {
-        "@type": "City",
         "name": "San Miguel de Allende"
       }
     ]
@@ -65,8 +57,9 @@
 
   <!-- ==========================================================================
        ENTRADA: la pantalla antes de la landing (Luis, 27-oct).
-       Paso 1: qué busca. Comprar o vender pregunta la ciudad; Invertir y
-       Desarrolladores entran directo, sin preguntar.
+       Qué busca, y cada puerta entra directo a su sección. Comprar o vender va
+       al catálogo completo, sin preguntar la ciudad: hoy solo hay casas en
+       San Miguel de Allende (Luis, 4-nov).
        ========================================================================== -->
   <main class="entrada">
     <!-- Fondo en video (27-oct): bucle de 16 s, sin sonido, con tomas de bancos con licencia
@@ -109,20 +102,19 @@
     <header class="entrada-cabeza">
       <img class="entrada-logo" src="assets/marca/praetora-nombre-blanco.svg" width="652" height="81"
            alt="PRAETORA" translate="no">
-      <span class="entrada-ciudades">Grupo Inmobiliario · CDMX · León · Guanajuato · San Miguel de Allende</span>
+      <span class="entrada-ciudades">Grupo Inmobiliario · CDMX · San Miguel de Allende</span>
       <span class="entrada-ilustrativas">Imágenes ilustrativas</span>
     </header>
 
-    <!-- Paso 1 -->
     <section class="entrada-paso" id="paso-que" aria-labelledby="titulo-que">
       <h1 class="entrada-pregunta" id="titulo-que">¿Qué le trae a PRAETORA?</h1>
       <ol class="entrada-opciones">
         <li>
-          <button type="button" class="entrada-opcion" data-ir="ciudad">
+          <a class="entrada-opcion" href="catalogo.html">
             <span class="entrada-num">01</span>
             <span class="entrada-nombre">Comprar o vender</span>
             <span class="entrada-detalle">Casas en venta, o vender la suya</span>
-          </button>
+          </a>
         </li>
         <li>
           <a class="entrada-opcion" href="invertir.html">
@@ -132,37 +124,13 @@
           </a>
         </li>
         <li>
-          <a class="entrada-opcion" href="https://servicios.praetora.mx/es">
+          <a class="entrada-opcion" href="desarrolladores.html">
             <span class="entrada-num">03</span>
-            <span class="entrada-nombre">Desarrolladores <span class="entrada-sale">↗&#xFE0E;</span></span>
+            <span class="entrada-nombre">Desarrolladores</span>
             <span class="entrada-detalle">Showroom digital y comercialización para su preventa</span>
           </a>
         </li>
       </ol>
-    </section>
-
-    <!-- Paso 2: solo para comprar o vender -->
-    <section class="entrada-paso" id="paso-ciudad" aria-labelledby="titulo-ciudad" hidden>
-      <button type="button" class="entrada-volver" data-ir="que">← Volver</button>
-      <h1 class="entrada-pregunta" id="titulo-ciudad" tabindex="-1">¿En qué ciudad?</h1>
-      <p class="entrada-sub">Dónde quiere comprar, o dónde está la casa que quiere vender.</p>
-      <ol class="entrada-opciones entrada-opciones-ciudad">
-        <li><button type="button" class="entrada-opcion" data-ciudad="Ciudad de México"><span class="entrada-nombre">CDMX</span><span class="entrada-detalle">Próximamente</span></button></li>
-        <li><button type="button" class="entrada-opcion" data-ciudad="León"><span class="entrada-nombre">León</span><span class="entrada-detalle">Próximamente</span></button></li>
-        <li><button type="button" class="entrada-opcion" data-ciudad="Guanajuato"><span class="entrada-nombre">Guanajuato</span><span class="entrada-detalle">Próximamente</span></button></li>
-        <li><a class="entrada-opcion" href="san-miguel.html"><span class="entrada-nombre">San Miguel de Allende</span><span class="entrada-detalle">3 casas en venta</span></a></li>
-      </ol>
-    </section>
-
-    <!-- Paso 3: ciudad sin casas publicadas todavía -->
-    <section class="entrada-paso" id="paso-pronto" aria-labelledby="titulo-pronto" hidden>
-      <button type="button" class="entrada-volver" data-ir="ciudad">← Elegir otra ciudad</button>
-      <h1 class="entrada-pregunta" id="titulo-pronto" tabindex="-1">Todavía no publicamos casas en <span data-texto="ciudad"></span>.</h1>
-      <p class="entrada-sub">Cuéntenos qué busca o qué quiere vender, y le escribimos.</p>
-      <div class="entrada-pronto-acciones">
-        <a class="entrada-whatsapp" id="entrada-comprar" href="https://wa.me/525564738881" target="_blank" rel="noopener">Quiero comprar</a>
-        <a class="entrada-whatsapp entrada-whatsapp--linea" id="entrada-vender" href="https://wa.me/525564738881" target="_blank" rel="noopener">Quiero vender</a>
-      </div>
     </section>
 
     <footer class="entrada-pie">
@@ -173,76 +141,8 @@
   </main>
 
   <script>
-    (function () {
-      var pasos = { que: 'paso-que', ciudad: 'paso-ciudad', pronto: 'paso-pronto' };
-      var textoCiudad = document.querySelector('[data-texto="ciudad"]');
-      var comprar = document.getElementById('entrada-comprar');
-      var vender = document.getElementById('entrada-vender');
-
-      function ponerCiudad(nombre) {
-        textoCiudad.textContent = nombre;
-        comprar.href = 'https://wa.me/525564738881?text=' +
-          encodeURIComponent('Hola, vengo de praetora.mx. Quiero comprar casa en ' + nombre + '.');
-        vender.href = 'https://wa.me/525564738881?text=' +
-          encodeURIComponent('Hola, vengo de praetora.mx. Quiero vender mi casa en ' + nombre + '.');
-      }
-
-      // Cada paso que avanza deja una entrada en el historial: Atrás (el gesto del cel o
-      // el botón del navegador) regresa al paso anterior en vez de salir de PRAETORA (F-03).
-      // modo: 'empujar' al avanzar, 'reemplazar' sin entrada nueva, 'nada' con Atrás o Adelante.
-      function mostrar(paso, modo) {
-        Object.keys(pasos).forEach(function (k) {
-          document.getElementById(pasos[k]).hidden = k !== paso;
-        });
-        // El foco va al título del paso; al volver al primero, a «Comprar o vender» (F-05).
-        if (paso === 'que') document.querySelector('[data-ir="ciudad"]').focus();
-        else document.querySelector('#' + pasos[paso] + ' .entrada-pregunta').focus();
-        var estado = { paso: paso, ciudad: paso === 'pronto' ? textoCiudad.textContent : '' };
-        var url = paso === 'que' ? location.pathname + location.search : '#' + paso;
-        if (modo === 'empujar') {
-          estado.empujado = true;
-          history.pushState(estado, '', url);
-        } else if (modo === 'reemplazar') {
-          history.replaceState(estado, '', url);
-        }
-      }
-
-      document.addEventListener('click', function (e) {
-        var ir = e.target.closest('[data-ir]');
-        if (ir) {
-          // «← Volver» y «← Elegir otra ciudad» regresan por el historial si su paso lo agregó;
-          // así no lo llenan y Atrás no repite el paso del que se acaba de salir.
-          var volver = ir.classList.contains('entrada-volver');
-          if (volver && history.state && history.state.empujado) { history.back(); return; }
-          mostrar(ir.getAttribute('data-ir'), volver ? 'reemplazar' : 'empujar');
-          return;
-        }
-        var ciudad = e.target.closest('[data-ciudad]');
-        if (ciudad) {
-          ponerCiudad(ciudad.getAttribute('data-ciudad'));
-          mostrar('pronto', 'empujar');
-        }
-      });
-
-      // El paso sale del historial y, si no está ahí, de la dirección. «Próximamente» sin
-      // ciudad (al llegar directo a #pronto) muestra la pregunta de la ciudad.
-      function pasoGuardado() {
-        var s = history.state;
-        var paso = s && s.paso ? s.paso : (/^#(ciudad|pronto)$/.test(location.hash) ? 'ciudad' : 'que');
-        if (paso === 'pronto') {
-          if (s && s.ciudad) ponerCiudad(s.ciudad);
-          else if (!textoCiudad.textContent) paso = 'ciudad';
-        }
-        return paso;
-      }
-      window.addEventListener('popstate', function () { mostrar(pasoGuardado(), 'nada'); });
-
-      // Al abrir o recargar en un paso, se muestra ese paso.
-      if (/^#(ciudad|pronto)$/.test(location.hash)) {
-        var inicial = pasoGuardado();
-        mostrar(inicial, history.state && history.state.paso === inicial ? 'nada' : 'reemplazar');
-      }
-    })();
+    // Los enlaces de antes a la pregunta de la ciudad (index.html#ciudad o #pronto) llevan al catálogo.
+    if (/^#(ciudad|pronto)$/.test(location.hash)) location.replace('catalogo.html');
   </script>
 </body>
 </html>

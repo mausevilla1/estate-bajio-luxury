@@ -121,6 +121,14 @@
     lineas: todos('.f-linea > span'),
     lado: heroe.querySelector('.filtro-lado')
   };
+  // Cuántas ciudades hay (los rótulos .fc-ciudad del HTML) y su centro, para repartirlas.
+  var NC = Math.max(1, E.ciudades.length);
+  var MED = (NC - 1) / 2;
+  function centro(c) { return MED ? (c - MED) / MED : 0; }      // de -1 (la primera) a 1 (la última)
+  // Las cuatro que pasan los siete salen de la ciudad que les toca: con 4 ciudades, una de
+  // cada una; con 2, dos de cada una (las de arriba, de la primera; las de abajo, de la segunda).
+  function ciudadDe(o) { return Math.round(o * (NC - 1) / 3); }   // o: 0–3, el orden de antes
+
   // Escribe opacidad y transform solo cuando cambian.
   function estilo(nodo, op, tr) {
     if (!nodo) return;
@@ -138,15 +146,15 @@
   // Cinco cauces por ciudad (sin ondas): el abanico con que llegan al filtro.
   var CAUCES = [];
   (function () {
-    for (var c = 0; c < 4; c++) {
+    for (var c = 0; c < NC; c++) {
       for (var j = 0; j < 5; j++) {
-        CAUCES.push({ c: c, l: acotar((c - 1.5) / 1.5 * 0.6 + (j - 2) * 0.2, -1, 1), amp: 0, fr: 0, ph: 0, g: 0 });
+        CAUCES.push({ c: c, l: acotar(centro(c) * 0.6 + (j - 2) * 0.2, -1, 1), amp: 0, fr: 0, ph: 0, g: 0 });
       }
     }
   })();
 
   function lineaDe(c, r, abre) {
-    return acotar((c - 1.5) / 1.5 * 0.6 + normal(r) * abre, -1, 1);
+    return acotar(centro(c) * 0.6 + normal(r) * abre, -1, 1);
   }
 
   function crear(n) {
@@ -155,7 +163,7 @@
     var i, k, p;
     P = [];
     for (i = 0; i < n; i++) {
-      var c = Math.floor(r() * 4);
+      var c = Math.floor(r() * NC);
       P.push({
         c: c,
         s: 0.95 + 0.07 * c + 1.95 * Math.pow(r(), 1.45),  // salida: más al principio
@@ -198,7 +206,7 @@
     var deCiudad = [1, 3, 2, 0], salen = [1.1, 1.35, 1.6, 1.85], lugar = [-0.5, 1.5, 0.5, -1.5], carril = [-0.12, 0.36, 0.1, -0.42];
     for (i = 0; i < 4; i++) {
       P.push({
-        c: deCiudad[i], s: salen[i], kv: RITMO, l: carril[i],
+        c: ciudadDe(deCiudad[i]), s: salen[i], kv: RITMO, l: carril[i],
         amp: 0.35, fr: 0.008, ph: i * 2.1, d: 0,
         rad: 1.2, b: 0.72, caida: 0, bm: 1,
         g: 7, k: i, lugar: lugar[i], llega: LLEGADAS[i]
@@ -278,7 +286,8 @@
     G.b6 = semi * 0.42;
     G.ondas = semi * 0.08;
     var cg = acotar(semi * 0.27, 30, 60);
-    for (c = 0; c < 4; c++) { G.u0[c] = 0; G.w0[c] = (c - 1.5) * cg; }
+    var abre = NC < 4 ? 3 / Math.max(1, NC - 1) * 0.66 : 1;
+    for (c = 0; c < NC; c++) { G.u0[c] = 0; G.w0[c] = (c - MED) * cg * abre; }
     G.hueco = 18;
     G.freno = acotar((G.uFin - G.ug[6]) * 0.45, 40, 90);
     poner(E.cab, G.ox - 18 - ancho(E.cab), by);
@@ -316,9 +325,9 @@
     G.lx1 = der;
     var fila = corto ? 18 : 22;
     G.oy = by + alto(E.cab) + (corto ? 12 : 18);
-    var w0 = [-0.62, -0.2, 0.22, 0.64];
-    for (c = 0; c < 4; c++) { G.u0[c] = c * fila; G.w0[c] = w0[c] * semi; }
-    var ug0 = 3 * fila + Math.max(corto ? 38 : 46, alto(E.ciudades[3]) + (corto ? 22 : 34));
+    var w0 = NC === 4 ? [-0.62, -0.2, 0.22, 0.64] : null;
+    for (c = 0; c < NC; c++) { G.u0[c] = c * fila; G.w0[c] = (w0 ? w0[c] : centro(c) * 0.42) * semi; }
+    var ug0 = (NC - 1) * fila + Math.max(corto ? 38 : 46, alto(E.ciudades[NC - 1]) + (corto ? 22 : 34));
     var altoEtq = alto(E.filtros[0]);
     var paso = acotar(((by + bh) - G.oy - ug0 - 8) / 7.2, corto ? 24 : 34, 58);
     for (k = 0; k < 7; k++) G.ug[k] = ug0 + paso * k;
@@ -543,7 +552,7 @@
     }
     // Celular: guía fina de cada ciudad a su punto de salida.
     if (G.vertical && G.lider) {
-      for (k = 0; k < 4; k++) {
+      for (k = 0; k < NC; k++) {
         var ap = curva(seg(t, 0.32 + 0.13 * k, 0.75));
         if (ap <= 0) continue;
         var yy = Math.round(G.oy + G.u0[k]) + 0.5, x1 = G.lider[k], x2 = G.ox + G.w0[k] - 9;
@@ -617,7 +626,7 @@
   }
 
   function nodos(t) {
-    for (var c = 0; c < 4; c++) {
+    for (var c = 0; c < NC; c++) {
       var ap = curva(seg(t, 0.32 + 0.13 * c, 0.75));
       if (ap <= 0) continue;
       var x = sx(G.u0[c], G.w0[c]), y = sy(G.u0[c], G.w0[c]);
@@ -660,7 +669,7 @@
     var o, k;
     o = curva(seg(t, 0.15, 0.8));
     estilo(E.cab, o, 'translate3d(0,' + ((1 - o) * 6).toFixed(2) + 'px,0)');
-    for (k = 0; k < 4; k++) {
+    for (k = 0; k < NC; k++) {
       o = curva(seg(t, 0.32 + 0.13 * k, 0.75));
       estilo(E.ciudades[k], o, 'translate3d(' + ((1 - o) * -10).toFixed(2) + 'px,0,0)');
     }
