@@ -1,0 +1,668 @@
+/* ==========================================================================
+   PRAETORA · Invertir · Concepto A «El filtro»
+   --------------------------------------------------------------------------
+   Va encima de la hoja de la V1 (encabezado, pie, botón y enlace se heredan).
+   Color: solo la paleta de la marca y sus transparencias.
+     #15363D azul · #FFFFFF · #F7F7F7 · #F2F2F2 · #111111 · #222222 · #767676 · #E6E6E6
+   ========================================================================== */
+:root {
+  --f-azul: #15363D;
+  --f-blanco: #FFFFFF;
+  --f-claro: #F7F7F7;
+  --f-claro-2: #F2F2F2;
+  --f-tinta: #111111;
+  --f-tinta-2: #222222;
+  --f-gris: #767676;
+  --f-linea: #E6E6E6;
+  --f-curva: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.f-oculto {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --------------------------------------------------------------------------
+   LA INTRODUCCIÓN
+   El azul tiene luz arriba a la derecha, sombra en las orillas y bruma que se
+   mueve despacio: lo fijo va como fondo de la sección; lo que se mueve, en
+   capas que solo cambian transform u opacity.
+   -------------------------------------------------------------------------- */
+.filtro {
+  --f-cab: 108px;                       /* alto del encabezado de la V1 + aire */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 640px;
+  min-height: max(640px, 100svh);
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--f-blanco);
+  background:
+    radial-gradient(60% 75% at 4% 108%, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(140% 110% at 50% 42%, rgba(9, 27, 31, 0) 52%, rgba(9, 27, 31, 0.42) 100%),
+    linear-gradient(180deg, rgba(9, 27, 31, 0.18) 0%, rgba(9, 27, 31, 0) 22%, rgba(9, 27, 31, 0) 62%, rgba(9, 27, 31, 0.3) 100%),
+    var(--f-azul);
+}
+
+.filtro-fondo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ff { position: absolute; pointer-events: none; }
+
+/* Luz principal: una ventana fuera de cuadro, arriba a la derecha. */
+.ff-luz-a {
+  width: 130vmax; height: 130vmax;
+  left: calc(80% - 65vmax);
+  top: calc(4% - 65vmax);
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.055) 38%, rgba(255, 255, 255, 0.015) 68%, rgba(255, 255, 255, 0) 100%);
+  will-change: transform;
+}
+/* Contraluz baja: da piso al campo. */
+.ff-luz-b {
+  width: 110vmax; height: 46vmax;
+  left: calc(52% - 55vmax);
+  top: calc(58% - 23vmax);
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0) 100%);
+  will-change: transform, opacity;
+}
+/* Bruma: discos fuera de foco, lejos (se mueven poco y lento). */
+.ff-bruma {
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.018) 55%, rgba(255, 255, 255, 0) 100%);
+  will-change: transform;
+}
+.ff-bruma-1 { width: 34vmax; height: 34vmax; left: 6%;  top: 8%; }
+.ff-bruma-2 { width: 22vmax; height: 22vmax; left: 46%; top: 54%; }
+.ff-bruma-3 { width: 46vmax; height: 46vmax; left: 62%; top: 30%; opacity: 0.8; }
+.ff-bruma-4 { width: 16vmax; height: 16vmax; left: 28%; top: 70%; opacity: 0.9; }
+.ff-bruma-5 { width: 26vmax; height: 26vmax; left: 84%; top: -6%; opacity: 0.7; }
+
+/* El haz: la luz que viaja con el frente de las oportunidades. */
+.ff-haz {
+  top: -10%; bottom: -10%; left: 0;
+  width: 720px;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.028) 46%, rgba(255, 255, 255, 0.008) 78%, rgba(255, 255, 255, 0) 100%);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.filtro.es-vertical .ff-haz {
+  top: 0; left: -20%; right: -20%; bottom: auto;
+  width: auto; height: 520px;
+}
+/* La luz de «Usted»: invertir.js la centra en la línea final. */
+.ff-usted {
+  left: 0; top: 0;
+  width: 640px; height: 640px;
+  margin: -320px 0 0 -320px;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.06) 34%, rgba(255, 255, 255, 0.015) 66%, rgba(255, 255, 255, 0) 100%);
+  opacity: 0.85;
+  will-change: opacity;
+}
+.filtro.es-vertical .ff-usted { width: 460px; height: 460px; margin: -230px 0 0 -230px; }
+.ff-sombra {
+  inset: 0;
+  background: radial-gradient(120% 90% at 46% 40%, rgba(9, 27, 31, 0) 60%, rgba(9, 27, 31, 0.22) 100%);
+}
+/* Telón: la luz que se enciende al abrir. */
+.ff-telon { inset: 0; background: #091B1F; opacity: 0; will-change: opacity; }
+
+.filtro-lienzo {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* --- Rótulos del diagrama (posición: invertir.js) ------------------------ */
+.filtro-capa {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  display: none;
+}
+.filtro.listo .filtro-capa { display: block; }   /* solo cuando invertir.js ya colocó los rótulos */
+
+.fc {
+  position: absolute;
+  left: 0; top: 0;
+  font-family: var(--font-sans);
+  white-space: nowrap;
+  will-change: transform, opacity;
+}
+.fc-cab,
+.fc-ciudad,
+.fc-usted,
+.fc-filtro b {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+/* 12 px sobre el azul: blanco al 64 % da ~6:1 (al 50 % quedaba en 4.4:1). */
+.fc-cab { color: rgba(255, 255, 255, 0.64); }
+.fc-ciudad { color: rgba(255, 255, 255, 0.9); }
+.fc-usted { color: var(--f-blanco); letter-spacing: 0.18em; }
+.fc-filtro { white-space: normal; }
+.fc-filtro b {
+  display: block;
+  margin-bottom: 6px;
+  color: rgba(255, 255, 255, 0.64);
+  font-variant-numeric: tabular-nums;
+}
+.fc-filtro > span {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--f-blanco);
+}
+
+/* En vertical (celular): un renglón por compuerta, sobre su línea. */
+.filtro.es-vertical .fc-filtro { display: flex; align-items: baseline; gap: 10px; white-space: nowrap; }
+.filtro.es-vertical .fc-filtro b { margin: 0; }
+.filtro.es-vertical .fc-filtro > span { font-size: 13px; }
+.filtro.es-vertical .fc-ciudad { white-space: normal; letter-spacing: 0.1em; }
+
+/* --- Contenido: caja del diagrama y titular ------------------------------ */
+.filtro-contenido {
+  position: relative;
+  z-index: 3;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: var(--f-cab);
+  padding-bottom: 44px;
+}
+.filtro-diagrama { flex: 1 0 auto; min-height: 340px; }
+
+.filtro-texto {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+  gap: 24px 56px;
+  align-items: end;
+  margin-top: 28px;
+}
+.filtro-titulo {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(34px, 4.6vw, 66px);
+  font-weight: 300;
+  line-height: 1.04;
+  letter-spacing: -0.012em;
+  color: var(--f-blanco);
+}
+.f-linea { display: block; overflow: hidden; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+.f-linea > span { display: inline-block; will-change: transform, opacity; }
+
+.filtro-bajada {
+  margin: 0 0 22px;
+  font-size: 16px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 34ch;
+}
+.filtro-lado { will-change: transform, opacity; }
+.filtro-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; }
+
+.filtro .btn-gold,
+.f-cierre .btn-gold {
+  background: var(--f-blanco);
+  border-color: var(--f-blanco);
+  color: var(--f-azul);
+  min-height: 48px;
+  justify-content: center;
+}
+.filtro .portada-enlace,
+.filtro .portada-enlace:hover,
+.filtro .portada-enlace:focus-visible { color: var(--f-blanco); }
+.filtro .portada-enlace:hover { opacity: 0.75; }
+/* Sobre el azul, el foco de la V1 (#111) no se vería: va en blanco. */
+.filtro a:focus-visible,
+.f-cierre a:focus-visible,
+.filtro-page .site-header a:focus-visible { outline: 2px solid var(--f-blanco); outline-offset: 4px; }
+
+/* Toques de 44 px sin mover nada: el área crece con un ::before transparente.
+   «Ver oportunidades» mide 28 px de alto; en el celular, el logotipo 20 y el menú 38. */
+.filtro-acciones .portada-enlace { position: relative; }
+.filtro-acciones .portada-enlace::before {
+  content: "";
+  position: absolute;
+  left: -6px; right: -6px; top: -9px; bottom: -9px;
+}
+@media (max-width: 1023px), (pointer: coarse) {
+  /* A 360 px el menú de la V1 se parte en dos renglones y sus enlaces de 44 px se
+     encimaban 2 px (renglones a 42 px): aquí quedan a 46 px. */
+  body.filtro-page .site-header nav .nav-links { row-gap: 20px; }
+  .filtro-page .site-header .brand-logo { position: relative; }
+  .filtro-page .site-header .brand-logo::before,
+  .filtro-page .site-header .nav-link::before {
+    content: "";
+    position: absolute;
+    left: -6px; right: -6px; top: 50%;
+    height: 44px;
+    margin-top: -22px;
+  }
+}
+/* Pie de la V1 en tableta (o con pantalla táctil): la regla de 44 px que la V1 aplica
+   hasta 767 px. Va aquí para no tocar styles.css; conviene pasarla a la V1 completa. */
+@media (min-width: 768px) and (max-width: 1023px), (min-width: 768px) and (pointer: coarse) {
+  .filtro-page .v1-pie-col { gap: 0; }
+  .filtro-page .v1-pie-col a,
+  .filtro-page .v1-pie-col span { min-height: 44px; display: flex; align-items: center; }
+}
+
+/* Antes de que corra la introducción (html.mov) todo arranca en t = 0;
+   invertir.js toma el control en el primer cuadro. */
+html.mov .ff-telon { opacity: 0.5; }
+html.mov .fc { opacity: 0; }
+html.mov .f-linea > span { opacity: 0; transform: translate3d(0, 105%, 0); }
+html.mov .filtro-lado { opacity: 0; }
+
+/* --------------------------------------------------------------------------
+   DEBAJO: un bloque por tema, rótulo a la izquierda, sin repetir datos.
+   -------------------------------------------------------------------------- */
+.f-bloque { background: var(--f-blanco); color: var(--f-tinta); }
+.f-fila {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+  gap: 24px;
+  padding-top: 56px;
+  padding-bottom: 56px;
+}
+.f-bloque + .f-bloque .f-fila { border-top: 1px solid var(--f-linea); }
+
+.f-rotulo {
+  margin: 0;
+  padding-top: 6px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--f-gris);
+}
+
+/* Qué buscamos: los siete tipos, de un vistazo. */
+.f-tipos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 0;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--f-tinta);
+}
+.f-tipos li { display: inline-flex; align-items: center; white-space: nowrap; margin-right: 34px; }
+.f-tipos li::before {
+  content: "";
+  flex: none;
+  width: 6px; height: 6px;
+  margin-right: 12px;
+  border-radius: 50%;
+  background: var(--f-azul);
+}
+
+/* Cómo trabajamos: dos pasos sobre una línea (el mismo flujo de arriba). */
+.f-pasos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 48px;
+  position: relative;
+}
+.f-pasos::before {
+  content: "";
+  position: absolute;
+  left: 4px; right: 0; top: 4px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--f-azul), rgba(21, 54, 61, 0.25));
+}
+.f-paso { position: relative; padding-top: 30px; }
+.f-paso::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--f-azul);
+}
+.f-paso-titulo,
+.f-ciudad-nombre {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--f-tinta);
+}
+/* Las claves van separadas por una raya fina; la raya que quedaría al
+   principio de un renglón se recorta (overflow) para que nunca abra renglón. */
+.f-claves {
+  overflow: hidden;
+  margin: 14px 0 10px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--f-tinta-2);
+}
+.f-claves-in { display: flex; flex-wrap: wrap; row-gap: 6px; margin-left: -25px; }
+.f-claves-in > span { position: relative; padding-left: 25px; white-space: nowrap; }
+.f-claves-in > span::before {
+  content: "";
+  position: absolute;
+  left: 12px; top: 50%;
+  width: 1px; height: 11px;
+  margin-top: -6px;
+  background: rgba(118, 118, 118, 0.55);
+}
+.f-paso-texto { margin: 0; font-size: 16px; line-height: 1.55; color: var(--f-tinta-2); }
+
+/* Oportunidades por ciudad: la misma fila para las cuatro. */
+.f-ciudades { display: flex; flex-direction: column; }
+.f-ciudad { padding: 0 0 22px; }
+.f-ciudad + .f-ciudad { padding-top: 22px; border-top: 1px solid var(--f-linea); }
+.f-ciudad:last-child { padding-bottom: 0; }
+.f-ciudad-cab { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.f-estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--f-gris);
+}
+.f-estado::before {
+  content: "";
+  width: 7px; height: 7px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 1px solid var(--f-gris);
+}
+.f-ciudad--publicada .f-estado { color: var(--f-azul); }
+.f-ciudad--publicada .f-estado::before { border-color: var(--f-azul); background: var(--f-azul); }
+
+.f-oportunidad {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 32px;
+  margin-top: 22px;
+  color: var(--f-tinta);
+  text-decoration: none;
+}
+.f-oportunidad-foto { display: block; overflow: hidden; background: var(--f-claro-2); aspect-ratio: 3 / 2; }
+.f-oportunidad-foto img {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
+  transition: transform 0.6s var(--f-curva);
+}
+.f-oportunidad:hover .f-oportunidad-foto img { transform: scale(1.03); }
+.f-oportunidad-texto { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 4px 0; }
+.f-oportunidad-zona {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--f-gris);
+}
+.f-oportunidad-nombre { font-size: 32px; font-weight: 500; line-height: 1.15; color: var(--f-tinta); }
+.f-oportunidad-desc { font-size: 16px; line-height: 1.55; color: var(--f-tinta-2); max-width: 34ch; }
+.f-oportunidad-dato {
+  display: flex;
+  align-self: stretch;
+  align-items: baseline;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--f-linea);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--f-tinta);
+}
+.f-oportunidad-dato::after {
+  content: "Construcción";
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--f-gris);
+}
+.f-oportunidad .portada-enlace { margin-top: auto; }
+.f-oportunidad:focus-visible { outline: 2px solid var(--f-azul); outline-offset: 6px; }
+
+/* La acción: el mismo azul y la misma luz que «Usted». */
+.f-cierre {
+  position: relative;
+  overflow: hidden;
+  color: var(--f-blanco);
+  background:
+    radial-gradient(50% 140% at 12% 50%, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(140% 120% at 50% 50%, rgba(17, 17, 17, 0) 50%, rgba(17, 17, 17, 0.3) 100%),
+    var(--f-azul);
+}
+.f-cierre-in {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 36px 48px;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+.f-cierre-titulo {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(30px, 3.4vw, 48px);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--f-blanco);
+}
+.f-cierre-punto {
+  position: relative;
+  flex: none;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--f-blanco);
+  box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.07);
+}
+.f-cierre-punto::after {
+  content: "";
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0));
+  animation: f-respira 3.2s ease-in-out infinite;
+}
+@keyframes f-respira { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+
+/* Lo que no hacemos: punto hueco (lo que no pasa), alineado con el texto del titular. */
+.f-cierre-no {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0 0 0 30px;               /* punto de 8 px + 22 px de aire */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 36px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.84);
+}
+.f-cierre-no li { display: inline-flex; align-items: center; gap: 12px; }
+.f-cierre-no li::before {
+  content: "";
+  flex: none;
+  width: 9px; height: 9px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+}
+.f-cierre-accion { display: flex; flex-direction: column; align-items: stretch; gap: 12px; }
+.f-cierre-nota {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Al terminar la introducción solo respira la luz de «Usted» (la misma curva que invertir.js). */
+@keyframes f-usted-respira { 0%, 100% { opacity: 0.88; } 50% { opacity: 0.68; } }
+@media (prefers-reduced-motion: no-preference) {
+  .filtro.quieto .ff-usted { animation: f-usted-respira 4.8s ease-in-out infinite; }
+}
+
+/* La franja de la V1 empieza con su propia línea: sin aire de más. */
+.filtro-page .v1-franja { padding-top: 24px; }
+
+/* --------------------------------------------------------------------------
+   MEDIDAS
+   -------------------------------------------------------------------------- */
+@media (max-width: 1099px) {
+  .filtro-texto { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .filtro-bajada { margin-bottom: 18px; }
+}
+
+@media (max-width: 959px) {
+  .f-fila { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .f-rotulo { padding-top: 0; }
+}
+
+@media (max-width: 759px) {
+  .filtro { --f-cab: 128px; min-height: max(600px, 100svh); }
+  .filtro-contenido { padding-bottom: 28px; }
+  .filtro-diagrama { min-height: 400px; }
+  .filtro-texto { margin-top: 18px; gap: 14px; }
+  .filtro-titulo { font-size: 30px; line-height: 1.08; }
+  .filtro-bajada { font-size: 14px; margin-bottom: 16px; }
+  .filtro-acciones { gap: 12px 24px; }
+  .filtro-acciones .btn-gold { flex: 1 1 auto; }
+
+  .f-fila { padding-top: 40px; padding-bottom: 40px; gap: 16px; }
+  /* Qué buscamos, corrido: los siete tipos separados por «·», en renglones que
+     se acomodan (cada tipo entero; el punto medio nunca abre renglón). */
+  .f-tipos { display: block; font-size: 19px; line-height: 1.6; }
+  .f-tipos li { display: inline; margin-right: 0; white-space: nowrap; }
+  .f-tipos li::before { content: none; }
+  .f-tipos li:not(:last-child)::after { content: "\00a0·"; color: var(--f-gris); }
+  .f-pasos { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .f-pasos::before { left: 4px; right: auto; top: 8px; bottom: 0; width: 1px; height: auto; background: linear-gradient(180deg, var(--f-azul), rgba(21, 54, 61, 0.2)); }
+  .f-paso { padding: 0 0 0 28px; }
+  .f-paso::before { top: 8px; }
+  .f-paso-titulo, .f-ciudad-nombre { font-size: 20px; }
+  .f-claves { margin: 10px 0 8px; }
+  .f-oportunidad { grid-template-columns: minmax(0, 1fr); gap: 18px; margin-top: 16px; }
+  .f-oportunidad-nombre { font-size: 28px; }
+  .f-oportunidad .portada-enlace { margin-top: 8px; }
+  .f-ciudad + .f-ciudad { padding-top: 18px; }
+  .f-ciudad { padding-bottom: 18px; }
+  .f-cierre-in { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-top: 56px; padding-bottom: 56px; }
+  .f-cierre-no { flex-direction: column; margin-top: 16px; }
+  .f-cierre-in .btn-gold { width: 100%; }
+}
+
+/* Celular de menos de 700 px de alto (360 × 640, 375 × 667): el diagrama se
+   aprieta (invertir.js junta las filas) para que el botón quede a la vista. */
+@media (max-width: 759px) and (max-height: 699px) {
+  .filtro { --f-cab: 116px; }
+  .filtro-diagrama { min-height: 316px; }
+  .filtro-texto { margin-top: 10px; gap: 10px; }
+  .filtro-titulo { font-size: 28px; }
+  .filtro-bajada { margin-bottom: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .f-cierre-punto::after { animation: none; opacity: 0.8; }
+  .f-oportunidad-foto img { transition: none; }
+}
+
+/* ?video: para renderizar el MP4 queda el logotipo, sin menú ni botones. */
+html.modo-video .site-header nav,
+html.modo-video .site-header .btn-gold,
+html.modo-video .filtro-acciones { visibility: hidden; }
+
+/* ?video=reel (432 × 768 a 2.5×): aire arriba y abajo para la interfaz de
+   Instagram (el titular termina antes del 78 % del alto), letra un poco mayor y
+   sin la bajada; el mensaje es el titular. */
+html.modo-reel .site-header { padding-top: 64px; }
+html.modo-reel .site-header nav,
+html.modo-reel .site-header .btn-gold { display: none; }
+html.modo-reel .filtro { --f-cab: 132px; min-height: 100vh; }
+html.modo-reel .filtro-contenido { padding-bottom: 170px; }
+html.modo-reel .filtro-diagrama { min-height: 0; }
+html.modo-reel .filtro-lado { display: none; }
+html.modo-reel .filtro-titulo { font-size: 34px; max-width: 340px; }
+html.modo-reel .fc-filtro > span { font-size: 15px; }
+html.modo-reel .fc-cab,
+html.modo-reel .fc-ciudad,
+html.modo-reel .fc-usted,
+html.modo-reel .fc-filtro b { font-size: 13px; }
+
+/* ?video=og (1200 × 630): el cuadro para compartir cabe completo; la bajada se
+   queda, el botón y el enlace no. */
+html.modo-og .filtro { --f-cab: 96px; min-height: 100vh; }
+html.modo-og .filtro-contenido { padding-bottom: 36px; }
+html.modo-og .filtro-acciones { display: none; }
+html.modo-og .filtro-bajada { margin-bottom: 6px; }
+
+/* --------------------------------------------------------------------------
+   CTA en los puntos que deciden (27-oct, Luis: «CTA en puntos estratégicos»):
+   después de cómo trabajamos, junto a la oportunidad publicada y en cada
+   ciudad que viene. Todos van a WhatsApp con el mensaje ya escrito.
+   -------------------------------------------------------------------------- */
+.f-accion { margin: 32px 0 0; }
+@media (min-width: 960px) { .f-accion { grid-column: 2; } }
+.f-oportunidad-accion { margin: 20px 0 0; }
+@media (min-width: 760px) {
+  .f-oportunidad-accion { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px; }
+  .f-oportunidad-accion .portada-enlace { grid-column: 2; justify-self: start; }
+}
+.f-accion .portada-enlace,
+.f-oportunidad-accion .portada-enlace { display: inline-flex; align-items: flex-end; min-height: 44px; color: var(--f-azul); border-bottom-color: var(--f-azul); }
+.f-ciudad-cab { flex-wrap: wrap; row-gap: 4px; }
+.f-ciudad-cab .f-estado { margin-left: auto; }
+.f-avisar {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: -12px 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--f-azul);
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  transition: opacity 0.2s ease;
+}
+.f-avisar:hover, .f-avisar:focus-visible { opacity: 0.55; }
+.f-avisar:focus-visible { outline: 2px solid var(--f-azul); outline-offset: 4px; }

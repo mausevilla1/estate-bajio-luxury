@@ -56,7 +56,7 @@ const LUXURY_PROPERTIES = [
     ],
     fotoTarjeta: "assets/propiedades/casa-cordoba/fotos/22.jpeg",
     fotoTarjetaPos: "55% center",
-    resumen: "Residencia en Club de Golf Malanquín con vistas a Los Picachos y acceso al campo. Dos niveles con techos de madera estilo San Miguel, cantera y acabados de autor contemporáneos.",
+    resumen: "Residencia en Club de Golf Malanquín con vistas a Los Picachos y acceso al campo. Dos niveles con techos de madera estilo San Miguel, cantera y acabados contemporáneos.",
     heroImage: "assets/propiedades/casa-cordoba/fotos/21.jpeg",
     gallery: [
       "assets/propiedades/casa-cordoba/fotos/21.jpeg",
@@ -120,7 +120,7 @@ const LUXURY_PROPERTIES = [
         ]
       }
     ],
-    description: "Increíble residencia de lujo en el Club de Golf Malanquín con vistas a las montañas de Los Picachos y acceso directo al campo de golf. Esta casa de dos niveles combina amplitud, techos altos de madera estilo San Miguel, cantera y acabados de autor contemporáneos con todas las comodidades y amenidades de club de golf."
+    description: "Residencia de dos niveles en el Club de Golf Malanquín, con vista a las montañas de Los Picachos y acceso directo al campo de golf. Espacios amplios, techos altos de madera estilo San Miguel y cantera, con las amenidades del club."
   },
   {
     id: "prop-2",
@@ -252,7 +252,7 @@ const LUXURY_PROPERTIES = [
       "Techos altos con vigas de madera estilo San Miguel, cantera y acabados modernos"
     ],
     projectedYield: "Consultar",
-    description: "Residencia nueva en el Club de Golf Malanquín con vistas imponentes a Los Picachos. Dos niveles con iluminación natural, techos altos de madera y cantera que integran elegancia moderna con el carácter rústico de San Miguel de Allende. Cuenta con jacuzzi privado, terraza con asador y amplio jardín."
+    description: "Residencia nueva en el Club de Golf Malanquín con vista a Los Picachos. Dos niveles con iluminación natural, techos altos de madera y cantera. Cuenta con jacuzzi privado, terraza con asador y amplio jardín."
   },
   {
     id: "prop-3",
@@ -262,7 +262,7 @@ const LUXURY_PROPERTIES = [
     subzone: "Club de Golf Malanquín",
     priceMXN: 14500000,
     priceUSD: null, // Tipo de cambio pendiente de definición por Luis
-    type: "Residencia contemporánea",
+    type: "Residencia en Club de Golf",
     status: "Disponible",
     isExclusive: true,
     m2Construccion: 300,
@@ -284,7 +284,7 @@ const LUXURY_PROPERTIES = [
     ],
     fotoTarjeta: "assets/propiedades/casa-olivos/fotos/01.webp",
     fotoTarjetaPos: "35% center",   // la fachada es horizontal: portón y cochera dentro de la tarjeta
-    resumen: "Residencia en Club de Golf Malanquín con vistas a Los Picachos. Dos niveles con techos a doble altura de vigas, cantera, patio interior empedrado y cocina con isla.",
+    resumen: "Residencia en Club de Golf Malanquín con vistas a Los Picachos. Dos niveles con techos de doble altura con vigas de madera, cantera, patio interior empedrado y cocina con isla.",
     heroImage: "assets/propiedades/casa-olivos/fotos/01.webp",
     gallery: [
       "assets/propiedades/casa-olivos/fotos/01.webp",
@@ -365,7 +365,7 @@ const LUXURY_PROPERTIES = [
       "Techos de doble altura con vigas de madera noble y acabados contemporáneos"
     ],
     projectedYield: "Consultar",
-    description: "Increíble residencia nueva en el Club de Golf Malanquín con vistas imponentes a las montañas de Los Picachos. Diseñada en dos niveles con techos a doble altura de vigas de madera, cantera y acabados de autor que combinan elegancia moderna con el carácter rústico de San Miguel de Allende. Cuenta con patio interior empedrado, cocina de diseño con isla y amplios ventanales de luz natural."
+    description: "Residencia nueva en el Club de Golf Malanquín con vista a las montañas de Los Picachos. Dos niveles con techos de doble altura y vigas de madera, cantera, patio interior empedrado, cocina con isla y ventanales amplios con luz natural."
   }
 ];
 
@@ -380,11 +380,13 @@ const ENTORNOS = {
   malanquin: {
     nombre: "Club de Golf Malanquín",
     ubicacion: "Km 3, carretera San Miguel de Allende – Celaya",
+    // Video vertical del club (19 s); la ficha le pone encima la información (Luis, 27-oct).
+    video: "assets/enclave/club-malanquin.mp4",
+    poster: "assets/enclave/club-malanquin-poster.webp",
     cifras: [
       { valor: "18", etiqueta: "Hoyos" },
       { valor: "72", etiqueta: "Par" },
-      { valor: "7,289", etiqueta: "Yardas" },
-      { valor: "+50", etiqueta: "Años" }
+      { valor: "7,289", etiqueta: "Yardas" }
     ],
     amenidades: [
       "Casa club con restaurante y bar",
@@ -402,7 +404,7 @@ const ACTIVOS_INVERSION = [
     title: "Casa Julieta",
     zone: "San Miguel de Allende",
     subzone: "Centro Histórico, Umarán 27 / Zacateros",
-    type: "Hotel boutique + renta comercial",
+    type: "Hotel boutique con local comercial",
     priceMXN: null,
     priceUSD: null,
     precioEstado: "Por confirmar", // CADENA de texto, nunca un número
@@ -411,14 +413,14 @@ const ACTIVOS_INVERSION = [
     m2Construccion: 530,
     anoConstruccion: "Siglo XIX",
     llaves: 6,
-    llavesDetalle: "4 Junior Suites, 1 Deluxe y 1 Presidencial. Tres con balcón y vista a la Parroquia.",
+    llavesDetalle: "4 suites junior, 1 de lujo y 1 presidencial. Tres con balcón y vista a la Parroquia.",
     inquilino: "Birkenstock",
     caminando: "3 minutos a pie de la Parroquia y el Jardín Allende",
     roofNota: "Terraza con vistas a la Parroquia y a Las Monjas. Potencial adicional sujeto a las autorizaciones del INAH y municipales aplicables.",
     status: "Consultar",
     amenities: [],
     heroImage: "assets/propiedades/hotel/fotos/1.jpg",
-    description: "Casona histórica del siglo XIX en el corazón de San Miguel de Allende, ubicada en la esquina de Umarán y Zacateros a tres minutos a pie de la Parroquia y el Jardín Allende. El activo combina la operación de un hotel boutique de 6 suites con alta calificación en hospitalidad, local comercial en planta baja arrendado a Birkenstock y terraza panorámica con vistas abiertas al centro virreinal.",
+    description: "Casona histórica del siglo XIX en el corazón de San Miguel de Allende, ubicada en la esquina de Umarán y Zacateros a tres minutos a pie de la Parroquia y el Jardín Allende. El activo combina la operación de un hotel boutique de 6 suites, local comercial en planta baja arrendado a Birkenstock y terraza panorámica con vistas abiertas al centro virreinal.",
     flujo: [
       // Fotos del hotel tomadas de su página en Booking (2026-10-11), en el orden de Booking.
       { src: "assets/propiedades/hotel/fotos/1.jpg", prop: "3:2", alto: "a" },

@@ -228,7 +228,7 @@ si se agrega contenido, hay que repartirlo, no alargar el panel.
 - [x] **Fotos de Casa Granada:** YOPE depuró el álbum (2026-10-12): quedan 35 de 57.
 - [ ] **Textos de Casa Granada:** la descripción menciona vigas de madera, cantera y jacuzzi, que no se ven en
   ninguna foto. Se revisa cuando lleguen las fotos nuevas. Mientras tanto quedan fuera de sus características.
-- [ ] **Número real de WhatsApp.** "Consultar esta casa" usa `+52 442 000 0000` de ejemplo.
+- [x] **Número real de WhatsApp.** 55 6473 8881 (Luis, 27-oct): WhatsApp, teléfono y datos estructurados. Oficina: Gran Jardín, León. Falta el correo.
 - [x] Limpiar el texto heredado que choca con §7 (27-oct): salieron el chat, el formulario de vender con "Blindaje"
   y el código del catálogo viejo con "Verificado 100 %", junto con el resto del prototipo de agosto que ya no se usaba
   (filtros, comparador, modal, visor de preventas). Queda `alert()` en "Agendar presentación" de `#desarrolladores`.
