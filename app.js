@@ -1232,7 +1232,11 @@ function initHeaderScroll() {
     var fotos = hijos.filter(function (e) { return e.matches('figure.ficha-panel:not(.ficha-plano)'); });
     var planos = hijos.filter(function (e) { return e.classList.contains('ficha-plano'); });
     var info = document.getElementById('ficha-info');
-    var textos = hijos.filter(function (e) { return e.classList.contains('ficha-panel-texto') && e !== info; });
+    // La distribución con maqueta 3D no es un panel de texto, pero también va en su tarjeta («Planos»):
+    // sin esto, en cel la maqueta se quedaba fuera de las pestañas y no se veía.
+    var textos = hijos.filter(function (e) {
+      return (e.classList.contains('ficha-panel-texto') || e.classList.contains('ficha-distribucion')) && e !== info;
+    });
     if (!fotos.length || !info) return;
 
     function nuevo(tag, clase, attrs) {
