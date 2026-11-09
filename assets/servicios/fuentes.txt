@@ -1,0 +1,11 @@
+Fotos y videos de «Servicios para desarrolladores» en san-miguel.html (27-oct-2026).
+Son de PRAETORA: salen de servicios.praetora.mx (los showrooms demo Torre Vía, Casa del Mezquite
+y Hacienda del Mezquite, y el CRM con datos demo). Imágenes conceptuales ilustrativas.
+
+torre-via.webp          /renders/torre-via/fachada-final-vertical.webp (recorte 4:5)
+maqueta-3d.webp         /showroom-media/praetora-services/demos/s2-planta-nivel12.webp (recorte 4:5)
+recorrido-sala.webp     /showroom-media/casa-mezquite-v2/editorial/sala-promo-v1.webp (recorte 4:5)
+pelicula-hacienda.mp4   /tours/hacienda-recorrido.mp4, de 0.5 a 6.5 s (recorte 4:5, sin audio)
+crm.mp4                 /showroom-media/praetora-services/20261020-crm/crm-explicativo.mp4, de 16.5 a 22.5 s (recorte 4:5)
+
+../filtro/filtro.mp4 es la intro de Invertir «El filtro» (versión vertical), sin el logo ni el titular.
