@@ -1,73 +1,39 @@
 // ==========================================================================
-// ESTATE BAJÍO - Application Engine & Interactive Physics
+// PRAETORA - Application Engine & Interactive Physics
 // ==========================================================================
 
-let currentCurrency = 'MXN';
-let currentViewMode = 'grid';
-let activeZoneFilter = 'all';
-let activeAmenities = [];
-let searchQuery = '';
-let currentSort = 'default';
-let comparedProperties = [];
+function esc(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+/* Recorridos 3D por casa (clave = slug de data.js). Mientras la URL esté vacía,
+   el botón no aparece: nunca se muestra un botón que no lleve a ningún lado.
+   Luis, 4-nov: por ahora el sitio no lleva recorrido (Casa Córdoba lo tenía en
+   https://recorridos.praetora.mx/?mode=appearance). */
+const RECORRIDOS_3D = {};
+function urlRecorrido3D(p) {
+  return (p && p.slug && RECORRIDOS_3D[p.slug]) || '';
+}
+
+/* La ficha de cada casa tiene su propia página (<slug>.html, la escribe
+   herramientas/paginas-compartir.mjs), con su título, su texto y su imagen para
+   compartir: WhatsApp y Google no ejecutan JavaScript, así que propiedad.html?id=
+   se vería igual para todas. Sin slug, la ficha genérica. */
+function urlFicha(p) {
+  return p && p.slug ? p.slug + '.html' : 'propiedad.html?id=' + encodeURIComponent(p ? p.id : '');
+}
+
+/* Dato no publicado por el anuncio.
+   Se muestra la raya, nunca "null" ni un cero inventado. */
+function m2(v) {
+  return (v === null || v === undefined || v === '') ? '—' : v + ' m²';
+}
 
 document.addEventListener('DOMContentLoaded', () => {
-  initAmbientCanvas();
   initHeaderScroll();
-  initCatalogFilters();
-  initPresaleShowcase();
-  initSellerWizard();
-  initAIConcierge();
-  initDedicatedCatalogPage();
+  pintarVitrina();
+  pintarCatalogoBloques();
 });
-
-/* --------------------------------------------------------------------------
-   1. Dynamic Ambient Canvas (Subtle Champagne Glow)
-   -------------------------------------------------------------------------- */
-function initAmbientCanvas() {
-  const canvas = document.getElementById('ambient-canvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-
-  let width = canvas.width = window.innerWidth;
-  let height = canvas.height = window.innerHeight;
-
-  window.addEventListener('resize', () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  });
-
-  let targetX = width * 0.7;
-  let targetY = height * 0.3;
-  let currentX = targetX;
-  let currentY = targetY;
-
-  window.addEventListener('mousemove', (e) => {
-    targetX = e.clientX;
-    targetY = e.clientY;
-  });
-
-  function draw() {
-    currentX += (targetX - currentX) * 0.04;
-    currentY += (targetY - currentY) * 0.04;
-
-    ctx.clearRect(0, 0, width, height);
-
-    // Warm champagne radial glow
-    const gradient = ctx.createRadialGradient(
-      currentX, currentY, 10,
-      currentX, currentY, 650
-    );
-    gradient.addColorStop(0, 'rgba(216, 189, 128, 0.14)');
-    gradient.addColorStop(0.5, 'rgba(247, 245, 240, 0.05)');
-    gradient.addColorStop(1, 'rgba(247, 245, 240, 0)');
-
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, width, height);
-
-    requestAnimationFrame(draw);
-  }
-  draw();
-}
 
 /* --------------------------------------------------------------------------
    2. Header Sticky on Scroll
@@ -84,715 +50,1470 @@ function initHeaderScroll() {
   });
 }
 
-/* --------------------------------------------------------------------------
-   3. Catalog Rendering & 3D Tilt Cards (Landing & Dedicated)
-   -------------------------------------------------------------------------- */
-function renderCatalog(filter = 'all') {
-  activeZoneFilter = filter;
-  renderMasterCatalog();
-}
+/* ==========================================================================
+   APARICIÓN AL HACER SCROLL
+   Marca los bloques y los va revelando conforme entran a pantalla.
+   Se activa solo si el navegador soporta IntersectionObserver: si no, el
+   atributo data-anim nunca se pone y el CSS deja todo visible.
+   ========================================================================== */
+(function () {
+  if (!('IntersectionObserver' in window)) return;
 
-function renderMasterCatalog() {
-  const gridContainer = document.getElementById('properties-container');
-  const lookbookContainer = document.getElementById('lookbook-container');
-  const countDisplay = document.getElementById('catalog-count');
+  var SELECTORES_BLOQUE = [
+    '.section-header', '.section-tag', '.section-title', '.section-desc',
+    '.b2b-feature-item', '.b2b-cta-box'
+  ];
 
-  if (!gridContainer && !lookbookContainer) return;
-
-  let filtered = [...LUXURY_PROPERTIES];
-
-  // 1. Zone filter
-  if (activeZoneFilter !== 'all') {
-    filtered = filtered.filter(p => 
-      p.zone.toLowerCase().includes(activeZoneFilter.toLowerCase()) || 
-      p.subzone.toLowerCase().includes(activeZoneFilter.toLowerCase())
-    );
-  }
-
-  // 2. Search query
-  if (searchQuery.trim() !== '') {
-    const q = searchQuery.toLowerCase();
-    filtered = filtered.filter(p => 
-      p.title.toLowerCase().includes(q) ||
-      p.zone.toLowerCase().includes(q) ||
-      p.subzone.toLowerCase().includes(q) ||
-      p.architect.toLowerCase().includes(q) ||
-      p.description.toLowerCase().includes(q)
-    );
-  }
-
-  // 3. Amenities filter
-  if (activeAmenities.length > 0) {
-    filtered = filtered.filter(p => 
-      activeAmenities.every(a => p.amenities && p.amenities.includes(a))
-    );
-  }
-
-  // 4. Sorting
-  if (currentSort === 'price-desc') {
-    filtered.sort((a, b) => b.priceMXN - a.priceMXN);
-  } else if (currentSort === 'price-asc') {
-    filtered.sort((a, b) => a.priceMXN - b.priceMXN);
-  } else if (currentSort === 'm2-desc') {
-    filtered.sort((a, b) => b.m2Construccion - a.m2Construccion);
-  }
-
-  // Update counter
-  if (countDisplay) {
-    countDisplay.textContent = filtered.length;
-  }
-
-  // Render Grid View
-  if (gridContainer) {
-    if (filtered.length === 0) {
-      gridContainer.innerHTML = `
-        <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 2rem; background: var(--bg-card); border-radius: 20px; border: 1px dashed var(--border-subtle);">
-          <h3 style="font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 0.5rem;">No se encontraron obras con los criterios seleccionados</h3>
-          <p style="color: var(--text-muted); font-size: 0.95rem;">Intente ajustando los filtros o realice una consulta privada a nuestro AI Concierge.</p>
-        </div>
-      `;
-    } else {
-      gridContainer.innerHTML = filtered.map(prop => {
-        const isCompared = comparedProperties.includes(prop.id);
-        const formattedPrice = currentCurrency === 'MXN'
-          ? `$${(prop.priceMXN / 1000000).toFixed(1)}M MXN`
-          : `$${(prop.priceUSD / 1000000).toFixed(2)}M USD`;
-        const subPrice = currentCurrency === 'MXN'
-          ? `$${(prop.priceUSD / 1000000).toFixed(2)}M USD`
-          : `$${(prop.priceMXN / 1000000).toFixed(1)}M MXN`;
-
-        return `
-          <article class="property-card" data-id="${prop.id}">
-            <div class="property-thumb-wrap">
-              <img src="${prop.heroImage}" alt="${prop.title} - Residencia de Lujo en ${prop.zone}" loading="lazy">
-              <div class="property-badges">
-                ${prop.isExclusive ? '<span class="badge-tag exclusive">PRIVATE VAULT</span>' : ''}
-                <span class="badge-tag">${prop.status}</span>
-              </div>
-            </div>
-            <div class="property-details">
-              <span class="property-location">${prop.zone} • ${prop.subzone}</span>
-              <h3 class="property-name">${prop.title}</h3>
-              
-              <div class="property-metrics">
-                <div class="metric-item">
-                  <div class="metric-val">${prop.m2Construccion} m²</div>
-                  <div class="metric-lbl">Construcción</div>
-                </div>
-                <div class="metric-item">
-                  <div class="metric-val">${prop.bedrooms} Recs</div>
-                  <div class="metric-lbl">Habitaciones</div>
-                </div>
-                <div class="metric-item">
-                  <div class="metric-val">${prop.bathrooms} Baños</div>
-                  <div class="metric-lbl">Servicios</div>
-                </div>
-              </div>
-
-              <div class="property-footer">
-                <div class="property-price">
-                  <span class="price-mxn">${formattedPrice}</span>
-                  <span class="price-usd">${subPrice}</span>
-                </div>
-                <div style="display: flex; gap: 0.5rem; align-items: center;">
-                  <button class="btn-compare-card ${isCompared ? 'active' : ''}" onclick="toggleCompare('${prop.id}')" title="Comparar Obra">
-                    ${isCompared ? '✓ Comparando' : '＋ Comparar'}
-                  </button>
-                  <button class="btn-outline-gold" onclick="openPropertyModal('${prop.id}')">
-                    Explorar
-                  </button>
-                </div>
-              </div>
-            </div>
-          </article>
-        `;
-      }).join('');
-      attachCardTiltEffect();
-    }
-  }
-
-  // Render Lookbook View
-  if (lookbookContainer) {
-    if (filtered.length === 0) {
-      lookbookContainer.innerHTML = `<div style="text-align: center; padding: 4rem;">Sin resultados</div>`;
-    } else {
-      lookbookContainer.innerHTML = filtered.map(prop => {
-        const isCompared = comparedProperties.includes(prop.id);
-        const formattedPrice = currentCurrency === 'MXN'
-          ? `$${(prop.priceMXN / 1000000).toFixed(1)}M MXN`
-          : `$${(prop.priceUSD / 1000000).toFixed(2)}M USD`;
-
-        return `
-          <article class="lookbook-card" data-id="${prop.id}">
-            <div class="lookbook-media-wrap">
-              <img src="${prop.heroImage}" alt="${prop.title}" loading="lazy">
-            </div>
-            <div class="lookbook-content">
-              <div class="lookbook-top">
-                <span class="prop-zone">${prop.zone} — ${prop.subzone}</span>
-                <h3 class="prop-title">${prop.title}</h3>
-                <p class="prop-desc">${prop.description}</p>
-                <div class="lookbook-architect-quote">“Firma de Autor: ${prop.architect}”</div>
-              </div>
-
-              <div>
-                <div class="lookbook-specs-row">
-                  <div class="lookbook-spec-item">
-                    <div class="val">${prop.m2Construccion} m²</div>
-                    <div class="lbl">Construcción</div>
-                  </div>
-                  <div class="lookbook-spec-item">
-                    <div class="val">${prop.m2Terreno} m²</div>
-                    <div class="lbl">Terreno</div>
-                  </div>
-                  <div class="lookbook-spec-item">
-                    <div class="val">${prop.bedrooms} R / ${prop.bathrooms} B</div>
-                    <div class="lbl">Espacios</div>
-                  </div>
-                  <div class="lookbook-spec-item">
-                    <div class="val" style="color: var(--gold-primary);">${prop.projectedYield.split(' ')[0]}</div>
-                    <div class="lbl">Plusvalía</div>
-                  </div>
-                </div>
-
-                <div class="lookbook-actions">
-                  <div class="property-price">
-                    <span class="price-mxn">${formattedPrice}</span>
-                    <span class="price-usd">${prop.status}</span>
-                  </div>
-                  <div style="display: flex; gap: 0.6rem;">
-                    <button class="btn-compare-card ${isCompared ? 'active' : ''}" onclick="toggleCompare('${prop.id}')">
-                      ${isCompared ? '✓ Comparando' : '＋ Comparar'}
-                    </button>
-                    <button class="btn-gold" onclick="openPropertyModal('${prop.id}')">
-                      Ver Ficha Completa
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
-        `;
-      }).join('');
-    }
-  }
-}
-
-function attachCardTiltEffect() {
-  const cards = document.querySelectorAll('.property-card');
-  cards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      card.style.transform = `perspective(1000px) rotateX(${-y * 0.03}deg) rotateY(${x * 0.03}deg) translateY(-8px)`;
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) translateY(0)`;
-    });
-  });
-}
-
-function initCatalogFilters() {
-  const filterBtns = document.querySelectorAll('.filter-btn, .filter-pill');
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      activeZoneFilter = btn.dataset.filter || 'all';
-      renderMasterCatalog();
-    });
-  });
-}
-
-/* --------------------------------------------------------------------------
-   4. Dedicated Catalog Page Handlers (catalogo.html)
-   -------------------------------------------------------------------------- */
-function initDedicatedCatalogPage() {
-  const searchInput = document.getElementById('catalog-search-input');
-  if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      searchQuery = e.target.value;
-      renderMasterCatalog();
+  function marcar(selectores, clase) {
+    selectores.forEach(function (sel) {
+      var nodos = document.querySelectorAll(sel);
+      Array.prototype.forEach.call(nodos, function (el, i) {
+        if (el.classList.contains('reveal')) return;
+        el.classList.add(clase);
+        // Escalonado suave entre hermanos: 60ms, con tope de 240ms para que
+        // una cuadrícula larga no tarde una eternidad en aparecer completa.
+        var retraso = Math.min(i, 4) * 60;
+        if (retraso) el.style.setProperty('--reveal-delay', retraso + 'ms');
+      });
     });
   }
 
-  // Currency Switcher
-  const currencyBtns = document.querySelectorAll('.currency-btn');
-  currencyBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      currencyBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentCurrency = btn.dataset.currency;
-      renderMasterCatalog();
+  function iniciar() {
+    marcar(SELECTORES_BLOQUE, 'reveal');
+    document.documentElement.setAttribute('data-anim', 'on');
+
+    var observador = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('is-visible');
+        observador.unobserve(e.target);   // una sola vez: no reaparece al subir
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    document.querySelectorAll('.reveal').forEach(function (el) {
+      observador.observe(el);
     });
-  });
 
-  // View Mode Switcher
-  const viewBtns = document.querySelectorAll('.view-btn');
-  const gridWrap = document.getElementById('properties-container');
-  const lookbookWrap = document.getElementById('lookbook-container');
+    // Red de seguridad: lo que ya está en pantalla al cargar se muestra de
+    // inmediato, y si algo quedara sin observar, a los 3 s se revela solo.
+    setTimeout(function () {
+      document.querySelectorAll('.reveal').forEach(function (el) {
+        if (el.getBoundingClientRect().top < window.innerHeight) {
+          el.classList.add('is-visible');
+        }
+      });
+    }, 50);
 
-  viewBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      viewBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentViewMode = btn.dataset.view;
+    setTimeout(function () {
+      document.querySelectorAll('.reveal').forEach(function (el) {
+        el.classList.add('is-visible');
+      });
+    }, 3000);
+  }
 
-      if (gridWrap && lookbookWrap) {
-        if (currentViewMode === 'grid') {
-          gridWrap.style.display = 'grid';
-          lookbookWrap.style.display = 'none';
-        } else {
-          gridWrap.style.display = 'none';
-          lookbookWrap.style.display = 'flex';
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', iniciar);
+  } else {
+    iniciar();
+  }
+})();
+
+
+/* ==========================================================================
+   INTERACTIVIDAD EDITORIAL SPACELAB: CURSOR DISCRETO Y MARCADORES "+" SCROLL
+   ========================================================================== */
+(function() {
+  // 1. CURSOR DE FLECHA CON ARO (SPACELAB)
+  function initDiscreteCursor() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches) return;
+
+    const cursorEl = document.createElement('div');
+    cursorEl.className = 'custom-cursor';
+    cursorEl.setAttribute('aria-hidden', 'true');
+
+    const arrowImg = document.createElement('img');
+    arrowImg.src = 'cursor.svg';
+    arrowImg.className = 'cursor-arrow';
+    arrowImg.alt = '';
+
+    const ring = document.createElement('div');
+    ring.className = 'cursor-ring';
+
+    cursorEl.appendChild(arrowImg);
+    cursorEl.appendChild(ring);
+    document.body.appendChild(cursorEl);
+
+    let mouseX = -100;
+    let mouseY = -100;
+    let prevMouseX = -100;
+    let prevMouseY = -100;
+    let targetAngle = 0;
+    let renderAngle = 0;
+    let isNativeActive = false;
+    let hasMoved = false;
+
+    document.documentElement.classList.add('cursor-custom');
+
+    function onMouseMove(e) {
+      const clientX = e.clientX;
+      const clientY = e.clientY;
+
+      if (!hasMoved) {
+        hasMoved = true;
+        cursorEl.style.display = 'block';
+        prevMouseX = clientX;
+        prevMouseY = clientY;
+      } else {
+        const dx = clientX - prevMouseX;
+        const dy = clientY - prevMouseY;
+        const dist = Math.hypot(dx, dy);
+
+        if (dist >= 2) {
+          targetAngle = Math.atan2(dy, dx) * 180 / Math.PI;
+          prevMouseX = clientX;
+          prevMouseY = clientY;
         }
       }
-      renderMasterCatalog();
-    });
-  });
 
-  // Amenity Tags
-  const amenityTags = document.querySelectorAll('.amenity-tag');
-  amenityTags.forEach(tag => {
-    tag.addEventListener('click', () => {
-      const a = tag.dataset.amenity;
-      if (activeAmenities.includes(a)) {
-        activeAmenities = activeAmenities.filter(item => item !== a);
-        tag.classList.remove('active');
-      } else {
-        activeAmenities.push(a);
-        tag.classList.add('active');
+      mouseX = clientX;
+      mouseY = clientY;
+
+      if (isNativeActive) {
+        isNativeActive = false;
+        document.documentElement.classList.add('cursor-custom');
+        cursorEl.style.display = 'block';
       }
-      renderMasterCatalog();
-    });
-  });
 
-  // Sort Dropdown
-  const sortSelect = document.getElementById('catalog-sort-select');
-  if (sortSelect) {
-    sortSelect.addEventListener('change', (e) => {
-      currentSort = e.target.value;
-      renderMasterCatalog();
+      const target = e.target;
+      if (target && target.closest && target.closest('a, button, input, select, textarea')) {
+        cursorEl.classList.add('is-hovering');
+      } else {
+        cursorEl.classList.remove('is-hovering');
+      }
+    }
+
+    function renderCursor() {
+      if (!isNativeActive && hasMoved) {
+        let diff = targetAngle - renderAngle;
+        while (diff > 180) diff -= 360;
+        while (diff < -180) diff += 360;
+        renderAngle += diff * 0.15;
+
+        cursorEl.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+        arrowImg.style.transform = `translate(-50%, -50%) rotate(${renderAngle}deg)`;
+      }
+      requestAnimationFrame(renderCursor);
+    }
+
+    // Salida de emergencia: Tecla Tab devuelve el cursor nativo y oculta el cursor personalizado
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') {
+        isNativeActive = true;
+        document.documentElement.classList.remove('cursor-custom');
+        cursorEl.style.display = 'none';
+      }
+    });
+
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    requestAnimationFrame(renderCursor);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initDiscreteCursor();
+    });
+  } else {
+    initDiscreteCursor();
+  }
+})();
+
+
+
+/* ==========================================================================
+   FICHA INDIVIDUAL — MOTOR DEL FLUJO (propiedad.html)
+   --------------------------------------------------------------------------
+   Escritorio: se lee en horizontal. Celular: en vertical. El DOM es el mismo;
+   el cambio lo hace el CSS. Aquí sólo va lo que el CSS no puede: traducir la
+   rueda del mouse, el progreso, el teclado y el deep link.
+   ========================================================================== */
+(function () {
+  var cont, paneles;
+  // A dónde regresan Esc y la marca de la barra: la sección de la casa (C-15).
+  var salida = 'catalogo.html';
+
+  function esVertical() {
+    return !window.matchMedia('(min-width: 1024px)').matches;
+  }
+
+  function esc(t) {
+    return String(t == null ? '' : t)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  /* Si la casa no trae `flujo`, se arma solo con lo que haya. Así una
+     propiedad nueva nunca deja la ficha en blanco. */
+  function construirFlujo(p) {
+    if (p.flujo && p.flujo.length) return p.flujo;
+    var fotos = [];
+    if (p.heroImage) fotos.push({ src: p.heroImage, prop: '16:9' });
+    (p.gallery || []).forEach(function (g) {
+      if (g !== p.heroImage) fotos.push({ src: g, prop: '16:9' });
+    });
+    return fotos;
+  }
+
+  /* Fila de dato: si el anuncio no lo publica, la fila NO se dibuja.
+     No se rellena con cero ni con raya. Un valor largo va debajo de su
+     etiqueta en vez de partirse alineado a la derecha. */
+  function fila(etiqueta, valor) {
+    if (valor === null || valor === undefined || valor === '') return '';
+    var largo = String(valor).length > 40;
+    return '<div class="ficha-dato' + (largo ? ' ficha-dato-largo' : '') + '">' +
+      '<span class="ficha-dato-etiqueta">' + esc(etiqueta) + '</span>' +
+      '<span class="ficha-dato-valor">' + esc(valor) + '</span>' +
+      '</div>';
+  }
+
+  /* Cifra clave: el número a 24 px y su nombre debajo. Sin dato, no se dibuja. */
+  function cifra(valor, etiqueta) {
+    if (valor === null || valor === undefined || valor === '') return '';
+    return '<div class="ficha-cifra">' +
+      '<span class="ficha-cifra-valor">' + esc(valor) + '</span>' +
+      '<span class="ficha-cifra-etiqueta">' + esc(etiqueta) + '</span>' +
+      '</div>';
+  }
+
+  function m2(n) { return n ? n.toLocaleString('es-MX') + ' m²' : null; }
+  function pesos(n) { return '$' + Number(n).toLocaleString('es-MX') + ' MXN'; }
+  function lista(items) {
+    return '<ul class="ficha-lista">' + items.map(function (t) {
+      return '<li>' + esc(t) + '</li>';
+    }).join('') + '</ul>';
+  }
+
+  function esActivoDeInversion(p) { return !!p.llaves || p.id === 'activo-1'; }
+
+  /* FICHA TÉCNICA — lo que sigue a las fotos, en cinco paneles:
+     1 ficha (nombre, precio y cifras) · 2 distribución · 3 la casa ·
+     4 el entorno · 5 contacto. Un panel sin datos no se dibuja. */
+
+  /* 1 · Ficha: nombre, un solo precio y las cifras clave. Aquí vive "Ver planos". */
+  function panelFicha(p) {
+    var esActivo = esActivoDeInversion(p);
+    var precio = p.priceMXN != null ? pesos(p.priceMXN)
+      : (p.precioEstado ? 'Precio ' + p.precioEstado.toLowerCase() : '');
+
+    var cifras, filas, columnas;
+    if (esActivo) {
+      var siglo = /siglo\s+(\S+)/i.exec(p.anoConstruccion || '');
+      cifras = cifra(m2(p.m2Construccion), 'Construcción') +
+        cifra(m2(p.m2Terreno), 'Terreno') +
+        cifra(p.llaves, 'Suites') +
+        cifra(siglo ? siglo[1] : null, 'Siglo');
+      columnas = 2;
+      filas = fila('Tipología', p.type) +
+        fila('Ubicación', p.subzone) +
+        fila('Inquilino en planta baja', p.inquilino);
+    } else {
+      cifras = cifra(m2(p.m2Construccion), 'Construcción') +
+        cifra(m2(p.m2Terreno), 'Terreno') +
+        cifra(p.niveles, 'Niveles') +
+        cifra(p.bedrooms, 'Recámaras') +
+        cifra(p.bathrooms, 'Baños') +
+        cifra(p.garage ? p.garage + ' autos' : null, 'Cochera');
+      columnas = 3;
+      filas = fila('Tipología', p.type) + fila('Estatus', p.status);
+    }
+
+    // Los planos van escondidos: este enlace los muestra junto a las fotos.
+    var planosHtml = (p.planos && p.planos.length)
+      ? '<button type="button" class="portada-enlace ficha-ver-planos" aria-expanded="false">Ver planos</button>'
+      : '';
+
+    // En la etiqueta sólo el barrio; la dirección completa va en su fila.
+    var barrio = String(p.subzone || '').split(',')[0];
+    return '<section class="ficha-panel ficha-panel-texto" id="ficha-info">' +
+      '<span class="ficha-etiqueta">' + esc(p.zone) + ' · ' + esc(barrio) + '</span>' +
+      '<h1 class="ficha-titulo" translate="no">' + esc(p.title) + '</h1>' +
+      (precio ? '<div class="ficha-precio">' + esc(precio) + '</div>' : '') +
+      '<div class="ficha-cifras" style="--cifras-col:' + columnas + '">' + cifras + '</div>' +
+      '<div class="ficha-datos">' + filas + '</div>' +
+      '<div class="ficha-info-acciones">' + planosHtml +
+        '<a class="btn-gold ficha-info-consultar" href="' + consultaDe(p).href + '" target="_blank" rel="noopener">' + consultaDe(p).texto + '</a>' +
+      '</div>' +
+      '</section>';
+  }
+
+  var PROPS = ['2:3', '3:4', '4:3', '3:2', '16:9', '9:16'];
+  var ALTOS = ['a', 'b', 'c'];
+
+  function panelFoto(f, i, alt) {
+    // Tres alturas y cinco proporciones, como la referencia. Si el dato no
+    // trae forma, se le asigna una rotada para que no salgan todas iguales.
+    var prop = PROPS.indexOf(f.prop) >= 0 ? f.prop : PROPS[i % PROPS.length];
+    var alto = ALTOS.indexOf(f.alto) >= 0 ? f.alto : ALTOS[i % ALTOS.length];
+    var medioHtml = '';
+    if (f.tipo === 'video') {
+      medioHtml = '<video src="' + esc(f.src) + '"' +
+        (f.poster ? ' poster="' + esc(f.poster) + '"' : '') +
+        ' controls preload="metadata" playsinline></video>';
+    } else {
+      // alt: «Casa Córdoba, foto 3» (C-19); las fotos son el contenido de la ficha.
+      medioHtml = '<img src="' + esc(f.src) + '" alt="' + esc(alt || '') + '" loading="lazy">';
+    }
+    return '<figure class="ficha-panel" data-prop="' + prop + '" data-alto="' + alto + '">' +
+      '<div class="ficha-marco">' + medioHtml + '</div>' +
+      '</figure>';
+  }
+
+  /* Plano minimal de una planta: dibujo de línea (SVG) y los nombres de los
+     espacios encima, en la letra del sitio. Dos versiones del dibujo: acostado
+     en escritorio (la fachada a la izquierda, se recorre como las fotos) y
+     parado en celular. Cada etiqueta trae su posición en % para las dos. */
+  function panelPlano(pl, p) {
+    var locales = (pl.etiquetas || []).map(function (e) {
+      // --w es el ancho libre del local: si el nombre no cabe, se parte en renglones.
+      // oculta: "h" en escritorio, "m" en celular (el local es muy chico a ese tamaño).
+      return '<span class="ficha-plano-local"' + (e.oculta ? ' data-oculta="' + esc(e.oculta) + '"' : '') +
+        ' style="--x:' + e.x + '%;--y:' + e.y + '%;--w:' + e.w +
+        '%;--xm:' + e.xm + '%;--ym:' + e.ym + '%;--wm:' + e.wm + '%">' + esc(e.t) + '</span>';
+    }).join('');
+    return '<figure class="ficha-panel ficha-plano" hidden style="--plano-prop:' + pl.proporcion + '">' +
+      '<div class="ficha-plano-marco">' +
+        '<picture>' +
+          '<source media="(max-width: 1023px)" srcset="' + esc(pl.base) + '-v.svg">' +
+          '<img src="' + esc(pl.base) + '-h.svg" alt="Plano de ' + esc(pl.nivel.toLowerCase()) + ' de ' + esc(p.title) + '" loading="lazy">' +
+        '</picture>' +
+        locales +
+      '</div>' +
+      '<figcaption class="ficha-plano-nivel">' + esc(pl.nivel) + '</figcaption>' +
+      '</figure>';
+  }
+
+  /* 2 · Distribución: los espacios de cada planta, tomados de los planos.
+     Se ordenan como se recorre una casa: acceso, áreas sociales, recámaras y
+     baños, exteriores y servicio. Un nombre repetido (dos jardines) va una vez. */
+  var GRUPOS_ESPACIO = [
+    { re: /servicio|lavander|lavado|bodega|cochera|garage/i, orden: 4 },   // se revisa primero
+    { re: /^(acceso|recibidor|vest[ií]bulo)/i, orden: 0 },
+    { re: /^(estancia|sala|comedor|cocina|estudio)/i, orden: 1 },
+    { re: /^(rec[aá]mara|ba[ñn]o|toilet)/i, orden: 2 },
+    { re: /^(terraza|patio|jard[ií]n|azotea)/i, orden: 3 }
+  ];
+
+  // Orden dentro de cada grupo. Entrada: acceso, recibidor, vestíbulo. Social:
+  // sala o estancia, comedor, cocina y al final el estudio. Privado: recámaras y
+  // luego baños, la principal primero. Exteriores y servicio: como en el plano.
+  function subOrden(t, grupo) {
+    if (grupo === 0) return /^acceso/i.test(t) ? 0 : (/^recibidor/i.test(t) ? 1 : 2);
+    if (grupo === 1) {
+      if (/estudio|t\.?v\b/i.test(t)) return 3;
+      return /^(estancia|sala)/i.test(t) ? 0 : (/^comedor/i.test(t) ? 1 : 2);
+    }
+    if (grupo === 2) {
+      var tipo = /rec[aá]mara/i.test(t) ? 0 : (/ba[ñn]o/i.test(t) ? 1 : 2);
+      var n = /principal/i.test(t) ? 0 : parseInt((t.match(/\d+/) || ['99'])[0], 10);
+      return tipo * 1000 + n;
+    }
+    return 0;
+  }
+
+  function espaciosDe(pl) {
+    var vistos = {};
+    return (pl.etiquetas || []).map(function (e, i) {
+      var t = e.t.replace(/\b0(\d)\b/, '$1');               // "Recámara 01" → "Recámara 1"
+      var orden = 2.5;
+      for (var k = 0; k < GRUPOS_ESPACIO.length; k++) {
+        if (GRUPOS_ESPACIO[k].re.test(t)) { orden = GRUPOS_ESPACIO[k].orden; break; }
+      }
+      return { t: t, orden: orden, i: i };
+    }).filter(function (e) {
+      var clave = e.t.toLowerCase();
+      if (vistos[clave]) return false;
+      vistos[clave] = true;
+      return true;
+    }).sort(function (a, b) {
+      return (a.orden - b.orden) ||
+        (subOrden(a.t, a.orden) - subOrden(b.t, b.orden)) ||
+        (a.i - b.i);
+    }).map(function (e) { return e.t; });
+  }
+
+  function panelDistribucion(p) {
+    if (!p.planos || !p.planos.length) return '';
+    if (p.maqueta) return panelDistribucionMaqueta(p);
+    return '<section class="ficha-panel ficha-panel-texto">' +
+      '<span class="ficha-etiqueta">Distribución</span>' +
+      p.planos.map(function (pl) {
+        return '<div class="ficha-nivel">' +
+          '<h2 class="ficha-subtitulo">' + esc(pl.nivel) + '</h2>' +
+          lista(espaciosDe(pl)).replace('class="ficha-lista"', 'class="ficha-lista ficha-lista-doble"') +
+          '</div>';
+      }).join('') +
+      '</section>';
+  }
+
+  /* 2 · Distribución con maqueta 3D, en lámina (p.maqueta: la carpeta de sus imágenes).
+     Como la lámina de un arquitecto: a la izquierda la leyenda, el número y el
+     nombre de cada espacio, una columna por planta; a la derecha la maqueta de una
+     planta con el número de cada espacio encima, sin muebles o amueblada, y abajo
+     la cartela con la casa y la planta. El cursor sobre un espacio (en la leyenda,
+     en su número o en la maqueta) enciende ese cuarto.
+     Imágenes: <carpeta>/<planta>-<vista>-<ancho>.webp. Máscaras, rejilla y centros
+     de los cuartos: <carpeta>/cuartos.js. */
+  // La clave arma el nombre de las imágenes; el nombre es lo que se lee. Las casas se
+  // entregan sin muebles: la otra vista no se llama «amueblada» (revisión V1, C-02).
+  var VISTAS_MAQUETA = [
+    { clave: 'sin-muebles', nombre: 'Sin muebles' },
+    { clave: 'amueblada', nombre: 'Muebles de referencia' }
+  ];
+
+  function plantaDe(pl) { return String(pl.base || '').split('/').pop(); }
+
+  // El nombre como lo escribe cuartos.js: minúsculas, sin acentos, "01" → "1".
+  function claveEspacio(t) {
+    return String(t).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .replace(/\b0(\d)\b/g, '$1').replace(/\s+/g, ' ').trim();
+  }
+
+  function dosCifras(n) { return (n < 10 ? '0' : '') + n; }
+
+  function panelDistribucionMaqueta(p) {
+    // El número corre por todas las plantas, como en la leyenda de una lámina.
+    var n = 0;
+    var niveles = p.planos.map(function (pl, i) {
+      var planta = esc(plantaDe(pl));
+      return '<div class="ficha-nivel' + (i === 0 ? ' is-planta' : '') + '" data-planta="' + planta + '">' +
+        '<h2 class="ficha-subtitulo">' + esc(pl.nivel) + '</h2>' +
+        '<ol class="ficha-lista ficha-leyenda">' + espaciosDe(pl).map(function (t) {
+          var num = dosCifras(++n);
+          return '<li tabindex="0" data-planta="' + planta + '" data-clave="' + esc(claveEspacio(t)) + '" data-num="' + num + '">' +
+            '<span class="ficha-leyenda-num" aria-hidden="true">' + num + '</span>' +
+            '<span class="ficha-leyenda-nombre">' + esc(t) + '</span></li>';
+        }).join('') + '</ol>' +
+        '</div>';
+    }).join('');
+
+    var capas = p.planos.map(function (pl, i) {
+      var raiz = p.maqueta + '/' + plantaDe(pl) + '-';
+      return '<div class="ficha-maqueta-planta" data-planta="' + esc(plantaDe(pl)) + '"' + (i === 0 ? ' data-activa' : '') + '>' +
+        VISTAS_MAQUETA.map(function (v, j) {
+          return '<img class="ficha-maqueta-base" data-vista="' + v.clave + '"' + (j === 0 ? ' data-activa' : '') +
+            ' src="' + esc(raiz + v.clave) + '-1600.webp" srcset="' + esc(raiz + v.clave) + '-1600.webp 1600w, ' +
+            esc(raiz + v.clave) + '-2400.webp 2400w" sizes="(min-width: 1024px) 62vw, 100vw"' +
+            ' alt="Maqueta de ' + esc(pl.nivel.toLowerCase()) + ' de ' + esc(p.title) + ', ' + v.nombre.toLowerCase() + '"' +
+            ' loading="lazy" decoding="async">';
+        }).join('') +
+        '<img class="ficha-maqueta-foco" alt="" aria-hidden="true">' +
+        '<img class="ficha-maqueta-foco" alt="" aria-hidden="true">' +
+        '<div class="ficha-maqueta-marcas" aria-hidden="true"></div>' +
+        '</div>';
+    }).join('');
+
+    function boton(dato, valor, texto, activo) {
+      return '<button type="button" class="ficha-maqueta-boton" data-' + dato + '="' + esc(valor) + '" aria-pressed="' + activo + '">' + esc(texto) + '</button>';
+    }
+    var botonesPlanta = p.planos.length > 1
+      ? '<div class="ficha-maqueta-grupo" role="group" aria-label="Planta">' +
+          p.planos.map(function (pl, i) { return boton('planta', plantaDe(pl), pl.nivel, i === 0); }).join('') +
+        '</div>'
+      : '<div></div>';
+
+    return '<section class="ficha-panel ficha-distribucion">' +
+      '<div class="ficha-distribucion-texto">' +
+        '<span class="ficha-etiqueta">Distribución</span>' +
+        '<div class="ficha-distribucion-leyenda">' + niveles + '</div>' +
+      '</div>' +
+      '<figure class="ficha-maqueta">' +
+        '<div class="ficha-maqueta-cabeza">' + botonesPlanta +
+          '<div class="ficha-maqueta-grupo" role="group" aria-label="Mobiliario">' +
+            VISTAS_MAQUETA.map(function (v, j) { return boton('vista', v.clave, v.nombre, j === 0); }).join('') +
+          '</div>' +
+        '</div>' +
+        '<div class="ficha-maqueta-lienzo">' + capas +
+          '<span class="ficha-maqueta-rotulo" aria-hidden="true"></span>' +
+        '</div>' +
+        '<figcaption class="ficha-maqueta-cartela">' +
+          '<span><b translate="no">' + esc(p.title) + '</b> · <span class="ficha-maqueta-nivel">' + esc(p.planos[0].nivel) + '</span></span>' +
+          '<span>Maqueta a partir de los planos · muebles ilustrativos</span>' +
+        '</figcaption>' +
+      '</figure>' +
+      '</section>';
+  }
+
+  /* La lámina en marcha: planta y vista con fundido, el cuarto encendido y sus números.
+     Encender = desvanecer la maqueta hacia el blanco y poner encima la misma imagen
+     recortada con la máscara del cuarto. Dos capas de foco se turnan para que pasar de
+     un cuarto a otro también sea un fundido. Las máscaras llegan en un <script> (y no
+     por fetch) para que la ficha funcione abierta con doble clic. */
+  function iniciarMaqueta(p) {
+    var fig = cont.querySelector('.ficha-maqueta');
+    if (!fig) return;
+    var panel = fig.parentNode;
+    var lienzo = fig.querySelector('.ficha-maqueta-lienzo');
+    var rotulo = fig.querySelector('.ficha-maqueta-rotulo');
+    var renglones = panel.querySelectorAll('li[data-clave]');
+    var datos = null, rejillas = {};
+    var planta = plantaDe(p.planos[0]), vista = VISTAS_MAQUETA[0].clave, encendido = null;
+
+    window.MAQUETAS = window.MAQUETAS || {};
+    var s = document.createElement('script');
+    s.src = p.maqueta + '/cuartos.js';
+    s.onload = function () { datos = window.MAQUETAS[p.maqueta] || null; ponerMarcas(); };
+    document.head.appendChild(s);
+
+    function capa(k) { return lienzo.querySelector('.ficha-maqueta-planta[data-planta="' + k + '"]'); }
+    function cuartosDe(k) {
+      var pl = datos && datos[k || planta];
+      return (pl && pl[vista] && pl[vista].cuartos) || [];
+    }
+    function cuarto(clave) {
+      var lista = cuartosDe();
+      for (var i = 0; i < lista.length; i++) if (lista[i].clave === clave) return lista[i];
+      return null;
+    }
+
+    // Rejilla corrida: "a12.30b5" = 12 celdas del cuarto 1, 30 vacías, 5 del 2…
+    function rejilla() {
+      var clave = planta + '|' + vista;
+      if (rejillas[clave]) return rejillas[clave];
+      var pl = datos && datos[planta], r = pl && pl[vista] && pl[vista].rejilla;
+      if (!r) return null;
+      var celdas = new Uint8Array(r.columnas * r.filas), i = 0;
+      r.datos.split(',').forEach(function (fila) {
+        fila.replace(/([.a-z])(\d*)/g, function (_, c, n) {
+          var v = c === '.' ? 0 : c.charCodeAt(0) - 96;
+          for (var k = n ? +n : 1; k > 0; k--) celdas[i++] = v;
+          return '';
+        });
+      });
+      return (rejillas[clave] = { columnas: r.columnas, filas: r.filas, celdas: celdas });
+    }
+    function cuartoEn(fx, fy) {
+      var r = rejilla();
+      if (!r || fx < 0 || fy < 0 || fx >= 1 || fy >= 1) return null;
+      var v = r.celdas[Math.floor(fy * r.filas) * r.columnas + Math.floor(fx * r.columnas)];
+      return v ? cuartosDe()[v - 1] : null;
+    }
+
+    // El renglón de la leyenda de un cuarto en una planta (sólo los de la lista se encienden).
+    function renglon(clave, k) {
+      for (var i = 0; i < renglones.length; i++) {
+        if (renglones[i].getAttribute('data-clave') === clave && renglones[i].getAttribute('data-planta') === (k || planta)) return renglones[i];
+      }
+      return null;
+    }
+
+    /* Los números sobre la maqueta: uno por pieza visible de cada cuarto, en su centro.
+       Si dos quedan encimados (baños chicos juntos), se separan lo justo. */
+    function ponerMarcas() {
+      if (!datos) return;
+      var ancho = lienzo.clientWidth, alto = lienzo.clientHeight;
+      if (!ancho || !alto) return;
+      var d = window.matchMedia('(min-width: 1024px)').matches ? 18 : 16;   // diámetro + aire
+      p.planos.forEach(function (pl) {
+        var k = plantaDe(pl), caja = capa(k).querySelector('.ficha-maqueta-marcas'), marcas = [];
+        cuartosDe(k).forEach(function (c) {
+          var li = renglon(c.clave, k);
+          if (!li) return;
+          (c.centros || []).forEach(function (q) {
+            marcas.push({ clave: c.clave, num: li.getAttribute('data-num'), x: q[0] / 100 * ancho, y: q[1] / 100 * alto });
+          });
+        });
+        for (var vuelta = 0; vuelta < 40; vuelta++) {
+          var movio = false;
+          for (var i = 0; i < marcas.length; i++) {
+            for (var j = i + 1; j < marcas.length; j++) {
+              var a = marcas[i], b = marcas[j], dx = b.x - a.x, dy = b.y - a.y, dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist >= d) continue;
+              if (dist < 0.01) { dx = 1; dy = 0; dist = 1; }
+              var empuje = (d - dist) / 2;
+              a.x -= dx / dist * empuje; a.y -= dy / dist * empuje;
+              b.x += dx / dist * empuje; b.y += dy / dist * empuje;
+              movio = true;
+            }
+          }
+          if (!movio) break;
+        }
+        caja.innerHTML = marcas.map(function (m) {
+          var x = Math.min(ancho - d / 2, Math.max(d / 2, m.x)), y = Math.min(alto - d / 2, Math.max(d / 2, m.y));
+          return '<span class="ficha-maqueta-marca' + (encendido === m.clave && k === planta ? ' is-activo' : '') +
+            '" data-clave="' + esc(m.clave) + '" style="left:' + (x / ancho * 100).toFixed(2) + '%;top:' +
+            (y / alto * 100).toFixed(2) + '%">' + m.num + '</span>';
+        }).join('');
+      });
+    }
+    var esperaMarcas = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(esperaMarcas);
+      esperaMarcas = setTimeout(ponerMarcas, 150);
+    });
+
+    function encender(clave) {
+      var c = clave ? cuarto(clave) : null;
+      if (c && !renglon(clave)) c = null;             // sólo los espacios de la lista
+      var nueva = c ? clave : null;
+      if (nueva === encendido) return;
+      encendido = nueva;
+      var actual = capa(planta);
+      var focos = actual.querySelectorAll('.ficha-maqueta-foco');
+      var turno = actual.getAttribute('data-turno') === '1' ? 0 : 1;
+      if (c) {
+        var base = actual.querySelector('.ficha-maqueta-base[data-vista="' + vista + '"]');
+        var foco = focos[turno];
+        if (foco.getAttribute('srcset') !== base.getAttribute('srcset')) {
+          foco.setAttribute('sizes', base.getAttribute('sizes'));
+          foco.setAttribute('srcset', base.getAttribute('srcset'));
+          foco.src = base.getAttribute('src');
+        }
+        foco.style.webkitMaskImage = foco.style.maskImage = 'url(' + c.mascara + ')';
+        foco.setAttribute('data-activa', '');
+        focos[1 - turno].removeAttribute('data-activa');
+        actual.setAttribute('data-turno', String(turno));
+      } else {
+        Array.prototype.forEach.call(focos, function (f) { f.removeAttribute('data-activa'); });
+      }
+      fig.classList.toggle('is-foco', !!c);
+      panel.classList.toggle('is-foco', !!c);
+      Array.prototype.forEach.call(renglones, function (li) {
+        li.classList.toggle('is-activo', !!nueva && li.getAttribute('data-clave') === nueva &&
+          li.getAttribute('data-planta') === planta);
+      });
+      Array.prototype.forEach.call(lienzo.querySelectorAll('.ficha-maqueta-marca'), function (m) {
+        m.classList.toggle('is-activo', !!nueva && m.getAttribute('data-clave') === nueva &&
+          m.parentNode.parentNode.getAttribute('data-planta') === planta);
+      });
+    }
+
+    function marcar(dato, valor) {
+      Array.prototype.forEach.call(fig.querySelectorAll('.ficha-maqueta-boton[data-' + dato + ']'), function (b) {
+        b.setAttribute('aria-pressed', b.getAttribute('data-' + dato) === valor ? 'true' : 'false');
+      });
+    }
+
+    function verPlanta(k) {
+      if (k === planta || !capa(k)) return;
+      encender(null);
+      capa(planta).removeAttribute('data-activa');
+      planta = k;
+      capa(planta).setAttribute('data-activa', '');
+      marcar('planta', k);
+      Array.prototype.forEach.call(panel.querySelectorAll('.ficha-nivel'), function (n) {
+        n.classList.toggle('is-planta', n.getAttribute('data-planta') === k);
+      });
+      var nivel = p.planos.filter(function (pl) { return plantaDe(pl) === k; })[0];
+      fig.querySelector('.ficha-maqueta-nivel').textContent = nivel ? nivel.nivel : '';
+    }
+
+    function verVista(v) {
+      if (v === vista) return;
+      var antes = encendido;
+      encender(null);
+      vista = v;
+      Array.prototype.forEach.call(lienzo.querySelectorAll('.ficha-maqueta-base'), function (img) {
+        if (img.getAttribute('data-vista') === v) img.setAttribute('data-activa', '');
+        else img.removeAttribute('data-activa');
+      });
+      marcar('vista', v);
+      ponerMarcas();                                   // con muebles, el centro visible cambia un poco
+      if (antes) encender(antes);
+    }
+
+    fig.querySelector('.ficha-maqueta-cabeza').addEventListener('click', function (e) {
+      var b = e.target.closest('.ficha-maqueta-boton');
+      if (!b) return;
+      if (b.hasAttribute('data-planta')) verPlanta(b.getAttribute('data-planta'));
+      else verVista(b.getAttribute('data-vista'));
+    });
+
+    // La leyenda: el cursor o el foco (teclado) enciende; con el dedo, un toque
+    // enciende y otro apaga. Sólo el mouse cuenta para "pasar por encima": el
+    // celular simula un mouseenter al tocar y apagaría lo que el toque prende.
+    var puntero = 'mouse';
+    panel.addEventListener('pointerdown', function (e) { puntero = e.pointerType; });
+    Array.prototype.forEach.call(renglones, function (li) {
+      // Al tocar, el foco llega antes que el clic y ya lo prende: el clic decide con
+      // lo que había antes del toque.
+      var estaba = false;
+      function prender() { verPlanta(li.getAttribute('data-planta')); encender(li.getAttribute('data-clave')); }
+      li.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') prender(); });
+      li.addEventListener('pointerdown', function () { estaba = li.classList.contains('is-activo'); });
+      li.addEventListener('focus', prender);
+      li.addEventListener('blur', function () { encender(null); });
+      li.addEventListener('click', function () {
+        if (puntero !== 'mouse' && estaba) encender(null);
+        else prender();
+      });
+    });
+    Array.prototype.forEach.call(panel.querySelectorAll('.ficha-nivel'), function (n) {
+      n.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') verPlanta(n.getAttribute('data-planta')); });
+    });
+    panel.querySelector('.ficha-distribucion-leyenda').addEventListener('pointerleave', function (e) {
+      if (e.pointerType === 'mouse') encender(null);
+    });
+    // Si falta una imagen, el lienzo se queda en blanco (nunca el ícono roto).
+    Array.prototype.forEach.call(lienzo.querySelectorAll('.ficha-maqueta-base'), function (img) {
+      img.addEventListener('error', function () { img.style.visibility = 'hidden'; });
+    });
+    // Cuando cargan las imágenes, el lienzo ya tiene su tamaño: ahí van los números.
+    var base0 = capa(planta).querySelector('.ficha-maqueta-base');
+    if (base0.complete) ponerMarcas(); else base0.addEventListener('load', ponerMarcas);
+
+    // La maqueta: el cuarto bajo el cursor (o el de su número), con número y nombre al lado.
+    function apuntar(e) {
+      var r = lienzo.getBoundingClientRect();
+      var fx = (e.clientX - r.left) / r.width, fy = (e.clientY - r.top) / r.height;
+      var marca = e.target.closest && e.target.closest('.ficha-maqueta-marca');
+      var clave = marca ? marca.getAttribute('data-clave') : null;
+      if (!clave) { var c = cuartoEn(fx, fy); clave = c ? c.clave : null; }
+      if (e.type === 'click' && puntero !== 'mouse' && clave && clave === encendido) clave = null;   // otro toque apaga
+      encender(clave);
+      var li = encendido && renglon(encendido);
+      if (li) {
+        rotulo.innerHTML = '<b>' + li.getAttribute('data-num') + '</b>' + esc(li.querySelector('.ficha-leyenda-nombre').textContent);
+        rotulo.style.left = (fx * 100) + '%';
+        rotulo.style.top = (Math.min(0.95, Math.max(0.05, fy)) * 100) + '%';
+        rotulo.setAttribute('data-activa', '');
+        rotulo.classList.toggle('a-la-izquierda', fx > 0.72);
+      } else {
+        rotulo.removeAttribute('data-activa');
+      }
+    }
+    lienzo.addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse') apuntar(e); });
+    lienzo.addEventListener('pointerleave', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      encender(null);
+      rotulo.removeAttribute('data-activa');
+    });
+    lienzo.addEventListener('click', apuntar);
+
+    /* Escritorio: si el recorrido se detiene con la lámina un poco corrida, la página se
+       acomoda sola, con suavidad, a la orilla (como se presenta). Sólo cuando quedó
+       cerca: si la persona se va hacia otro panel, no se la regresa. */
+    var esperaAcomodo = null, acomodando = false, reposo = null;   // reposo: dónde se detuvo la última vez
+    function acomodar() {
+      if (esVertical() || acomodando) return;
+      var orilla = parseFloat(getComputedStyle(cont).paddingLeft) || 0;
+      var delta = panel.getBoundingClientRect().left - orilla;
+      var seAleja = reposo !== null && Math.abs(delta) > Math.abs(reposo);
+      var limite = window.innerWidth * (seAleja ? 0.05 : 0.22);
+      if (Math.abs(delta) < 2 || Math.abs(delta) > limite) { reposo = delta; return; }
+      reposo = 0;
+      acomodando = true;
+      cont.scrollTo({
+        left: cont.scrollLeft + delta,
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+      });
+      setTimeout(function () { acomodando = false; }, 800);
+    }
+    cont.addEventListener('scroll', function () {
+      if (acomodando) return;
+      clearTimeout(esperaAcomodo);
+      esperaAcomodo = setTimeout(acomodar, 300);
+    }, { passive: true });
+  }
+
+  /* 3 · La casa: el texto y sus características. En un activo de inversión, las
+     suites, la distancia a pie y las notas del propietario. */
+  function panelCasa(p) {
+    var esActivo = esActivoDeInversion(p);
+    var caracteristicas = p.caracteristicas || [];
+    var notas = '';
+    if (esActivo) {
+      caracteristicas = String(p.llavesDetalle || '').split(/\.\s*/).filter(Boolean);
+      if (p.caminando) caracteristicas.push(p.caminando);
+      if (p.roofNota) notas += '<p class="ficha-nota">' + esc(p.roofNota) + '</p>';
+      notas += '<p class="ficha-nota">Superficies informadas por el propietario. Documentación completa a solicitud.</p>';
+    }
+    return '<section class="ficha-panel ficha-panel-texto">' +
+      '<span class="ficha-etiqueta">' + (esActivo ? 'El inmueble' : 'La casa') + '</span>' +
+      '<p class="ficha-parrafo">' + esc(p.description) + '</p>' +
+      (caracteristicas.length
+        ? '<h2 class="ficha-subtitulo">' + (esActivo ? 'Suites y ubicación' : 'Características') + '</h2>' +
+          lista(caracteristicas)
+        : '') +
+      notas +
+      '</section>';
+  }
+
+  /* 4 · El entorno: el club o barrio de la casa (ENTORNOS en data.js). */
+  function panelEntorno(p) {
+    var en = (p.entorno && typeof ENTORNOS !== 'undefined') ? ENTORNOS[p.entorno] : null;
+    if (!en) return '';
+    // Con video (Luis, 27-oct): la información del club va encima de su video vertical.
+    // El video se carga y corre solo cuando está a la vista (iniciarVideoEntorno).
+    if (en.video) {
+      return '<section class="ficha-panel ficha-panel-texto ficha-entorno">' +
+        '<span class="ficha-etiqueta">El entorno</span>' +
+        '<figure class="ficha-entorno-video">' +
+          '<video data-src="' + esc(en.video) + '"' + (en.poster ? ' poster="' + esc(en.poster) + '"' : '') +
+            ' muted loop playsinline preload="none" aria-label="Video del ' + esc(en.nombre) + '"></video>' +
+          '<figcaption class="ficha-entorno-texto">' +
+            '<h2 class="ficha-nombre">' + esc(en.nombre) + '</h2>' +
+            '<div class="ficha-cifras" style="--cifras-col:' + en.cifras.length + '">' +
+              en.cifras.map(function (c) { return cifra(c.valor, c.etiqueta); }).join('') +
+            '</div>' +
+            lista(en.amenidades) +
+            '<p class="ficha-nota">' + esc(en.ubicacion) + '</p>' +
+          '</figcaption>' +
+        '</figure>' +
+        '</section>';
+    }
+    return '<section class="ficha-panel ficha-panel-texto">' +
+      '<span class="ficha-etiqueta">El entorno</span>' +
+      '<h2 class="ficha-nombre">' + esc(en.nombre) + '</h2>' +
+      '<div class="ficha-cifras" style="--cifras-col:' + en.cifras.length + '">' +
+        en.cifras.map(function (c) { return cifra(c.valor, c.etiqueta); }).join('') +
+      '</div>' +
+      lista(en.amenidades) +
+      '<p class="ficha-nota">' + esc(en.ubicacion) + '</p>' +
+      '</section>';
+  }
+
+  /* El WhatsApp de cada casa con su mensaje. Lo usan la ficha técnica, el panel de
+     contacto y la barra fija, para que se pueda consultar desde cualquier foto. */
+  function consultaDe(p) {
+    var esActivo = esActivoDeInversion(p);
+    var msg = esActivo
+      ? 'Hola, me interesa recibir la documentación de ' + p.title + ' (' + p.subzone + ').'
+      : 'Hola, me interesa ' + p.title + ' (' + p.subzone + ').';
+    return {
+      href: 'https://wa.me/525564738881?text=' + encodeURIComponent(msg),
+      texto: esActivo ? 'Solicitar documentación' : 'Consultar esta casa'
+    };
+  }
+
+  /* 5 · Contacto: la acción y el regreso. */
+  function panelContacto(p) {
+    var esActivo = esActivoDeInversion(p);
+    var consulta = consultaDe(p);
+    // Casa Julieta ya no está en el catálogo: regresa a la página de Invertir.
+    var volver = esActivo
+      ? '<a class="ficha-volver" href="invertir.html">Volver a Invertir</a>'
+      : '<a class="ficha-volver" href="catalogo.html">Volver al catálogo</a>';
+    return '<section class="ficha-panel ficha-panel-texto ficha-panel-contacto">' +
+      '<div class="ficha-acciones">' +
+        '<a class="btn-gold" href="' + consulta.href + '" target="_blank" rel="noopener">' + consulta.texto + '</a>' +
+        (urlRecorrido3D(p) ? '<a class="btn-gold" href="' + esc(urlRecorrido3D(p)) + '" target="_blank" rel="noopener">Recorrido 3D</a>' : '') +
+        volver +
+      '</div>' +
+      '</section>';
+  }
+
+  function noEncontrada() {
+    return '<section class="ficha-panel ficha-panel-texto">' +
+      '<h1 class="ficha-titulo">No encontramos esa propiedad</h1>' +
+      '<p class="ficha-parrafo">Puede que ya no esté disponible.</p>' +
+      '<div class="ficha-acciones"><a class="btn-gold" href="catalogo.html">Ver el catálogo</a></div>' +
+      '</section>';
+  }
+
+  /* Una URL rota cae al hueco a propósito, nunca al ícono de imagen rota. */
+  function blindarFotos() {
+    Array.prototype.forEach.call(cont.querySelectorAll('.ficha-marco img'), function (img) {
+      img.addEventListener('error', function () {
+        var marco = img.parentNode;
+        if (marco) marco.classList.add('media-slot');
+        img.remove();
+      });
     });
   }
 
-  // Initial catalog render on page
-  renderMasterCatalog();
-}
+  /* Rueda vertical -> desplazamiento horizontal.
+     COMPROBADO: Chrome NO hace esta traducción solo en un contenedor
+     overflow-x. Sin este puente, con mouse de rueda el flujo no avanza.
+     Se suelta en los bordes a propósito: un listener de rueda que nunca
+     devuelve el control es lo que traba una página (lección de MaxiPanel). */
+  function onRueda(e) {
+    if (esVertical()) return;
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;   // trackpad: ya es nativo
+    var paso = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+    var max = cont.scrollWidth - cont.clientWidth;
+    var enBorde = (paso < 0 && cont.scrollLeft <= 0) ||
+                  (paso > 0 && cont.scrollLeft >= max - 1);
+    if (enBorde) return;
+    e.preventDefault();
+    cont.scrollLeft += paso;
+  }
 
-/* --------------------------------------------------------------------------
-   5. Comparison Dock & Modal (Side-by-Side)
-   -------------------------------------------------------------------------- */
-window.toggleCompare = function(id) {
-  if (comparedProperties.includes(id)) {
-    comparedProperties = comparedProperties.filter(pId => pId !== id);
-  } else {
-    if (comparedProperties.length >= 3) {
-      alert("Puede comparar un máximo de 3 residencias simultáneamente.");
+  function onTecla(e) {
+    if (e.key === 'Escape') { window.location.href = salida; return; }
+    if (esVertical()) return;
+    if (e.key === 'Home') { e.preventDefault(); cont.scrollLeft = 0; }
+    if (e.key === 'End')  { e.preventDefault(); cont.scrollLeft = cont.scrollWidth; }
+  }
+
+  function observarPaneles() {
+    if (!('IntersectionObserver' in window)) return;   // sin soporte: todo visible
+    document.documentElement.setAttribute('data-anim-ficha', 'on');
+    var obs = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        en.target.classList.add('is-visible');
+        obs.unobserve(en.target);
+      });
+    }, { root: esVertical() ? null : cont, threshold: 0.15 });
+
+    Array.prototype.forEach.call(paneles, function (el) { obs.observe(el); });
+
+    // Dos redes: lo que ya está en pantalla se revela de inmediato, y a los
+    // 3 s se revela todo pase lo que pase.
+    setTimeout(function () {
+      Array.prototype.forEach.call(paneles, function (el) {
+        var r = el.getBoundingClientRect();
+        var enPantalla = esVertical()
+          ? r.top < window.innerHeight
+          : r.left < window.innerWidth;
+        if (enPantalla) el.classList.add('is-visible');
+      });
+    }, 50);
+    setTimeout(function () {
+      Array.prototype.forEach.call(paneles, function (el) { el.classList.add('is-visible'); });
+    }, 3000);
+  }
+
+  function iniciar() {
+    cont = document.getElementById('ficha-flujo');
+    if (!cont) return;                       // no es propiedad.html
+
+    // La casa: la de ?id= o, en su página propia (<slug>.html), la de data-propiedad.
+    var clave = new URLSearchParams(window.location.search).get('id') ||
+      document.body.getAttribute('data-propiedad');
+    var p = null;
+    if (typeof LUXURY_PROPERTIES !== 'undefined') {
+      p = LUXURY_PROPERTIES.find(function (x) { return x.id === clave || x.slug === clave; });
+    }
+    if (!p && typeof ACTIVOS_INVERSION !== 'undefined') {
+      p = ACTIVOS_INVERSION.find(function (x) { return x.id === clave || x.slug === clave; });
+    }
+
+    // Sin `?id=` se muestra la primera casa, para que abrir propiedad.html
+    // con doble clic sirva para revisar la ficha. Con `?id=` equivocado sí
+    // se avisa: ahí hay un error de verdad.
+    // (Provisional: cuando exista build.js cada casa tendrá su propia URL.)
+    if (!clave && typeof LUXURY_PROPERTIES !== 'undefined') p = LUXURY_PROPERTIES[0];
+    if (!p) { cont.innerHTML = noEncontrada(); return; }
+
+    // Un activo de inversión (Casa Julieta) no está en el catálogo: Esc y la marca
+    // de la barra regresan a Invertir, como su «Volver a Invertir» (C-15).
+    salida = esActivoDeInversion(p) ? 'invertir.html' : 'catalogo.html';
+    var marca = document.querySelector('.ficha-barra-marca');
+    if (marca) marca.setAttribute('href', salida);
+    // La barra fija dice qué casa es y cuánto cuesta (en compu) y lleva el WhatsApp:
+    // la primera pantalla de la ficha ya no es solo una foto (revisión final, 27-oct).
+    var barra = document.querySelector('.ficha-barra');
+    if (barra && marca && !barra.querySelector('.ficha-barra-consultar')) {
+      var cons = consultaDe(p);
+      var casa = document.createElement('span');
+      casa.className = 'ficha-barra-casa';
+      casa.textContent = p.title + ' · ' + (p.priceMXN != null ? pesos(p.priceMXN) : String(p.subzone || '').split(',')[0]);
+      marca.insertAdjacentElement('afterend', casa);
+      var consultar = document.createElement('a');
+      consultar.className = 'ficha-barra-consultar';
+      consultar.href = cons.href;
+      consultar.target = '_blank';
+      consultar.rel = 'noopener';
+      consultar.textContent = 'Consultar';
+      consultar.setAttribute('aria-label', cons.texto + ' por WhatsApp');
+      barra.appendChild(consultar);
+    }
+
+    document.title = p.title + ' — ' + p.subzone + ' | PRAETORA';
+    // Abierta como propiedad.html?id=, la barra pasa a la dirección propia de la casa:
+    // así, si alguien copia el enlace, se comparte con su foto y su nombre.
+    if (/^https?:$/.test(location.protocol) && p.slug && /\/propiedad(\.html)?$/.test(location.pathname)) {
+      try {
+        history.replaceState(null, '', p.slug + (/\.html$/.test(location.pathname) ? '.html' : '') + location.hash);
+      } catch (e) { /* sin replaceState, se queda la dirección de siempre */ }
+    }
+    var meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute('content', p.description);
+
+    var html = '';
+    var nFoto = 0;
+    construirFlujo(p).forEach(function (f, i) {
+      html += panelFoto(f, i, f.tipo === 'video' ? '' : p.title + ', foto ' + (++nFoto));
+    });
+    (p.planos || []).forEach(function (pl) { html += panelPlano(pl, p); });
+    html += panelFicha(p) + panelDistribucion(p) + panelCasa(p) + panelEntorno(p) + panelContacto(p);
+    cont.innerHTML = html;
+
+    paneles = cont.querySelectorAll('.ficha-panel');
+    blindarFotos();
+    observarPaneles();
+    iniciarMaqueta(p);
+
+    cont.addEventListener('wheel', onRueda, { passive: false });
+    var aInfo = document.querySelector('.ficha-barra-info');
+    if (aInfo) {
+      aInfo.addEventListener('click', function (e) {
+        var destino = document.getElementById('ficha-info');
+        if (!destino) return;                       // sin destino, que siga el enlace
+        e.preventDefault();
+        var suave = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? 'auto' : 'smooth';
+        if (esVertical()) {
+          destino.scrollIntoView({ behavior: suave, block: 'start' });
+        } else {
+          // Al panel de la ficha, no al final: detrás de él van la maqueta y más paneles (F-02).
+          cont.scrollTo({ left: destino.offsetLeft - parseFloat(getComputedStyle(cont).paddingLeft), behavior: suave });
+        }
+      });
+    }
+
+    // "Ver planos": muestra los planos (van entre las fotos y los datos) y lleva el
+    // recorrido al primero. Otro clic los vuelve a esconder.
+    var btnPlanos = cont.querySelector('.ficha-ver-planos');
+    if (btnPlanos) {
+      btnPlanos.addEventListener('click', function () {
+        var planos = cont.querySelectorAll('.ficha-plano');
+        var mostrar = btnPlanos.getAttribute('aria-expanded') !== 'true';
+        Array.prototype.forEach.call(planos, function (el) { el.hidden = !mostrar; });
+        btnPlanos.setAttribute('aria-expanded', mostrar ? 'true' : 'false');
+        btnPlanos.textContent = mostrar ? 'Ocultar planos' : 'Ver planos';
+        var suave = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? 'auto' : 'smooth';
+        var destino = mostrar ? planos[0] : document.getElementById('ficha-info');
+        if (esVertical()) {
+          destino.scrollIntoView({ behavior: suave, block: 'start' });
+        } else {
+          cont.scrollTo({ left: destino.offsetLeft - parseFloat(getComputedStyle(cont).paddingLeft), behavior: suave });
+        }
+      });
+    }
+
+    document.addEventListener('keydown', onTecla);
+
+    if (esVertical()) armarFichaVertical();
+    else ponerGanchos(p);
+    iniciarVideoEntorno();
+
+    // La pista «Ficha técnica →» de la barra se apaga cuando la ficha ya está a la vista.
+    var marcar = function () { marcarEnInfo(); };
+    cont.addEventListener('scroll', marcar, { passive: true });
+    window.addEventListener('scroll', marcar, { passive: true });
+    window.addEventListener('resize', marcar);
+    marcarEnInfo();
+
+    // Cruzar de compu a cel (o al revés) cambia el acomodo entero: se vuelve a armar.
+    // Se espera medio segundo y se compara: un cambio de un instante (girar el cel,
+    // una captura) no recarga la página.
+    var mq = window.matchMedia('(min-width: 1024px)');
+    var armadoVertical = esVertical();
+    var espera = null;
+    var cambio = function () {
+      clearTimeout(espera);
+      espera = setTimeout(function () {
+        if (esVertical() !== armadoVertical) location.reload();
+      }, 500);
+    };
+    if (mq.addEventListener) mq.addEventListener('change', cambio);
+    else if (mq.addListener) mq.addListener(cambio);
+  }
+
+  /* --------------------------------------------------------------------------
+     Ganchos (Luis, 27-oct): en compu, mientras el cliente avanza a la derecha,
+     debajo de las fotos se va escribiendo la casa, una línea por foto: los m²,
+     «se entrega sin muebles…» en las del Club y sus características. Solo datos
+     de data.js; la descripción no (trae adjetivos y cosas sin verificar).
+     -------------------------------------------------------------------------- */
+  function ganchosDe(p) {
+    var g = [];
+    var m = [];
+    if (p.m2Construccion) m.push(Number(p.m2Construccion).toLocaleString('es-MX') + ' m² de construcción');
+    if (p.m2Terreno) m.push(Number(p.m2Terreno).toLocaleString('es-MX') + ' m² de terreno');
+    if (m.length) g.push(m.join(' · '));
+    if (esActivoDeInversion(p)) {
+      String(p.llavesDetalle || '').split(/\.\s*/).filter(Boolean).forEach(function (s) { g.push(s); });
+      if (p.caminando) g.push(p.caminando);
+    } else {
+      if (p.entorno === 'malanquin') g.push('Se entrega sin muebles y con cocina equipada');
+      (p.caracteristicas || []).forEach(function (c) { g.push(c); });
+    }
+    return g;
+  }
+
+  function ponerGanchos(p) {
+    var ganchos = ganchosDe(p);
+    if (!ganchos.length) return;
+    var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var fotos = cont.querySelectorAll('figure.ficha-panel:not(.ficha-plano)');
+    var dos = function (n) { return (n < 10 ? '0' : '') + n; };
+    var puestos = [];
+    Array.prototype.forEach.call(fotos, function (f, i) {
+      if (i >= ganchos.length) return;
+      var cap = document.createElement('figcaption');
+      cap.className = 'ficha-gancho';
+      cap.innerHTML = '<span class="ficha-gancho-num" aria-hidden="true">' + dos(i + 1) + '</span>' +
+        '<span class="oculto-visual">' + esc(ganchos[i]) + '</span>' +
+        '<span class="ficha-gancho-texto" aria-hidden="true"></span>';
+      cap.setAttribute('data-texto', ganchos[i]);
+      f.appendChild(cap);
+      puestos.push(cap);
+    });
+
+    function escribir(cap) {
+      if (cap.getAttribute('data-escrito')) return;
+      cap.setAttribute('data-escrito', '1');
+      var texto = cap.getAttribute('data-texto');
+      var destino = cap.querySelector('.ficha-gancho-texto');
+      if (quieto) { destino.textContent = texto; return; }
+      var n = 0;
+      destino.classList.add('escribiendo');
+      var t = setInterval(function () {
+        n += 1;
+        destino.textContent = texto.slice(0, n);
+        if (n >= texto.length) { clearInterval(t); setTimeout(function () { destino.classList.remove('escribiendo'); }, 900); }
+      }, 24);
+    }
+
+    if (quieto || !('IntersectionObserver' in window)) { puestos.forEach(escribir); return; }
+    var obs = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var cap = en.target.querySelector('.ficha-gancho');
+        if (cap) setTimeout(function () { escribir(cap); }, 350);
+        obs.unobserve(en.target);
+      });
+    }, { root: cont, threshold: 0.6 });
+    // El lector de pantalla y Google leen la línea completa del span oculto desde el inicio.
+    puestos.forEach(function (cap) { obs.observe(cap.parentNode); });
+  }
+
+  /* El video del entorno baja y corre solo cuando se ve, y se pausa al salir.
+     Con «reducir movimiento» queda quieto en su póster, con controles. */
+  function iniciarVideoEntorno() {
+    var v = cont.querySelector('.ficha-entorno-video video');
+    if (!v) return;
+    var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function cargar() {
+      if (!v.getAttribute('src')) { v.src = v.getAttribute('data-src'); v.load(); }
+    }
+    // Con «reducir movimiento» no corre solo y se carga hasta que se ve, para no bajarlo antes.
+    if (quieto) {
+      v.controls = true;
+      v.preload = 'none';
+      if (!('IntersectionObserver' in window)) { cargar(); return; }
+      new IntersectionObserver(function (entradas, obs) {
+        if (entradas[0].isIntersecting) { cargar(); obs.disconnect(); }
+      }, { threshold: 0.25 }).observe(v);
       return;
     }
-    comparedProperties.push(id);
+    if (!('IntersectionObserver' in window)) { cargar(); v.play().catch(function () {}); return; }
+    new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (en) {
+        if (en.isIntersecting) { cargar(); v.play().catch(function () {}); }
+        else if (v.getAttribute('src')) v.pause();
+      });
+    }, { threshold: 0.25 }).observe(v);
   }
-  updateComparisonDock();
-  renderMasterCatalog();
-};
 
-function updateComparisonDock() {
-  const dock = document.getElementById('comparison-dock');
-  const bubblesWrap = document.getElementById('dock-bubbles');
-  const countLabel = document.getElementById('dock-count');
+  function marcarEnInfo() {
+    var destino = document.getElementById('ficha-info');
+    if (!destino) return;
+    var r = destino.getBoundingClientRect();
+    var enInfo = esVertical()
+      ? r.top < window.innerHeight * 0.75 && r.bottom > 0
+      : r.left < window.innerWidth * 0.7;
+    document.body.classList.toggle('ficha-en-info', enInfo);
+  }
 
-  if (!dock) return;
+  /* --------------------------------------------------------------------------
+     Ficha en cel y tableta (Luis, 27-oct): las fotos arriba, en un carril que
+     se desliza; abajo, la ficha técnica a la vista, y lo demás en tarjetas que
+     también se deslizan hacia el lado (Ficha técnica · Planos · La casa ·
+     El entorno · Contacto), con pestañas que siguen al dedo.
+     -------------------------------------------------------------------------- */
+  function armarFichaVertical() {
+    var suave = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    var hijos = Array.prototype.slice.call(cont.children);
+    var fotos = hijos.filter(function (e) { return e.matches('figure.ficha-panel:not(.ficha-plano)'); });
+    var planos = hijos.filter(function (e) { return e.classList.contains('ficha-plano'); });
+    var info = document.getElementById('ficha-info');
+    // La distribución con maqueta 3D no es un panel de texto, pero también va en su tarjeta («Planos»):
+    // sin esto, en cel la maqueta se quedaba fuera de las pestañas y no se veía.
+    var textos = hijos.filter(function (e) {
+      return (e.classList.contains('ficha-panel-texto') || e.classList.contains('ficha-distribucion')) && e !== info;
+    });
+    if (!fotos.length || !info) return;
 
-  if (comparedProperties.length > 0) {
-    dock.classList.add('visible');
-    countLabel.textContent = `${comparedProperties.length} ${comparedProperties.length === 1 ? 'obra seleccionada' : 'obras seleccionadas'}`;
+    function nuevo(tag, clase, attrs) {
+      var el = document.createElement(tag);
+      if (clase) el.className = clase;
+      Object.keys(attrs || {}).forEach(function (k) { el.setAttribute(k, attrs[k]); });
+      return el;
+    }
+    function nombreDe(panel) {
+      if (panel.classList.contains('ficha-panel-contacto')) return 'Contacto';
+      var etq = panel.querySelector('.ficha-etiqueta');
+      var t = etq ? etq.textContent.trim() : '';
+      return t ? t.charAt(0).toUpperCase() + t.slice(1).toLowerCase() : 'Más';
+    }
 
-    bubblesWrap.innerHTML = comparedProperties.map(id => {
-      const p = LUXURY_PROPERTIES.find(item => item.id === id);
-      return `<div class="dock-bubble" title="${p.title}"><img src="${p.heroImage}" alt="${p.title}"></div>`;
-    }).join('');
+    document.body.classList.add('ficha-cel');
+
+    // 1 · Las fotos: un carril a todo lo ancho, con su contador.
+    var zonaFotos = nuevo('div', 'ficha-cel-fotos');
+    var carril = nuevo('div', 'ficha-cel-carril', { 'aria-label': 'Fotos de la casa' });
+    var cuenta = nuevo('div', 'ficha-cel-cuenta', { 'aria-hidden': 'true' });
+    fotos.forEach(function (f) { carril.appendChild(f); });
+    zonaFotos.appendChild(carril);
+    zonaFotos.appendChild(cuenta);
+    var dos = function (n) { return (n < 10 ? '0' : '') + n; };
+    var pintarCuenta = function () {
+      var n = Math.min(fotos.length, Math.round(carril.scrollLeft / Math.max(1, carril.clientWidth)) + 1);
+      cuenta.textContent = dos(n) + ' / ' + dos(fotos.length);
+    };
+    carril.addEventListener('scroll', pintarCuenta, { passive: true });
+
+    // 2 · Las tarjetas: la ficha técnica primero; los planos van con la distribución.
+    var grupos = [{ nombre: 'Ficha técnica', paneles: [info] }];
+    textos.forEach(function (t) {
+      var g = { nombre: nombreDe(t), paneles: [t] };
+      if (/distribuci/i.test(g.nombre)) {
+        g.nombre = 'Planos';
+        planos.forEach(function (pl) { pl.hidden = false; g.paneles.push(pl); });
+        planos = [];
+      }
+      grupos.push(g);
+    });
+    if (planos.length) {
+      planos.forEach(function (pl) { pl.hidden = false; });
+      grupos.splice(1, 0, { nombre: 'Planos', paneles: planos });
+    }
+
+    var pestanas = nuevo('div', 'ficha-cel-pestanas', { role: 'tablist', 'aria-label': 'Información de la casa' });
+    var pista = nuevo('p', 'ficha-cel-pista');
+    pista.innerHTML = 'Deslice para ver más <span aria-hidden="true"></span>';
+    var carrilInfo = nuevo('div', 'ficha-cel-info');
+    var tarjetas = grupos.map(function (g, i) {
+      var id = 'ficha-cel-tarjeta-' + i;
+      var tarjeta = nuevo('section', 'ficha-cel-tarjeta', { id: id, role: 'tabpanel', 'aria-label': g.nombre });
+      g.paneles.forEach(function (pn) { tarjeta.appendChild(pn); });
+      var boton = nuevo('button', 'ficha-cel-pestana', { type: 'button', role: 'tab', 'aria-controls': id, 'aria-selected': i === 0 ? 'true' : 'false' });
+      boton.textContent = g.nombre;
+      boton.addEventListener('click', function () { irA(i); });
+      pestanas.appendChild(boton);
+      carrilInfo.appendChild(tarjeta);
+      return tarjeta;
+    });
+
+    // Todo lo movido queda a la vista (el revelado por scroll no aplica en los carriles).
+    Array.prototype.forEach.call(cont.querySelectorAll('.ficha-panel'), function (el) { el.classList.add('is-visible'); });
+
+    cont.innerHTML = '';
+    cont.appendChild(zonaFotos);
+    cont.appendChild(pestanas);
+    cont.appendChild(pista);
+    cont.appendChild(carrilInfo);
+    pintarCuenta();
+
+    // El carril de tarjetas toma el alto de la tarjeta que se ve: sin huecos debajo.
+    var activa = 0;
+    function ajustarAlto() {
+      var t = tarjetas[activa];
+      if (t) carrilInfo.style.height = t.scrollHeight + 'px';
+    }
+    function marcarPestana(i) {
+      if (i === activa) return;
+      activa = i;
+      Array.prototype.forEach.call(pestanas.children, function (b, j) {
+        b.setAttribute('aria-selected', j === i ? 'true' : 'false');
+      });
+      var b = pestanas.children[i];
+      if (b && b.scrollIntoView) b.scrollIntoView({ block: 'nearest', inline: 'center', behavior: suave });
+      if (i > 0) pista.classList.add('is-vista');
+      ajustarAlto();
+    }
+    function irA(i) {
+      carrilInfo.scrollTo({ left: tarjetas[i].offsetLeft, behavior: suave });
+      marcarPestana(i);
+    }
+    carrilInfo.addEventListener('scroll', function () {
+      var i = Math.round(carrilInfo.scrollLeft / Math.max(1, carrilInfo.clientWidth));
+      marcarPestana(Math.max(0, Math.min(tarjetas.length - 1, i)));
+    }, { passive: true });
+    if ('ResizeObserver' in window) {
+      var ro = new ResizeObserver(ajustarAlto);
+      tarjetas.forEach(function (t) { ro.observe(t); });
+    }
+    window.addEventListener('load', ajustarAlto);
+    ajustarAlto();
+
+    // «Ver planos» lleva a su tarjeta (aquí los planos ya están a la vista).
+    var verPlanos = info.querySelector('.ficha-ver-planos');
+    if (verPlanos) {
+      var otro = verPlanos.cloneNode(true);
+      otro.textContent = 'Ver planos';
+      otro.removeAttribute('aria-expanded');
+      verPlanos.parentNode.replaceChild(otro, verPlanos);
+      var iPlanos = grupos.map(function (g) { return g.nombre; }).indexOf('Planos');
+      if (iPlanos > 0) otro.addEventListener('click', function () { irA(iPlanos); });
+      else otro.remove();
+    }
+
+    // INFO, en el cel, baja a la ficha técnica.
+    var aInfo = document.querySelector('.ficha-barra-info');
+    if (aInfo) {
+      aInfo.addEventListener('click', function () { irA(0); });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', iniciar);
   } else {
-    dock.classList.remove('visible');
+    iniciar();
   }
-}
+})();
 
-window.openComparisonModal = function() {
-  if (comparedProperties.length === 0) return;
 
-  const modal = document.getElementById('comparison-modal');
-  const body = document.getElementById('comparison-modal-body');
+/* ==========================================================================
+   PORTADA — VITRINA DE PROPIEDADES DESTACADAS (index.html)
+   --------------------------------------------------------------------------
+   3 tarjetas verticales (4:5) ordenadas por priceMXN descendente.
+   ========================================================================== */
+// Precio completo en pesos, como en la ficha: $24,400,000 MXN.
+function precioMXN(n) { return '$' + Number(n).toLocaleString('es-MX') + ' MXN'; }
 
-  const selected = comparedProperties.map(id => LUXURY_PROPERTIES.find(p => p.id === id));
+function pintarVitrina() {
+  var grid = document.getElementById('portada-vitrina-grid');
+  if (!grid) return;
+  if (typeof LUXURY_PROPERTIES === 'undefined' || !Array.isArray(LUXURY_PROPERTIES)) return;
 
-  body.innerHTML = `
-    <div class="comparison-modal-grid">
-      <div class="comp-col labels">
-        <div style="height: 120px;"></div>
-        <div>Ubicación VIP</div>
-        <div>Inversión MXN</div>
-        <div>Inversión USD</div>
-        <div>M² Construcción</div>
-        <div>M² Terreno</div>
-        <div>Habitaciones</div>
-        <div>Plusvalía Estimada</div>
-        <div>Firma Arquitectónica</div>
-        <div>Acción</div>
-      </div>
-      ${selected.map(p => `
-        <div class="comp-col">
-          <div style="height: 120px;">
-            <img src="${p.heroImage}" style="width: 100%; height: 80px; object-fit: cover; border-radius: 10px; margin-bottom: 0.4rem;">
-            <strong style="font-family: var(--font-serif); font-size: 1.1rem; display: block; line-height: 1.2;">${p.title}</strong>
-          </div>
-          <div>${p.zone}</div>
-          <div style="font-family: var(--font-mono); font-weight: 700; color: var(--gold-primary);">$${(p.priceMXN / 1000000).toFixed(1)}M MXN</div>
-          <div style="font-family: var(--font-mono);">$${(p.priceUSD / 1000000).toFixed(2)}M USD</div>
-          <div>${p.m2Construccion} m²</div>
-          <div>${p.m2Terreno} m²</div>
-          <div>${p.bedrooms} Recs / ${p.bathrooms} Baños</div>
-          <div style="color: #2E7D32; font-weight: 600;">${p.projectedYield}</div>
-          <div style="font-size: 0.85rem;">${p.architect}</div>
-          <div>
-            <button class="btn-gold" style="padding: 0.5rem 1rem; font-size: 0.75rem; width: 100%; justify-content: center;" onclick="closeComparisonModal(); openPropertyModal('${p.id}')">
-              Ver Detalle
-            </button>
-          </div>
-        </div>
-      `).join('')}
-    </div>
-  `;
-
-  modal.classList.add('open');
-};
-
-window.closeComparisonModal = function() {
-  const modal = document.getElementById('comparison-modal');
-  if (modal) modal.classList.remove('open');
-};
-
-window.clearComparison = function() {
-  comparedProperties = [];
-  updateComparisonDock();
-  renderMasterCatalog();
-  closeComparisonModal();
-};
-
-/* --------------------------------------------------------------------------
-   6. Property Detail Modal
-   -------------------------------------------------------------------------- */
-window.openPropertyModal = function(id) {
-  const prop = LUXURY_PROPERTIES.find(p => p.id === id);
-  if (!prop) return;
-
-  const modal = document.getElementById('property-modal');
-  const body = document.getElementById('modal-property-body');
-
-  body.innerHTML = `
-    <div style="position: relative;">
-      <img src="${prop.heroImage}" alt="${prop.title}" style="width: 100%; height: 380px; object-fit: cover;">
-      <div style="position: absolute; bottom: 1.5rem; left: 2rem; color: #FFFFFF; text-shadow: 0 2px 10px rgba(0,0,0,0.6);">
-        <span style="font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-light);">${prop.zone}</span>
-        <h2 style="font-family: var(--font-serif); font-size: 2.4rem;">${prop.title}</h2>
-      </div>
-    </div>
-    <div style="padding: 2.5rem;">
-      <p style="font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 2rem;">${prop.description}</p>
-      
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; background: var(--bg-secondary); padding: 1.5rem; border-radius: 16px;">
-        <div>
-          <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Precio de Inversión</span>
-          <div style="font-family: var(--font-mono); font-size: 1.4rem; font-weight: 700; color: var(--gold-primary);">$${(prop.priceMXN / 1000000).toFixed(1)}M MXN / $${(prop.priceUSD / 1000000).toFixed(2)}M USD</div>
-        </div>
-        <div>
-          <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Terreno / Construcción</span>
-          <div style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 600;">${prop.m2Terreno} m² / ${prop.m2Construccion} m²</div>
-        </div>
-        <div>
-          <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Plusvalía Estimada</span>
-          <div style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 600; color: #2E7D32;">${prop.projectedYield}</div>
-        </div>
-        <div>
-          <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Firma de Autor</span>
-          <div style="font-size: 1rem; font-weight: 600;">${prop.architect}</div>
-        </div>
-      </div>
-
-      <h4 style="font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 1rem;">Especificaciones de Lujo</h4>
-      <ul style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 2.5rem; list-style: none;">
-        ${prop.features.map(f => `<li style="display: flex; align-items: center; gap: 0.6rem; color: var(--text-muted); font-size: 0.92rem;"><span style="color: var(--gold-primary);">✦</span> ${f}</li>`).join('')}
-      </ul>
-
-      <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle); flex-wrap: wrap; gap: 1rem;">
-        <span style="font-size: 0.85rem; color: var(--text-muted);">Expediente Jurídico y Título de Propiedad Verificado 100%</span>
-        <a href="https://wa.me/524420000000?text=Deseo%20información%20privada%20sobre%20${encodeURIComponent(prop.title)}" target="_blank" class="btn-gold">
-          Contactar Concierge VIP
-        </a>
-      </div>
-    </div>
-  `;
-
-  modal.classList.add('open');
-};
-
-window.closePropertyModal = function() {
-  const modal = document.getElementById('property-modal');
-  if (modal) modal.classList.remove('open');
-};
-
-/* --------------------------------------------------------------------------
-   7. Interactive Pre-Sale Scrollytelling Showcase
-   -------------------------------------------------------------------------- */
-function initPresaleShowcase() {
-  const tabs = document.querySelectorAll('.level-tab');
-  const renderImg = document.getElementById('presale-render-img');
-  const levelTitle = document.getElementById('presale-level-title');
-  const levelUnits = document.getElementById('presale-level-units');
-  const levelPrice = document.getElementById('presale-level-price');
-  const levelM2 = document.getElementById('presale-level-m2');
-  const levelFeatures = document.getElementById('presale-level-features');
-
-  if (!tabs.length || !renderImg) return;
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-
-      const lvl = PRESALE_SHOWCASE.levels.find(l => l.id === tab.dataset.level);
-      if (!lvl) return;
-
-      renderImg.style.opacity = '0.3';
-      setTimeout(() => {
-        renderImg.src = lvl.image;
-        renderImg.style.opacity = '1';
-      }, 200);
-
-      if (levelTitle) levelTitle.textContent = lvl.name;
-      if (levelUnits) levelUnits.textContent = `${lvl.unitsAvailable} Unidades Disponibles`;
-      if (levelPrice) levelPrice.textContent = lvl.priceFrom;
-      if (levelM2) levelM2.textContent = lvl.m2;
-      if (levelFeatures) levelFeatures.textContent = lvl.features;
-    });
+  var propiedades = LUXURY_PROPERTIES.slice().sort(function (a, b) {
+    var pA = a.priceMXN != null ? a.priceMXN : -Infinity;
+    var pB = b.priceMXN != null ? b.priceMXN : -Infinity;
+    return pB - pA;
   });
+
+  // La tarjeta lleva nombre, precio y cifras (Luis, 27-oct: «las casas sí con su precio»).
+  grid.innerHTML = propiedades.map(function (p) {
+    var foto = p.fotoTarjeta || p.heroImage || '';
+    var estiloPos = p.fotoTarjetaPos ? ' style="object-position: ' + esc(p.fotoTarjetaPos) + ';"' : '';
+
+    return '<a class="portada-vitrina-tarjeta" href="' + esc(urlFicha(p)) + '">' +
+      '<div class="portada-vitrina-foto">' +
+        '<img src="' + esc(foto) + '" alt="' + esc(p.title) + '" loading="lazy"' + estiloPos + '>' +
+      '</div>' +
+      '<h3 class="portada-vitrina-nombre" translate="no">' + esc(p.title) + '</h3>' +
+      (p.priceMXN != null ? '<p class="v1-precio">' + precioMXN(p.priceMXN) + '</p>' : '') +
+      '<p class="v1-cifras">' + [p.bedrooms != null ? p.bedrooms + ' rec.' : '', p.bathrooms != null ? p.bathrooms + ' baños' : '', p.m2Construccion ? p.m2Construccion + ' m²' : ''].filter(Boolean).join(' · ') + '</p>' +
+    '</a>';
+  }).join('');
 }
 
-/* --------------------------------------------------------------------------
-   8. VIP Seller Acquisition Wizard (Consignación Privada)
-   -------------------------------------------------------------------------- */
-let currentWizardStep = 1;
-function initSellerWizard() {
-  const nextBtn = document.getElementById('wizard-next-btn');
-  const prevBtn = document.getElementById('wizard-prev-btn');
+/* ==========================================================================
+   BLOQUE DE PROPIEDAD GENERALIZADO (Reutilizable en Catálogo y Portada)
+   --------------------------------------------------------------------------
+   Renderiza un bloque editorial asimétrico (1fr 2fr) para una propiedad.
+   Columna izquierda: Tipo, Título, Ubicación con SVG pin, Resumen, Métricas y CTA.
+   Columna derecha: Foto 16:9 y cuadrícula de miniaturas 3:2 (hasta 4).
+   ========================================================================== */
+function renderPropiedadBloque(prop) {
+  if (!prop) return '';
 
-  if (!nextBtn || !prevBtn) return;
+  function datoItem(rotulo, valor) {
+    if (valor === null || valor === undefined || valor === '') return '';
+    return '<div class="propiedad-bloque-dato">' +
+      '<div class="propiedad-bloque-numero">' + esc(valor) + '</div>' +
+      '<div class="propiedad-bloque-rotulo">' + esc(rotulo) + '</div>' +
+      '</div>';
+  }
 
-  nextBtn.addEventListener('click', () => {
-    if (currentWizardStep === 3) {
-      calculateValuation();
+  function formatoM2(val) {
+    if (val === null || val === undefined || val === '') return null;
+    var num = Number(val);
+    if (isNaN(num)) return val + ' m²';
+    return (num >= 1000 ? num.toLocaleString('es-MX') : num) + ' m²';
+  }
+
+  var datosHtml = '';
+  datosHtml += datoItem('Recámaras', prop.bedrooms != null && prop.bedrooms !== '' ? String(prop.bedrooms) : null);
+  datosHtml += datoItem('Baños', prop.bathrooms != null && prop.bathrooms !== '' ? String(prop.bathrooms) : null);
+  datosHtml += datoItem('Construcción', formatoM2(prop.m2Construccion));
+  datosHtml += datoItem('Terreno', formatoM2(prop.m2Terreno));
+
+  var miniaturas = [];
+  if (Array.isArray(prop.gallery)) {
+    for (var j = 0; j < prop.gallery.length; j++) {
+      var foto = prop.gallery[j];
+      if (foto && foto !== prop.heroImage) {
+        miniaturas.push(foto);
+        if (miniaturas.length === 4) break;
+      }
     }
-    if (currentWizardStep < 4) {
-      goToWizardStep(currentWizardStep + 1);
-    } else {
-      alert("Su solicitud de consignación VIP ha sido registrada. Un Concierge Patrimonial se pondrá en contacto bajo estricta confidencialidad.");
-      goToWizardStep(1);
-    }
+  }
+
+  var miniaturasHtml = '';
+  if (miniaturas.length > 0) {
+    miniaturasHtml = '<div class="propiedad-bloque-miniaturas">' +
+      miniaturas.map(function (m, idx) {
+        return '<a href="' + esc(urlFicha(prop)) + '" class="propiedad-bloque-miniatura" aria-label="Ver foto ' + (idx + 1) + ' de ' + esc(prop.title) + '">' +
+          '<img src="' + esc(m) + '" alt="' + esc(prop.title) + ' - Vista ' + (idx + 1) + '" loading="lazy">' +
+        '</a>';
+      }).join('') +
+    '</div>';
+  }
+
+  var pinSvg = '<svg class="propiedad-bloque-pin" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>';
+
+  var ubicacionTexto = (prop.subzone ? prop.subzone + ', ' : '') + (prop.zone || '');
+  var etiqueta = prop.type || 'Residencia';
+
+  return '<article class="propiedad-bloque" id="propiedad-' + esc(prop.id) + '">' +
+    '<div class="propiedad-bloque-interior">' +
+      '<div class="propiedad-bloque-grid">' +
+        '<div class="propiedad-bloque-info">' +
+          '<span class="propiedad-bloque-tag">' + esc(etiqueta) + '</span>' +
+          '<h2 class="propiedad-bloque-titulo" translate="no">' + esc(prop.title) + '</h2>' +
+          (prop.priceMXN != null ? '<p class="v1-precio v1-precio-bloque">' + precioMXN(prop.priceMXN) + '</p>' : '') +
+          '<div class="propiedad-bloque-ubicacion">' +
+            pinSvg +
+            '<span>' + esc(ubicacionTexto) + '</span>' +
+          '</div>' +
+          (prop.resumen ? '<p class="propiedad-bloque-parrafo">' + esc(prop.resumen) + '</p>' : '') +
+          (datosHtml ? '<div class="propiedad-bloque-datos">' + datosHtml + '</div>' : '') +
+          '<div class="propiedad-bloque-accion">' +
+            '<a href="' + esc(urlFicha(prop)) + '" class="portada-enlace">Ver propiedad</a>' +
+            (urlRecorrido3D(prop) ? '<a href="' + esc(urlRecorrido3D(prop)) + '" class="portada-enlace" target="_blank" rel="noopener">Recorrido 3D</a>' : '') +
+          '</div>' +
+        '</div>' +
+        '<div class="propiedad-bloque-visual">' +
+          '<a href="' + esc(urlFicha(prop)) + '" class="propiedad-bloque-foto-principal" aria-label="Ver ' + esc(prop.title) + '">' +
+            '<img src="' + esc(prop.heroImage) + '" alt="' + esc(prop.title) + '" loading="lazy">' +
+          '</a>' +
+          miniaturasHtml +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+  '</article>';
+}
+
+function pintarPropiedadBloque(prop, contenedor) {
+  var target = typeof contenedor === 'string' ? document.getElementById(contenedor) : contenedor;
+  if (!target) return;
+  target.innerHTML = renderPropiedadBloque(prop);
+}
+
+/* ==========================================================================
+   CATÁLOGO — RECORRIDO DE PROPIEDADES POR BLOQUES (catalogo.html)
+   --------------------------------------------------------------------------
+   Dibuja cada residencia de LUXURY_PROPERTIES ordenada por priceMXN descendente
+   usando el bloque editorial generalizado renderPropiedadBloque().
+   ========================================================================== */
+function pintarCatalogoBloques() {
+  var contenedor = document.getElementById('catalogo-casas-grid');
+  if (!contenedor) return;
+  if (typeof LUXURY_PROPERTIES === 'undefined' || !Array.isArray(LUXURY_PROPERTIES)) return;
+
+  var propiedades = LUXURY_PROPERTIES.slice().sort(function (a, b) {
+    var pA = a.priceMXN != null ? a.priceMXN : -Infinity;
+    var pB = b.priceMXN != null ? b.priceMXN : -Infinity;
+    return pB - pA;
   });
 
-  prevBtn.addEventListener('click', () => {
-    if (currentWizardStep > 1) {
-      goToWizardStep(currentWizardStep - 1);
-    }
-  });
+  contenedor.innerHTML = propiedades.map(renderPropiedadBloque).join('');
 }
 
-function goToWizardStep(step) {
-  currentWizardStep = step;
-  document.querySelectorAll('.wizard-step-pane').forEach((p, idx) => {
-    p.classList.toggle('active', idx + 1 === step);
-  });
-  document.querySelectorAll('.step-indicator-item').forEach((ind, idx) => {
-    ind.classList.toggle('active', idx + 1 === step);
-    ind.classList.toggle('completed', idx + 1 < step);
-  });
-
-  const prevBtn = document.getElementById('wizard-prev-btn');
-  const nextBtn = document.getElementById('wizard-next-btn');
-  if (prevBtn) prevBtn.style.visibility = step === 1 ? 'hidden' : 'visible';
-  if (nextBtn) nextBtn.textContent = step === 4 ? 'Confirmar y Solicitar Inspección' : 'Continuar ➔';
-}
-
-function calculateValuation() {
-  const m2Input = document.getElementById('wiz-m2');
-  const zoneSelect = document.getElementById('wiz-zone');
-  const display = document.getElementById('wiz-valuation-display');
-
-  if (!m2Input || !zoneSelect || !display) return;
-
-  const m2 = parseFloat(m2Input.value) || 800;
-  const zone = zoneSelect.value;
-  
-  let pricePerM2 = 45000;
-  if (zone.includes('Campanario')) pricePerM2 = 62000;
-  if (zone.includes('San Miguel')) pricePerM2 = 58000;
-  if (zone.includes('Juriquilla')) pricePerM2 = 48000;
-
-  const estimatedValue = m2 * pricePerM2;
-  display.textContent = `$${(estimatedValue / 1000000).toFixed(1)}M MXN`;
-}
-
-/* --------------------------------------------------------------------------
-   9. Advanced AI Private Concierge & Wealth Advisor
-   -------------------------------------------------------------------------- */
-function initAIConcierge() {
-  const trigger = document.getElementById('ai-concierge-trigger');
-  const modal = document.getElementById('ai-concierge-modal');
-  const closeBtn = document.getElementById('ai-modal-close');
-  const input = document.getElementById('ai-chat-input');
-  const sendBtn = document.getElementById('ai-send-btn');
-  const chatBody = document.getElementById('ai-chat-body');
-
-  if (!trigger || !modal) return;
-
-  trigger.addEventListener('click', () => modal.classList.toggle('open'));
-  if (closeBtn) closeBtn.addEventListener('click', () => modal.classList.remove('open'));
-
-  const handleSend = () => {
-    const text = input.value.trim();
-    if (!text) return;
-
-    // User message
-    const userBubble = document.createElement('div');
-    userBubble.className = 'chat-bubble user';
-    userBubble.textContent = text;
-    chatBody.appendChild(userBubble);
-    input.value = '';
-    chatBody.scrollTop = chatBody.scrollHeight;
-
-    // Show Typing Indicator
-    const typingBubble = document.createElement('div');
-    typingBubble.className = 'chat-bubble ai';
-    typingBubble.id = 'ai-typing-indicator';
-    typingBubble.innerHTML = `
-      <div class="typing-dots">
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-      </div>
-    `;
-    chatBody.appendChild(typingBubble);
-    chatBody.scrollTop = chatBody.scrollHeight;
-
-    // Simulate AI response with streaming delay
-    setTimeout(() => {
-      typingBubble.remove();
-      const aiBubble = document.createElement('div');
-      aiBubble.className = 'chat-bubble ai';
-      aiBubble.innerHTML = generateAdvancedAIResponse(text);
-      chatBody.appendChild(aiBubble);
-      chatBody.scrollTop = chatBody.scrollHeight;
-    }, 700);
-  };
-
-  if (sendBtn) sendBtn.addEventListener('click', handleSend);
-  if (input) {
-    input.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') handleSend();
-    });
-  }
-}
-
-window.askAI = function(question) {
-  const input = document.getElementById('ai-chat-input');
-  const sendBtn = document.getElementById('ai-send-btn');
-  const modal = document.getElementById('ai-concierge-modal');
-  if (modal) modal.classList.add('open');
-  if (input && sendBtn) {
-    input.value = question;
-    sendBtn.click();
-  }
-};
-
-function generateAdvancedAIResponse(query) {
-  const q = query.toLowerCase();
-
-  // Query: El Campanario / Golf / Mansiones
-  if (q.includes('campanario') || (q.includes('golf') && q.includes('querétaro'))) {
-    const prop = LUXURY_PROPERTIES.find(p => p.id === 'prop-2');
-    return `
-      En <strong>El Campanario Club de Golf</strong> la plusvalía promedio es del <strong>14.2% anual</strong>, con el índice de seguridad y exclusividad más alto de Querétaro.
-      <br><br>
-      Le recomiendo examinar nuestra obra insignia en el Private Vault:
-      <div class="chat-property-snippet">
-        <img src="${prop.heroImage}" alt="${prop.title}">
-        <div class="snippet-info">
-          <div class="snippet-title">${prop.title}</div>
-          <div class="snippet-price">$72.0M MXN • Frente al Green Hoyo 14</div>
-          <button class="btn-gold" style="margin-top: 0.6rem; font-size: 0.72rem; padding: 0.4rem 0.8rem; width: 100%; justify-content: center;" onclick="openPropertyModal('prop-2')">
-            Explorar Ficha 8K
-          </button>
-        </div>
-      </div>
-      <div class="chat-quick-actions">
-        <button class="quick-action-pill" onclick="askAI('¿Qué requisitos de compra hay en El Campanario?')">Requisitos de compra</button>
-        <button class="quick-action-pill" onclick="askAI('Agendar visita privada')">Agendar visita privada</button>
-      </div>
-    `;
-  }
-
-  // Query: San Miguel de Allende / Haciendas / Viñedos
-  if (q.includes('san miguel') || q.includes('allende') || q.includes('hacienda') || q.includes('viñedo')) {
-    const prop = LUXURY_PROPERTIES.find(p => p.id === 'prop-1');
-    return `
-      En <strong>San Miguel de Allende</strong> disponemos de 2 haciendas de autor con alta demanda internacional de renta de ultra-lujo (rendimientos de hasta <strong>11.8% a 13.4% anual</strong>).
-      <div class="chat-property-snippet">
-        <img src="${prop.heroImage}" alt="${prop.title}">
-        <div class="snippet-info">
-          <div class="snippet-title">${prop.title}</div>
-          <div class="snippet-price">$58.5M MXN • Cava Climatizada & Olivos</div>
-          <button class="btn-gold" style="margin-top: 0.6rem; font-size: 0.72rem; padding: 0.4rem 0.8rem; width: 100%; justify-content: center;" onclick="openPropertyModal('prop-1')">
-            Ver Detalles y Cava
-          </button>
-        </div>
-      </div>
-    `;
-  }
-
-  // Query: Preventas / ROI / Inversión
-  if (q.includes('preventa') || q.includes('inversion') || q.includes('roi') || q.includes('rendimiento')) {
-    return `
-      Para inversión patrimonial en preventa, el proyecto más acelerado del Bajío es <strong>The Alabaster Sanctuary</strong> en Juriquilla Reserve:
-      <ul>
-        <li><strong>ROI Proyectado:</strong> 26.8% en Fase 1</li>
-        <li><strong>Entrega:</strong> Q4 2027</li>
-        <li><strong>Fase Actual:</strong> 65% vendido</li>
-        <li><strong>Precios:</strong> Desde $24.9M MXN</li>
-      </ul>
-      ¿Desea que le envíe el dossier financiero con la corrida de plusvalía y tablas de amortización?
-      <div class="chat-quick-actions">
-        <button class="quick-action-pill" onclick="askAI('Deseo el dossier financiero de Juriquilla')">Solicitar Dossier PDF</button>
-      </div>
-    `;
-  }
-
-  // Query: Fideicomisos / Extranjeros / Impuestos / Escrow
-  if (q.includes('extranjero') || q.includes('fideicomiso') || q.includes('legal') || q.includes('escrow') || q.includes('impuesto')) {
-    return `
-      Contamos con un departamento legal especializado en <strong>Fideicomisos en Zona Restringida</strong>, blindaje de doble tributación (México-USA/Canadá) y cuentas de custodia <em>Escrow</em> en bancos suizos y norteamericanos.
-      <br><br>
-      Todas nuestras operaciones se cierran con notarios de máxima reputación en Querétaro y Guanajuato.
-    `;
-  }
-
-  // Default Fallback
-  return `
-    Comprendo perfectamente su requerimiento. Como su <strong>Private Real Estate Advisor</strong> en el Bajío, puedo orientarle en:
-    <div class="chat-quick-actions">
-      <button class="quick-action-pill" onclick="askAI('Ver residencias en El Campanario')">El Campanario Querétaro</button>
-      <button class="quick-action-pill" onclick="askAI('Ver haciendas en San Miguel')">San Miguel de Allende</button>
-      <button class="quick-action-pill" onclick="askAI('Preventas de alta plusvalía')">Preventas High ROI</button>
-      <button class="quick-action-pill" onclick="askAI('Fideicomisos y Blindaje')">Asesoría Legal Extranjeros</button>
-    </div>
-  `;
-}

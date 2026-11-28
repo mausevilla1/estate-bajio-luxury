@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invertir · Oportunidades que pasan siete filtros | PRAETORA</title>
+  <meta name="description" content="PRAETORA busca, analiza y filtra oportunidades inmobiliarias en CDMX y San Miguel de Allende. Su equipo inmobiliario, legal y financiero pasa cada una por siete filtros antes de presentarla.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://praetora.mx/invertir">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://praetora.mx/invertir">
+  <meta property="og:title" content="Invertir · PRAETORA Grupo Inmobiliario">
+  <meta property="og:description" content="Lo que llega a usted ya pasó los siete filtros. Oportunidades inmobiliarias en CDMX y San Miguel de Allende.">
+  <meta property="og:image" content="https://praetora.mx/assets/compartir/invertir.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Oportunidades de CDMX y San Miguel de Allende cruzan siete filtros; a usted llega una de cada ciudad">
+  <meta property="og:site_name" content="PRAETORA">
+  <meta property="og:locale" content="es_MX">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="theme-color" content="#15363D">
+  <link rel="stylesheet" href="https://use.typekit.net/eyy5hrp.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap">
+  <link rel="stylesheet" href="assets/invertir/estilos.css">
+  <!-- intro: el titular espera su entrada. viva: en compu con movimiento, el escenario se queda fijo
+       y los capítulos pasan encima. Si el script no arranca en 3 s, se quitan las dos y todo queda a la vista. -->
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.classList.add('js');
+      try {
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          d.classList.add('intro');
+          if (matchMedia('(min-width: 900px) and (min-height: 600px)').matches) d.classList.add('viva');
+          setTimeout(function () { if (!window.__filtro) { d.classList.remove('intro'); d.classList.remove('viva'); } }, 3000);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a class="saltar" href="#contenido">Ir al contenido</a>
+
+  <header class="cabecera">
+    <div class="contenedor cabecera-in">
+      <a class="cabecera-logo" href="index.html" translate="no">
+        <img src="assets/marca/praetora-completo-blanco.svg" width="811" height="151" alt="PRAETORA Grupo Inmobiliario">
+      </a>
+      <nav class="cabecera-nav" aria-label="Principal">
+        <a href="catalogo.html">Comprar / Vender</a>
+        <a href="invertir.html" aria-current="page">Invertir</a>
+        <a href="desarrolladores.html">Desarrolladores</a>
+      </nav>
+      <a class="boton boton--linea boton--chico cabecera-contacto" href="https://wa.me/525564738881?text=Hola%2C%20vengo%20de%20praetora.mx." target="_blank" rel="noopener">Contacto</a>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <!-- ===================================================================
+         EL FILTRO. Un solo escenario: las oportunidades salen de CDMX y de
+         San Miguel, cruzan siete compuertas y en cada una se apagan las que
+         no pasan; llegan muy pocas a «Usted».
+           · Compu con movimiento (.viva): el escenario entero se queda fijo y
+             los capítulos aparecen encima, uno por compuerta.
+           · Cel, tableta y «reducir movimiento»: la lámina (la ilustración)
+             se queda fija arriba y los capítulos corren debajo; al entrar
+             cada uno, la ilustración avanza a esa compuerta.
+         =================================================================== -->
+    <section class="filtro" aria-labelledby="portada-titulo">
+      <div class="escenario">
+        <div class="lamina">
+          <canvas class="lienzo" aria-hidden="true"></canvas>
+          <div class="banda" aria-hidden="true">
+            <span class="rot rot-cab">Oportunidades</span>
+            <span class="rot rot-ciudad">CDMX</span>
+            <span class="rot rot-ciudad">San Miguel de Allende</span>
+            <span class="rot rot-filtro"><b>01</b><span>Precio de entrada</span></span>
+            <span class="rot rot-filtro"><b>02</b><span>Mercado y valor</span></span>
+            <span class="rot rot-filtro"><b>03</b><span>Costos</span></span>
+            <span class="rot rot-filtro"><b>04</b><span>Situación jurídica</span></span>
+            <span class="rot rot-filtro"><b>05</b><span>Riesgos</span></span>
+            <span class="rot rot-filtro"><b>06</b><span>Flujo y rentabilidad</span></span>
+            <span class="rot rot-filtro"><b>07</b><span>Estrategia de salida</span></span>
+            <span class="rot rot-usted">Usted</span>
+          </div>
+        </div>
+
+        <div class="contenedor escenario-texto">
+          <div class="portada-texto">
+            <p class="etiqueta portada-etiqueta"><span class="ent">Invertir · CDMX · San Miguel de Allende</span></p>
+            <h1 id="portada-titulo" class="portada-titulo">
+              <span class="h-linea"><span>Lo que llega a usted</span></span>
+              <span class="h-linea"><span>ya pasó los siete filtros.</span></span>
+            </h1>
+            <div class="portada-lado ent">
+              <p>Buscamos oportunidades inmobiliarias en CDMX y San Miguel de Allende. Antes de presentarle una, nuestro equipo la pasa por siete filtros.</p>
+              <div class="acciones">
+                <a class="boton boton--claro" href="https://wa.me/525564738881?text=Hola%2C%20vengo%20de%20praetora.mx.%20Me%20interesa%20conocer%20oportunidades%20de%20inversi%C3%B3n." target="_blank" rel="noopener">Solicitar información</a>
+                <a class="enlace" href="#oportunidades">Ver oportunidades</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Capítulos encima del escenario fijo (solo .viva). -->
+          <div class="capitulos">
+            <h2 class="solo-lector">Los siete filtros</h2>
+            <article class="capitulo"><span class="cap-num" aria-hidden="true">01</span><div><h3 class="cap-nombre">Precio de entrada</h3><p class="cap-linea">Precio contrastado con lo que de verdad se vende en la zona.</p></div></article>
+            <article class="capitulo"><span class="cap-num" aria-hidden="true">02</span><div><h3 class="cap-nombre">Mercado y valor</h3><p class="cap-linea">Demanda, ubicación y valor de la zona, revisados en campo.</p></div></article>
+            <article class="capitulo"><span class="cap-num" aria-hidden="true">03</span><div><h3 class="cap-nombre">Costos</h3><p class="cap-linea">Compra, remodelación, impuestos y operación, completos.</p></div></article>
+            <article class="capitulo"><span class="cap-num" aria-hidden="true">04</span><div><h3 class="cap-nombre">Situación jurídica</h3><p class="cap-linea">Escrituras, gravámenes y permisos en regla.</p></div></article>
+            <article class="capitulo"><span class="cap-num" aria-hidden="true">05</span><div><h3 class="cap-nombre">Riesgos</h3><p class="cap-linea">Lo que puede salir mal, identificado antes de invertir.</p></div></article>
+            <article class="capitulo"><span class="cap-num" aria-hidden="true">06</span><div><h3 class="cap-nombre">Flujo y rentabilidad</h3><p class="cap-linea">Ingresos y gastos estimados con supuestos prudentes.</p></div></article>
+            <article class="capitulo"><span class="cap-num" aria-hidden="true">07</span><div><h3 class="cap-nombre">Estrategia de salida</h3><p class="cap-linea">Cómo y cuándo se podría salir de la inversión.</p></div></article>
+            <div class="cap-pie">
+              <div class="cap-pasos" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <p>Los aplica nuestro equipo inmobiliario, legal y financiero.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Capítulos en flujo, bajo la lámina fija (cel, tableta y «reducir movimiento»). -->
+        <div class="contenedor pasos-caja">
+          <header class="pasos-cab">
+            <h2 class="titulo-pasos">Los siete filtros</h2>
+            <p>Los aplica nuestro equipo inmobiliario, legal y financiero.</p>
+          </header>
+          <ol class="pasos">
+            <li class="paso"><span class="paso-num" aria-hidden="true">01</span><h3 class="paso-nombre">Precio de entrada</h3><p class="paso-linea">Precio contrastado con lo que de verdad se vende en la zona.</p></li>
+            <li class="paso"><span class="paso-num" aria-hidden="true">02</span><h3 class="paso-nombre">Mercado y valor</h3><p class="paso-linea">Demanda, ubicación y valor de la zona, revisados en campo.</p></li>
+            <li class="paso"><span class="paso-num" aria-hidden="true">03</span><h3 class="paso-nombre">Costos</h3><p class="paso-linea">Compra, remodelación, impuestos y operación, completos.</p></li>
+            <li class="paso"><span class="paso-num" aria-hidden="true">04</span><h3 class="paso-nombre">Situación jurídica</h3><p class="paso-linea">Escrituras, gravámenes y permisos en regla.</p></li>
+            <li class="paso"><span class="paso-num" aria-hidden="true">05</span><h3 class="paso-nombre">Riesgos</h3><p class="paso-linea">Lo que puede salir mal, identificado antes de invertir.</p></li>
+            <li class="paso"><span class="paso-num" aria-hidden="true">06</span><h3 class="paso-nombre">Flujo y rentabilidad</h3><p class="paso-linea">Ingresos y gastos estimados con supuestos prudentes.</p></li>
+            <li class="paso"><span class="paso-num" aria-hidden="true">07</span><h3 class="paso-nombre">Estrategia de salida</h3><p class="paso-linea">Cómo y cuándo se podría salir de la inversión.</p></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUÉ BUSCAMOS -->
+    <section class="seccion buscamos" aria-labelledby="buscamos-t">
+      <div class="contenedor rejilla">
+        <div class="col-rotulo">
+          <p class="etiqueta">Tipos de oportunidad</p>
+          <h2 id="buscamos-t" class="titulo-seccion">Qué buscamos</h2>
+        </div>
+        <ul class="tipos aparece">
+          <li>Propiedades con renta</li>
+          <li>Coinversiones</li>
+          <li>Terrenos</li>
+          <li>Proyectos en desarrollo</li>
+          <li>Inmuebles subvaluados</li>
+          <li>Reposicionamiento</li>
+          <li>Oportunidades fuera de mercado</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CÓMO TRABAJAMOS CON USTED: tres pasos; el perfil se conoce en la reunión, no en el sitio. -->
+    <section class="seccion como" aria-labelledby="como-t">
+      <div class="contenedor">
+        <div class="como-cab">
+          <p class="etiqueta">Proceso</p>
+          <h2 id="como-t" class="titulo-seccion">Cómo trabajamos con usted</h2>
+        </div>
+        <ol class="tres aparece">
+          <li>
+            <span class="etiqueta">Paso 1</span>
+            <h3>Una primera reunión.</h3>
+            <p>Usted nos contacta y en una primera reunión conocemos su capital, su horizonte, su liquidez y su objetivo.</p>
+          </li>
+          <li>
+            <span class="etiqueta">Paso 2</span>
+            <h3>Solo lo que encaja.</h3>
+            <p>Con eso le presentamos únicamente oportunidades que encajan con usted y que ya pasaron los siete filtros.</p>
+          </li>
+          <li>
+            <span class="etiqueta">Paso 3</span>
+            <h3>Sala de inversión.</h3>
+            <p>Cada oportunidad llega con su resumen ejecutivo, sus escenarios y sus riesgos. La documentación se comparte en la reunión.</p>
+          </li>
+        </ol>
+        <a class="boton boton--azul como-boton" href="https://wa.me/525564738881?text=Hola%2C%20vengo%20de%20praetora.mx.%20Me%20gustar%C3%ADa%20agendar%20una%20reuni%C3%B3n%20para%20conocer%20oportunidades%20de%20inversi%C3%B3n." target="_blank" rel="noopener">Agendar una reunión</a>
+      </div>
+    </section>
+
+    <!-- OPORTUNIDADES POR CIUDAD -->
+    <section class="seccion oportunidades" id="oportunidades" aria-labelledby="oport-t">
+      <div class="contenedor">
+        <div class="oport-cab">
+          <p class="etiqueta">Por ciudad</p>
+          <h2 id="oport-t" class="titulo-seccion">Oportunidades</h2>
+        </div>
+
+        <article class="ciudad ciudad--sma aparece" aria-labelledby="julieta-t">
+          <a class="ciudad-foto" href="casa-julieta.html" tabindex="-1" aria-hidden="true">
+            <img src="assets/propiedades/hotel/portada/terraza-1280.webp"
+                 srcset="assets/propiedades/hotel/portada/terraza-800.webp 800w, assets/propiedades/hotel/portada/terraza-1280.webp 1280w, assets/propiedades/hotel/portada/terraza-1920.webp 1920w"
+                 sizes="(max-width: 899px) calc(100vw - 32px), 58vw"
+                 width="1280" height="853" loading="lazy"
+                 alt="Terraza de Casa Julieta, en el Centro Histórico de San Miguel de Allende">
+          </a>
+          <div class="ciudad-info">
+            <p class="etiqueta ciudad-lugar"><span>San Miguel de Allende</span><span>Centro Histórico</span></p>
+            <h3 id="julieta-t" class="ciudad-nombre" translate="no">Casa Julieta</h3>
+            <p class="ciudad-desc">Casona del siglo XIX. Hotel boutique de 6 suites con local comercial.</p>
+            <dl class="ficha">
+              <div><dt>Superficie</dt><dd>530 m²</dd></div>
+            </dl>
+            <div class="acciones">
+              <a class="boton boton--azul" href="casa-julieta.html">Ver ficha</a>
+              <a class="enlace enlace--azul" href="https://wa.me/525564738881?text=Hola%2C%20vengo%20de%20praetora.mx.%20Me%20interesa%20recibir%20la%20documentaci%C3%B3n%20de%20Casa%20Julieta." target="_blank" rel="noopener">Solicitar documentación</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="ciudad ciudad--cdmx aparece" aria-labelledby="cdmx-t">
+          <div class="cdmx-campo" aria-hidden="true"></div>
+          <div class="cdmx-in">
+            <p class="etiqueta">Ciudad de México</p>
+            <h3 id="cdmx-t" class="cdmx-nombre">CDMX</h3>
+          </div>
+          <div class="cdmx-lado">
+            <span class="estado">Próximamente</span>
+            <a class="boton boton--linea" href="https://wa.me/525564738881?text=Hola%2C%20vengo%20de%20praetora.mx.%20Av%C3%ADsenme%20cuando%20haya%20oportunidades%20de%20inversi%C3%B3n%20en%20CDMX." target="_blank" rel="noopener" aria-label="Avíseme cuando haya oportunidades en CDMX">Avíseme</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- EL CIERRE: la misma línea de «Usted» -->
+    <section class="cierre" aria-labelledby="cierre-t">
+      <div class="contenedor cierre-in">
+        <figure class="cierre-foto">
+          <img src="assets/propiedades/hotel/fotos/25.jpg" width="1280" height="854" loading="lazy" alt="Dos copas en una mesa junto a la ventana, con la vista de San Miguel de Allende">
+        </figure>
+        <div class="cierre-texto">
+          <h2 id="cierre-t" class="cierre-titulo">El primer paso es una conversación.</h2>
+          <div class="cierre-accion">
+          <a class="boton boton--claro" href="https://wa.me/525564738881?text=Hola%2C%20vengo%20de%20praetora.mx.%20Me%20gustar%C3%ADa%20agendar%20una%20reuni%C3%B3n%20para%20conocer%20oportunidades%20de%20inversi%C3%B3n." target="_blank" rel="noopener">Agendar una reunión</a>
+          <a class="enlace" href="https://wa.me/525564738881?text=Hola%2C%20vengo%20de%20praetora.mx.%20Me%20interesa%20conocer%20oportunidades%20de%20inversi%C3%B3n." target="_blank" rel="noopener">Por WhatsApp</a>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Franja de Desarrolladores -->
+    <a class="franja" href="desarrolladores.html">
+      <span class="contenedor franja-in">
+        <span class="etiqueta">Desarrolladores</span>
+        <span class="franja-titulo">Su proyecto, listo para explorarse.</span>
+        <span class="franja-flecha" aria-hidden="true">→</span>
+      </span>
+    </a>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor pie-rejilla">
+      <div class="pie-marca">
+        <img src="assets/marca/praetora-completo-blanco.svg" width="811" height="151" alt="PRAETORA Grupo Inmobiliario" translate="no">
+        <p>Grupo Inmobiliario · CDMX · San Miguel de Allende</p>
+      </div>
+      <nav class="pie-col" aria-label="Secciones">
+        <a href="catalogo.html">Comprar / Vender</a>
+        <a href="invertir.html">Invertir</a>
+        <a href="desarrolladores.html">Desarrolladores</a>
+        <span translate="no">Radar PRAETORA <em>· próximamente</em></span>
+      </nav>
+      <div class="pie-col">
+        <a href="https://wa.me/525564738881?text=Hola%2C%20vengo%20de%20praetora.mx." target="_blank" rel="noopener">WhatsApp</a>
+        <a href="tel:+525564738881">55 6473 8881</a>
+        <span>Oficina en Gran Jardín, León, Gto.</span>
+      </div>
+    </div>
+    <div class="contenedor pie-legal">
+      <span>© 2026 PRAETORA Grupo Inmobiliario</span>
+      <span>Datos de referencia, sujetos a confirmación.</span>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="assets/invertir/filtro.js"></script>
+</body>
+</html>
