@@ -6,11 +6,8 @@ function esc(s) {
   return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-/* Recorridos 3D por casa (clave = slug de data.js). Mientras la URL esté vacía,
-   el botón no aparece: nunca se muestra un botón que no lleve a ningún lado.
-   Luis, 4-nov: por ahora el sitio no lleva recorrido (Casa Córdoba lo tenía en
-   https://recorridos.praetora.mx/?mode=appearance). */
-const RECORRIDOS_3D = {};
+/* Recorridos 360 por casa (clave = slug de data.js). Luis, 26-nov: Córdoba y Granada ya llevan su recorrido 360 en /recorridos/<casa>/. Si la URL está vacía, la ficha no muestra el botón. */
+const RECORRIDOS_3D = { 'casa-cordoba': '/recorridos/cordoba/', 'casa-granada': '/recorridos/granada/' };
 function urlRecorrido3D(p) {
   return (p && p.slug && RECORRIDOS_3D[p.slug]) || '';
 }
@@ -896,7 +893,7 @@ function initHeaderScroll() {
     return '<section class="ficha-panel ficha-panel-texto ficha-panel-contacto">' +
       '<div class="ficha-acciones">' +
         '<a class="btn-gold" href="' + consulta.href + '" target="_blank" rel="noopener">' + consulta.texto + '</a>' +
-        (urlRecorrido3D(p) ? '<a class="btn-gold" href="' + esc(urlRecorrido3D(p)) + '" target="_blank" rel="noopener">Recorrido 3D</a>' : '') +
+        (urlRecorrido3D(p) ? '<a class="btn-gold" href="' + esc(urlRecorrido3D(p)) + '" target="_blank" rel="noopener">Recorrido 360°</a>' : '') +
         volver +
       '</div>' +
       '</section>';
@@ -1477,7 +1474,7 @@ function renderPropiedadBloque(prop) {
           (datosHtml ? '<div class="propiedad-bloque-datos">' + datosHtml + '</div>' : '') +
           '<div class="propiedad-bloque-accion">' +
             '<a href="' + esc(urlFicha(prop)) + '" class="portada-enlace">Ver propiedad</a>' +
-            (urlRecorrido3D(prop) ? '<a href="' + esc(urlRecorrido3D(prop)) + '" class="portada-enlace" target="_blank" rel="noopener">Recorrido 3D</a>' : '') +
+            (urlRecorrido3D(prop) ? '<a href="' + esc(urlRecorrido3D(prop)) + '" class="portada-enlace" target="_blank" rel="noopener">Recorrido 360°</a>' : '') +
           '</div>' +
         '</div>' +
         '<div class="propiedad-bloque-visual">' +
